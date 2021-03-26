@@ -1774,26 +1774,6 @@ function addZero(num)
 function loadDate()
 {
 	console.log("Loading date...");
-		if (err)
-		{
-			console.log('Could not load date.');
-			throw err;
-		}	
-		else
-		{
-			datetime = result.rows[0].date;
-			var sides = datetime.split('-');
-			var date = sides[0].split('/');
-			var time = sides[1].split(':');
-			testTime = new Date( //GMT
-				parseInt(date[2]), //Years
-				parseInt(date[1])-1, //Month
-				parseInt(date[0]), //Day
-				parseInt(time[0]), //Hours
-				parseInt(time[1])//Minutes
-			); 
-			console.log("Date loaded.");
-		}
 }
 function loadBanlist()
 {
