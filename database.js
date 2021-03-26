@@ -4,7 +4,7 @@ var client;
 
 module.exports = {
 	connect:function(){
-		var connectString = process.env.DATABASE_URL || "postgres://aubtmwsueljmlo:NgGgFPZeIadarZo81gp-1EKN93@ec2-23-23-199-181.compute-1.amazonaws.com:5432/d80g2kksssndck?ssl=true";
+		var connectString = process.env.DATABASE_URL + "?ssl=false";
 		try
 		{
 			client = new pg.Client(connectString);
