@@ -140,7 +140,7 @@ var apass;
 loadPassword();
 loadBanlist();
 var prev_rolled;
-var testTime = Date.now();
+var testTime = new Date();
 loadDate();
 //Banlist
 var banlist = [];
