@@ -4,7 +4,6 @@ var fs = require('fs');
 var roles = require('./roleinfo');
 var Server = require('socket.io');
 var io = new Server(http, {pingInterval: 5000, pingTimeout: 10000});
-var db = require('./database');
 var verified = []; //List of ips that are verified to use the MCP.
 var createdList = [];
 var gm = require('./gm.js');
@@ -59,7 +58,6 @@ var commandList = {
 		'hug':'Send a hug to a person. Only usable during Pregame.'
 	}
 }
-db.connect();
 //Enums
 var Type = {
 	PING:0,
@@ -274,15 +272,6 @@ var server = http.createServer(function(req,res)
 			}
 		break;
 		case '/MCP/setPass':
-			if ( isVerified( getIpReq(req) ) )
-			{
-				var pass = url.parse(req.url).query;
-				var statement = 'UPDATE details SET "password"=$1';
-				db.query(statement,[pass]);
-				res.end();
-				apass = pass;
-			}
-			else
 			{
 				res.write('You do not have permission to access this page.');
 				res.end();
@@ -312,17 +301,7 @@ var server = http.createServer(function(req,res)
 					valid = false;
 					error = time;
 				}
-				if (valid)
-				{
-					var statement = 'UPDATE details SET "date"=\''+datetime+'\'';
-					db.query(statement);
-					res.write('success');
-					loadDate();
-				}
-				else
-				{
-					res.write(error+' is not formatted correctly.');
-				}
+				res.write(error+' is not formatted correctly.');
 				res.end();
 			}
 			else
@@ -332,34 +311,8 @@ var server = http.createServer(function(req,res)
 			}
 		break;
 		case '/MCP/playerList':
-			if ( isVerified( getIpReq(req) ) )
-			{
-				db.query('SELECT * FROM Players',function(err,result)
-				{
-					if (err) 
-					{	
-						res.write('ERROR','utf8');
-						res.end();
-					}
-					else
-					{
-						res.writeHead(200, {"Content-Type": "text/xml"});
-						var send = '<?xml version="1.0" encoding="UTF-8"?><response>';
-						for (i in result.rows)
-						{
-							send+='<name>'+rows[i].name+'</name>';
-						}
-						send+='</response>';
-						res.write(send);
-						res.end();
-					}
-				});
-			}
-			else
-			{
-				res.write('You do not have permission to access this page.');
-				res.end();
-			}
+			res.write('You do not have permission to access this page.');
+			res.end();
 		break;
 		case '/play':
 			if (req.method == 'POST')
@@ -1821,8 +1774,6 @@ function addZero(num)
 function loadDate()
 {
 	console.log("Loading date...");
-	db.query('SELECT * FROM details',function(err,result)
-	{
 		if (err)
 		{
 			console.log('Could not load date.');
@@ -1843,41 +1794,17 @@ function loadDate()
 			); 
 			console.log("Date loaded.");
 		}
-	});
 }
 function loadBanlist()
 {
 	console.log("Loading banlist...");
-	db.query('SELECT * FROM banlist',function(err,result)
-	{
-		if (err)
-		{
-			console.log('Could not load password.');
-			throw err;
-		}	
-		else
-		{
-			banlist = result.rows;
-			console.log('Banlist loaded.');
-		}
-	});
+	banlist = [];
 }
 function loadPassword()
 {
 	console.log("Loading password...");
-	db.query('SELECT * FROM details',function(err,result)
-	{
-		if (err)
-		{
-			console.log('Could not load password.');
-			throw err;
-		}	
-		else
-		{
-			apass = result.rows[0].password;
-			console.log('Password is: '+apass);
-		}
-	});
+	apass = "ferriswheels";
+	console.log('Password is: '+apass);
 }
 function showConfirms()
 {
@@ -4309,10 +4236,5 @@ function kick(name, reason, kicker)
 }
 function ban(ip,reason,banner)
 {
-	reason = reason?reason:'';
-	db.query('INSERT INTO banlist VALUES(\''+ip+'\',\''+reason+'\');',function(err,result)
-	{
-		console.log(ip+' successfully banned by '+banner+'. Reason: '+reason);
-	});
-	loadBanlist();
+	console.log(ip+' successfully banned by '+banner+'. Reason: '+reason);
 }
