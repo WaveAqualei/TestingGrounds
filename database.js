@@ -4,10 +4,12 @@ var client;
 
 module.exports = {
 	connect:function(){
-		var connectString = process.env.DATABASE_URL + "?ssl=false";
 		try
 		{
-			client = new pg.Client(connectString);
+			client = new pg.Client({
+				connectionString: process.env.DATABASE_URL,
+				ssl: { rejectUnauthorized: false }
+			});
 			client.connect();	
 		}
 		catch(e)
