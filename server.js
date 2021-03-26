@@ -157,7 +157,7 @@ var server = http.createServer(function(req,res)
 	switch (path)
 	{
 		case '/':
-			if (testTime && apass)
+			if (apass)
 			{
 				fs.readFile(__dirname + '/index.html', function(error, data){
 					if (error){
