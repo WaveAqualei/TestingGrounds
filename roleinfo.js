@@ -66,6 +66,16 @@ var roles=[
 				goal:towngoal,
 				color:towncolor
 			},
+			{      
+				rolename:"retributionist",
+				alignment:"town support",
+				abilities:['You may raise a dead Town member and use their ability on a player.'],
+				attributes:['Create zombies from dead true-hearted Town players.',
+					   'Use their abilities on your second target.',
+					   'Each zombie can be used once before it rots.'],
+				goal:towngoal,
+				color:towncolor
+			},
 	
 			// TOWN POWER VANILLA
 			{      
@@ -74,14 +84,6 @@ var roles=[
 				abilities:['You may reveal yourself as the Mayor of the Town.'],
 				attributes:['Once you have revealed yourself as Mayor your vote counts as 3 votes.',
 					'You may not be healed once you have revealed yourself.'],
-				goal:towngoal,
-				color:towncolor
-			},
-			{      
-				rolename:"retributionist",
-				alignment:"town power",
-				abilities:['You may revive a dead Town member.'],
-				attributes:['You may only resurrect one person.'],
 				goal:towngoal,
 				color:towncolor
 			},
