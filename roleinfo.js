@@ -14,9 +14,8 @@ var roles=[
 			{      
 				rolename:"sheriff",
 				alignment:"town investigative",
-				abilities:['Check one person each night for suspicious activity.'],
-				attributes:['You will know if your target is a member of the Mafia, except for the Godfather.',
-					'You will know if your target is a Serial Killer.'],
+				abilities:['Interrogate one person each night for suspicious activity.'],
+				attributes:['You will know if your target is suspicious.'],
 				goal:towngoal,
 				color:towncolor
 			},
@@ -61,8 +60,8 @@ var roles=[
 				alignment:"town support",
 				abilities:['Choose two people to transport at night.'],
 				attributes:['Transporting two people swaps all targets against them.',
-					'You may not transport yourself.',
-					'Your targets will NOT know they were transported.'],
+					'You may transport yourself.',
+					'Your targets will know they were transported.'],
 				goal:towngoal,
 				color:towncolor
 			},
@@ -80,7 +79,7 @@ var roles=[
 			// TOWN POWER VANILLA
 			{      
 				rolename:"mayor",
-				alignment:"town power",
+				alignment:"town support",
 				abilities:['You may reveal yourself as the Mayor of the Town.'],
 				attributes:['Once you have revealed yourself as Mayor your vote counts as 3 votes.',
 					'You may not be healed once you have revealed yourself.'],
@@ -89,12 +88,12 @@ var roles=[
 			},
 			{      
 				rolename:"jailor",
-				alignment:"town power",
+				alignment:"town killing",
 				abilities:['You may choose one person during the day to jail for the night.'],
 				attributes:['You may anonymously talk with your prisoner.',
 					'You can choose to execute your prisoner.',
 					'The jailed target can\'t perform their night ability.',
-					'While jailed the prisoner is safe from all attacks.'],
+					'If you execute a Town member, you forfeit further executions.'],
 				goal:towngoal,
 				color:towncolor
 			},
@@ -103,7 +102,7 @@ var roles=[
 			{      
 				rolename:"doctor",
 				alignment:"town protective",
-				abilities:['Heal one person each night, preventing them from dying.'],
+				abilities:['Heal one person each night, granting them Powerful Defense.'],
 				attributes:['You may only heal yourself once.',
 					'You will know if your target is attacked.'],
 				goal:towngoal,
@@ -113,9 +112,9 @@ var roles=[
 				rolename:"bodyguard",
 				alignment:"town protective",
 				abilities:['Protect one person from death at night.'],
-				attributes:['If your target is attacked both you and your attacker will die instead.',
+				attributes:['If your target is directly attacked or is the victim of a harmful visit, you and the visitor will fight.',
 					'If you successfully protect someone you can still be healed.',
-					'Your counterattack ignores night immunity.'],
+					'You have one bulletproof vest.'],
 				goal:towngoal,
 				color:towncolor
 			},
@@ -125,7 +124,7 @@ var roles=[
 				rolename:"vigilante",
 				alignment:"town killing",
 				abilities:['Choose to take justice into your own hands and shoot someone.'],
-				attributes:['If you shoot another Town member you will no longer be able to shoot.',
+				attributes:['If you shoot another Town member you will commit suicide over the guilt.',
 					'You can only shoot your gun 3 times.'],
 				goal:towngoal,
 				color:towncolor
@@ -133,9 +132,9 @@ var roles=[
 			{      
 				rolename:"veteran",
 				alignment:"town killing",
-				abilities:['Decide if you will go on alert.'],
+				abilities:['Decide if you gain Basic Defense.'],
 				attributes:['While on alert you can not be killed at night.',
-					'If anyone visits you while you are on alert they will be shot.',
+					'While on alert, you will deliver a Powerful attack to anyone who visits you.',
 					'You can only go on alert 3 times.',
 					'You are immune to role blocks.'],
 				goal:towngoal,
@@ -149,22 +148,44 @@ var roles=[
 				abilities:['Kill someone each night.'],
 				attributes:['You can\'t be killed at night.',
 					'You can choose to command other member to kill for you.',
-					'You will appear to be not suspicious to the Sheriff.',
-					'You will receive all night results of your fellow Mafiosi',
+					'You will appear to be innocent to the Sheriff.',
+					'You can talk with the other Mafia at night.',
 					'You will receive silent messages which your fellow Mafiosi aren\'t given'],
 				goal:mafiagoal,
 				color:mafiacolor
 			},
 			{    
 				rolename:"mafioso",
-				alignment:"mafia support",
-				abilities:['Perform any Mafia ability of a mafia role that existed in this game.',
-					'Become a dead mafia role by targetting them'],
-				attributes:['You can perform that action even if said mafia member is roleblocked or killed.',
-					'You can become a different Mafia member if a mafia member with the role died.'],
+				alignment:"mafia killing",
+				abilities:['Carry out the Godfather\'s orders.'],
+				attributes:['You can attack if the Godfather does not give you orders.',
+					'If the Godfather dies you will become the next Godfather.',
+					'You can talk with the other Mafia at night.'],
 				goal:mafiagoal,
 				color:mafiacolor,
 				custom:true
+			},
+	                {      
+				rolename:"ambusher",
+				alignment:"mafia killing",
+				abilities:['You may choose to lie in wait outside your targets house.'],
+				attributes:['You will attack one player who visits your target.',
+					'All players visiting your target will learn your name.',
+					'If there are no kill capable Mafia roles left you will become a Mafioso.',
+					'You can talk with the other Mafia at night.'],
+				goal:mafiagoal,
+				color:mafiacolor
+			},
+	                {      
+				rolename:"blackmailer",
+				alignment:"mafia support",
+				abilities:['Choose one person each night to blackmail.'],
+				attributes:['Blackmailed targets cannot talk during the day.',
+					'You can hear private messages.',
+					'If there are no kill capable Mafia roles left you will become a Mafioso.',
+					'You can talk with the other Mafia at night.'],
+				goal:mafiagoal,
+				color:mafiacolor
 			},
 			{      
 				rolename:"consigliere",
@@ -190,9 +211,9 @@ var roles=[
 				alignment:"mafia deception",
 				abilities:['Choose a target to disguise yourself as.'],
 				attributes:['If your target dies you will appear to be them.',
-					'You can only use your ability three times.',
-					'After disguising your name, position and character will be swapped with your targets.',
-					'The will fitting to the dead characters name will be displayed.'],
+					'The disguised Mafia member will appear to have the same role as the non-Mafia member to the Investigator and Sheriff.',
+					'Your disguised Mafia member will appear to be the other person to a Lookout.',
+					'When disguised as a Town member, Mafia visits are disregarded by Spy.'],
 				goal:mafiagoal,
 				color:mafiacolor
 			},
@@ -218,9 +239,19 @@ var roles=[
 			{      
 				rolename:"forger",
 				alignment:"mafia deception",
-				abilities:['Choose a person and rewrite their last will at night'],
-				attributes:['If a target dies, their last will is replaced with your forgery.',
-					'You may only perform 3 forgeries.'],
+				abilities:['Choose a person and rewrite their role and last will at night.'],
+				attributes:['If a target dies, their role and last will is replaced with your forgery.',
+					'You may only perform 2 forgeries.'],
+				goal:mafiagoal,
+				color:mafiacolor
+			},
+	                {      
+				rolename:"hypnotist",
+				alignment:"mafia deception",
+				abilities:['You may sneak into a players house at night and plant a memory.'],
+				attributes:['A planted memory will confuse the player.',
+					'If there are no kill capable Mafia roles left you will become a Mafioso.',
+					'You can talk with the other Mafia at night.'],
 				goal:mafiagoal,
 				color:mafiacolor
 			},
@@ -229,7 +260,7 @@ var roles=[
 			{      
 				rolename:"survivor",
 				alignment:"neutral benign",
-				abilities:['Put on a bulletproof vest at night, protecting you from attacks.'],
+				abilities:['Put on a bulletproof vest at night, granting you Basic Defense.'],
 				attributes:['You can only use the bulletproof vest 4 times.'],
 				goal:"Live to the end of the game.",
 				color:"#DDDD00"
@@ -238,8 +269,7 @@ var roles=[
 				rolename:"amnesiac",
 				alignment:"neutral benign",
 				abilities:['Remember who you were by selecting a graveyard role.'],
-				attributes:['When you choose a role it will be revealed to the Town.',
-					'You can\'t choose a unique role.'],
+				attributes:['When you choose a role it will be revealed to all the players in the game.'],
 				goal:"Remember who you were and complete that roles objectives.",
 				color:"cyan"
 			},
@@ -249,7 +279,7 @@ var roles=[
 				rolename:"jester",
 				alignment:"neutral evil",
 				abilities:['Trick the Town into voting against you.'],
-				attributes:['If you are lynched you may kill one of your guilty voters the following night.'],
+				attributes:['If you are lynched you may kill one of your guilty or abstaining voters the following night.'],
 				goal:"Get yourself lynched by any means necessary.",
 				color:"pink"
 			},
@@ -266,13 +296,11 @@ var roles=[
 				rolename:"witch",
 				alignment:"neutral evil",
 				abilities:['Control someone each night.'],
-				attributes:['You can only control targetable actions such as detection and killing.',
-					'You can force people to target themselves.',
-					//'You are immune to the first incoming non town attack.',
+				attributes:['You have a mystical barrier that grants you Basic defense until you are attacked.',
 					'Your victim will know they are being controlled.',
-					'You will survive the first non-town attack.'],
+					'You will know the role of the player you Control.'],
 				goal:"Survive to see the Town lose the game.",
-				color:"purple"
+				color:"#8000FF"
 			},
 	
 			// NEUTRAL KILLING VANILLA
@@ -280,8 +308,9 @@ var roles=[
 				rolename:"serial killer",
 				alignment:"neutral killing",
 				abilities:['Kill someone each night.'],
-				attributes:['If you are role blocked you will attack the role blocker instead of your target.',
-					'You can not be killed at night.'],
+				attributes:['If you are role blocked you will attack the role blocker in addition to your target.',
+					'Role blockers that target you will have their last will covered in blood making it unreadable.',
+					'You can choose to be cautious and not kill role blockers.'],
 				goal:"Kill everyone who would oppose you.",
 				color:"blue"
 			},
