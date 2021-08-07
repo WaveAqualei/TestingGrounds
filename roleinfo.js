@@ -190,9 +190,9 @@ var roles=[
 				alignment:"mafia deception",
 				abilities:['Choose a target to disguise yourself as.'],
 				attributes:['If your target dies you will appear to be them.',
-					'You can only use your ability three times.',
-					'After disguising your name, position and character will be swapped with your targets.',
-					'The will fitting to the dead characters name will be displayed.'],
+					'The disguised Mafia member will appear to have the same role as the non-Mafia member to the Investigator and Sheriff.',
+					'Your disguised Mafia member will appear to be the other person to a Lookout.',
+					'When disguised as a Town member, Mafia visits are disregarded by Spy.'],
 				goal:mafiagoal,
 				color:mafiacolor
 			},
