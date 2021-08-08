@@ -1084,6 +1084,7 @@ module.exports = {
                         str=str.replace(/[Kk]illing/,"<span style='color:"+randcolor+"'>Killing</span>");
                         str=str.replace(/[Mm]afia/,"<span style='color:"+mafiacolor+"'>Mafia</span>");
                         str=str.replace(/[Dd]eception/,"<span style='color:"+randcolor+"'>Deception</span>");
+			str=str.replace(/[Cc]oven/,"<span style='color:"+covencolor+"'>Coven</span>");
                         str=str.replace(/[Ee]vil/,"<span style='color:"+randcolor+"'>Evil</span>");
                         str=str.replace(/[Bb]enign/,"<span style='color:"+randcolor+"'>Benign</span>");
                         str=str.replace(/[Cc]haos/,"<span style='color:"+randcolor+"'>Chaos</span>");
