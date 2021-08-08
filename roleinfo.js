@@ -141,7 +141,7 @@ var roles=[
 				attributes:['Grant your target Powerful defense.',
 					'You will know if your target is attacked.',
 					'You attack one person who visits your target on the same night.',
-					'You do not attack vampires, but you do block their attacks.],
+					'You do not attack vampires, but you do block their attacks.'],
 				goal:towngoal,
 				color:towncolor
 			},
@@ -152,7 +152,7 @@ var roles=[
 				attributes:['Traps take one day to build.',
 					'Traps can be torn down by selecting yourself at night.',
 					'You may only have one Trap out at a time.',
-					'Traps will trigger upon visits, but will only harm attackers.'
+					'Traps will trigger upon visits, but will only harm attackers.',
 					'You will know the roles of all the players that visit your trapped target.'],
 				goal:towngoal,
 				color:towncolor
