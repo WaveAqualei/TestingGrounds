@@ -466,6 +466,7 @@ var roles=[
 					'On your third kill, you ignore all effects that would protect a player.'],
 				goal:"Kill everyone who would oppose you.",
 				color:"#631A35"
+
 			},
 	
 	                // NEUTRAL CHAOS VANILLA
