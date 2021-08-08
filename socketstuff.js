@@ -216,7 +216,7 @@ function modInterface()
 				}
 		});
 		modcontrols.append(rolechanger);
-		var buttons = ['mafia','jailor','spy','medium','mayor'];
+		var buttons = ['mafia','jailor','blackmailer','medium','mayor'];
 		for (i in buttons)
 		{
 			var formatted = buttons[i][0].toUpperCase()+buttons[i].substring(1,buttons[i].length);
@@ -518,7 +518,7 @@ socket.on(Type.JOIN,function(name, reconnect)
 		});
 		modcontrols.append(rolechanger);
 		
-		var buttons = ['mafia','jailor','spy','medium','mayor'];
+		var buttons = ['mafia','jailor','blackmailer','medium','mayor'];
 		for (i in buttons)
 		{
 			var formatted = buttons[i][0].toUpperCase()+buttons[i].substring(1,buttons[i].length);
