@@ -1,12 +1,14 @@
 //colors
-var towncolor="#19FF19";
+var towncolor="#00BF00";
 var mafiacolor="red";
+var covencolor="#8000FF";
 var randcolor="#42C0FB";
 var neutcolor='lightgrey';
 var hilitecolor="orange";
 //Generic goals
 var towngoal = "Lynch every criminal and evildoer.";
 var mafiagoal = "Kill anyone that will not submit to the Mafia.";
+var covengoal = "Kill all who would oppose the Coven.";
 
 var roles=[
 			// === VANILLA ROLES ===
@@ -35,6 +37,14 @@ var roles=[
 				goal:towngoal,
 				color:towncolor
 			},
+	                {    
+				rolename:"tracker",
+				alignment:"town investigative",
+				abilities:['Track one person at night to see who they visit.'],
+				attributes:['None'],
+				goal:towngoal,
+				color:towncolor,
+			},
 	
 			// TOWN SUPPORT VANILLA
 			{      
@@ -46,7 +56,16 @@ var roles=[
 				goal:towngoal,
 				color:towncolor
 			},
-						{      
+	                {      
+				rolename:"mayor",
+				alignment:"town support",
+				abilities:['You may reveal yourself as the Mayor of the Town.'],
+				attributes:['Once you have revealed yourself as Mayor your vote counts as 3 votes.',
+					'You may not be healed once you have revealed yourself.'],
+				goal:towngoal,
+				color:towncolor
+			},
+			{      
 				rolename:"medium",
 				alignment:"town support",
 				abilities:['When dead speak to a living person at night.'],
@@ -76,28 +95,6 @@ var roles=[
 				color:towncolor
 			},
 	
-			// TOWN POWER VANILLA
-			{      
-				rolename:"mayor",
-				alignment:"town support",
-				abilities:['You may reveal yourself as the Mayor of the Town.'],
-				attributes:['Once you have revealed yourself as Mayor your vote counts as 3 votes.',
-					'You may not be healed once you have revealed yourself.'],
-				goal:towngoal,
-				color:towncolor
-			},
-			{      
-				rolename:"jailor",
-				alignment:"town killing",
-				abilities:['You may choose one person during the day to jail for the night.'],
-				attributes:['You may anonymously talk with your prisoner.',
-					'You can choose to execute your prisoner.',
-					'The jailed target can\'t perform their night ability.',
-					'If you execute a Town member, you forfeit further executions.'],
-				goal:towngoal,
-				color:towncolor
-			},
-	
 			// TOWN PROTECTIVE VANILLA
 			{      
 				rolename:"doctor",
@@ -121,6 +118,17 @@ var roles=[
 	
 			// TOWN KILLING VANILLA
 			{      
+				rolename:"jailor",
+				alignment:"town killing",
+				abilities:['You may choose one person during the day to jail for the night.'],
+				attributes:['You may anonymously talk with your prisoner.',
+					'You can choose to execute your prisoner.',
+					'The jailed target can\'t perform their night ability.',
+					'If you execute a Town member, you forfeit further executions.'],
+				goal:towngoal,
+				color:towncolor
+			},
+	                {      
 				rolename:"vigilante",
 				alignment:"town killing",
 				abilities:['Choose to take justice into your own hands and shoot someone.'],
@@ -256,6 +264,70 @@ var roles=[
 				color:mafiacolor
 			},
 	
+	                // COVEN VANILLA
+	                {      
+				rolename:"coven leader",
+				alignment:"coven evil",
+				abilities:['You may choose to Control someone each night.'],
+				attributes:['Your victim will know they are being controlled.',
+					'With the Necronomicon, your victim is dealt a Basic attack and you gain Basic defense.',
+					'You will know the role of the player you control.'],
+				goal:covengoal,
+				color:covencolor
+			},
+	                {      
+				rolename:"hex master",
+				alignment:"coven evil",
+				abilities:['You may choose to Hex a player each night.'],
+				attributes:['Players are not notified upon being hexed.',
+					'Hexed targets will have their investigative results changed.',
+					'When all living non-Coven players are hexed, all hexed players will be dealt an Unstoppable attack.',
+					'With the Necronomicon, you gain Astral and Basic attacks.'],
+				goal:covengoal,
+				color:covencolor
+			},
+	                {      
+				rolename:"medusa",
+				alignment:"coven evil",
+				abilities:['You may choose to Stone Gaze all visitors at night.'],
+				attributes:['You may choose to stone gaze thrice.',
+					'Your victims\'s last wills and roles will not be revealed.',
+					'With the Necronomicon, you may visit players and turn them to stone.'],
+				goal:covengoal,
+				color:covencolor
+			},
+	                {      
+				rolename:"necromancer",
+				alignment:"coven evil",
+				abilities:['You may reanimate a dead player and use their ability on a player.'],
+				attributes:['Create zombies from dead players who use their abilities on your second target.',
+					'Each zombie can be used once before it rots.',
+					'With the Necronomicon, select yourself to summon a ghoul to Basic attack your target.'],
+				goal:covengoal,
+				color:covencolor
+			},
+	                {      
+				rolename:"poisoner",
+				alignment:"coven evil",
+				abilities:['You may choose to poison a player each night.'],
+				attributes:['Your poisons take one day to take effect.',
+					'Poison can be removed by Heals.',
+					'With the Necronomicon, your poison can no longer be Healed.'],
+				goal:covengoal,
+				color:covencolor
+			},
+	                {      
+				rolename:"potion master",
+				alignment:"coven evil",
+				abilities:['You may choose to use a potion on a player each night.'],
+				attributes:['You may choose to use a Heal, reveal, or attack potion on a player.',
+					'Each potion has a three day cooldown.',
+					'With the Necronomicon, your potions no longer have a cooldown.'],
+				goal:covengoal,
+				color:covencolor
+			},
+	
+	
 			// NEUTRAL BENIGN VANILLA
 			{      
 				rolename:"survivor",
@@ -263,7 +335,7 @@ var roles=[
 				abilities:['Put on a bulletproof vest at night, granting you Basic Defense.'],
 				attributes:['You can only use the bulletproof vest 4 times.'],
 				goal:"Live to the end of the game.",
-				color:"#DDDD00"
+				color:"#C8C800"
 			},
 			{      
 				rolename:"amnesiac",
@@ -271,7 +343,17 @@ var roles=[
 				abilities:['Remember who you were by selecting a graveyard role.'],
 				attributes:['When you choose a role it will be revealed to all the players in the game.'],
 				goal:"Remember who you were and complete that roles objectives.",
-				color:"cyan"
+				color:"#44A6C6"
+			},
+	                {      
+				rolename:"guardian angel",
+				alignment:"neutral benign",
+				abilities:['Keep your target alive.'],
+				attributes:['Your target can be any player except an Executioner, Jester, or another Guardian Angel.',
+					'If your target is killed you will become a Survivor without any bulletproof vests.',
+					'Twice a game you may Heal and Purge your target. This may be done from the grave. Watching over a player ignores Jail.'],
+				goal:"Keep your target alive until the end of the game.",
+				color:"#FFFFFF"
 			},
 	
 			// NEUTRAL EVIL VANILLA
@@ -281,16 +363,16 @@ var roles=[
 				abilities:['Trick the Town into voting against you.'],
 				attributes:['If you are lynched you may kill one of your guilty or abstaining voters the following night.'],
 				goal:"Get yourself lynched by any means necessary.",
-				color:"pink"
+				color:"#F49FD0"
 			},
 			{      
 				rolename:"executioner",
 				alignment:"neutral evil",
 				abilities:['Trick the Town into lynching your target.'],
-				attributes:['Your target is <u>NAMEOFTARGET</u>.',
+				attributes:['Your target can be any Townmember except a Jailor or Mayor.',
 					'If your target is killed at night you will become a jester.'],
 				goal:"Get your target lynched at any cost.",
-				color:"grey"
+				color:"#ACACAC"
 			},
 			{      
 				rolename:"witch",
@@ -318,23 +400,32 @@ var roles=[
 				rolename:"arsonist",
 				alignment:"neutral killing",
 				abilities:['Douse someone in gasoline or ignite all doused targets.'],
-				attributes:['You will douse your roleblocker.',
-					'Death from fire can\'t be prevented by healing or night immunities.',
-					'A doused target will be framed as Arsonist until they die.',
-					'Select yourself to ignite doused people.',
-					'You can not be killed at night.'],
+				attributes:['Select yourself to ignite doused people dealing an Unstoppable attack.',
+					'You will douse anybody that visits you.',
+					'If you take no action, you will attempt to clean gasoline off yourself.',
+					'Doused targets will have their investigative results changed. Players will not know they were doused.'],
 				goal:"Live to see everyone else burn.",
-				color:"orange"
+				color:"#EE7600"
 			},
 			{      
 				rolename:"werewolf",
 				alignment:"neutral killing",
 				abilities:['Transform into a Werewolf during the full moon.'],
-				attributes:['You can not be killed at night.',
-					'As a Werewolf you will attack your victim and anyone that visits them.',
-					'Your attack goes through night immunity.'],
+				attributes:['You will Rampage at a player\'s house when you attack.',
+					'If you do not select a target you will stay home and Rampage at your home.'],
 				goal:"Kill everyone who would oppose you.",
-				color:"brown"
+				color:"#361E01"
+			},
+	                {      
+				rolename:"juggernaut",
+				alignment:"neutral killing",
+				abilities:['You may choose to attack a player on Full-Moon nights.'],
+				attributes:['With each kill your powers grow.',
+					'On your first kill, you may attack every night.',
+					'On your second kill, you Rampage when you attack.',
+					'On your third kill, you ignore all effects that would protect a player.'],
+				goal:"Kill everyone who would oppose you.",
+				color:"#631A35"
 			},
 			
 
@@ -357,15 +448,6 @@ var roles=[
 				alignment:"town investigative",
 				abilities:['Interview 2 people each night and discover who is the most trustworthy.'],
 				attributes:['You cannot interview a revealed Mayor.'],
-				goal:towngoal,
-				color:towncolor,
-				custom:true
-			},
-			{    
-				rolename:"tracker",
-				alignment:"town investigative",
-				abilities:['Follow one person to see who they visit.'],
-				attributes:['None'],
 				goal:towngoal,
 				color:towncolor,
 				custom:true
