@@ -59,7 +59,7 @@ var roles=[
 				alignment:"town investigative",
 				abilities:['Receive a vision every night.'],
 				attributes:['On odd nights you will have a vision of three players, at least one will be Evil.',
-					'On even nights you will have a vision of two players, at least one will be Good.'
+					'On even nights you will have a vision of two players, at least one will be Good.',
 					'All Town roles and Neutral Benign roles appear as Good, all other roles appear as Evil.'],
 				goal:towngoal,
 				color:towncolor
