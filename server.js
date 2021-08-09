@@ -112,7 +112,9 @@ var Type = {
 	SETSPEC:50,
 	REMSPEC: 51,
 	LOGINDEXI: 52,
-	LOGINDEXO: 53
+	LOGINDEXO: 53,
+	MAYOR: 54,
+	GUARDIAN_ANGEL: 55
 };
 var autoLevel = 1;
 /*
@@ -679,7 +681,7 @@ io.on('connection', function(socket){
 				//Exceptions
 				send.name = players[socket.id].name;
 				send.alive = players[socket.id].alive;
-				send.spy = players[socket.id].hearwhispers;
+				send.blackmailer = players[socket.id].hearwhispers;
 				send.mayor = (players[socket.id].mayor !== undefined);
 				send.role = players[socket.id].role;
 				if (players[mod])
@@ -782,6 +784,9 @@ io.on('connection', function(socket){
 		{
 			socket.emit(Type.SYSTEM,'Only the mod can set the level of automation.');
 		}
+	});
+	socket.on(Type.GUARDIAN_ANGEL, function(name) {
+		io.emit(Type.GUARDIAN_ANGEL, name);
 	});
 	socket.on(Type.MSG,function(msg)
 	{
@@ -1233,7 +1238,7 @@ io.on('connection', function(socket){
 							}
 						break;
 						break;						
-						case 'spy': 
+						case 'blackmailer': 
 							player.hearwhispers = !player.hearwhispers;
 							if (!players[socket.id].silenced)
 							{
@@ -1862,7 +1867,7 @@ function sendPlayerInfo()
 		//Exceptions
 		send.name = players[j].name;
 		send.alive = players[j].alive;
-		send.spy = players[j].hearwhispers;
+		send.blackmailer = players[j].hearwhispers;
 		send.mayor = (players[j].mayor !== undefined);
 		send.jailor= (players[j].jailor !== undefined);
 		send.role = players[j].role;
@@ -3034,7 +3039,7 @@ function Player(socket,name,ip)
 						}
 						else if (phase >= Phase.DAY && phase <= Phase.LASTWORDS || phase == Phase.FIRSTDAY)
 						{
-							io.emit(Type.HIGHLIGHT,this.name+' has revealed themselves as the Mayor!');
+							io.emit(Type.MAYOR, this.name);
 							this.mayor = true;
 							if (this.votingFor)
 							{

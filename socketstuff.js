@@ -81,7 +81,9 @@ var Type = {
 	SETSPEC:50,
 	REMSPEC: 51,
 	LOGINDEXI: 52,
-	LOGINDEXO: 53
+	LOGINDEXO: 53,
+	MAYOR: 54,
+	GUARDIAN_ANGEL: 55
 };
 function clearAllInfo()
 {
@@ -109,7 +111,7 @@ function modInterface()
 	addModControls();
 	for (x = 0; x < users.length; x++)
 	{
-		var li = $('<li></li>');
+		var li = $("<li></li>");
 		var num = (x==0)?'MOD':x;
 		if (devs.indexOf(users[x]) != -1)
 		{
@@ -119,7 +121,7 @@ function modInterface()
 		{
 			var name = '<span class="name">'+users[x]+'</span>';
 		}
-		var info = $('<div class="info"><span class="num">'+num+'</span>'+name+'</div>');
+		var info = $(`<div class="info" id="${users[x]}"><span class="num">'+num+'</span>'+name+'</div>`);
 		$('#userlist li')[x].innerHTML='';
 		$('#userlist li')[x].className='';
 		//Add in a rolelist button if it is does not already exist
@@ -425,7 +427,7 @@ socket.on(Type.JOIN,function(name, reconnect)
 	}
 	//Top row, normal users.
 	var li = $('<li></li>');
-	var info = $('<div class="info"></div>');
+	var info = $(`<div class="info" id="${name}"></div>`);
 	var name = $('<span class="name">'+name+'</span>');
 	var num = $('<span class="num">'+num+'</span>');
 	info.append(num);
@@ -826,8 +828,10 @@ else
 			addPauseButton(phase);
 		}
 	}
-	if (phase == 8 && !mod) //Night
+	if (phase == 8) //Night
 	{
+		$(".angel").remove();
+		if (!mod) {
 		//Add the night buttons
 		for (i = 1; i < users.length; i++)
 		{
@@ -846,6 +850,7 @@ else
 				$($(li).children()[0]).append(nightinterface);
 			}
 		}
+	}
 	}
 	if (phase == 4 && !mod) //Voting
 	{
@@ -929,6 +934,33 @@ socket.on(Type.PRENOT,function(notification)
 {
 	switch (notification)
    {
+	  case 'GUARDIAN_ANGEL':
+	    addMessage({msg: "The Guardian Angel was watching over you!", styling: 'reviving'}, 'prenot');
+		break;
+	  case 'POISON_CURABLE':
+		addMessage({msg: "You were poisoned. You will die tomorrow unless you are cured!", styling: 'dying'}, 'prenot');
+		break;
+	  case 'POISON_UNCURABLE':
+		addMessage({msg: "You were poisoned. You will die tomorrow!", styling: 'dying'}, 'prenot');
+		break;
+	  case 'PROTECTED': 
+	  	addMessage({msg: "You were attacked but someone protected you!", styling: 'reviving'}, 'prenot');
+	  	break;
+	  case 'SAVED_BY_BG': 
+	  	addMessage({msg: "You were attacked but someone protected you!", styling: 'reviving'}, 'prenot');
+	  	break;
+	  case 'SAVED_BY_TRAP': 
+	  	addMessage({msg: "You were attacked by a trap saved you!", styling: 'reviving'}, 'prenot');
+	  	break;
+	  case 'SAVED_BY_GA': 
+	  	addMessage({msg: "You were attacked but the Guardian Angel saved you!", styling: 'reviving'}, 'prenot');
+	  	break;
+	  case 'TARGET_ATTACKED': 
+	  	addMessage({msg: "Your target was attacked!", styling: 'dying'}, 'prenot');
+	  	break;
+	  case 'MEDUSA_STONE':
+		addMessage({msg: "You turned someone to stone.", styling: 'reviving'}, 'prenot');
+		break;
       case 'DEAD':         
          addMessage({msg:'You have died!',styling:'dying'},'prenot');
       break;
@@ -983,6 +1015,11 @@ socket.on(Type.TARGET,function(name,role,target)
 {
 	addMessage({name:name,role:role,target:target},'target');
 });
+
+socket.on(Type.MAYOR, function(name) {
+	addMessage(name+' has revealed themselves as the Mayor!', "highlight");
+	$(`#${name}`).prepend("<span>🎩</span>")
+});
 socket.on(Type.HUG,function(name,target)	
 {
 	addMessage({name:name,target:target},'hug');
@@ -1025,6 +1062,9 @@ socket.on(Type.CLEARVOTES,function()
 });
 socket.on(Type.PAUSEPHASE,function(p){
 		paused = p;
+});
+socket.on(Types.GUARDIAN_ANGEL, function(name) {
+	$(`#${name}`).prepend(`<span class="angel">👼</span>`)
 });
 socket.on(Type.TICK,function(time)
 {

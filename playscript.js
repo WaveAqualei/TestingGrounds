@@ -444,6 +444,19 @@ function openModList(targ)
 				'Douse': function () {
 				    var name = $(this.parentNode).attr('name');
 				    socket.emit(Type.TOGGLE, name, 'douse');
+					$(this.parentNode).prepend("<span>🔥</span>")
+				},
+				'Hex': function () {
+					$(this.parentNode).prepend("<span>文</span>")
+				},
+				"Infect": function() {
+					$(this.parentNode).prepend("<span>☢️</span>")
+				},
+				"Poison": function() {
+					$(this.parentNode).prepend("<span>☠️</span>")
+				},
+				"Guardian Angel": function() {
+					socket.emit(Type.GUARDIAN_ANGEL, $(this.parentNode).attr('name'));
 				}
 			};
 			var notifications = {
@@ -461,6 +474,21 @@ function openModList(targ)
 				{
 				   var name = $(this.parentNode).attr('name');
 				   socket.emit(Type.PRENOT,name,'IMMUNE');
+				},
+				'Attacked(Protected)': function() {
+					socket.emit(Type.PRENOT,$(this.parentNode).attr('name'),'PROTECTED');
+				},
+				'Attacked(Saved By BG)': function() {
+					socket.emit(Type.PRENOT,$(this.parentNode).attr('name'),'SAVED_BY_BG');
+				},
+				'Attacked(Saved By Trap)': function() {
+					socket.emit(Type.PRENOT,$(this.parentNode).attr('name'),'SAVED_BY_TRAP');
+				},
+				'Attacked(Saved By GA)': function() {
+					socket.emit(Type.PRENOT,$(this.parentNode).attr('name'),'SAVED_BY_GA');
+				},
+				'Target attacked': function() {
+					socket.emit(Type.PRENOT,$(this.parentNode).attr('name'),'TARGET_ATTACKED');
 				},
 				'Doused':function()
 				{
@@ -486,6 +514,18 @@ function openModList(targ)
 				{
 				   var name = $(this.parentNode).attr('name');
 				   socket.emit(Type.PRENOT,name,'VETSHOT');
+				},
+				'Guardian Angel': function() {
+					socket.emit(Type.PRENOT,  $(this.parentNode).attr('name'), 'GUARDIAN_ANGEL');
+				},
+				'Poisoned(Curable)': function() {
+					socket.emit(Type.PRENOT,  $(this.parentNode).attr('name'), 'POISON_CURABLE');
+				},
+				'Poisoned(Uncurable)': function() {
+					socket.emit(Type.PRENOT,  $(this.parentNode).attr('name'), 'POISON_UNCURABLE');
+				},
+				'Medusa Stone': function() {
+					socket.emit(Type.PRENOT,  $(this.parentNode).attr('name'), 'MEDUSA_STONE');
 				}
 			};
 			var list = $('<ul id="morelist"></ul>');
