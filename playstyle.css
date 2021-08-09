@@ -1434,8 +1434,6 @@ a:visited
 	height:1em;
 }
 
-.minitext {
-	font-size: 8px;
-	color: red;
-	font-weight: bold;
+.emoji {
+	margin-left: 5px;
 }

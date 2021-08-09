@@ -444,19 +444,19 @@ function openModList(targ)
 				'Douse': function () {
 				    var name = $(this.parentNode).attr('name');
 				    socket.emit(Type.TOGGLE, name, 'douse');
-					$(this.parentNode).prepend("<span>🔥</span>")
+					$(`#p-${name}`).append('<span class="emoji">🔥</span>');
 				},
 				'Hex': function () {
 					var name = $(this.parentNode).attr('name');
-					$(`#${name}`).append('<span class="minitext">HEXED</span>');
+					$(`#p-${name}`).append('<span class="emoji">文</span>');
 				},
 				"Infect": function() {
 					var name = $(this.parentNode).attr('name');
-					$(`#${name}`).append('<span class="minitext">INFECTED</span>');
+					$(`#p-${name}`).append('<span class="emoji">☢️</span>');
 				},
 				"Poison": function() {
 					var name = $(this.parentNode).attr('name');
-					$(`#${name}`).append('<span class="minitext">POISONED</span>');
+					$(`#p-${name}`).append('<span class="emoji">☠️</span>');
 				},
 				"Guardian Angel": function() {
 					socket.emit(Type.GUARDIAN_ANGEL, $(this.parentNode).attr('name'));

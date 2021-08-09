@@ -121,7 +121,7 @@ function modInterface()
 		{
 			var name = '<span class="name">'+users[x]+'</span>';
 		}
-		var info = $(`<div class="info" id="${users[x]}"><span class="num">${num}</span>${name}</div>`);
+		var info = $(`<div class="info" id="p-${users[x]}"><span class="num">${num}</span>${name}</div>`);
 		$('#userlist li')[x].innerHTML='';
 		$('#userlist li')[x].className='';
 		//Add in a rolelist button if it is does not already exist
@@ -427,7 +427,7 @@ socket.on(Type.JOIN,function(name, reconnect)
 	}
 	//Top row, normal users.
 	var li = $('<li></li>');
-	var info = $(`<div class="info" id="${name}"></div>`);
+	var info = $(`<div class="info" id="p-${name}"></div>`);
 	var name = $('<span class="name">'+name+'</span>');
 	var num = $('<span class="num">'+num+'</span>');
 	info.append(num);
@@ -602,12 +602,12 @@ socket.on(Type.SETMOD,function(val)
 					var name ='<span class="name">'+users[i]+'</span>';
 				}
 				//Top row, normal users.
-				var info = $('<div class="info"><span class="num">'+num+'</span>'+name+'</div>');
+				var info = $(`<div class="info" id="p-${users[i]}"><span class="num">${num}</span>${name}</div>`);
 			}
 			else
 			{
 				var role = roles[i].value==''?'NoRole':roles[i].value;
-				var info = $('<div class="info"><span class="num">'+num+'</span><span class="name">'+users[i]+'</span></div><div>'+role+'</div>');
+				var info = $(`<div class="info" id="${users[i]}"><span class="num">${num}</span><span class="name">${name}</span></div><div>${role}</div>`);
 				$($('#userlist li')[i]).addClass('deadplayer');
 			}
 			$('#userlist li')[i].innerHTML='';
@@ -657,11 +657,11 @@ socket.on(Type.ROOMLIST,function(list)
 			if (list[i].role)
 			{	
 				//Player is dead.
-				$('#userlist').append('<li class="deadplayer"><div class="info"><span class="num">'+num+'</span>'+name+'</div><div><span>'+list[i].role+'</span></div></li>');
+				$('#userlist').append(`<li class="deadplayer"><div class="info" id="p-${list[i].name}"><span class="num">${num}</span>${name}</div><div><span>${list[i].role}</span></div></li>`);
 			}
 			else
 			{
-				$('#userlist').append('<li><div class="info"><span class="num">'+num+'</span>'+name+'</div></li>');
+				$('#userlist').append(`<li><div class="info" id="p-${list[i].name}"><span class="num">${mum}</span>${name}</div></li>`);
 			}
 			
 			users.push(list[i].name);
@@ -685,7 +685,7 @@ socket.on(Type.TOGGLELIVING,function(p)
 		}
 		else
 		{
-			li.outerHTML = '<li><div class="info"><span class="num">'+index+'</span><span class="name">'+p.name+'</span></div></li>';
+			li.outerHTML = `<li><div class="info" id="p-${p.name}"><span class="num">${index}</span><span class="name">${p.name}</span></div></li>`;
 		}
 	}	
 });
@@ -1018,7 +1018,7 @@ socket.on(Type.TARGET,function(name,role,target)
 
 socket.on(Type.MAYOR, function(name) {
 	addMessage(name+' has revealed themselves as the Mayor!', "highlight");
-	$(`#${name}`).prepend("<span>🎩</span>")
+	$(`#p-${name}`).prepend('<span class="emoji">🎩</span>')
 });
 socket.on(Type.HUG,function(name,target)	
 {
@@ -1064,7 +1064,7 @@ socket.on(Type.PAUSEPHASE,function(p){
 		paused = p;
 });
 socket.on(Type.GUARDIAN_ANGEL, function(name) {
-	$(`#${name}`).prepend('<span class="minitext">GA</span>')
+	$(`#p-${name}`).prepend('<span class="emoji">👼</span>')
 });
 socket.on(Type.TICK,function(time)
 {
