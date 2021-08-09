@@ -444,7 +444,8 @@ function openModList(targ)
 				'Douse': function () {
 				    var name = $(this.parentNode).attr('name');
 				    socket.emit(Type.TOGGLE, name, 'douse');
-					$(`#p-${name}`).append(`<span class="emoji" id="${name}-fire">🔥</span>`).click(() => {
+					$(`#p-${name}`).append(`<span class="emoji" id="${name}-fire">🔥</span>`);
+					$(`#${name}-fire`).click(() => {
 						if (mod) {
 							$(`#${name}-fire`).remove();
 							socket.emit(Type.REMOVE_EMOJI, `${name}-fire`);
@@ -453,7 +454,8 @@ function openModList(targ)
 				},
 				'Hex': function () {
 					var name = $(this.parentNode).attr('name');
-					$(`#p-${name}`).append(`<span class="emoji" id="${name}-hex">文</span>`).click(() => {
+					$(`#p-${name}`).append(`<span class="emoji" id="${name}-hex">文</span>`);
+					$(`#${name}-hex`).click(() => {
 						if (mod) {
 							$(`#${name}-hex`).remove();
 							socket.emit(Type.REMOVE_EMOJI, `${name}-hex`);
@@ -462,7 +464,8 @@ function openModList(targ)
 				},
 				"Infect": function() {
 					var name = $(this.parentNode).attr('name');
-					$(`#p-${name}`).append(`<span class="emoji" id="${name}-infect">☢️</span>`).click(() => {
+					$(`#p-${name}`).append(`<span class="emoji" id="${name}-infect">☢️</span>`);
+					$(`#${name}-infect`).click(() => {
 						if (mod) {
 							$(`#${name}-infect`).remove();
 							socket.emit(Type.REMOVE_EMOJI, `${name}-infect`);
@@ -471,7 +474,8 @@ function openModList(targ)
 				},
 				"Poison": function() {
 					var name = $(this.parentNode).attr('name');
-					$(`#p-${name}`).append(`<span class="emoji" id="${name}-poison">☠️</span>`).click(() => {
+					$(`#p-${name}`).append(`<span class="emoji" id="${name}-poison">☠️</span>`);
+					$(`#${name}-poison`).click(() => {
 						if (mod) {
 							$(`#${name}-poison`).remove();
 							socket.emit(Type.REMOVE_EMOJI, `${name}-poison`);
