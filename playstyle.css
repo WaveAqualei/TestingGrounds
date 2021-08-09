@@ -1437,3 +1437,7 @@ a:visited
 .emoji {
 	margin-left: 5px;
 }
+
+.emoji:hover {
+	cursor: pointer;
+}

@@ -114,7 +114,8 @@ var Type = {
 	LOGINDEXI: 52,
 	LOGINDEXO: 53,
 	MAYOR: 54,
-	GUARDIAN_ANGEL: 55
+	GUARDIAN_ANGEL: 55,
+	REMOVE_EMOJI: 56
 };
 var autoLevel = 1;
 /*
@@ -788,6 +789,11 @@ io.on('connection', function(socket){
 	socket.on(Type.GUARDIAN_ANGEL, function(name) {
 		io.emit(Type.GUARDIAN_ANGEL, name);
 	});
+
+	socket.on(Type.REMOVE_EMOJI, function(emojiId) {
+		io.emit(Type.REMOVE_EMOJI, emojiId);
+	});
+
 	socket.on(Type.MSG,function(msg)
 	{
 		msg=sanitize(msg);

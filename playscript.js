@@ -444,19 +444,39 @@ function openModList(targ)
 				'Douse': function () {
 				    var name = $(this.parentNode).attr('name');
 				    socket.emit(Type.TOGGLE, name, 'douse');
-					$(`#p-${name}`).append('<span class="emoji">🔥</span>');
+					$(`#p-${name}`).append(`<span class="emoji" id="${name}-fire">🔥</span>`).click(() => {
+						if (mod) {
+							$(`#${name}-fire`).remove();
+							socket.emit(Type.REMOVE_EMOJI, `${name}-fire`);
+						}
+					});;
 				},
 				'Hex': function () {
 					var name = $(this.parentNode).attr('name');
-					$(`#p-${name}`).append('<span class="emoji">文</span>');
+					$(`#p-${name}`).append(`<span class="emoji" id="${name}-hex">文</span>`).click(() => {
+						if (mod) {
+							$(`#${name}-hex`).remove();
+							socket.emit(Type.REMOVE_EMOJI, `${name}-hex`);
+						}
+					});;
 				},
 				"Infect": function() {
 					var name = $(this.parentNode).attr('name');
-					$(`#p-${name}`).append('<span class="emoji">☢️</span>');
+					$(`#p-${name}`).append(`<span class="emoji" id="${name}-infect">☢️</span>`).click(() => {
+						if (mod) {
+							$(`#${name}-infect`).remove();
+							socket.emit(Type.REMOVE_EMOJI, `${name}-infect`);
+						}
+					});;
 				},
 				"Poison": function() {
 					var name = $(this.parentNode).attr('name');
-					$(`#p-${name}`).append('<span class="emoji">☠️</span>');
+					$(`#p-${name}`).append(`<span class="emoji" id="${name}-poison">☠️</span>`).click(() => {
+						if (mod) {
+							$(`#${name}-poison`).remove();
+							socket.emit(Type.REMOVE_EMOJI, `${name}-poison`);
+						}
+					});;
 				},
 				"Guardian Angel": function() {
 					socket.emit(Type.GUARDIAN_ANGEL, $(this.parentNode).attr('name'));

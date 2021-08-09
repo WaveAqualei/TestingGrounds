@@ -83,7 +83,8 @@ var Type = {
 	LOGINDEXI: 52,
 	LOGINDEXO: 53,
 	MAYOR: 54,
-	GUARDIAN_ANGEL: 55
+	GUARDIAN_ANGEL: 55,
+	REMOVE_EMOJI: 56
 };
 function clearAllInfo()
 {
@@ -1063,11 +1064,19 @@ socket.on(Type.CLEARVOTES,function()
 socket.on(Type.PAUSEPHASE,function(p){
 		paused = p;
 });
-socket.on(Type.GUARDIAN_ANGEL, function(name) {
+socket.on(Type.GUARDIAN_ANGEL, function(name, yourName) {
 	$(`#p-${name}`).append(`<span class="emoji" id="${name}-angel">👼</span>`).click(() => {
-		$(`#${name}-angel`).remove();
+		if (mod) {
+			$(`#${name}-angel`).remove();
+			socket.emit(Type.REMOVE_EMOJI, `${name}-angel`);
+		}
 	});
 });
+
+socket.on(Type.REMOVE_EMOJI, function(emojiId) {
+	$(`#${emojiId}`).remove();
+});
+
 socket.on(Type.TICK,function(time)
 {
 	$('#clock').html(time);
