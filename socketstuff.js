@@ -1063,7 +1063,7 @@ socket.on(Type.CLEARVOTES,function()
 socket.on(Type.PAUSEPHASE,function(p){
 		paused = p;
 });
-socket.on(Types.GUARDIAN_ANGEL, function(name) {
+socket.on(Type.GUARDIAN_ANGEL, function(name) {
 	$(`#${name}`).prepend(`<span class="angel">👼</span>`)
 });
 socket.on(Type.TICK,function(time)
