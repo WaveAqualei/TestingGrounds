@@ -269,7 +269,8 @@ var roles=[
 				rolename:"framer",
 				alignment:"mafia deception",
 				abilities:['Choose someone to frame at night.'],
-				attributes:['If your target is investigated they will appear to be a member of the Mafia.',
+				attributes:['If your target is interrogated they will appear suspicious.',
+					'If your target is investigated they will appear as a Framer.',
 					'If there are no kill capable Mafia roles left you will become a Mafioso.'],
 				goal:mafiagoal,
 				color:mafiacolor
@@ -1084,6 +1085,7 @@ module.exports = {
                         str=str.replace(/[Kk]illing/,"<span style='color:"+randcolor+"'>Killing</span>");
                         str=str.replace(/[Mm]afia/,"<span style='color:"+mafiacolor+"'>Mafia</span>");
                         str=str.replace(/[Dd]eception/,"<span style='color:"+randcolor+"'>Deception</span>");
+			str=str.replace(/[Cc]oven/,"<span style='color:"+covencolor+"'>Coven</span>");
                         str=str.replace(/[Ee]vil/,"<span style='color:"+randcolor+"'>Evil</span>");
                         str=str.replace(/[Bb]enign/,"<span style='color:"+randcolor+"'>Benign</span>");
                         str=str.replace(/[Cc]haos/,"<span style='color:"+randcolor+"'>Chaos</span>");
