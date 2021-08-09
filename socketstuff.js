@@ -1064,7 +1064,9 @@ socket.on(Type.PAUSEPHASE,function(p){
 		paused = p;
 });
 socket.on(Type.GUARDIAN_ANGEL, function(name) {
-	$(`#p-${name}`).prepend('<span class="emoji">👼</span>')
+	$(`#p-${name}`).append(`<span class="emoji" id="${name}-angel">👼</span>`).click(() => {
+		$(`#${name}-angel`).remove();
+	});
 });
 socket.on(Type.TICK,function(time)
 {
