@@ -1019,7 +1019,7 @@ socket.on(Type.TARGET,function(name,role,target)
 
 socket.on(Type.MAYOR, function(name) {
 	addMessage(name+' has revealed themselves as the Mayor!', "highlight");
-	$(`#p-${name}`).prepend('<span class="emoji">🎩</span>')
+	$(`#p-${name}`).append('<span class="emoji">🎩</span>')
 });
 socket.on(Type.HUG,function(name,target)	
 {
