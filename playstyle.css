@@ -1433,3 +1433,9 @@ a:visited
 {
 	height:1em;
 }
+
+.minitext {
+	font-size: 14px;
+	color: red;
+	font-weight: bold;
+}

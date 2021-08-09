@@ -158,9 +158,9 @@ function mutemusic(phase)
 
 function closeWill()
 {
-	$('#will').hide();
-	var will = $('#willcontent').val();
-	socket.emit(Type.WILL,will);
+	$('#will').hide()
+	var will = $('#willcontent').val()
+	socket.emit(Type.WILL,will)
 }
 function highlightTitle()
 {
@@ -447,13 +447,16 @@ function openModList(targ)
 					$(this.parentNode).prepend("<span>🔥</span>")
 				},
 				'Hex': function () {
-					$(this.parentNode).prepend("<span>文</span>")
+					var name = $(this.parentNode).attr('name');
+					$(`#${name}`).append('<span class="minitext">HEXED</span>');
 				},
 				"Infect": function() {
-					$(this.parentNode).prepend("<span>☢️</span>")
+					var name = $(this.parentNode).attr('name');
+					$(`#${name}`).append('<span class="minitext">INFECTED</span>');
 				},
 				"Poison": function() {
-					$(this.parentNode).prepend("<span>☠️</span>")
+					var name = $(this.parentNode).attr('name');
+					$(`#${name}`).append('<span class="minitext">POISONED</span>');
 				},
 				"Guardian Angel": function() {
 					socket.emit(Type.GUARDIAN_ANGEL, $(this.parentNode).attr('name'));

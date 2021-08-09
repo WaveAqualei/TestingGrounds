@@ -121,7 +121,7 @@ function modInterface()
 		{
 			var name = '<span class="name">'+users[x]+'</span>';
 		}
-		var info = $(`<div class="info" id="${users[x]}"><span class="num">'+num+'</span>'+name+'</div>`);
+		var info = $(`<div class="info" id="${users[x]}"><span class="num">${num}</span>${name}</div>`);
 		$('#userlist li')[x].innerHTML='';
 		$('#userlist li')[x].className='';
 		//Add in a rolelist button if it is does not already exist
@@ -1064,7 +1064,7 @@ socket.on(Type.PAUSEPHASE,function(p){
 		paused = p;
 });
 socket.on(Type.GUARDIAN_ANGEL, function(name) {
-	$(`#${name}`).prepend(`<span class="angel">👼</span>`)
+	$(`#${name}`).prepend('<span class="minitext">GA</span>')
 });
 socket.on(Type.TICK,function(time)
 {
