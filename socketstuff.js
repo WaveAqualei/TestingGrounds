@@ -661,7 +661,7 @@ socket.on(Type.ROOMLIST,function(list)
 			}
 			else
 			{
-				$('#userlist').append(`<li><div class="info" id="p-${list[i].name}"><span class="num">${mum}</span>${name}</div></li>`);
+				$('#userlist').append(`<li><div class="info" id="p-${list[i].name}"><span class="num">${num}</span>${name}</div></li>`);
 			}
 			
 			users.push(list[i].name);
