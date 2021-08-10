@@ -687,7 +687,7 @@ var roles=[
 	
 	                // COVEN CUSTOM
 	{
-				rolename:"spellslinger",
+				rolename:"charmer",
 				alignment:"coven evil",
 				abilities:['Charm a player each night, forcing them to visit you that night.'],
 				attributes:['Players that visit you twice or that you charm twice are dealt a Basic attack to.',
