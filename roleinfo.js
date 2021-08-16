@@ -87,9 +87,9 @@ var roles=[
 			{      
 				rolename:"medium",
 				alignment:"town support",
-				abilities:['When dead speak to a living person at night.'],
+				abilities:['When dead, seance a living person at night.'],
 				attributes:     ['You will speak to the dead anonymously each night you are alive.',
-					'You may only speak to a living person once.'],
+					'You may only seance a living person once.'],
 				goal:towngoal,
 				color:towncolor
 			},
@@ -127,7 +127,7 @@ var roles=[
 			{      
 				rolename:"bodyguard",
 				alignment:"town protective",
-				abilities:['Protect one person from death at night.'],
+				abilities:['Protect a player from direct attacks at night.'],
 				attributes:['If your target is directly attacked or is the victim of a harmful visit, you and the visitor will fight.',
 					'If you successfully protect someone you can still be healed.',
 					'You have one bulletproof vest.'],
@@ -207,7 +207,7 @@ var roles=[
 				rolename:"mafioso",
 				alignment:"mafia killing",
 				abilities:['Carry out the Godfather\'s orders.'],
-				attributes:['You can attack if the Godfather does not give you orders.',
+				attributes:['You can attack if the Godfather doesn\'t give you orders.',
 					'If the Godfather dies you will become the next Godfather.',
 					'You can talk with the other Mafia at night.'],
 				goal:mafiagoal,
@@ -257,11 +257,8 @@ var roles=[
 			{      
 				rolename:"disguiser",
 				alignment:"mafia deception",
-				abilities:['Choose a target to disguise yourself as.'],
-				attributes:['If your target dies you will appear to be them.',
-					'The disguised Mafia member will appear to have the same role as the non-Mafia member to the Investigator and Sheriff.',
-					'Your disguised Mafia member will appear to be the other person to a Lookout.',
-					'When disguised as a Town member, Mafia visits are disregarded by Spy.'],
+				abilities:['Disguise a mafia member as a non-mafia member to alter their identity.'],
+				attributes:['The disguised Mafia member will appear to have the same role as the non-Mafia member to the Investigator and Sheriff, will appear to be the other person to a Lookout, and Mafia visits are disregarded by Spy.'],
 				goal:mafiagoal,
 				color:mafiacolor
 			},
@@ -271,7 +268,8 @@ var roles=[
 				abilities:['Choose someone to frame at night.'],
 				attributes:['If your target is interrogated they will appear suspicious.',
 					'If your target is investigated they will appear as a Framer.',
-					'If there are no kill capable Mafia roles left you will become a Mafioso.'],
+					'If there are no kill capable Mafia roles left you will become a Mafioso.',
+					'You can talk with the other Mafia at night.'],
 				goal:mafiagoal,
 				color:mafiacolor
 			},
@@ -281,7 +279,9 @@ var roles=[
 				abilities:['Choose a person to clean at night.'],
 				attributes:['If your target dies their role and last will won\'t be revealed to the Town.',
 					'Only you will see the cleaned targets role and last will.',
-					'You may only perform 3 cleanings.'],
+					'You may only perform 3 cleanings.',
+					'If there are no kill capable Mafia roles left you will become a Mafioso.',
+					'You can talk with the other Mafia at night.'],
 				goal:mafiagoal,
 				color:mafiacolor
 			},
@@ -290,7 +290,9 @@ var roles=[
 				alignment:"mafia deception",
 				abilities:['Choose a person and rewrite their role and last will at night.'],
 				attributes:['If a target dies, their role and last will is replaced with your forgery.',
-					'You may only perform 2 forgeries.'],
+					'You may only perform 2 forgeries.',
+					'If there are no kill capable Mafia roles left you will become a Mafioso.',
+					'You can talk with the other Mafia at night.'],
 				goal:mafiagoal,
 				color:mafiacolor
 			},
@@ -430,7 +432,7 @@ var roles=[
 			{      
 				rolename:"serial killer",
 				alignment:"neutral killing",
-				abilities:['Kill someone each night.'],
+				abilities:['You may choose to attack a player each night.'],
 				attributes:['If you are role blocked you will attack the role blocker in addition to your target.',
 					'Role blockers that target you will have their last will covered in blood making it unreadable.',
 					'You can choose to be cautious and not kill role blockers.'],
@@ -440,7 +442,7 @@ var roles=[
 			{      
 				rolename:"arsonist",
 				alignment:"neutral killing",
-				abilities:['Douse someone in gasoline or ignite all doused targets.'],
+				abilities:['You may Douse someone in gasoline or ignite Doused targets.'],
 				attributes:['Select yourself to ignite doused people dealing an Unstoppable attack.',
 					'You will douse anybody that visits you.',
 					'If you take no action, you will attempt to clean gasoline off yourself.',
@@ -517,6 +519,17 @@ var roles=[
 				color:towncolor,
 				custom:true
 			},
+	{      
+				rolename:"historian",
+				alignment:"town investigative",
+				abilities:['Research one player\'s visiting history each night.'],
+				attributes:['You will see every time your target has visited non-Town members over the course of the game.',
+					'You may only research each player once.',
+					'If your target visits a non-Townmember the night you research them, it will count towards their total.'],
+				goal:towngoal,
+				color:towncolor,
+				custom:true
+			},
 			{      
 				rolename:"interviewer",
 				alignment:"town investigative",
@@ -578,6 +591,17 @@ var roles=[
 				color:towncolor,
 				custom:true
 			},
+	{
+				rolename:"bouncer",
+				alignment:"town protective",
+				abilities:['You may stop a player from being visited at night.'],
+				attributes:['You turn all visitors away from your target.',
+					'You know how many visitors visited your target, but not who or what.',
+					'If your target is attacked you will be killed instead. You will still turn away all other visitors.'],
+				goal:towngoal,
+				color:towncolor,
+				custom:true
+			},
 	
 			// TOWN KILLING CUSTOM
 			{      
@@ -605,7 +629,18 @@ var roles=[
 				custom:true
 			},
 			// MAFIA CUSTOM
-			{      
+	{      
+				rolename:"caporegime",
+				alignment:"mafia head",
+				abilities:['-Train a non-Mafia member each night and choose your trained targets at night to use their reserved abilities.'],
+				attributes:['You may select which Mafia ability you wish to make your trainee hold onto.',
+					'Trained players will become untrained after you use them.',
+					'When you select a trainee, you may select a second target for them to use their ability on.'],
+				goal:mafiagoal,
+				color:mafiacolor,
+				custom:true
+			},		
+	{      
 				rolename:"nightmarer",
 				alignment:"mafia support",
 				abilities:['Make someone have a nightmare about someone each night.'],
@@ -647,6 +682,19 @@ var roles=[
 				'You must switch target if you torture someone for 2 consecutive nights.'],
 				goal:mafiagoal,
 				color:mafiacolor,
+				custom:true
+			},
+	
+	                // COVEN CUSTOM
+	{
+				rolename:"charmer",
+				alignment:"coven evil",
+				abilities:['Charm a player each night, forcing them to visit you that night.'],
+				attributes:['Players that visit you twice or that you charm twice are dealt a Basic attack to.',
+					'Charmed targets will not know they were charmed.', 
+					'With the Necronomicon, charms repeat on the subsequent night without you needing to visit the target.'],
+				goal:covengoal,
+				color:covencolor,
 				custom:true
 			},
 	
