@@ -520,6 +520,16 @@ var roles=[
 				custom:true
 			},
 	{      
+				rolename:"gossip",
+				alignment:"town investigative",
+				abilities:['Investigate one role slot at night to see who the player in that role slot visits.'],
+				attributes:['Your night action does not count as a visit.',
+					'If the role slot is Any, you will be told which general alignment that role slot was rolled as (Town, Mafia, Coven, Neutral).'],
+				goal:towngoal,
+				color:towncolor,
+				custom:true
+			},
+	{      
 				rolename:"historian",
 				alignment:"town investigative",
 				abilities:['Research one player\'s visiting history each night.'],
@@ -693,6 +703,17 @@ var roles=[
 				attributes:['Players that visit you twice or that you charm twice are dealt a Basic attack to.',
 					'Charmed targets will not know they were charmed.', 
 					'With the Necronomicon, charms repeat on the subsequent night without you needing to visit the target.'],
+				goal:covengoal,
+				color:covencolor,
+				custom:true
+			},
+	{
+				rolename:"mystic",
+				alignment:"coven evil",
+				abilities:['Place a curse on a target during a Full Moon.'],
+				attributes:['Curses deal a Basic Attack to one visitor.',
+					'You will be given a list of roles that visited your target when a curse has triggered.', 
+					'With the Necronomicon, your attack is Powerful, and you may cast a Curse every night.'],
 				goal:covengoal,
 				color:covencolor,
 				custom:true
