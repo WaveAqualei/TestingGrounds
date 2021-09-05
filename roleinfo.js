@@ -540,15 +540,6 @@ var roles=[
 				color:towncolor,
 				custom:true
 			},
-			{      
-				rolename:"interviewer",
-				alignment:"town investigative",
-				abilities:['Interview 2 people each night and discover who is the most trustworthy.'],
-				attributes:['You cannot interview a revealed Mayor.'],
-				goal:towngoal,
-				color:towncolor,
-				custom:true
-			},
 
 			// TOWN SUPPORT CUSTOM:
 			{
@@ -587,20 +578,6 @@ var roles=[
 			},
 			
 			// TOWN PROTECTIVE CUSTOM:
-			{    
-				rolename:"ghost",
-				alignment:"town protective",
-				abilities:['Roleblock a person and scare away all visiting killers.'],
-				attributes:['You know if you scared away a visitor, but your target does not.',
-					'You must change target each night',
-					'You will be killed if you rb a Serial Killer or turned Werewolf.',
-					'Killingroles are not counted as visitors for Lookout/Werewolf.',
-					'Visiting the jail protects both.',
-					'The Werewolf will kill you on second encounter.'],
-				goal:towngoal,
-				color:towncolor,
-				custom:true
-			},
 	{
 				rolename:"bouncer",
 				alignment:"town protective",
@@ -626,18 +603,7 @@ var roles=[
 				color:towncolor,
 				custom:true
 			},
-			{      
-				rolename:"firebrand",
-				alignment:"Town Killing",
-				abilities:['Each night douse a player in gasoline.',
-					'Once per game ignite all doused targets.'],
-				attributes:['Your kills ignore night immunity and appear identical to the Arsonists.',
-					'The Arsonist cannot ignite your targets, nor can you ignite theirs'
-				],
-				goal:towngoal,
-				color:towncolor,
-				custom:true
-			},
+			
 			// MAFIA CUSTOM
 	{      
 				rolename:"caporegime",
@@ -659,15 +625,6 @@ var roles=[
 					'Your target will be unable to visit the person until you give them a different nightmare.',								
 					'All nightmares end if the nightmarer dies or is promoted.'
 				],
-				goal:mafiagoal,
-				color:mafiacolor,
-				custom:true
-			},
-			{      
-				rolename:"watcher",
-				alignment:"mafia support",
-				abilities:['Watch someone at night to see who visits them.'],
-				attributes:['You can talk to the Mafia at night.'],
 				goal:mafiagoal,
 				color:mafiacolor,
 				custom:true
@@ -750,28 +707,6 @@ var roles=[
 	
 			// NEUTRAL EVIL CUSTOM 
 			{      
-				rolename:"stalker",
-				alignment:"neutral evil",
-				abilities:['Stalk someone each night.'],
-				attributes:['The person you stalked can not be visited by others.',
-					'Transporter and killing-roles are uneffected.',
-					'You may stalk yourself once, this cannot be redirected or controlled.',
-					'You have one autovest protecting from the first non-town attack.'],
-				goal:"Survive to see the Town lose the game.",
-				color:"#000080",
-				custom:true
-			},
-			{      
-				rolename:"warlock",
-				alignment:"neutral evil",
-				abilities:['Curse two targets each night, tying the secondary target to the same fate as the first.'],
-				attributes:['Anyone targeting the primary target will also target the secondary target.',
-					'While cursed, your secondary target will gain a Powerful defence against non-town attacks.',
-					'You own one auto-vest.'],
-				goal:"Survive to see the Town lose the game.",
-				color:"#800040"
-			},
-			{      
 				rolename:"gossiper",
 				alignment:"neutral evil",
 				abilities:['Select two targets. Your second target will find out role, visitors, and target of your first one.'],
@@ -784,19 +719,6 @@ var roles=[
 
 
 			// NEUTRAL KILLING CUSTOM	
-			{      
-				rolename:"shadowalker",
-				alignment:"neutral killing",
-				abilities:['Choose to walk in someone\'s shadow each night'],
-				attributes:["When walking in someone's shadow, You will kill whoever they visited.",
-					"Lookouts will only see your target visiting someone and not you.",
-					"If your target stays home or is a non visiting role, they will be attacked directly.",
-					"Lookout will only see you if you do a direct attack on your target.",
-					"If you target a Bodyguard, they will not be able to guard your attacks."],
-				goal:"Kill anyone that would oppose you.",
-				color:'#BF40BF',
-				custom:true
-			},
 			{      
 				rolename:"slaughterer",
 				alignment:"neutral killing",
@@ -881,7 +803,7 @@ var roles=[
 				custom:true
 			},
 			{
-				rolename:"ralozey",
+				rolename:"host",
 				alignment:"neutral casual",
 				abilities:['Code and Host the TG.'],
 				attributes:['You are the fastest ever to live!'],
@@ -918,7 +840,7 @@ var roles=[
 			},
 	
 ];
-var unique = ["jailor", "mayor", "retributionist", "veteran", "godfather", "mafioso", "ambusher", "juggernaut", "werewolf", "coven leader", "medusa", "potion master", "hex master", "necromancer", "poisoner", "pirate", "plaguebearer", "pestilence", "ghost", "warlock", "rain dancer", "musician"];
+var unique = ["jailor", "mayor", "retributionist", "veteran", "godfather", "mafioso", "ambusher", "juggernaut", "werewolf", "coven leader", "medusa", "potion master", "hex master", "necromancer", "poisoner", "pirate", "plaguebearer", "pestilence"];
  
 function getAttributes(num)
 {
@@ -1148,7 +1070,6 @@ module.exports = {
                         str=str.replace(/[Ii]nvestigative/,"<span style='color:"+randcolor+"'>Investigative</span>");
                         str=str.replace(/[Ss]upport/,"<span style='color:"+randcolor+"'>Support</span>");
                         str=str.replace(/[Pp]rotective/,"<span style='color:"+randcolor+"'>Protective</span>");
-                        str=str.replace(/[Pp]ower/,"<span style='color:"+randcolor+"'>Power</span>");
                         str=str.replace(/[Cc]asual/,"<span style='color:"+randcolor+"'>Casual</span>");
                         str=str.replace(/[Rr]andom/,"<span style='color:"+randcolor+"'>Random</span>");
                         str=str.replace(/[Kk]illing/,"<span style='color:"+randcolor+"'>Killing</span>");
