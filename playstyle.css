@@ -934,17 +934,17 @@ header ul li span
    background: url('jailor.png'), #B7B7B7;
    background-size:100% 100%;
 }
-.spybutton {
+.blackmailerbutton {
    background: #65a9d7;
-   background: url('spy.png'), linear-gradient(#306284, #3A92CD);
+   background: url('blackmailer.png'), linear-gradient(#306284, #3A92CD);
    background-size:100% 100%;
   }
-.spybutton:hover {
-   background:url('spy.png'),#0448A9;
+.blackmailerbutton:hover {
+   background:url('blackmailer.png'),#0448A9;
    background-size:100% 100%;
 }
-.spybuttondown {
-   background:url('spy.png'), cyan;
+.blackmailerbuttondown {
+   background:url('blackmailer.png'), cyan;
    background-size:100% 100%;
 }
 .mayorbutton {
