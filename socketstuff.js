@@ -219,7 +219,7 @@ function modInterface()
 				}
 		});
 		modcontrols.append(rolechanger);
-		var buttons = ['mafia','jailor','blackmailer','medium','mayor'];
+		var buttons = ['mafia','jailor','blackmailer','medium','mayor','coven'];
 		for (i in buttons)
 		{
 			var formatted = buttons[i][0].toUpperCase()+buttons[i].substring(1,buttons[i].length);
