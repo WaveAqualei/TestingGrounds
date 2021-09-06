@@ -475,6 +475,7 @@ var server = http.createServer(function(req,res)
 		case '/sheriff.png':
 		case '/moon.png':
 		case '/maf.png':
+		case '/cov.png':
 		case '/mayor.png':
 		case '/med.png':
 		case '/jailor.png':		
@@ -1494,6 +1495,10 @@ function setPhase(p)
 					{
 						players[j].s.emit(Type.SYSTEM,players[i].name+' was hauled off to jail.');
 					}
+					if (players[j].chats.coven && !players[j].chats.jailed && players[i].chats.mafia || players[j].spectate)
+					{
+						players[j].s.emit(Type.SYSTEM,players[i].name+' was hauled off to jail.');
+                    }
 				}
 			}
 			//Target info, else if because you do not recieve it if you are jailed.
@@ -1548,6 +1553,21 @@ function setPhase(p)
 			{
 				players[i].s.emit(Type.SYSTEM, mafmembers);
 			}			
+		}
+		var covmembers = "Your partners in witchery are:"
+		for (i in players)
+		{
+			if (players[i].chats.coven && !players[i].spectate)
+			{
+				covmembers = covemembers + " " + players[i].name + "(" + players[i].role + ")";
+            }
+		}
+		for (i in players)
+		{
+			if (players[i].chats.coven && !players[i].spectate)
+			{
+				players[i].s.emit(Type.SYSTEM, covmembers);
+			}
 		}
 	}
 	if (p == Phase.ROLES)
@@ -1917,7 +1937,8 @@ function Player(socket,name,ip)
 			verdict:0, //0 for abstain, -1 for guilty, 1 for inno
 			chats:{
 				dead:false,
-				mafia:false,
+				mafia: false,
+				coven: false,
 				jailor:false,
 				jailed:false,
 				medium:false,
@@ -3920,6 +3941,10 @@ function Player(socket,name,ip)
 						{
 							players[i].s.emit(Type.TARGET,this.name,this.role,gm.grammarList(targets));
 						}
+						if (players[i].chats.coven || players[i].s.id == mod || players[i].spectate)
+						{
+							players[i].s.emit(Type.TARGET,this.name,this.role,gm.grammarList(targets));
+                        }
 					}
 				}
 				else
@@ -4069,6 +4094,10 @@ function Player(socket,name,ip)
 							{
 								this.specMessage(msg,{mafia:true});
 							}
+							else if (this.chats.coven)
+							{
+								this.specMessage(msg,{coven:true});
+                            }
 							else if (this.chats.jailor)
 							{
 								this.specMessage(msg,{jailor:true,jailed:true},'Jailor');
