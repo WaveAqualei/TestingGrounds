@@ -1240,6 +1240,10 @@ maf
 {
 	color:red;
 }
+cov 
+{
+	color:#9E2C9E;
+}
 arso
 {
 	color:#E88718;
@@ -1268,6 +1272,10 @@ neut
 .mafia
 {
 	color:red;
+}
+.coven 
+{
+	color: #BF40BF;
 }
 .linked
 {
