@@ -1495,7 +1495,7 @@ function setPhase(p)
 					{
 						players[j].s.emit(Type.SYSTEM,players[i].name+' was hauled off to jail.');
 					}
-					if (players[j].chats.coven && !players[j].chats.jailed && players[i].chats.mafia || players[j].spectate)
+					if (players[j].chats.coven && !players[j].chats.jailed && players[i].chats.coven || players[j].spectate)
 					{
 						players[j].s.emit(Type.SYSTEM,players[i].name+' was hauled off to jail.');
                     }
@@ -1554,7 +1554,8 @@ function setPhase(p)
 				players[i].s.emit(Type.SYSTEM, mafmembers);
 			}			
 		}
-		var covmembers = "Your partners in witchery are:"
+		var covmembers;
+		covmembers = "Your partners in witchery are:"
 		for (i in players)
 		{
 			if (players[i].chats.coven && !players[i].spectate)
@@ -3941,12 +3942,18 @@ function Player(socket,name,ip)
 						{
 							players[i].s.emit(Type.TARGET,this.name,this.role,gm.grammarList(targets));
 						}
+					}
+				}
+				else if (this.chats.coven)
+				{
+					for (i in players)
+					{
 						if (players[i].chats.coven || players[i].s.id == mod || players[i].spectate)
 						{
 							players[i].s.emit(Type.TARGET,this.name,this.role,gm.grammarList(targets));
-                        }
-					}
-				}
+						}
+					}	
+                }
 				else
 				{
 				    players[mod].s.emit(Type.TARGET, this.name, this.role, gm.grammarList(targets));

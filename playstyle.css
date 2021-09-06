@@ -440,6 +440,7 @@ header ul li span
 {
 	position:absolute;
 	width:2px;
+	height:100%;
 	border-left:2px transparent;
 	border-right:2px transparent;
 	background:black;
@@ -878,7 +879,7 @@ header ul li span
 }
 .controlbutton
 {
-	width:10%;
+	width:8%;
 	float:left;
 	font-family:'Open Sans', Arial, sans-serif;
 	box-shadow: rgba(0,0,0,1) 0 1px 0;
@@ -899,11 +900,11 @@ header ul li span
 .mafiabutton {
    background: url('maf.png'), linear-gradient(#c40e0e, #d66565);
    background-size: 100% 100%
-  }
+}
 .mafiabutton:hover {
    background: url('maf.png'), #b51a1a;
    background-size:100% 100%;
-   }
+}
 .mafiabuttondown {
 	background: url('maf.png'), #FF0000;
 	background-size:100% 100%;
