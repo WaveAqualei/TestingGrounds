@@ -81,7 +81,10 @@ var Type = {
 	SETSPEC:50,
 	REMSPEC: 51,
 	LOGINDEXI: 52,
-	LOGINDEXO: 53
+	LOGINDEXO: 53,
+	MAYOR: 54,
+	GUARDIAN_ANGEL: 55,
+	REMOVE_EMOJI: 56
 };
 function clearAllInfo()
 {
@@ -109,7 +112,7 @@ function modInterface()
 	addModControls();
 	for (x = 0; x < users.length; x++)
 	{
-		var li = $('<li></li>');
+		var li = $("<li></li>");
 		var num = (x==0)?'MOD':x;
 		if (devs.indexOf(users[x]) != -1)
 		{
@@ -119,7 +122,7 @@ function modInterface()
 		{
 			var name = '<span class="name">'+users[x]+'</span>';
 		}
-		var info = $('<div class="info"><span class="num">'+num+'</span>'+name+'</div>');
+		var info = $(`<div class="info" id="p-${users[x]}"><span class="num">${num}</span>${name}</div>`);
 		$('#userlist li')[x].innerHTML='';
 		$('#userlist li')[x].className='';
 		//Add in a rolelist button if it is does not already exist
@@ -216,7 +219,7 @@ function modInterface()
 				}
 		});
 		modcontrols.append(rolechanger);
-		var buttons = ['mafia','jailor','spy','medium','mayor'];
+		var buttons = ['mafia','jailor','blackmailer','medium','mayor'];
 		for (i in buttons)
 		{
 			var formatted = buttons[i][0].toUpperCase()+buttons[i].substring(1,buttons[i].length);
@@ -425,7 +428,7 @@ socket.on(Type.JOIN,function(name, reconnect)
 	}
 	//Top row, normal users.
 	var li = $('<li></li>');
-	var info = $('<div class="info"></div>');
+	var info = $(`<div class="info" id="p-${name}"></div>`);
 	var name = $('<span class="name">'+name+'</span>');
 	var num = $('<span class="num">'+num+'</span>');
 	info.append(num);
@@ -518,7 +521,7 @@ socket.on(Type.JOIN,function(name, reconnect)
 		});
 		modcontrols.append(rolechanger);
 		
-		var buttons = ['mafia','jailor','spy','medium','mayor'];
+		var buttons = ['mafia','jailor','blackmailer','medium','mayor'];
 		for (i in buttons)
 		{
 			var formatted = buttons[i][0].toUpperCase()+buttons[i].substring(1,buttons[i].length);
@@ -600,12 +603,12 @@ socket.on(Type.SETMOD,function(val)
 					var name ='<span class="name">'+users[i]+'</span>';
 				}
 				//Top row, normal users.
-				var info = $('<div class="info"><span class="num">'+num+'</span>'+name+'</div>');
+				var info = $(`<div class="info" id="p-${users[i]}"><span class="num">${num}</span>${name}</div>`);
 			}
 			else
 			{
 				var role = roles[i].value==''?'NoRole':roles[i].value;
-				var info = $('<div class="info"><span class="num">'+num+'</span><span class="name">'+users[i]+'</span></div><div>'+role+'</div>');
+				var info = $(`<div class="info" id="${users[i]}"><span class="num">${num}</span><span class="name">${name}</span></div><div>${role}</div>`);
 				$($('#userlist li')[i]).addClass('deadplayer');
 			}
 			$('#userlist li')[i].innerHTML='';
@@ -655,11 +658,11 @@ socket.on(Type.ROOMLIST,function(list)
 			if (list[i].role)
 			{	
 				//Player is dead.
-				$('#userlist').append('<li class="deadplayer"><div class="info"><span class="num">'+num+'</span>'+name+'</div><div><span>'+list[i].role+'</span></div></li>');
+				$('#userlist').append(`<li class="deadplayer"><div class="info" id="p-${list[i].name}"><span class="num">${num}</span>${name}</div><div><span>${list[i].role}</span></div></li>`);
 			}
 			else
 			{
-				$('#userlist').append('<li><div class="info"><span class="num">'+num+'</span>'+name+'</div></li>');
+				$('#userlist').append(`<li><div class="info" id="p-${list[i].name}"><span class="num">${num}</span>${name}</div></li>`);
 			}
 			
 			users.push(list[i].name);
@@ -683,7 +686,7 @@ socket.on(Type.TOGGLELIVING,function(p)
 		}
 		else
 		{
-			li.outerHTML = '<li><div class="info"><span class="num">'+index+'</span><span class="name">'+p.name+'</span></div></li>';
+			li.outerHTML = `<li><div class="info" id="p-${p.name}"><span class="num">${index}</span><span class="name">${p.name}</span></div></li>`;
 		}
 	}	
 });
@@ -826,8 +829,10 @@ else
 			addPauseButton(phase);
 		}
 	}
-	if (phase == 8 && !mod) //Night
+	if (phase == 8) //Night
 	{
+		$(".angel").remove();
+		if (!mod) {
 		//Add the night buttons
 		for (i = 1; i < users.length; i++)
 		{
@@ -846,6 +851,7 @@ else
 				$($(li).children()[0]).append(nightinterface);
 			}
 		}
+	}
 	}
 	if (phase == 4 && !mod) //Voting
 	{
@@ -929,6 +935,33 @@ socket.on(Type.PRENOT,function(notification)
 {
 	switch (notification)
    {
+	  case 'GUARDIAN_ANGEL':
+	    addMessage({msg: "The Guardian Angel was watching over you!", styling: 'reviving'}, 'prenot');
+		break;
+	  case 'POISON_CURABLE':
+		addMessage({msg: "You were poisoned. You will die tomorrow unless you are cured!", styling: 'dying'}, 'prenot');
+		break;
+	  case 'POISON_UNCURABLE':
+		addMessage({msg: "You were poisoned. You will die tomorrow!", styling: 'dying'}, 'prenot');
+		break;
+	  case 'PROTECTED': 
+	  	addMessage({msg: "You were attacked but someone protected you!", styling: 'reviving'}, 'prenot');
+	  	break;
+	  case 'SAVED_BY_BG': 
+	  	addMessage({msg: "You were attacked but someone fought off your attacker!", styling: 'reviving'}, 'prenot');
+	  	break;
+	  case 'SAVED_BY_TRAP': 
+	  	addMessage({msg: "You were attacked but a trap saved you!", styling: 'reviving'}, 'prenot');
+	  	break;
+	  case 'SAVED_BY_GA': 
+	  	addMessage({msg: "You were attacked but the Guardian Angel saved you!", styling: 'reviving'}, 'prenot');
+	  	break;
+	  case 'TARGET_ATTACKED': 
+	  	addMessage({msg: "Your target was attacked!", styling: 'dying'}, 'prenot');
+	  	break;
+	  case 'MEDUSA_STONE':
+		addMessage({msg: "You turned someone to stone.", styling: 'reviving'}, 'prenot');
+		break;
       case 'DEAD':         
          addMessage({msg:'You have died!',styling:'dying'},'prenot');
       break;
@@ -939,10 +972,10 @@ socket.on(Type.PRENOT,function(notification)
          addMessage({msg:'You were doused!',styling:'dying'},'prenot');
       break;
       case 'TARGETIMMUNE':
-         addMessage({msg:'Your target was immune to your attack!',styling:'dying'},'prenot');
+         addMessage({msg:'Your target\'s defense was too strong to kill.',styling:'dying'},'prenot');
       break;
       case 'IMMUNE':
-         addMessage({msg:'You were attacked, but you are immune at night!',styling:'dying'},'prenot');
+         addMessage({msg:'Someone attacked you but your defense was too strong!',styling:'dying'},'prenot');
       break;
       case 'JESTER':
          addMessage({msg:'The Jester will have their revenge from the grave!',styling:'dying'},'prenot');
@@ -954,10 +987,10 @@ socket.on(Type.PRENOT,function(notification)
          addMessage({msg:'You shot someone who visited you!',styling:'dying'},'prenot');
       break;
       case 'RB':
-         addMessage({msg:'You were roleblocked!',styling:'dying'},'prenot');
+         addMessage({msg:'Someone occupied your night. You were roleblocked!',styling:'dying'},'prenot');
       break;
       case 'WITCHED':
-         addMessage({msg:'You felt a mysterious power dominating you.You were controlled by a Witch!',styling:'dying'},'prenot');
+         addMessage({msg:'You felt a mystical power dominating you. You were controlled by a Witch!',styling:'dying'},'prenot');
       break;
       case 'REVIVE':
          addMessage({msg:'You were revived!',styling:'reviving'},'prenot');
@@ -982,6 +1015,11 @@ socket.on(Type.PRENOT,function(notification)
 socket.on(Type.TARGET,function(name,role,target)	
 {
 	addMessage({name:name,role:role,target:target},'target');
+});
+
+socket.on(Type.MAYOR, function(name) {
+	addMessage(name+' has revealed themselves as the Mayor!', "highlight");
+	$(`#p-${name}`).append('<span class="emoji">🎩</span>')
 });
 socket.on(Type.HUG,function(name,target)	
 {
@@ -1026,6 +1064,21 @@ socket.on(Type.CLEARVOTES,function()
 socket.on(Type.PAUSEPHASE,function(p){
 		paused = p;
 });
+socket.on(Type.GUARDIAN_ANGEL, function(name, yourName) {
+	$(`#p-${name}`).append(`<span class="emoji" id="${name}-angel">👼</span>`);
+	$(`#${name}-angel`).click(() => {
+		if (mod) {
+			$(`#${name}-angel`).remove();
+			socket.emit(Type.REMOVE_EMOJI, `${name}-angel`);
+			currentEmojis.guardianAngel = false;
+		}
+	});
+});
+
+socket.on(Type.REMOVE_EMOJI, function(emojiId) {
+	$(`#${emojiId}`).remove();
+});
+
 socket.on(Type.TICK,function(time)
 {
 	$('#clock').html(time);

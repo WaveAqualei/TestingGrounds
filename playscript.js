@@ -1,6 +1,7 @@
 window.onbeforeunload = function(){
   return 'If you are in a game and need to leave, please inform the mod before closing this page.';
 };
+const currentEmojis = {};
 mod = false;
 var current_rolelist = [
 	"Town Investigative",
@@ -158,9 +159,9 @@ function mutemusic(phase)
 
 function closeWill()
 {
-	$('#will').hide();
-	var will = $('#willcontent').val();
-	socket.emit(Type.WILL,will);
+	$('#will').hide()
+	var will = $('#willcontent').val()
+	socket.emit(Type.WILL,will)
 }
 function highlightTitle()
 {
@@ -442,8 +443,62 @@ function openModList(targ)
 					socket.emit(Type.TOGGLE,name,'linked');
 				},
 				'Douse': function () {
+					if (currentEmojis.douse) return;
 				    var name = $(this.parentNode).attr('name');
 				    socket.emit(Type.TOGGLE, name, 'douse');
+					$(`#p-${name}`).append(`<span class="emoji" id="${name}-fire">🔥</span>`);
+					$(`#${name}-fire`).click(() => {
+						if (mod) {
+							$(`#${name}-fire`).remove();
+							socket.emit(Type.REMOVE_EMOJI, `${name}-fire`);
+							currentEmojis.douse = false;
+						}
+					});
+					currentEmojis.douse = true;
+				},
+				'Hex': function () {
+					if (currentEmojis.hex) return;
+					var name = $(this.parentNode).attr('name');
+					$(`#p-${name}`).append(`<span class="emoji" id="${name}-hex">文</span>`);
+					$(`#${name}-hex`).click(() => {
+						if (mod) {
+							$(`#${name}-hex`).remove();
+							socket.emit(Type.REMOVE_EMOJI, `${name}-hex`);
+							currentEmojis.hex = false;
+						}
+					});
+					currentEmojis.hex = true;
+				},
+				"Infect": function() {
+					if (currentEmojis.infect) return;
+					var name = $(this.parentNode).attr('name');
+					$(`#p-${name}`).append(`<span class="emoji" id="${name}-infect">☢️</span>`);
+					$(`#${name}-infect`).click(() => {
+						if (mod) {
+							$(`#${name}-infect`).remove();
+							socket.emit(Type.REMOVE_EMOJI, `${name}-infect`);
+							currentEmojis.infect = false;
+						}
+					});;
+					currentEmojis.infect = true;
+				},
+				"Poison": function() {
+					if (currentEmojis.poison) return;
+					var name = $(this.parentNode).attr('name');
+					$(`#p-${name}`).append(`<span class="emoji" id="${name}-poison">☠️</span>`);
+					$(`#${name}-poison`).click(() => {
+						if (mod) {
+							$(`#${name}-poison`).remove();
+							socket.emit(Type.REMOVE_EMOJI, `${name}-poison`);
+							currentEmojis.poison = false;
+						}
+					});
+					currentEmojis.poison = true;
+				},
+				"Guardian Angel": function() {
+					if (currentEmojis.guardianAngel) return;
+					socket.emit(Type.GUARDIAN_ANGEL, $(this.parentNode).attr('name'));
+					currentEmojis.guardianAngel = true;
 				}
 			};
 			var notifications = {
@@ -461,6 +516,21 @@ function openModList(targ)
 				{
 				   var name = $(this.parentNode).attr('name');
 				   socket.emit(Type.PRENOT,name,'IMMUNE');
+				},
+				'Attacked(Protected)': function() {
+					socket.emit(Type.PRENOT,$(this.parentNode).attr('name'),'PROTECTED');
+				},
+				'Attacked(Saved By BG)': function() {
+					socket.emit(Type.PRENOT,$(this.parentNode).attr('name'),'SAVED_BY_BG');
+				},
+				'Attacked(Saved By Trap)': function() {
+					socket.emit(Type.PRENOT,$(this.parentNode).attr('name'),'SAVED_BY_TRAP');
+				},
+				'Attacked(Saved By GA)': function() {
+					socket.emit(Type.PRENOT,$(this.parentNode).attr('name'),'SAVED_BY_GA');
+				},
+				'Target attacked': function() {
+					socket.emit(Type.PRENOT,$(this.parentNode).attr('name'),'TARGET_ATTACKED');
 				},
 				'Doused':function()
 				{
@@ -486,6 +556,18 @@ function openModList(targ)
 				{
 				   var name = $(this.parentNode).attr('name');
 				   socket.emit(Type.PRENOT,name,'VETSHOT');
+				},
+				'Guardian Angel': function() {
+					socket.emit(Type.PRENOT,  $(this.parentNode).attr('name'), 'GUARDIAN_ANGEL');
+				},
+				'Poisoned(Curable)': function() {
+					socket.emit(Type.PRENOT,  $(this.parentNode).attr('name'), 'POISON_CURABLE');
+				},
+				'Poisoned(Uncurable)': function() {
+					socket.emit(Type.PRENOT,  $(this.parentNode).attr('name'), 'POISON_UNCURABLE');
+				},
+				'Medusa Stone': function() {
+					socket.emit(Type.PRENOT,  $(this.parentNode).attr('name'), 'MEDUSA_STONE');
 				}
 			};
 			var list = $('<ul id="morelist"></ul>');

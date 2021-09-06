@@ -1,7 +1,7 @@
 html,body
 {
 	margin:0;
-	padding:0;s
+	padding:0;
     background-color: #FFFFFF;
 	height:100%;
 	width:100%;
@@ -26,6 +26,7 @@ header
 	list-style:none;
 	overflow-y:auto;
 	overflow-x:hidden;
+	background-color: #EBECF0;
 }
 .moonimg
 {
@@ -459,6 +460,7 @@ header ul li span
 	margin:0;
 	margin-left:-2px;
 	overflow:auto;
+	background-color: #EBECF0;
 }
 #userlist>li
 {
@@ -504,6 +506,7 @@ header ul li span
 	width:100%;
 	height:5%;
 	border-top:1px solid black;
+	background-color: #EBECF0;
 }
 #c
 {
@@ -1429,4 +1432,12 @@ a:visited
 .icon
 {
 	height:1em;
+}
+
+.emoji {
+	margin-left: 5px;
+}
+
+.emoji:hover {
+	cursor: pointer;
 }

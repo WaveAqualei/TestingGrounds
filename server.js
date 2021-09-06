@@ -112,7 +112,10 @@ var Type = {
 	SETSPEC:50,
 	REMSPEC: 51,
 	LOGINDEXI: 52,
-	LOGINDEXO: 53
+	LOGINDEXO: 53,
+	MAYOR: 54,
+	GUARDIAN_ANGEL: 55,
+	REMOVE_EMOJI: 56
 };
 var autoLevel = 1;
 /*
@@ -679,7 +682,7 @@ io.on('connection', function(socket){
 				//Exceptions
 				send.name = players[socket.id].name;
 				send.alive = players[socket.id].alive;
-				send.spy = players[socket.id].hearwhispers;
+				send.blackmailer = players[socket.id].hearwhispers;
 				send.mayor = (players[socket.id].mayor !== undefined);
 				send.role = players[socket.id].role;
 				if (players[mod])
@@ -783,10 +786,18 @@ io.on('connection', function(socket){
 			socket.emit(Type.SYSTEM,'Only the mod can set the level of automation.');
 		}
 	});
+	socket.on(Type.GUARDIAN_ANGEL, function(name) {
+		io.emit(Type.GUARDIAN_ANGEL, name);
+	});
+
+	socket.on(Type.REMOVE_EMOJI, function(emojiId) {
+		io.emit(Type.REMOVE_EMOJI, emojiId);
+	});
+
 	socket.on(Type.MSG,function(msg)
 	{
 		msg=sanitize(msg);
-		if (msg.length > 200)
+		if (msg.length > 256)
 		{
 			socket.emit(Type.SYSTEM,'Your message was too long.');
 		}
@@ -826,7 +837,7 @@ io.on('connection', function(socket){
 				players[mod].s.emit(Type.SYSTEM,name+' was blackmailed.');
 			 break;
 			 case 'TARGETIMMUNE':
-				players[mod].s.emit(Type.SYSTEM,name+' attacked an immune target.');
+				players[mod].s.emit(Type.SYSTEM,name+' attacked someone with too strong of a defense.');
 			 break;
 			 case 'IMMUNE':
 				players[mod].s.emit(Type.SYSTEM,name+' was attacked but immune.');
@@ -916,9 +927,9 @@ io.on('connection', function(socket){
 			prev_rolled = roles;
 			for (i in names)
 			{
-				if (roles[i].length > 16)
+				if (roles[i].length > 20)
 				{
-					socket.emit(Type.SYSTEM,'Invalid rolelist! Role name cannot be more than 16 characters: '+roles[i]);
+					socket.emit(Type.SYSTEM,'Invalid rolelist! Role name cannot be more than 20 characters: '+roles[i]);
 					break;
 				}
 				var p = getPlayerByName(names[i]);
@@ -1233,7 +1244,7 @@ io.on('connection', function(socket){
 							}
 						break;
 						break;						
-						case 'spy': 
+						case 'blackmailer': 
 							player.hearwhispers = !player.hearwhispers;
 							if (!players[socket.id].silenced)
 							{
@@ -1647,13 +1658,13 @@ function Timer()
 		time:0,
 		buffertime:undefined,
 		phase:[0,0,0, //Pregame, Roles, Modtime.
-			45, //Day		60
+			60, //Day		60
 			30, //Voting
 			20, //Trial
 			20, //Verdict
-			5, //Last words
-			40, //Night		60
-			15 //Day 1		30
+			10, //Last words
+			60, //Night		60
+			30 //Day 1		30
 			],
 		tock:function(){
 			switch (phase)
@@ -1696,8 +1707,8 @@ function Timer()
 					io.emit(Type.JUDGEMENT,votes,(result<0));
 				break;
 				case Phase.LASTWORDS:
-					//Change to modtime.
-					setPhase(Phase.MODTIME);
+					//Change to firstday.
+					setPhase(Phase.FIRSTDAY);
 				break;
 				case Phase.FIRSTDAY:
 					//Change to modtime.
@@ -1862,7 +1873,7 @@ function sendPlayerInfo()
 		//Exceptions
 		send.name = players[j].name;
 		send.alive = players[j].alive;
-		send.spy = players[j].hearwhispers;
+		send.blackmailer = players[j].hearwhispers;
 		send.mayor = (players[j].mayor !== undefined);
 		send.jailor= (players[j].jailor !== undefined);
 		send.role = players[j].role;
@@ -3034,7 +3045,7 @@ function Player(socket,name,ip)
 						}
 						else if (phase >= Phase.DAY && phase <= Phase.LASTWORDS || phase == Phase.FIRSTDAY)
 						{
-							io.emit(Type.HIGHLIGHT,this.name+' has revealed themselves as the Mayor!');
+							io.emit(Type.MAYOR, this.name);
 							this.mayor = true;
 							if (this.votingFor)
 							{
@@ -3808,7 +3819,7 @@ function Player(socket,name,ip)
 							{
 								if (!this.silenced)
 								{
-									io.emit(Type.SYSTEM,'Welcome back '+this.name+'.');
+									io.emit(Type.SYSTEM,'Welcome back, '+this.name+'!');
 								}	
 							this.afk = undefined;
 							//SetRole(this.name, '')
@@ -3968,7 +3979,7 @@ function Player(socket,name,ip)
 						}
 						else
 						{
-							this.s.emit(Type.SYSTEM,'Please do not talk while the mod is giving out roles.');
+							this.s.emit(Type.SYSTEM,'Please do not talk while the mod is assigning roles. If you need to message the host, use /mod message');
 						}
 					break;
 					case Phase.DAY:
@@ -4128,7 +4139,7 @@ function Player(socket,name,ip)
 						}
 						else
 						{
-							this.s.emit(Type.SYSTEM,'Please do not talk during mod time.');
+							this.s.emit(Type.SYSTEM,'Please do not talk during mod time. If you need to message the host, use /mod message');
 						}
 					break;
 					case Phase.LASTWORDS:
