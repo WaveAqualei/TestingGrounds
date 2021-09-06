@@ -1560,7 +1560,7 @@ function setPhase(p)
 		{
 			if (players[i].chats.coven && !players[i].spectate)
 			{
-				covmembers = covemembers + " " + players[i].name + "(" + players[i].role + ")";
+				covmembers = covmembers + " " + players[i].name + "(" + players[i].role + ")";
             }
 		}
 		for (i in players)
