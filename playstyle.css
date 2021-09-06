@@ -909,6 +909,18 @@ header ul li span
 	background: url('maf.png'), #FF0000;
 	background-size:100% 100%;
 }
+.covenbutton {
+	background: url('cov.png'), linear-gradient(#871F78, #6C1960);
+	background-size: 100% 100%
+}
+.covenbutton:hover {
+	background: url('cov.png'), #D499ED;
+	background-size: 100% 100%
+}
+.covenbuttondown {
+	background: url('cov.png'), #651FFF;
+	background-size: 100% 100%
+}
 .jailorbutton {
    background: #919191;
    background: url('jailor.png'), linear-gradient(#303030,#919191);
