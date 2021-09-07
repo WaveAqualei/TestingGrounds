@@ -282,7 +282,7 @@ socket.on(Type.HELP,function(commands)
 	var controldetails = [
 		'You can kill or jail a player using the bigger buttons.',
 		'Assign a player a role manually using the textbox under their name.',
-		'The smaller buttons on the bottom right allow you to give a player a modifier, allowing them to do something special. The modifiers are:<br>   <img src="maf.png" class="icon">Mafia, <img src="jailor.png" class="icon">Jailor, <img src="spy.png" class="icon">Reading Whispers, <img src="med.png" class="icon">Medium, <img src="mayor.png" class="icon">Mayor.',
+		'The smaller buttons on the bottom right allow you to give a player a modifier, allowing them to do something special. The modifiers are:<br>   <img src="maf.png" class="icon">Mafia, <img src="jailor.png" class="icon">Jailor, <img src="blackmailer.png" class="icon">Reading Whispers, <img src="med.png" class="icon">Medium, <img src="mayor.png" class="icon">Mayor.',
 		'You have access to a player\'s will using the W button. Use this to forge or clean a will.',
 		'The white button labelled with a V allows you to send preset messages to a player.'
 	];

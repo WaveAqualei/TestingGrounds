@@ -479,7 +479,7 @@ var server = http.createServer(function(req,res)
 		case '/mayor.png':
 		case '/med.png':
 		case '/jailor.png':		
-		case '/spy.png':		
+		case '/blackmailer.png':		
 		case '/will.png':
 		case '/willicon.png':
 		case '/button.png':
