@@ -84,7 +84,9 @@ var Type = {
 	LOGINDEXO: 53,
 	MAYOR: 54,
 	GUARDIAN_ANGEL: 55,
-	REMOVE_EMOJI: 56
+	REMOVE_EMOJI: 56,
+	NOTES: 57,
+	GETNOTES: 58
 };
 function clearAllInfo()
 {
@@ -1113,6 +1115,9 @@ socket.on(Type.WILL,function(will)
 {
 	addMessage(will,'will');
 });
+socket.on(Type.NOTES, function (notes) {
+	addMessage(notes, 'notes');
+});
 socket.on(Type.ROLEUPDATE,function(send){
 	var index = users.indexOf(send.name);
 	for (i in send)
@@ -1202,6 +1207,26 @@ socket.on(Type.GETWILL,function(name,willcontent){
 	else
 	{
 		$('#willcontent').val(willcontent);
+	}
+});
+socket.on(Type.GETNOTES, function (name, notescontent) {
+	if (name) {
+		var notes = $('<div id="modnotes"></div>');
+		notes.name = name;
+		var close = $('<div id="closenotes"></div>');
+		close.click(function () {
+			socket.emit(Type.NOTES, $('#modnotes textarea').val(), name);
+			$(this.parentNode).remove();
+		});
+		var txt = $('<textarea id="notescontent"></textarea>');
+		txt.val(notescontent);
+		notes.append(close);
+		notes.append(txt);
+		$('body').append(notes);
+		notes.show();
+	}
+	else {
+		$('#notescontent').val(notescontent);
 	}
 });
 socket.on('connect_error', function (err) {
