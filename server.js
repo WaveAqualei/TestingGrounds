@@ -115,7 +115,9 @@ var Type = {
 	LOGINDEXO: 53,
 	MAYOR: 54,
 	GUARDIAN_ANGEL: 55,
-	REMOVE_EMOJI: 56
+	REMOVE_EMOJI: 56,
+	NOTES: 57,
+	GETNOTES: 58
 };
 var autoLevel = 1;
 /*
@@ -482,6 +484,8 @@ var server = http.createServer(function(req,res)
 		case '/blackmailer.png':		
 		case '/will.png':
 		case '/willicon.png':
+		case '/notes.png':
+		case '/notesicon.png':
 		case '/button.png':
 		case '/list.png':
 		case '/settings.png':
@@ -492,6 +496,7 @@ var server = http.createServer(function(req,res)
 		case '/back2.png':
 		case '/back3.png':
 		case '/lastwillbutton.png':
+		case '/notesbutton.png':
 		case '/music.png':
 		case '/nomusic.png':
 		case '/Snowback1.png':
@@ -705,7 +710,9 @@ io.on('connection', function(socket){
 				}
 				socket.emit(Type.ROOMLIST,namelist);
 				//Set the rejoining player's will.
-				socket.emit(Type.GETWILL,undefined,players[socket.id].will);
+				socket.emit(Type.GETWILL, undefined, players[socket.id].will);
+				//Set the rejoining player's notes.
+				socket.emit(Type.GETNOTES, undefined, players[socket.id].notes)
 			}
 			else if (joining[ip])
 			{
@@ -970,6 +977,25 @@ io.on('connection', function(socket){
 			socket.emit(Type.SYSTEM,"Only the mod can do that.");
 		}
 	});
+	socket.on(Type.GETNOTES,function(num)
+	{
+		if (socket.id == mod)
+		{
+			var p = getPlayerByNumber(num);
+			if (p)
+			{
+				socket.emit(Type.GETNOTES, p.name, p.notes);
+			}
+			else
+			{
+				socket.emit(Type.SYSTEM, "Invalid player number: " + num);
+			}
+		}
+		else
+		{
+			socket.emit(Type.SYSTEM, "Only the mod can do that.");
+		}
+	});
 	socket.on(Type.SHOWLIST,function(list)
 	{
 		if (socket.id == mod)
@@ -1066,6 +1092,26 @@ io.on('connection', function(socket){
 		else
 		{
 			socket.emit(Type.SYSTEM,'You sent a null will. Did you break something?');			
+		}
+	});
+	socket.on(Type.NOTES, function (notes, name) {
+		if (notes !== undefined && notes !== null) {
+			if (name && mod == socket.id) {
+				var p = getPlayerByName(name);
+				if (p) {
+					p.notes = notes;
+				}
+				else {
+					socket.emit(Type.SYSTEM, 'Invalid player name:' + name);
+				}
+			}
+			else
+			{
+				players[socket.id].notes = notes;
+			}
+		}
+		else {
+			socket.emit(Type.SYSTEM, 'You sent a null notes. Did you break something?');
 		}
 	});
 	socket.on(Type.TOGGLELIVING,function(name)
@@ -1915,7 +1961,8 @@ function Player(socket,name,ip)
 			name:name,
 			dev:false,
 			ip:ip, 
-			will:'',
+			will: '',
+			notes: '',
 			ping:0,
 			pingTime:0,
 			fault:0,

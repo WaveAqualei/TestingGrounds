@@ -82,6 +82,16 @@ function openWill()
 		closeWill();
 	}
 }
+function openNotes()
+{
+	if ($('#notes').css('display') == 'none') {
+		$('#notes').show();
+	}
+	else
+	{
+		closeNotes();
+	}
+}
 
 function mutemusic(phase)
 {
@@ -162,6 +172,12 @@ function closeWill()
 	$('#will').hide()
 	var will = $('#willcontent').val()
 	socket.emit(Type.WILL,will)
+}
+function closeNotes()
+{
+	$('#notes').hide()
+	var notes = $('#notescontent').val()
+	socket.emit(Type.NOTES,notes)
 }
 function highlightTitle()
 {
