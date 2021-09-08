@@ -1,10 +1,12 @@
 //colors
 var towncolor="#00BF00";
-var mafiacolor="red";
+var mafiacolor="#FF0000";
 var covencolor="#8000FF";
-var randcolor="#42C0FB";
+var randcolor="#0080FF";
 var neutcolor='lightgrey';
 var anycolor='#F5F5F5';
+var mystcolor='#BDB5D5';
+var overcolor='#A9BAAA';
 var hilitecolor="orange";
 //Generic goals
 var towngoal = "Lynch every criminal and evildoer.";
@@ -71,7 +73,7 @@ var roles=[
 				alignment:"town support",
 				abilities:['Distract someone each night.'],
 				attributes:['Distraction blocks your target from using their role\'s night ability.',
-					'You are immune to role blocks.'],
+					'You are immune to roleblocks.'],
 				goal:towngoal,
 				color:towncolor
 			},
@@ -172,11 +174,13 @@ var roles=[
 				color:towncolor
 			},
 	                {      
-				rolename:"vigilante",
+				rolename:"vampire hunter",
 				alignment:"town killing",
-				abilities:['Choose to take justice into your own hands and shoot someone.'],
-				attributes:['If you shoot another Town member you will commit suicide over the guilt.',
-					'You can only shoot your gun 3 times.'],
+				abilities:['Check for Vampires each night.'],
+				attributes:['If you visit a Vampire you will attack them.',
+					'If a Vampire visits you, you will attack them.',
+					'You can hear Vampires at night.',
+					'If all the Vampires die you will become a Vigilante with one bullet.'],
 				goal:towngoal,
 				color:towncolor
 			},
@@ -188,6 +192,15 @@ var roles=[
 					'While on alert, you will deliver a Powerful attack to anyone who visits you.',
 					'You can only go on alert 3 times.',
 					'You cannot be roleblocked.'],
+				goal:towngoal,
+				color:towncolor
+			},
+	                {      
+				rolename:"vigilante",
+				alignment:"town killing",
+				abilities:['Choose to take justice into your own hands and shoot someone.'],
+				attributes:['If you shoot another Town member you will commit suicide over the guilt.',
+					'You can only shoot your gun 3 times.'],
 				goal:towngoal,
 				color:towncolor
 			},
@@ -504,6 +517,16 @@ var roles=[
 				goal:"Kill all who would oppose you.",
 				color:"#010302"
 			},
+	                {      
+				rolename:"vampire",
+				alignment:"neutral chaos",
+				abilities:['Convert others to Vampires at night.'],
+				attributes:['Vampires vote at night to bite a target.',
+					'The youngest Vampire will visit the target at night.',
+					'If your target cannot be converted, they will instead be dealt a Basic attack.'],
+				goal:"Convert everyone who would oppose you.",
+				color:"#7B8867"
+			},
 
 			// === CUSTOM ROLES ====
 			// TOWN INVESTIGATIVE CUSTOM
@@ -557,15 +580,6 @@ var roles=[
 				custom:true
 			},
 			{
-				rolename:"milkman",
-				alignment:"town support",
-				abilities:['Deliver milk to a player each night, keeping them awake.'],
-				attributes:['Your target will instead perform their night ability on their attacker, or role blocker.'],
-				goal:towngoal,
-				color:towncolor,
-				custom:true
-			},
-			{
 				rolename:"incarcerator",
 				alignment:"town support",
 				abilities:['Patrol out someone’s house each night.'],
@@ -608,7 +622,7 @@ var roles=[
 	{      
 				rolename:"caporegime",
 				alignment:"mafia head",
-				abilities:['-Train a non-Mafia member each night and choose your trained targets at night to use their reserved abilities.'],
+				abilities:['Train a non-Mafia member each night and choose your trained targets at night to use their reserved abilities.'],
 				attributes:['You may select which Mafia ability you wish to make your trainee hold onto.',
 					'Trained players will become untrained after you use them.',
 					'When you select a trainee, you may select a second target for them to use their ability on.'],
@@ -617,14 +631,12 @@ var roles=[
 				custom:true
 			},		
 	{      
-				rolename:"nightmarer",
-				alignment:"mafia support",
-				abilities:['Make someone have a nightmare about someone each night.'],
-				attributes:['Your target cant visit the person they have a nightmare about.',
-					'Targets are told who the nightmare is about.',
-					'Your target will be unable to visit the person until you give them a different nightmare.',								
-					'All nightmares end if the nightmarer dies or is promoted.'
-				],
+				rolename:"hitman",
+				alignment:"mafia killing",
+				abilities:['You may attack someone on even-numbered nights.'],
+				attributes:['You will not know who the other Mafia are nor can you talk with them at night unless you are discovered.',
+				         'Your Last Will won\'t be revealed upon death.',
+					 'You are shieleded against Mafia attacks.'],
 				goal:mafiagoal,
 				color:mafiacolor,
 				custom:true
@@ -689,19 +701,6 @@ var roles=[
 					'You will grant your killer unpierceable nightimmunity until the following night.'],
 				goal:"Find a way to lift your curse!",
 				color:"#8080FF",
-				custom:true
-			},
-			{
-				rolename:"undertaker",
-				alignment:"neutral benign",
-				abilities:['Select someone each night to try to bury them.'],
-				attributes:['If the person you selected dies the same night or the next day via lynching, they will be "buried".',
-					//'Buried players have their wills removed',
-					'You will have access to a buried players will and role',
-					'You will join the deathchat, after your goal is fulfilled',
-					'You cannot be killed at night'],
-				goal:"Bury 1-3 people",
-				color:"#739292",
 				custom:true
 			},
 	
@@ -811,12 +810,30 @@ var roles=[
 				color:"#000FFF",
 				custom:true
 			},
+	                {
+				rolename:"wave",
+				alignment:"mystical overseer",
+				abilities:['You are the heart of the everlasting nostalgia of Xinopha.'],
+				attributes:['You are everything you can be; all you have to do is believe.'],
+				goal:"Figure out who you are while you are still you.",
+				color:"#008080",
+				custom:true
+			},
+	   {
+				rolename:"sally",
+				alignment:"mystical overseer",
+				abilities:['You are the Beegirl of the world! Buzz-buzz.'],
+				attributes:['You are everything you can be; all you have to do is believe.'],
+				goal:"Charm everyone with your dazzling sparkle.",
+				color:"#A460AC",
+				custom:true
+			},
 			{
 				rolename:"afk",
 				alignment:"neutral trueEvil",
 				abilities:['Die before the game has started.'],
 				attributes:['You have lost automatically.'],
-				goal:"None",
+				goal:"None.",
 				color:"#B05F3C",
 				custom:true
 			},
@@ -825,7 +842,7 @@ var roles=[
 				alignment:"neutral casual",
 				abilities:['You know everything.'],
 				attributes:['You can do nothing.'],
-				goal:"See how the game progresses",
+				goal:"See how the game progresses.",
 				color:"#AFAFAF",
 				custom:true
 			},
@@ -1070,13 +1087,16 @@ module.exports = {
                         str=str.replace(/[Ii]nvestigative/,"<span style='color:"+randcolor+"'>Investigative</span>");
                         str=str.replace(/[Ss]upport/,"<span style='color:"+randcolor+"'>Support</span>");
                         str=str.replace(/[Pp]rotective/,"<span style='color:"+randcolor+"'>Protective</span>");
-                        str=str.replace(/[Cc]asual/,"<span style='color:"+randcolor+"'>Casual</span>");
+                        str=str.replace(/[Cc]asual/,"<span style='color:"+neutcolor+"'>Casual</span>");
                         str=str.replace(/[Rr]andom/,"<span style='color:"+randcolor+"'>Random</span>");
                         str=str.replace(/[Kk]illing/,"<span style='color:"+randcolor+"'>Killing</span>");
                         str=str.replace(/[Mm]afia/,"<span style='color:"+mafiacolor+"'>Mafia</span>");
                         str=str.replace(/[Dd]eception/,"<span style='color:"+randcolor+"'>Deception</span>");
 			str=str.replace(/[Cc]oven/,"<span style='color:"+covencolor+"'>Coven</span>");
                         str=str.replace(/[Ee]vil/,"<span style='color:"+randcolor+"'>Evil</span>");
+			str=str.replace(/[Dd]ead/,"<span style='color:"+randcolor+"'>Dead</span>");
+			str=str.replace(/[Mm]ystical/,"<span style='color:"+mystcolor+"'>Mystical</span>");
+			str=str.replace(/[Oo]verseer/,"<span style='color:"+overcolor+"'>Overseer</span>");
                         str=str.replace(/[Bb]enign/,"<span style='color:"+randcolor+"'>Benign</span>");
                         str=str.replace(/[Cc]haos/,"<span style='color:"+randcolor+"'>Chaos</span>");
                         str=str.replace(/[Nn]eutral/,"<span style='color:"+neutcolor+"'>Neutral</span>");      
