@@ -885,7 +885,7 @@ header ul li span
 	font-family: Helvetica;
 	outline: none;
 	overflow: hidden;
-	height: 75%;
+	height: 65%;
 	width: 80%;
 	margin: 8%;
 	margin-top: 10%;
@@ -900,7 +900,7 @@ header ul li span
 	top: 1.5%;
 	left: 89%;
 	bottom: 95%;
-	background: url("button.png");
+	background: url("notesclose.png");
 	background-size: 100%,100%;
 	border: black 1px solid;
 }
