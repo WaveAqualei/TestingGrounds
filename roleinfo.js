@@ -5,8 +5,8 @@ var covencolor="#8000FF";
 var randcolor="#0080FF";
 var neutcolor='lightgrey';
 var anycolor='#F5F5F5';
-var mystcolor='#BDB5D5';
-var overcolor='#A9BAAA';
+var mystcolor='#D7B4F3';
+var overcolor='#15F4EE';
 var hilitecolor="orange";
 //Generic goals
 var towngoal = "Lynch every criminal and evildoer.";
@@ -715,7 +715,14 @@ var roles=[
 				goal:"Survive to see the Town lose the game.",
 				color:"#808000"
 			},
-
+	                {
+				rolename:"rolestopper",
+				alignment:"neutral evil",
+				abilities:['Each night, you may visit a target in order to scare off a visitor.'],
+				attributes:['You will scare one visitor away from your target, effectively roleblocking them.',
+					'You can only scare Town roles away from your target.'],
+				goal:"Survive to see the Town lose the game.",
+				color:"#BF4040"
 
 			// NEUTRAL KILLING CUSTOM	
 			{      
@@ -761,7 +768,28 @@ var roles=[
 			},
 	
 			// NEUTRAL CHAOS CUSTOM
-			{     
+	                {     
+               			rolename:"mortician",
+               			alignment:"neutral chaos",
+          			abilities:['You may mark two players every night for burial.'],
+               			attributes:['Marks last for two days.',
+					    'If marked player is lynched and is a member of the Town, you will bury them and transform into Death, Horseman of the Apocalypse.'],
+               			goal:"Successfully bury one player and become Death.",
+               			color:"#A00000",
+				custom:true
+			},
+	                {     
+               			rolename:"death",
+               			alignment:"neutral chaos",
+          			abilities:['You may kill players every night.'],
+               			attributes:['On the night you transform, you will be able to kill one player.',
+					    'Each night, you will be able to kill one more player than the previous night.',
+					    'You cannot be killed at night.'],
+               			goal:"Kill all who would oppose you.",
+               			color:"#700030",
+				custom:true
+			},
+	                {     
                			rolename:"paradoxist",
                			alignment:"Neutral Chaos",
           			abilities:['Visit a player to send them backwards in time, roleblocking but also healing them. Visting a second time kills them.'],
