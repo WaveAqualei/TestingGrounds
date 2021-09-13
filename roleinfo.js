@@ -790,6 +790,16 @@ var roles=[
 				custom:true
 			},
 	                {     
+               			rolename:"conqueror",
+               			alignment:"neutral chaos",
+          			abilities:['Each night, you may choose two players: one will be healed, one will be attacked.'],
+               			attributes:['You may not heal yourself.',
+					    'You only win if every other faction is reduced to a single member. At least two other factions must survive.'],
+               			goal:"Successfully Conquer the Town.",
+               			color:"#4080FF",
+				custom:true
+			},
+	                {     
                			rolename:"paradoxist",
                			alignment:"Neutral Chaos",
           			abilities:['Visit a player to send them backwards in time, roleblocking but also healing them. Visting a second time kills them.'],
