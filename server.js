@@ -115,7 +115,9 @@ var Type = {
 	LOGINDEXO: 53,
 	MAYOR: 54,
 	GUARDIAN_ANGEL: 55,
-	REMOVE_EMOJI: 56
+	REMOVE_EMOJI: 56,
+	NOTES: 57,
+	GETNOTES: 58
 };
 var autoLevel = 1;
 /*
@@ -475,12 +477,15 @@ var server = http.createServer(function(req,res)
 		case '/sheriff.png':
 		case '/moon.png':
 		case '/maf.png':
+		case '/cov.png':
 		case '/mayor.png':
 		case '/med.png':
 		case '/jailor.png':		
-		case '/spy.png':		
+		case '/blackmailer.png':		
 		case '/will.png':
 		case '/willicon.png':
+		case '/notes.png':
+		case '/notesicon.png':
 		case '/button.png':
 		case '/list.png':
 		case '/settings.png':
@@ -491,6 +496,7 @@ var server = http.createServer(function(req,res)
 		case '/back2.png':
 		case '/back3.png':
 		case '/lastwillbutton.png':
+		case '/notesbutton.png':
 		case '/music.png':
 		case '/nomusic.png':
 		case '/Snowback1.png':
@@ -704,7 +710,9 @@ io.on('connection', function(socket){
 				}
 				socket.emit(Type.ROOMLIST,namelist);
 				//Set the rejoining player's will.
-				socket.emit(Type.GETWILL,undefined,players[socket.id].will);
+				socket.emit(Type.GETWILL, undefined, players[socket.id].will);
+				//Set the rejoining player's notes.
+				socket.emit(Type.GETNOTES, undefined, players[socket.id].notes)
 			}
 			else if (joining[ip])
 			{
@@ -969,6 +977,25 @@ io.on('connection', function(socket){
 			socket.emit(Type.SYSTEM,"Only the mod can do that.");
 		}
 	});
+	socket.on(Type.GETNOTES,function(num)
+	{
+		if (socket.id == mod)
+		{
+			var p = getPlayerByNumber(num);
+			if (p)
+			{
+				socket.emit(Type.GETNOTES, p.name, p.notes);
+			}
+			else
+			{
+				socket.emit(Type.SYSTEM, "Invalid player number: " + num);
+			}
+		}
+		else
+		{
+			socket.emit(Type.SYSTEM, "Only the mod can do that.");
+		}
+	});
 	socket.on(Type.SHOWLIST,function(list)
 	{
 		if (socket.id == mod)
@@ -1065,6 +1092,26 @@ io.on('connection', function(socket){
 		else
 		{
 			socket.emit(Type.SYSTEM,'You sent a null will. Did you break something?');			
+		}
+	});
+	socket.on(Type.NOTES, function (notes, name) {
+		if (notes !== undefined && notes !== null) {
+			if (name && mod == socket.id) {
+				var p = getPlayerByName(name);
+				if (p) {
+					p.notes = notes;
+				}
+				else {
+					socket.emit(Type.SYSTEM, 'Invalid player name:' + name);
+				}
+			}
+			else
+			{
+				players[socket.id].notes = notes;
+			}
+		}
+		else {
+			socket.emit(Type.SYSTEM, 'You sent a null notes. Did you break something?');
 		}
 	});
 	socket.on(Type.TOGGLELIVING,function(name)
@@ -1494,6 +1541,10 @@ function setPhase(p)
 					{
 						players[j].s.emit(Type.SYSTEM,players[i].name+' was hauled off to jail.');
 					}
+					if (players[j].chats.coven && !players[j].chats.jailed && players[i].chats.coven || players[j].spectate)
+					{
+						players[j].s.emit(Type.SYSTEM,players[i].name+' was hauled off to jail.');
+                    }
 				}
 			}
 			//Target info, else if because you do not recieve it if you are jailed.
@@ -1548,6 +1599,22 @@ function setPhase(p)
 			{
 				players[i].s.emit(Type.SYSTEM, mafmembers);
 			}			
+		}
+		var covmembers;
+		covmembers = "Your partners in witchery are:"
+		for (i in players)
+		{
+			if (players[i].chats.coven && !players[i].spectate)
+			{
+				covmembers = covmembers + " " + players[i].name + "(" + players[i].role + ")";
+            }
+		}
+		for (i in players)
+		{
+			if (players[i].chats.coven && !players[i].spectate)
+			{
+				players[i].s.emit(Type.SYSTEM, covmembers);
+			}
 		}
 	}
 	if (p == Phase.ROLES)
@@ -1894,7 +1961,8 @@ function Player(socket,name,ip)
 			name:name,
 			dev:false,
 			ip:ip, 
-			will:'',
+			will: '',
+			notes: '',
 			ping:0,
 			pingTime:0,
 			fault:0,
@@ -1917,7 +1985,8 @@ function Player(socket,name,ip)
 			verdict:0, //0 for abstain, -1 for guilty, 1 for inno
 			chats:{
 				dead:false,
-				mafia:false,
+				mafia: false,
+				coven: false,
 				jailor:false,
 				jailed:false,
 				medium:false,
@@ -3922,6 +3991,16 @@ function Player(socket,name,ip)
 						}
 					}
 				}
+				else if (this.chats.coven)
+				{
+					for (i in players)
+					{
+						if (players[i].chats.coven || players[i].s.id == mod || players[i].spectate)
+						{
+							players[i].s.emit(Type.TARGET,this.name,this.role,gm.grammarList(targets));
+						}
+					}	
+                }
 				else
 				{
 				    players[mod].s.emit(Type.TARGET, this.name, this.role, gm.grammarList(targets));
@@ -4069,6 +4148,10 @@ function Player(socket,name,ip)
 							{
 								this.specMessage(msg,{mafia:true});
 							}
+							else if (this.chats.coven)
+							{
+								this.specMessage(msg,{coven:true});
+                            }
 							else if (this.chats.jailor)
 							{
 								this.specMessage(msg,{jailor:true,jailed:true},'Jailor');

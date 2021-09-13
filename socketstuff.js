@@ -19,7 +19,7 @@ var mpregame = new Audio('CalmBeforeTheStorm.mp3');
 var whoami = new Audio('WhoAmI.mp3');
 var mmodtime = new Audio('Bewitching.mp3');
 //Halloween
-//var mmodtime = new Audio('LittleItaly.mp3');
+//var mmodtime = new Audio('Searching.mp3');
 var mdaytime = new Audio('Heated.mp3');
 var mvoting = new Audio('Suspicion.mp3');
 var mtrial = new Audio('Innocence.mp3');
@@ -84,7 +84,9 @@ var Type = {
 	LOGINDEXO: 53,
 	MAYOR: 54,
 	GUARDIAN_ANGEL: 55,
-	REMOVE_EMOJI: 56
+	REMOVE_EMOJI: 56,
+	NOTES: 57,
+	GETNOTES: 58
 };
 function clearAllInfo()
 {
@@ -219,7 +221,7 @@ function modInterface()
 				}
 		});
 		modcontrols.append(rolechanger);
-		var buttons = ['mafia','jailor','blackmailer','medium','mayor'];
+		var buttons = ['mafia','jailor','blackmailer','medium','mayor','coven'];
 		for (i in buttons)
 		{
 			var formatted = buttons[i][0].toUpperCase()+buttons[i].substring(1,buttons[i].length);
@@ -282,7 +284,7 @@ socket.on(Type.HELP,function(commands)
 	var controldetails = [
 		'You can kill or jail a player using the bigger buttons.',
 		'Assign a player a role manually using the textbox under their name.',
-		'The smaller buttons on the bottom right allow you to give a player a modifier, allowing them to do something special. The modifiers are:<br>   <img src="maf.png" class="icon">Mafia, <img src="jailor.png" class="icon">Jailor, <img src="spy.png" class="icon">Reading Whispers, <img src="med.png" class="icon">Medium, <img src="mayor.png" class="icon">Mayor.',
+		'The smaller buttons on the bottom right allow you to give a player a modifier, allowing them to do something special. The modifiers are:<br>   <img src="maf.png" class="icon">Mafia, <img src="jailor.png" class="icon">Jailor, <img src="blackmailer.png" class="icon">Reading Whispers, <img src="med.png" class="icon">Medium, <img src="mayor.png" class="icon">Mayor.',
 		'You have access to a player\'s will using the W button. Use this to forge or clean a will.',
 		'The white button labelled with a V allows you to send preset messages to a player.'
 	];
@@ -521,7 +523,7 @@ socket.on(Type.JOIN,function(name, reconnect)
 		});
 		modcontrols.append(rolechanger);
 		
-		var buttons = ['mafia','jailor','blackmailer','medium','mayor'];
+		var buttons = ['mafia','jailor','blackmailer','medium','mayor','coven'];
 		for (i in buttons)
 		{
 			var formatted = buttons[i][0].toUpperCase()+buttons[i].substring(1,buttons[i].length);
@@ -1113,6 +1115,9 @@ socket.on(Type.WILL,function(will)
 {
 	addMessage(will,'will');
 });
+socket.on(Type.NOTES, function (notes) {
+	addMessage(notes, 'notes');
+});
 socket.on(Type.ROLEUPDATE,function(send){
 	var index = users.indexOf(send.name);
 	for (i in send)
@@ -1202,6 +1207,26 @@ socket.on(Type.GETWILL,function(name,willcontent){
 	else
 	{
 		$('#willcontent').val(willcontent);
+	}
+});
+socket.on(Type.GETNOTES, function (name, notescontent) {
+	if (name) {
+		var notes = $('<div id="modnotes"></div>');
+		notes.name = name;
+		var close = $('<div id="closenotes"></div>');
+		close.click(function () {
+			socket.emit(Type.NOTES, $('#modnotes textarea').val(), name);
+			$(this.parentNode).remove();
+		});
+		var txt = $('<textarea id="notescontent"></textarea>');
+		txt.val(notescontent);
+		notes.append(close);
+		notes.append(txt);
+		$('body').append(notes);
+		notes.show();
+	}
+	else {
+		$('#notescontent').val(notescontent);
 	}
 });
 socket.on('connect_error', function (err) {
