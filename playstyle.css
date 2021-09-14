@@ -893,16 +893,14 @@ header ul li span
 }
 #notes div, #modnotes div 
 {
-	border: black 1px solid;
 	display: block;
 	position: absolute;
 	right: 6%;
 	top: 1.5%;
-	left: 89%;
-	bottom: 95%;
+	left: 83.6%;
+	bottom: 89.3%;
 	background: url("notesclose.png");
 	background-size: 100%,100%;
-	border: black 1px solid;
 }
 #notes div:hover, #modnotes div:hover 
 {
