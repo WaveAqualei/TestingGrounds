@@ -896,15 +896,16 @@ header ul li span
 	display: block;
 	position: absolute;
 	right: 6%;
-	top: 1.5%;
-	left: 83.6%;
-	bottom: 89.3%;
+	top: 4.5%;
+	left: 83%;
+	bottom: 86%;
 	background: url("notesclose.png");
 	background-size: 100%,100%;
 }
 #notes div:hover, #modnotes div:hover 
 {
-	box-shadow: 0 0 2px yellow;
+	filter: drop-shadow(12px 12px 25px rgba(0,0,0,0.5));
+    filter: url(#drop-shadow);
 }
 .deadplayer
 {
