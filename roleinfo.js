@@ -723,7 +723,7 @@ var roles=[
 					'You can only scare Town roles away from your target.'],
 				goal:"Survive to see the Town lose the game.",
 				color:"#BF4040"
-
+			},
 			// NEUTRAL KILLING CUSTOM	
 			{      
 				rolename:"slaughterer",
