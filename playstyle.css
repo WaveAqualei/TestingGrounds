@@ -11,7 +11,7 @@ header
 {
 	height:2em;
 	width:100%;
-	background:#151633;
+	background:#265B5F;
 	border-bottom:1px solid black;
 }
 #main
@@ -972,7 +972,7 @@ header ul li span
 }
 /*----Buttons----*/
 .mafiabutton {
-   background: url('maf.png'), linear-gradient(#c40e0e, #d66565);
+   background: url('maf.png'), linear-gradient(#B133E0, #c40e0e);#B133E0
    background-size: 100% 100%
 }
 .mafiabutton:hover {
@@ -980,7 +980,7 @@ header ul li span
    background-size:100% 100%;
 }
 .mafiabuttondown {
-	background: url('maf.png'), #FF0000;
+	background: url('maf.png'), #FF4F4B;
 	background-size:100% 100%;
 }
 .covenbutton {
@@ -988,11 +988,11 @@ header ul li span
 	background-size: 100% 100%
 }
 .covenbutton:hover {
-	background: url('cov.png'), #D499ED;
+	background: url('cov.png'), #651FFF;
 	background-size: 100% 100%
 }
 .covenbuttondown {
-	background: url('cov.png'), #651FFF;
+	background: url('cov.png'), #D499ED;
 	background-size: 100% 100%
 }
 .jailorbutton {
@@ -1005,20 +1005,20 @@ header ul li span
    background-size:100% 100%;
  }
 .jailorbuttondown {
-   background: url('jailor.png'), #B7B7B7;
+   background: url('jailor.png'), #DEDEDE;
    background-size:100% 100%;
 }
 .blackmailerbutton {
    background: #65a9d7;
-   background: url('blackmailer.png'), linear-gradient(#306284, #3A92CD);
+   background: url('blackmailer.png'), linear-gradient(#FFB404, #DC9202);
    background-size:100% 100%;
   }
 .blackmailerbutton:hover {
-   background:url('blackmailer.png'),#0448A9;
+   background:url('blackmailer.png'),#A48111;
    background-size:100% 100%;
 }
 .blackmailerbuttondown {
-   background:url('blackmailer.png'), cyan;
+   background:url('blackmailer.png'), yellow;
    background-size:100% 100%;
 }
 .mayorbutton {
@@ -1027,7 +1027,7 @@ header ul li span
    background-size:100% 100%;
  }
 .mayorbutton:hover {
-   background: url('mayor.png'), #208500;
+   background: url('mayor.png'), #1B693A;
    background-size:100% 100%;
 }
 .mayorbuttondown {
@@ -1036,7 +1036,7 @@ header ul li span
 }
 .mediumbutton {
    background: #7a941e;
-   background: url('med.png'), linear-gradient(#453d0a, #7a941e);
+   background: url('med.png'), linear-gradient(#3A92CD, #306284);
    background-size:100% 100%;
 }
 .mediumbutton:hover {
@@ -1044,7 +1044,7 @@ header ul li span
    background-size:100% 100%;
 }
 .mediumbuttondown {
-   background: url('med.png'), yellow;
+   background: url('med.png'), cyan;
    background-size:100% 100%;
 }
 .killbutton
@@ -1413,11 +1413,11 @@ neut
 }
 .inno
 {
-	color:lime;
+	color:#BF00BF;
 }
 .abstain
 {
-	color:cyan;
+	color:#03A9F4;
 }
 /*Rolelist*/
 .displaylist
