@@ -972,7 +972,7 @@ header ul li span
 }
 /*----Buttons----*/
 .mafiabutton {
-   background: url('maf.png'), linear-gradient(#B133E0, #c40e0e);#B133E0
+   background: url('maf.png'), linear-gradient(#c40e0e, #d66565);
    background-size: 100% 100%
 }
 .mafiabutton:hover {
@@ -980,7 +980,7 @@ header ul li span
    background-size:100% 100%;
 }
 .mafiabuttondown {
-	background: url('maf.png'), #FF4F4B;
+	background: url('maf.png'), #FF7F7F;
 	background-size:100% 100%;
 }
 .covenbutton {
@@ -1383,7 +1383,7 @@ neut
 }
 .mod
 {
-	color:#3454E5;
+	color:#5D0034;
 }
 .dying
 {
@@ -1405,7 +1405,7 @@ neut
 }
 .whisper
 {
-	color:green;
+	color:#0047AB;
 }
 .guilty
 {
@@ -1413,7 +1413,7 @@ neut
 }
 .inno
 {
-	color:#BF00BF;
+	color:#00BF00;
 }
 .abstain
 {
