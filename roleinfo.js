@@ -531,13 +531,13 @@ var roles=[
 			// === CUSTOM ROLES ====
 			// TOWN INVESTIGATIVE CUSTOM
 			{      
-				rolename:"scientist",
+				rolename:"coroner",
 				alignment:"town investigative",
-				abilities:['Take a fingerprint sample of one person each night.'],
-				attributes:['Compare their sample to the test subject from the previous night, comparing alignment supertype (Town, Mafia, Neutral).',
-					'You will recieve a result of \'Same\' or \'Different\'',
-					'You may not sample yourself.',
-					'You may not sample a revealed mayor.'],
+				abilities:['Target one player in the graveyard, and perform an autopsy.'],
+				attributes:['You will learn what happened to them from the night two nights before their death.',
+					'You will get one message for every instance of an action.',
+					'Your target will learn if they were autopsied.',
+					'You will learn if your target has already been autopsied.'],
 				goal:towngoal,
 				color:towncolor,
 				custom:true
@@ -603,6 +603,29 @@ var roles=[
 				color:towncolor,
 				custom:true
 			},
+	{
+				rolename:"blacksmith",
+				alignment:"town protective",
+				abilities:['Watch over one person every night.',
+					   'Choose a different player to give armor to if your first target dies that night or is lynched the next day.'],
+				attributes:['Armor provides powerful defense to a target until their next attack.',
+					'Players are not notified when they receive armor.',
+					'You may not give armor to yourself.'],
+				goal:towngoal,
+				color:towncolor,
+				custom:true
+			},
+	{
+				rolename:"blacksmith",
+				alignment:"town protective",
+				abilities:['Duel two people at night, or protect one person.'],
+			        attributes:['Dueled players are added to the Duel list.',
+					'When protecting a player, you can only kill an attacker if they are on your Duel list.',
+					'Evils are informed if they have been dueled by a Duelist.'],
+				goal:towngoal,
+				color:towncolor,
+				custom:true
+			},
 	
 			// TOWN KILLING CUSTOM
 			{      
@@ -629,7 +652,31 @@ var roles=[
 				goal:mafiagoal,
 				color:mafiacolor,
 				custom:true
-			},		
+			},	
+	{      
+				rolename:"agent",
+				alignment:"mafia deception",
+				abilities:['You may lay smoke bomb to a target at night.'],
+				attributes:['You only have four smoke bombs.',
+					'Your smoke bombs obscures the results of night abilities used on your target.',
+					'Your smoke bombs obscures what happens to your target.'],
+				goal:mafiagoal,
+				color:mafiacolor,
+				custom:true
+			},	
+	{      
+				rolename:"associate",
+				alignment:"mafia support",
+				abilities:['Choose a mafia member to accompany during the day.'],
+				attributes:['When you accompany a Mafia member their abilities will be enhanced for the night.',
+					'Alibi: Make your target Detection Immune and invisible to Spies (can be used on yourself).',
+					'Efficiency: Make your target perform their abilities on two targets (cannot be used on killing roles).',
+					'Stealth: Make your target\'s visit Astral.',
+					'You can only use each ability on each Mafia member once.'],
+				goal:mafiagoal,
+				color:mafiacolor,
+				custom:true
+			},	
 	{      
 				rolename:"hitman",
 				alignment:"mafia killing",
@@ -666,7 +713,7 @@ var roles=[
 	
 	                // COVEN CUSTOM
 	{
-				rolename:"charmer",
+				rolename:"spellslinger",
 				alignment:"coven evil",
 				abilities:['Charm a player each night, forcing them to visit you that night.'],
 				attributes:['Players that visit you twice or that you charm twice are dealt a Basic attack to.',
@@ -677,9 +724,21 @@ var roles=[
 				custom:true
 			},
 	{
+				rolename:"ritualist",
+				alignment:"coven evil",
+				abilities:['You may curse two players every night.'],
+				attributes:['If a cursed player is lynched, you may deal a basic rampage attack against one player the following night.',
+					'All players are notified when a cursed player is lynched.',
+					'Curses are permanent.',
+					'With the Necronomicon, you may deal a basic rampage attack against someone regardless of whether a cursed person was lynched.'],
+				goal:covengoal,
+				color:covencolor,
+				custom:true
+			},
+	{
 				rolename:"mystic",
 				alignment:"coven evil",
-				abilities:['Place a curse on a target during a Full Moon.'],
+				abilities:['Place a Curse on a target during a Full Moon.'],
 				attributes:['Curses deal a Basic Attack to one visitor.',
 					'You will be given a list of roles that visited your target when a curse has triggered.', 
 					'With the Necronomicon, your attack is Powerful, and you may cast a Curse every night.'],
@@ -689,18 +748,16 @@ var roles=[
 			},
 	
 			// NEUTRAL BENIGN CUSTOM
-			{
-				rolename:"lost spirit",
+	{
+				rolename:"servant",
 				alignment:"neutral benign",
-				abilities:['Look for death each night.'],
-				attributes:['Killing roles (except Arsonist) can lift your curse, but Town(Killing) roles have to use their ability.',
-					'Immune to ignition.', 
-					'Witches roleblock you.',
-					'Your last will is cleaned upon success.',
-					'You cannot be protected or healed.',
-					'You will grant your killer unpierceable nightimmunity until the following night.'],
-				goal:"Find a way to lift your curse!",
-				color:"#8080FF",
+				abilities:['Carry out your employer\'s abilities each night.'],
+				attributes:[' You will share a chat with your employer, and you will gain access to any exclusive chats that your master has access to.',
+					'If you are roleblocked, your employer will carry out the action themself.', 
+					'You gain all Attributes your master has (Attack, Defense, Immunities, etc).',
+					'If your employer dies while you are still alive, you will inherit their role.'],
+				goal:"See your employer win the game.",
+				color:"#80BFBF",
 				custom:true
 			},
 	
