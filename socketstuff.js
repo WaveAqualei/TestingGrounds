@@ -17,7 +17,7 @@ var hey = new Audio('ping.wav');
 //var hey = new Audio('Giratina.wav');
 var mpregame = new Audio('CalmBeforeTheStorm.mp3');
 var whoami = new Audio('WhoAmI.mp3');
-var mmodtime = new Audio('CosmicCove.mp3');
+var mmodtime = new Audio('GreenMeadows.mp3');
 //Halloween
 //var mmodtime = new Audio('Bewitching.mp3');
 var mdaytime = new Audio('Heated.mp3');
@@ -271,14 +271,12 @@ socket.on(Type.HELP,function(commands)
 		"Be patient as Modtime can last for a while, depending on the player number and roles in play.",
 	];
 	var tldrchanges = [
-		"Transporters are silent",
+		"Transporters are not silent",
 		"Disguisers display their own last will on their first disguise and the last will of their previous victim on subsequent disguises.",
-		"Blackmailer can read whispers if they do not blackmail the previous night.",
+		"Blackmailer can read whispers.",
 		"<a target='_blank' href='http://www.blankmediagames.com/phpbb/viewtopic.php?f=27&t=23473'>Orangeandblack5's Investigation results 1.6</a> are used.",
-		"The Godfather can choose another mafia member to perform the night kill.",
-		"If there is no Godfather, the Mafia members can decide amongst themselves who to kill.",
+		"The Godfather can have the Mafioso perform the night kill.",
 		"The Spy cannot read the Mafia chat.",
-		"Retributionist, Jailor and Mayor have been moved to a new Town Power alignment. Town Power cannot roll in Random Town or Any."
 	];
 	var controls = $("<div class='helppanel shrink aChanges' id='helpListPanel'></div>");
 	var controldetails = [
@@ -515,8 +513,8 @@ socket.on(Type.JOIN,function(name, reconnect)
 			{
 				this.style.background='green';
 			}
-			//Stop it from going over 16 chars
-			if (this.value.length > 16)
+			//Stop it from going over 20 chars
+			if (this.value.length > 20)
 			{
 				this.value = this.value.substring(0,15);	
 			}			
