@@ -616,7 +616,7 @@ var roles=[
 				custom:true
 			},
 	{
-				rolename:"blacksmith",
+				rolename:"duelist",
 				alignment:"town protective",
 				abilities:['Duel two people at night, or protect one person.'],
 			        attributes:['Dueled players are added to the Duel list.',
@@ -668,10 +668,9 @@ var roles=[
 				rolename:"associate",
 				alignment:"mafia support",
 				abilities:['Choose a mafia member to accompany during the day.'],
-				attributes:['When you accompany a Mafia member their abilities will be enhanced for the night.',
-					'Alibi: Make your target Detection Immune and invisible to Spies (can be used on yourself).',
-					'Efficiency: Make your target perform their abilities on two targets (cannot be used on killing roles).',
-					'Stealth: Make your target\'s visit Astral.',
+				attributes:['When you accompany a Mafia member, their abilities will be enhanced for the night.',
+					'You may use Alibi, Stealth, or Efficiency.',
+					'You may use Alibi on yourself.',
 					'You can only use each ability on each Mafia member once.'],
 				goal:mafiagoal,
 				color:mafiacolor,
@@ -754,7 +753,7 @@ var roles=[
 				abilities:['Carry out your employer\'s abilities each night.'],
 				attributes:[' You will share a chat with your employer, and you will gain access to any exclusive chats that your master has access to.',
 					'If you are roleblocked, your employer will carry out the action themself.', 
-					'You gain all Attributes your master has (Attack, Defense, Immunities, etc).',
+					'You gain all Attributes your master has.',
 					'If your employer dies while you are still alive, you will inherit their role.'],
 				goal:"See your employer win the game.",
 				color:"#80BFBF",
@@ -921,6 +920,15 @@ var roles=[
 				attributes:['You are everything you can be; all you have to do is believe.'],
 				goal:"Charm everyone with your dazzling sparkle.",
 				color:"#A460AC",
+				custom:true
+			},
+	 {
+				rolename:"star",
+				alignment:"mystical overseer",
+				abilities:['Your powers have no limit.'],
+				attributes:['None.'],
+				goal:"Don\'t screw up this test!",
+				color:"#ADD8E6",
 				custom:true
 			},
 			{
@@ -1194,6 +1202,7 @@ module.exports = {
 			str=str.replace(/[Oo]verseer/,"<span style='color:"+overcolor+"'>Overseer</span>");
                         str=str.replace(/[Bb]enign/,"<span style='color:"+randcolor+"'>Benign</span>");
                         str=str.replace(/[Cc]haos/,"<span style='color:"+randcolor+"'>Chaos</span>");
+			str=str.replace(/[Hh]ead/,"<span style='color:"+randcolor+"'>Head</span>");
                         str=str.replace(/[Nn]eutral/,"<span style='color:"+neutcolor+"'>Neutral</span>");      
                 }
                 return str;
