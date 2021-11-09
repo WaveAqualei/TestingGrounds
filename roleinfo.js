@@ -252,7 +252,9 @@ var roles=[
 				rolename:"consigliere",
 				alignment:"mafia support",
 				abilities:['Check one person for their exact role each night.'],
-				attributes:['If there are no kill capable Mafia roles left you will become a Mafioso.',
+				attributes:['-You will also know how many of that role, alignment, and faction are currently alive.',
+					'-All Neutrals will be listed as the Neutral faction.',
+					'If there are no kill capable Mafia roles left you will become a Mafioso.',
 					'You can talk with the other Mafia at night.'],
 				goal:mafiagoal,
 				color:mafiacolor
@@ -566,6 +568,19 @@ var roles=[
 
 			// TOWN SUPPORT CUSTOM:
 			{
+				rolename:"judge",
+				alignment:"town support",
+				abilities:['You may force one trial on someone during the day.',
+					   'You may object to a vote outcome once, and flip the result.'],
+				attributes:['Only your vote counts during your forced trial; no one else may vote.',
+					'Your forced trial cannot be the first or last trial of the day.',
+					'Using an ability reveals your name to everyone but Town and Neutral Benigns.',
+					'You cannot be blackmailed.'],
+				goal:towngoal,
+				color:towncolor,
+				custom:true
+			},
+	{
 				rolename:"rain dancer",
 				alignment:"town support",
 				abilities:['Decide if you want to make it rain next night.'],
@@ -656,7 +671,7 @@ var roles=[
 	{      
 				rolename:"agent",
 				alignment:"mafia deception",
-				abilities:['You may lay smoke bomb to a target at night.'],
+				abilities:['You may lay a smoke bomb to a target at night.'],
 				attributes:['You only have four smoke bombs.',
 					'Your smoke bombs obscures the results of night abilities used on your target.',
 					'Your smoke bombs obscures what happens to your target.'],
@@ -711,6 +726,18 @@ var roles=[
 			},
 	
 	                // COVEN CUSTOM
+	{
+				rolename:"hierophant",
+				alignment:"coven evil",
+				abilities:['You may cast a Ward on a player at night.'],
+				attributes:['Wards reflect all abilities on your target back to their users.',
+					'You cannot reflect Transports.',
+					'You have 3 Wards.',
+					'With the Necronomicon, you have unlimited Wards and you may purify a player at night instead, roleblocking them along with dealing a Powerful attack to them.'],
+				goal:covengoal,
+				color:covencolor,
+				custom:true
+			},
 	{
 				rolename:"spellslinger",
 				alignment:"coven evil",
@@ -781,21 +808,7 @@ var roles=[
 				color:"#BF4040"
 			},
 			// NEUTRAL KILLING CUSTOM	
-			{      
-				rolename:"slaughterer",
-				alignment:"neutral killing",
-				abilities:['Slaughter someone each night',
-					  'Wear a new mask in the day'],
-				attributes:["You roleblock instead of attack players that have visited you before.",
-					"You do not die to the Bodyguard.",
-					"You can kill Jailed targets",
-					"Alerting Veterans survive the attack, but cannot kill the Slaughterer",
-					"You can gain a new \"identity\" at day (adds a charge every 3 days), nulliying the visits made to you."],
-				goal:"Kill anyone that would oppose you.",
-				color:'#5F0060',
-				custom:true
-			},
-			{      
+	{      
 				rolename:"butcher",
 				alignment:"neutral killing",
 				abilities:['Kill player(s) each night.',
@@ -820,6 +833,31 @@ var roles=[
 					"If every other player is charged, you may kill all charged players."],
 				goal:"Live to see everyone electrocuted.",
 				color:"#00FF80",
+				custom:true
+			},
+		{      
+				rolename:"naiad",
+				alignment:"neutral killing",
+				abilities:['You may drown a player at night, dealing a Powerful attack to them.'],
+				attributes:["Their death will not be announced until their body is found by a visitor or they are voted up to the gallows.",
+					"Their name will still appear in the list as alive, and a \"phantom\" of their body will leave their house.",
+					"You will learn who visits your target the night you drown them."],
+				goal:"Kill anyone that would oppose you.",
+				color:'#008080',
+				custom:true
+			},
+		{      
+				rolename:"slaughterer",
+				alignment:"neutral killing",
+				abilities:['Slaughter someone each night',
+					  'Wear a new mask in the day'],
+				attributes:["You roleblock instead of attack players that have visited you before.",
+					"You do not die to the Bodyguard.",
+					"You can kill Jailed targets",
+					"Alerting Veterans survive the attack, but cannot kill the Slaughterer",
+					"You can gain a new \"identity\" at day (adds a charge every 3 days), nulliying the visits made to you."],
+				goal:"Kill anyone that would oppose you.",
+				color:'#5F0060',
 				custom:true
 			},
 	
@@ -853,6 +891,17 @@ var roles=[
 					    'You only win if every other faction is reduced to a single member. At least two other factions must survive.'],
                			goal:"Successfully Conquer the Town.",
                			color:"#4080FF",
+				custom:true
+			},
+	{     
+               			rolename:"huntsman",
+               			alignment:"neutral chaos",
+          			abilities:['Choose your prey during the day. Camp outside one player\'s house at night in an attempt to kill your prey.'],
+               			attributes:['You load your shotgun with bullets and camp outside another player\'s house; you will kill your prey if they visit that person.',
+					    'If you choose to stay at home and your prey visits you, you will shoot them.',
+					    'If you are attacked you will attack your attacker, but stay at home instead.'],
+               			goal:"Successfully kill two of your prey.",
+               			color:"#521421",
 				custom:true
 			},
 	                {     
@@ -910,7 +959,7 @@ var roles=[
 				abilities:['You are the heart of the everlasting nostalgia of Xinopha.'],
 				attributes:['You are everything you can be; all you have to do is believe.'],
 				goal:"Figure out who you are while you are still you.",
-				color:"#008080",
+				color:"#008888",
 				custom:true
 			},
 	   {
