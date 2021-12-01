@@ -1,9 +1,10 @@
 //colors
-var towncolor="#00BF00";
-var mafiacolor="#FF0000";
-var covencolor="#8000FF";
-var randcolor="#0080FF";
-var neutcolor='lightgrey';
+var towncolor="#b0ff39";
+var mafiacolor="#be0000";
+var covencolor="#ab5ffb";
+var vampcolor="#7f896a";
+var randcolor="#497cef";
+var neutcolor='#bcbcbc';
 var anycolor='#F5F5F5';
 var mystcolor='#D7B4F3';
 var overcolor='#15F4EE';
@@ -12,6 +13,7 @@ var hilitecolor="orange";
 var towngoal = "Lynch every criminal and evildoer.";
 var mafiagoal = "Kill anyone that will not submit to the Mafia.";
 var covengoal = "Kill all who would oppose the Coven.";
+var vampgoal = "Convert or kill all who would oppose you.";
 
 var roles=[
 			// === VANILLA ROLES ===
@@ -252,9 +254,7 @@ var roles=[
 				rolename:"consigliere",
 				alignment:"mafia support",
 				abilities:['Check one person for their exact role each night.'],
-				attributes:['-You will also know how many of that role, alignment, and faction are currently alive.',
-					'-All Neutrals will be listed as the Neutral faction.',
-					'If there are no kill capable Mafia roles left you will become a Mafioso.',
+				attributes:['If there are no kill capable Mafia roles left you will become a Mafioso.',
 					'You can talk with the other Mafia at night.'],
 				goal:mafiagoal,
 				color:mafiacolor
@@ -393,7 +393,7 @@ var roles=[
 				abilities:['Put on a bulletproof vest at night, granting you Basic Defense.'],
 				attributes:['You can only use the bulletproof vest 4 times.'],
 				goal:"Live to the end of the game.",
-				color:"#C8C800"
+				color:"#dddd30"
 			},
 			{      
 				rolename:"amnesiac",
@@ -401,7 +401,7 @@ var roles=[
 				abilities:['Remember who you were by selecting a graveyard role.'],
 				attributes:['When you choose a role it will be revealed to all the players in the game.'],
 				goal:"Remember who you were and complete that roles objectives.",
-				color:"#44A6C6"
+				color:"#94ffff"
 			},
 	                {      
 				rolename:"guardian angel",
@@ -421,7 +421,7 @@ var roles=[
 				abilities:['Trick the Town into voting against you.'],
 				attributes:['If you are lynched you may kill one of your guilty or abstaining voters the following night.'],
 				goal:"Get yourself lynched by any means necessary.",
-				color:"#F49FD0"
+				color:"#e6b3d9"
 			},
 			{      
 				rolename:"executioner",
@@ -430,7 +430,7 @@ var roles=[
 				attributes:['Your target can be any Townmember except a Jailor or Mayor.',
 					'If your target is killed at night you will become a jester.'],
 				goal:"Get your target lynched at any cost.",
-				color:"#ACACAC"
+				color:"#CCCCCC"
 			},
 			{      
 				rolename:"witch",
@@ -440,7 +440,7 @@ var roles=[
 					'Your victim will know they are being controlled.',
 					'You will know the role of the player you Control.'],
 				goal:"Survive to see the Town lose the game.",
-				color:"#8000FF"
+				color:"#cc8899"
 			},
 	
 			// NEUTRAL KILLING VANILLA
@@ -452,7 +452,7 @@ var roles=[
 					'Role blockers that target you will have their last will covered in blood making it unreadable.',
 					'You can choose to be cautious and not kill role blockers.'],
 				goal:"Kill everyone who would oppose you.",
-				color:"#000080"
+				color:"#4a6efb"
 			},
 			{      
 				rolename:"arsonist",
@@ -463,7 +463,7 @@ var roles=[
 					'If you take no action, you will attempt to clean gasoline off yourself.',
 					'Doused targets will have their investigative results changed. Players will not know they were doused.'],
 				goal:"Live to see everyone else burn.",
-				color:"#EE7600"
+				color:"#d57615"
 			},
 			{      
 				rolename:"werewolf",
@@ -472,7 +472,7 @@ var roles=[
 				attributes:['You will Rampage at a player\'s house when you attack.',
 					'If you do not select a target you will stay home and Rampage at your home.'],
 				goal:"Kill everyone who would oppose you.",
-				color:"#361E01"
+				color:"#94703d"
 			},
 	                {      
 				rolename:"juggernaut",
@@ -483,7 +483,7 @@ var roles=[
 					'On your second kill, you Rampage when you attack.',
 					'On your third kill, you ignore all effects that would protect a player.'],
 				goal:"Kill everyone who would oppose you.",
-				color:"#631A35"
+				color:"#8c2b55"
 
 			},
 	
@@ -495,7 +495,7 @@ var roles=[
 				attributes:['When you plunder a player, you will duel the player for their valuables.',
 					'If the player defends against your attack, you get no loot.'],
 				goal:"Successfully plunder two players.",
-				color:"#DBAD59"
+				color:"#e2c24c"
 			},
 	                {      
 				rolename:"plaguebearer",
@@ -506,7 +506,7 @@ var roles=[
 					'Players will not know they have been infected.',
 					'When all living players are infected, you will become Pestilence.'],
 				goal:"Infect all living players and become Pestilence.",
-				color:"#CFFF63"
+				color:"#deff70"
 			},
 	                {      
 				rolename:"pestilence",
@@ -517,7 +517,7 @@ var roles=[
 					'If you are jailed you will attack the Jailor.',
 					'You cannot be killed at night.'],
 				goal:"Kill all who would oppose you.",
-				color:"#010302"
+				color:"#424242"
 			},
 	                {      
 				rolename:"vampire",
@@ -527,7 +527,7 @@ var roles=[
 					'The youngest Vampire will visit the target at night.',
 					'If your target cannot be converted, they will instead be dealt a Basic attack.'],
 				goal:"Convert everyone who would oppose you.",
-				color:"#7B8867"
+				color:"#7f896a"
 			},
 
 			// === CUSTOM ROLES ====
@@ -540,6 +540,16 @@ var roles=[
 					'You will get one message for every instance of an action.',
 					'Your target will learn if they were autopsied.',
 					'You will learn if your target has already been autopsied.'],
+				goal:towngoal,
+				color:towncolor,
+				custom:true
+			},
+	{      
+				rolename:"occultist",
+				alignment:"town investigative",
+				abilities:['Investigate one person at night for Occult activities.'],
+				attributes:['You will know if your target participates in Occult activities.',
+					'Occult roles: Mediums, Psychics, Retributionist, Hypnotists, Witches, Coven members, Guardian Angels, Vampires, Werewolves.'],
 				goal:towngoal,
 				color:towncolor,
 				custom:true
@@ -576,6 +586,26 @@ var roles=[
 					'Your forced trial cannot be the first or last trial of the day.',
 					'Using an ability reveals your name to everyone but Town and Neutral Benigns.',
 					'You cannot be blackmailed.'],
+				goal:towngoal,
+				color:towncolor,
+				custom:true
+			},
+	{
+				rolename:"gatekeeper",
+				alignment:"town support",
+				abilities:['Lock the gate between players 7 and 8, preventing anyone from crossing to the other side.'],
+				attributes:['You will know the names of every player that passes your gate (excludes astral visits).',
+					    'Twice a game, you may lock the gate, preventing anyone from crossing to the other side.'],
+				goal:towngoal,
+				color:towncolor,
+				custom:true
+			},
+	{      
+				rolename:"seeker",
+				alignment:"town support",
+				abilities:['You may speak to all factions at once at night. Your name will appear as Seeker.'],
+				attributes:['You can hear all night time conversations except for those with the dead.',
+					'You cannot decipher which faction, what role or who is speaking.'],
 				goal:towngoal,
 				color:towncolor,
 				custom:true
@@ -658,6 +688,17 @@ var roles=[
 			
 			// MAFIA CUSTOM
 	{      
+				rolename:"framer rework",
+				alignment:"mafia deception",
+				abilities:['Choose one person at night to frame and a second person for them to be associated with.'],
+				attributes:['If your target is investigated they will appear suspicious.',
+					'Frames only last the night you frame your target.',
+					'If there are no kill capable Mafia roles left you will become a Mafioso.'],
+				goal:mafiagoal,
+				color:mafiacolor,
+				custom:true
+			},
+	{      
 				rolename:"caporegime",
 				alignment:"mafia head",
 				abilities:['Train a non-Mafia member each night and choose your trained targets at night to use their reserved abilities.'],
@@ -668,6 +709,17 @@ var roles=[
 				color:mafiacolor,
 				custom:true
 			},	
+	{      
+				rolename:"consigliere buff",
+				alignment:"mafia support",
+				abilities:['Check one person for their exact role each night.'],
+				attributes:['You will also know how many of that role, alignment, and faction are currently alive.',
+					'All Neutrals will be listed as the Neutral faction.',
+					'If there are no kill capable Mafia roles left you will become a Mafioso.',
+					'You can talk with the other Mafia at night.'],
+				goal:mafiagoal,
+				color:mafiacolor
+			},
 	{      
 				rolename:"agent",
 				alignment:"mafia deception",
@@ -797,6 +849,7 @@ var roles=[
 					'You own one auto-vest.'],
 				goal:"Survive to see the Town lose the game.",
 				color:"#808000"
+				custom:true
 			},
 	                {
 				rolename:"rolestopper",
@@ -806,6 +859,27 @@ var roles=[
 					'You can only scare Town roles away from your target.'],
 				goal:"Survive to see the Town lose the game.",
 				color:"#BF4040"
+				custom:true
+			},
+	{
+				rolename:"copycat",
+				alignment:"neutral evil",
+				abilities:['Mark a player during the day and night to copy them, or use a copied role\'s abilities.'],
+				attributes:['If the marked player dies during the same day or night, you will copy their abilities.',
+					'Copying a killing role will replenish the one-shot basic defense shield if depleted. Copying a killing role while the shield is intact grants a one-shot basic attack.'],
+				goal:"See the Town lose the game.",
+				color:"#8080FF"
+			},
+	{
+				rolename:"fairy",
+				alignment:"neutral evil",
+				abilities:['Each night, you may choose a player to trick and another player to focus the trick on.'],
+				attributes:['You will play a harmful trick on Town, and a helpful trick on everyone else.',
+					'Town will not know you tricked them.',
+					'You cannot be roleblocked or controlled.'],
+				goal:"Survive to see the Town lose the game.",
+				color:"#FF69B4"
+	                        custom:true
 			},
 			// NEUTRAL KILLING CUSTOM	
 	{      
@@ -911,6 +985,121 @@ var roles=[
                			attributes:['Your initial time is 8 o\'clock.','Visiting a Town member will send your clock forward 5 hours.','Visiting a member of the Mafia will send your clock forward 3 hours.','Visiting any Neutral role will send your clock backwards 2 hours.'],
                			goal:"Land your clock on 12 o'clock to win",
                			color:"magenta",
+				custom:true
+			},
+	
+	                // VAMPIRE CUSTOM
+	                {     
+               			rolename:"adze",
+               			alignment:"vampire killing",
+          			abilities:['You may choose a target to drain blood from at night.',
+					   'You can mask your true identity upon killing.'],
+               			attributes:['Killing your target replaces your Investigator and Consigliere results with that of your drained target.',
+					    'You can talk to the other Vampires at night.'],
+			        goal:vampgoal,
+               			color:vampcolor,
+				custom:true
+			},
+	                {     
+               			rolename:"bebarlang",
+               			alignment:"vampire killing",
+          			abilities:['You may choose a target to drain blood from at night.'],
+               			attributes:['You cannot go 2 nights without feasting, otherwise you die.',
+					    'Your visits are Astral.',
+					    'You can talk to the other Vampires at night.'],
+			        goal:vampgoal,
+               			color:vampcolor,
+				custom:true
+			},
+	                {     
+               			rolename:"lampir",
+               			alignment:"vampire killing",
+          			abilities:['You may choose a target to drain blood from at night.'],
+               			attributes:['You can talk to the other Vampires at night.'],
+			        goal:vampgoal,
+               			color:vampcolor,
+				custom:true
+			},
+	                {     
+               			rolename:"catacano",
+               			alignment:"vampire conversion",
+          			abilities:['You may infect a player at night.'],
+               			attributes:['You may only bite someone on an Odd night.',
+					    'Biting someone grants them Unstoppable defense the following nights until they are attacked. If a bit target is attacked they will become a Progeny.',
+					    'You will know your newest Progeny’s notifications.',
+					    'If there are no kill capable Vampire roles left you will become a Lampir.'],
+			        goal:vampgoal,
+               			color:vampcolor,
+				custom:true
+			},
+	                {     
+               			rolename:"progeny",
+               			alignment:"vampire conversion",
+          			abilities:['Carry out the Catacano\'s orders.'],
+               			attributes:['The youngest Progeny will carry out the Catacano\'s order.',
+					    'If the Catacano dies, the oldest Progeny becomes the new Catacano.',
+					    'If there are no kill capable Vampire roles left you will become a Lampir.'],
+			        goal:vampgoal,
+               			color:vampcolor,
+				custom:true
+			},
+	                {     
+               			rolename:"pijavica",
+               			alignment:"vampire manipulation",
+          			abilities:['Target one player to mesmerize at night.',
+					   'Influence the voting ability of your target the next day.'],
+               			attributes:['You may select the vote the player casts (innocent/abstain/guilty) and override their original vote.',
+					    'You can talk to the other Vampires at night.',
+					    'If there are no kill capable Vampire roles left you will become a Lampir.'],
+			        goal:vampgoal,
+               			color:vampcolor,
+				custom:true
+			},
+	                {     
+               			rolename:"nelapsi",
+               			alignment:"vampire manipulation",
+          			abilities:['Select two players at night and soulbind them.'],
+               			attributes:['Both players will visit the same target as the first player chosen.',
+					    'You may only soul bind 2 new target after both die, or you set them free (takes 1 night).',
+					    'If one bound player dies the other one dies at night.',
+					    'If there are no kill capable Vampire roles left you will become a Lampir.'],
+			        goal:vampgoal,
+               			color:vampcolor,
+				custom:true
+			},
+	                {     
+               			rolename:"broxa",
+               			alignment:"vampire support",
+          			abilities:['Lull a target into a false sense of security at night.'],
+               			attributes:['By selecting a target you create a delayed roleblock.',
+					    'If you die, your lull fails.',
+					    'Anyone who visits you is lulled into a false sense of security.',
+					    'If there are no kill capable Vampire roles left you will become a Lampir.'],
+			        goal:vampgoal,
+               			color:vampcolor,
+				custom:true
+			},
+	                {     
+               			rolename:"gierach",
+               			alignment:"vampire support",
+          			abilities:['You may track a player at night to see who they visit.'],
+               			attributes:['You will know if that player you track has killed before.',
+					    'You can talk to the other Vampires at night.',
+					    'If there are no kill capable Vampire roles left you will become a Lampir.'],
+			        goal:vampgoal,
+               			color:vampcolor,
+				custom:true
+			},
+	                {     
+               			rolename:"talamaur",
+               			alignment:"vampire support",
+          			abilities:['You may consume a soul from the Graveyard to use as a magical shield for itself or kin.'],
+               			attributes:['Selecting a Corpse at night destroys the Corpse, and uses it to shield a Vampire.',
+					    'Corpses grant Vampires Basic defense against one attack.',
+					    'You can talk to the other Vampires at night.',
+					    'If there are no kill capable Vampire roles left you will become a Lampir.'],
+			        goal:vampgoal,
+               			color:vampcolor,
 				custom:true
 			},
 	
@@ -1246,6 +1435,9 @@ module.exports = {
                         str=str.replace(/[Dd]eception/,"<span style='color:"+randcolor+"'>Deception</span>");
 			str=str.replace(/[Cc]oven/,"<span style='color:"+covencolor+"'>Coven</span>");
                         str=str.replace(/[Ee]vil/,"<span style='color:"+randcolor+"'>Evil</span>");
+			str=str.replace(/[Vv]ampire/,"<span style='color:"+vampcolor+"'>Vampire</span>");
+			str=str.replace(/[Mm]anipulation/,"<span style='color:"+randcolor+"'>Manipulation</span>");
+			str=str.replace(/[Cc]onversion/,"<span style='color:"+randcolor+"'>Conversion</span>");
 			str=str.replace(/[Dd]ead/,"<span style='color:"+randcolor+"'>Dead</span>");
 			str=str.replace(/[Mm]ystical/,"<span style='color:"+mystcolor+"'>Mystical</span>");
 			str=str.replace(/[Oo]verseer/,"<span style='color:"+overcolor+"'>Overseer</span>");
