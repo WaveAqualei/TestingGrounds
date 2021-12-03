@@ -45,7 +45,7 @@ var commandList = {
 		'forcevote':'Forces a player to vote for a particular person. Usage: /forcevote person1 person2',
 		'lockvote':'Locks the player\'s vote. They will be unable to vote or cancel their vote after you use this command, except through /forcevote. Usage: /lockvote person',
 		'unlockvote':'Unlocks the player\'s vote. They will be able to vote and cancel their vote once more after you use this command. /unlockvote person'
-		'settrial':'Forces a trial on a player. They will automatically be voted to the stand.'
+		'settrial':'Forces a trial on a player. They will automatically be voted to the stand.',
 	},
 	dev:{
 		'dev':'Activate developer powers.',
