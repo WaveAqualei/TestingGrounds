@@ -492,6 +492,7 @@ var server = http.createServer(function (req, res) {
         case '/ShockAndAwe.mp3':
         case '/Suspicion.mp3':
         case '/WhatLurksInTheNight.mp3':
+        case '/Remembrance.mp3':
         case '/WhoAmI.mp3':
             fs.readFile(__dirname + '/sounds/' + path, function (error, data) {
                 if (error) {
