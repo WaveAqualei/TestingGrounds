@@ -15,9 +15,9 @@ var kicked = false;
 var hey = new Audio('ping.wav');
 //Halloween
 //var hey = new Audio('Giratina.wav');
-var mpregame = new Audio('CalmBeforeTheStorm.mp3');
+var mpregame = new Audio('Cauldron.mp3');
 var whoami = new Audio('KakarikoSaved.mp3');
-var mmodtime = new Audio('Homecoming.mp3');
+var mmodtime = new Audio('Vampiric.mp3');
 //Halloween
 //var mmodtime = new Audio('Bewitching.mp3');
 var mdaytime = new Audio('Heated.mp3');
