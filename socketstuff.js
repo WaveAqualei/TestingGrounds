@@ -19,8 +19,6 @@ var mpregame = new Audio('CalmBeforeTheStorm.mp3');
 var whoami = new Audio('WhoAmI.mp3');
 var mmodtime = new Audio('Remembrance.mp3');
 
-console.log(mmodtime);
-
 //Halloween
 //var mmodtime = new Audio('Bewitching.mp3');
 var mdaytime = new Audio('Heated.mp3');

@@ -1,44 +1,47 @@
 ﻿<!DOCTYPE html>
 <html>
-<head>
-  <meta charset="UTF-8">
-  <title>Testing Grounds</title>
-  <script src="/socket.io/socket.io.js"></script>
-  <script src="/jquery-2.1.4.min.js"></script>
-  <script src="/playscript.js"></script>
-  <script src="/socketstuff.js"></script> 
-  <link href='playstyle.css' rel='stylesheet' type='text/css'>
-  <link href="https://fonts.googleapis.com/css?family=Denk+One|Open+Sans|Slabo+27px" rel="stylesheet">
-</head>
+    <head>
+        <meta charset="UTF-8" />
+        <title>Testing Grounds</title>
+        <script src="/socket.io/socket.io.js"></script>
+        <script src="/jquery-2.1.4.min.js"></script>
+        <script src="/playscript.js"></script>
+        <script src="/socketstuff.js"></script>
+        <link href="playstyle.css" rel="stylesheet" type="text/css" />
+        <link href="https://fonts.googleapis.com/css?family=Denk+One|Open+Sans|Slabo+27px" rel="stylesheet" />
+    </head>
 
-<body>
-	<div id="slidingpanel"></div>
-	<header>
-		<ul>
-			<li><span>Pregame</span></li>
-			<li><span>Roles</span></li>
-			<li><span>Mod time</span></li>
-			<li><span id="dayli">Day</span></li>
-			<li><span>Voting</span></li>
-			<li><span>Trial</span></li>
-			<li><span>Verdict</span></li>
-			<li><span>Last words</span></li>
-			<li><span id="nightli">Night</span></li>
-			<li><span>Day 1</span></li>
-		</ul>
-		<div id="modnumbering">
-
-		</div>
-		<img src="notesbutton.png" class='notesbutton' onclick="openNotes()">
-		<img src="lastwillbutton.png" class='willbutton' onclick="openWill()">
-		<img src="music.png" id="music" class='musicbutton' onclick="mutemusic()">
-	</header>
-	<ul id='main'>
-	</ul>
-	<div id="adjustabledivider" onmousedown="grabDivider()"></div>
-	<ul id='userlist'></ul>
-	<div id='inputarea'><input type='text' id='c' onKeyDown='checkKey(event)'/></div>
-	<div id="will"><div id='closewill' onclick='closeWill()'></div><textarea id='willcontent'></textarea></div>
-	<div id="notes"><div id='closenotes' onclick='closeNotes()'></div><textarea id='notescontent'></textarea></div>
-</body>
+    <body>
+        <div id="slidingpanel"></div>
+        <header>
+            <ul>
+                <li><span>Pregame</span></li>
+                <li><span>Roles</span></li>
+                <li><span>Mod time bitches</span></li>
+                <li><span id="dayli">Day</span></li>
+                <li><span>Voting</span></li>
+                <li><span>Trial</span></li>
+                <li><span>Verdict</span></li>
+                <li><span>Last words</span></li>
+                <li><span id="nightli">Night</span></li>
+                <li><span>Day 1</span></li>
+            </ul>
+            <div id="modnumbering"></div>
+            <img src="notesbutton.png" class="notesbutton" onclick="openNotes()" />
+            <img src="lastwillbutton.png" class="willbutton" onclick="openWill()" />
+            <img src="music.png" id="music" class="musicbutton" onclick="mutemusic()" />
+        </header>
+        <ul id="main"></ul>
+        <div id="adjustabledivider" onmousedown="grabDivider()"></div>
+        <ul id="userlist"></ul>
+        <div id="inputarea"><input type="text" id="c" onKeyDown="checkKey(event)" /></div>
+        <div id="will">
+            <div id="closewill" onclick="closeWill()"></div>
+            <textarea id="willcontent"></textarea>
+        </div>
+        <div id="notes">
+            <div id="closenotes" onclick="closeNotes()"></div>
+            <textarea id="notescontent"></textarea>
+        </div>
+    </body>
 </html>
