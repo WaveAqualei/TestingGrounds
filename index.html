@@ -1,40 +1,53 @@
 <!DOCTYPE html>
 <html>
-<head>
-  <script src="/jquery-2.1.4.min.js"></script>
-  <script src="/script.js"></script>
-  <link href='https://fonts.googleapis.com/css?family=Merriweather' rel='stylesheet' type='text/css'>
-  <link href='style.css' rel='stylesheet' type='text/css'>
-  <title>Choose your name!</title>
-</head>
+    <head>
+        <script src="/jquery-2.1.4.min.js"></script>
+        <script src="/script.js"></script>
+        <link href="https://fonts.googleapis.com/css?family=Merriweather" rel="stylesheet" type="text/css" />
+        <link href="style.css" rel="stylesheet" type="text/css" />
+        <title>Choose your name!</title>
+    </head>
 
-<body>
-	<div id='container'>
-		<div></div>
-		<div id="mid">
-			<div id='clock'><div>00</div><div>00</div><div>00</div><div>42</div></div>
-			<h1><p>The Testing Grounds</p></h1>
-			<p>Welcome to the Testing Grounds, where role ideas are tested in simulated gameplay. 
-			If you have not done so yet, please sign up on the <a href='http://www.blankmediagames.com/phpbb/viewtopic.php?f=50&t=20066'>Potential Participants</a>
-			 thread.</p>
-			 
-			 <p>If you have any questions about the Testing Grounds, please see the <a href='http://www.blankmediagames.com/phpbb/viewtopic.php?f=50&t=20013'>FAQ</a> or message a <a href='http://blankmediagames.com/phpbb/viewtopic.php?f=50&t=20013#p553655'>TG Staff Member</a>. If you have found a bug with the Testing Grounds server post it <a href='http://www.blankmediagames.com/phpbb/viewtopic.php?f=50&t=32072'>here</a> or message <a href='http://www.blankmediagames.com/phpbb/memberlist.php?mode=viewprofile&u=1270513'>Ralozey</a>.</p>
-			 <p>Join our <a href='https://discord.gg/EVS55Zb'>Discord Server</a></p>
-            <p><a href='https://docs.google.com/document/d/1BsF_y-TeaF_EQ7xENW8zSfkG6-JjLI4-BfgoSdUgiuM/edit?usp=sharing'>Click here to see how TG works</a></p>
-			<div id='inputcontainer'>
-				<form method='POST' action="/play">
-					<input id='entername' placeholder='Name' type='text' name='name' >
-					<input type='submit' value='Join the chat!' id='send'>
-					<h5 id='error'></h5>
-				</form>
-			</div>
-		</div>
-		<div id="last">
-		</div>
-	</div>
-	<footer>
-		<p></p>
-		<div class="tgsig"><p>BBCode:</p><input type='text' value="[url=http://www.blankmediagames.com/phpbb/viewforum.php?f=50][img]http://i61.tinypic.com/208aemu.png[/img][/url]" /></div>	
-	</footer>
-</body>
+    <body>
+        <div id="container">
+            <div></div>
+            <div id="mid">
+                <div id="clock">
+                    <div>00</div>
+                    <div>00</div>
+                    <div>00</div>
+                    <div>42</div>
+                </div>
+                <h1><p>The Testing Grounds - Nash Edition</p></h1>
+                <p>
+                    Welcome to the Testing Grounds, where role ideas are tested in simulated gameplay. If you have not done so yet, please sign up on the
+                    <a href="http://www.blankmediagames.com/phpbb/viewtopic.php?f=50&t=20066">Potential Participants</a> thread.
+                </p>
+
+                <p>
+                    If you have any questions about the Testing Grounds, please see the <a href="http://www.blankmediagames.com/phpbb/viewtopic.php?f=50&t=20013">FAQ</a> or message a
+                    <a href="http://blankmediagames.com/phpbb/viewtopic.php?f=50&t=20013#p553655">TG Staff Member</a>. If you have found a bug with the Testing Grounds server post it
+                    <a href="http://www.blankmediagames.com/phpbb/viewtopic.php?f=50&t=32072">here</a> or message
+                    <a href="http://www.blankmediagames.com/phpbb/memberlist.php?mode=viewprofile&u=1270513">Ralozey</a>.
+                </p>
+                <p>Join our <a href="https://discord.gg/EVS55Zb">Discord Server</a></p>
+                <p><a href="https://docs.google.com/document/d/1BsF_y-TeaF_EQ7xENW8zSfkG6-JjLI4-BfgoSdUgiuM/edit?usp=sharing">Click here to see how TG works</a></p>
+                <div id="inputcontainer">
+                    <form method="POST" action="/play">
+                        <input id="entername" placeholder="Name" type="text" name="name" />
+                        <input type="submit" value="Join the chat!" id="send" />
+                        <h5 id="error"></h5>
+                    </form>
+                </div>
+            </div>
+            <div id="last"></div>
+        </div>
+        <footer>
+            <p></p>
+            <div class="tgsig">
+                <p>BBCode:</p>
+                <input type="text" value="[url=http://www.blankmediagames.com/phpbb/viewforum.php?f=50][img]http://i61.tinypic.com/208aemu.png[/img][/url]" />
+            </div>
+        </footer>
+    </body>
 </html>
