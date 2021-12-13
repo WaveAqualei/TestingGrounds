@@ -16,7 +16,7 @@ var hey = new Audio('ping.wav');
 //Halloween
 //var hey = new Audio('Giratina.wav');
 var mpregame = new Audio('CalmBeforeTheStorm.mp3');
-var whoami = new Audio('WhoAmI.mp3');
+var whoami = new Audio('KakarikoSaved.mp3');
 var mmodtime = new Audio('Homecoming.mp3');
 //Halloween
 //var mmodtime = new Audio('Bewitching.mp3');
@@ -26,6 +26,7 @@ var mtrial = new Audio('Innocence.mp3');
 var mnight = new Audio('WhatLurksInTheNight.mp3');
 var musicon = 1;
 mpregame.loop = true;
+whoami.loop = true;
 mmodtime.loop = true;
 //Enums
 var Type = {
