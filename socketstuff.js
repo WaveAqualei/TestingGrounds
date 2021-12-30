@@ -401,14 +401,7 @@ socket.on(Type.HEY,function(){
 socket.on(Type.JOIN,function(name, reconnect)
 {
 	users.push(name);
-	if (reconnect)
-	{
-		addMessage(name+' has reconnected.','system');
-	}
-	else
-	{
-		addMessage(name+' has joined.','system');
-	}
+	addMessage(name+' has joined.','system');
 	var num = $('#userlist').children().length;
 	if (num==0)
 	{
@@ -559,7 +552,6 @@ socket.on(Type.JOIN,function(name, reconnect)
 });
 socket.on(Type.LEAVE,function(name)
 {
-	addMessage(name +' has left.','system');
 	var index = users.indexOf(name);
 	$($('#userlist').children()[index]).remove();
 	//Recalculate the numbering.
@@ -586,7 +578,7 @@ socket.on(Type.DISCONNECT,function(name)
 socket.on(Type.RECONNECT,function(name)
 {
 	addMessage(name +' has reconnected.','system');
-	$(`${name}-disconnected`).remove();
+	$(`#${name}-disconnected`).remove();
 });
 socket.on(Type.SETMOD,function(val)
 {

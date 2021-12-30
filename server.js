@@ -307,7 +307,7 @@ var server = http.createServer(function (req, res) {
                 req.on('end', function () {
                     if (Object.keys(players).length <= 36) {
                         //Check if the name is taken before serving the page.
-                        if (!nameTaken(playername)) {
+                        if (!nameTaken(playername, getIpReq(req))) {
                             if (nameCheck(playername)) {
                                 var ip = getIpReq(req);
                                 joining[ip] = playername;
@@ -357,7 +357,7 @@ var server = http.createServer(function (req, res) {
             var name = url.parse(req.url).query;
             if (name && typeof name == 'string') {
                 res.writeHead(200, { 'Content-Type': 'text/plain' });
-                if (nameTaken(name)) {
+                if (nameTaken(name, getIpReq(req))) {
                     res.write('taken');
                 } else if (name.length == 0) {
                     res.write('empty');
@@ -619,7 +619,7 @@ io.on('connection', function (socket) {
             socket.emit(Type.SYSTEM, 'You have reconnected.');
             var name = players[socket.id].name;
             //Inform everyone of the new arrival.
-            io.emit(Type.RECONNECT, name, true);
+            io.emit(Type.RECONNECT, name);
             //Tell the new arrival what phase it is.
             socket.emit(Type.SETPHASE, phase, true, timer.time);
 
@@ -655,9 +655,7 @@ io.on('connection', function (socket) {
             socket.emit(Type.GETWILL, undefined, players[socket.id].will);
             //Set the rejoining player's notes.
             socket.emit(Type.GETNOTES, undefined, players[socket.id].notes);
-        }
-        //Second check for the name being taken
-        if (!nameTaken(joining[ip])) {
+        } else if (!nameTaken(joining[ip])) { //Second check for the name being taken
             if (joining[ip]) {
                 socket.emit(Type.PAUSEPHASE, timer.paused);
                 socket.emit(Type.SETDAYNUMBER, gm.getDay());
@@ -1176,11 +1174,15 @@ io.on('connection', function (socket) {
     });
 });
 //Functions
-function nameTaken(name) {
+function nameTaken(name, ip) {
     var match = false;
     for (i in players) {
         if (name == players[i].name) {
             match = true;
+            if(ip == players[i].ip && !players[i].s.connected) {
+                // Allow reconnecting
+                return false;
+            }
         }
     }
     return match;
@@ -1723,6 +1725,7 @@ function Player(socket, name, ip) {
                 if (mod == this.s.id) {
                     setTimeout(function () {
                         if(!(players[mod] && players[mod].s.connected)) {
+                            io.emit(Type.SYSTEM, 'Game canceled because the mod has been disconnected for over a minute.');
                             setPhase(Phase.PREGAME);
                         }
                     }, 1 * 60 * 1000); // 1 minute.
