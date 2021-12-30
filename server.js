@@ -49,7 +49,7 @@ var commandList = {
     },
     dev: {
         dev: 'Activate developer powers.',
-	setspectate: 'Toggle someone\'s spectator setting. Usage: /setspectate name',
+        setspectate: 'Toggle someone\'s spectator setting. Usage: /setspectate name',
         alert: 'Send an audio alert to a player.',
         kick: 'Kick a player.',
         ban: 'Ban an ip.',
@@ -481,32 +481,32 @@ var server = http.createServer(function (req, res) {
                 }
             });
             break;
-	case '/Aquabatics.mp3':
-	case '/Bewitching.mp3':
+        case '/Aquabatics.mp3':
+        case '/Bewitching.mp3':
         case '/CalmBeforeTheStorm.mp3':
         case '/CareFree.mp3':
-	case '/Cauldron.mp3':
-	case '/Chaos.mp3':
-	case '/CosmicCove.mp3':
+        case '/Cauldron.mp3':
+        case '/Chaos.mp3':
+        case '/CosmicCove.mp3':
         case '/DarkAlley.mp3':
         case '/DarkHolidays.mp3':
-	case '/GardenGridlock.mp3':
+        case '/GardenGridlock.mp3':
         case '/GreenMeadows.mp3':
         case '/Heated.mp3':
         case '/Homecoming.mp3':
         case '/Inevitable.mp3':
         case '/Innocence.mp3':
-	case '/KakarikoNight.mp3':
-	case '/KakarikoSaved.mp3':
+        case '/KakarikoNight.mp3':
+        case '/KakarikoSaved.mp3':
         case '/LittleItaly.mp3':
-	case '/MountHylia.mp3':
-	case '/PeaceAndTranquility.mp3':
-	case '/Remembrance.mp3':
+        case '/MountHylia.mp3':
+        case '/PeaceAndTranquility.mp3':
+        case '/Remembrance.mp3':
         case '/Searching.mp3':
         case '/ShockAndAwe.mp3':
         case '/Suspicion.mp3':
-	case '/Valkyrie.mp3':
-	case '/Vampiric.mp3':
+        case '/Valkyrie.mp3':
+        case '/Vampiric.mp3':
         case '/WhatLurksInTheNight.mp3':
         case '/Remembrance.mp3':
         case '/WhoAmI.mp3':
@@ -708,9 +708,9 @@ io.on('connection', function (socket) {
                 }
             }
             /*else //Disabled because it stops the index from connecting.
-			{
-				socket.disconnect();
-			}*/
+            {
+                socket.disconnect();
+            }*/
         } else {
             socket.emit(Type.DENY, 'Sorry, this name is taken.');
             socket.disconnect();
