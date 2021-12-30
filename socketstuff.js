@@ -87,7 +87,9 @@ var Type = {
 	GUARDIAN_ANGEL: 55,
 	REMOVE_EMOJI: 56,
 	NOTES: 57,
-	GETNOTES: 58
+	GETNOTES: 58,
+    DISCONNECT: 59,
+    RECONNECT: 60
 };
 function clearAllInfo()
 {
@@ -576,6 +578,16 @@ socket.on(Type.LEAVE,function(name)
 	//Remove from list
 	users.splice(index,1);
 });
+socket.on(Type.DISCONNECT,function(name)
+{
+	addMessage(name +' has left.','system');
+	$(`#p-${name}`).append(`<span class="emoji" id="${name}-disconnected">🚫</span>`);
+});
+socket.on(Type.RECONNECT,function(name)
+{
+	addMessage(name +' has reconnected.','system');
+	$(`${name}-disconnected`).remove();
+});
 socket.on(Type.SETMOD,function(val)
 {
 	if (val && !mod)
@@ -1020,7 +1032,13 @@ socket.on(Type.TARGET,function(name,role,target)
 
 socket.on(Type.MAYOR, function(name) {
 	addMessage(name+' has revealed themselves as the Mayor!', "highlight");
-	$(`#p-${name}`).append('<span class="emoji">🎩</span>')
+	$(`#p-${name}`).append('<span class="emoji" id="${name}-mayor">🎩</span>')
+	$(`#${name}-mayor`).click(() => {
+		if (mod) {
+			$(`#${name}-mayor`).remove();
+			socket.emit(Type.REMOVE_EMOJI, `${name}-mayor`);
+		}
+	});
 });
 socket.on(Type.HUG,function(name,target)	
 {
