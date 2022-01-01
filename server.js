@@ -596,8 +596,8 @@ io.on('connection', function (socket) {
             }
             socket.emit(Type.PAUSEPHASE, timer.paused);
             socket.emit(Type.SETDAYNUMBER, gm.getDay());
-            //If the player is first, set them as the mod.
-            if (Object.keys(players).length == 0) {
+            //If the player is a mod who disconnected, set them as the mod.
+            if (reconnecting.s.id == mod) {
                 mod = socket.id;
                 socket.emit(Type.SETMOD, true);
             } else {
