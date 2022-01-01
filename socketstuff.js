@@ -840,7 +840,7 @@ else
 		//Add the night buttons
 		for (i = 1; i < users.length; i++)
 		{
-			if (!$($('#userlist li')[i]).hasClass('deadplayer'))
+			if (!$($('#userlist li')[i]).hasClass('deadplayer') && !$($('#userlist li')[i]).find('.name.spec').length)
 			{
 				var li = $('#userlist').children()[i];
 				var button = $('<div class="nightbutton">TARGET</div>');
