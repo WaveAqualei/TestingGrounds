@@ -1102,6 +1102,9 @@ io.on('connection', function (socket) {
                                     player.s.emit(Type.SYSTEM, 'You are now the Mayor! Use /reveal to reveal yourself and get 3 votes.');
                                 }
                             } else {
+								if(player.mayor) {
+									io.emit(Type.REMOVE_EMOJI, player.name+'-mayor');
+								}
                                 player.mayor = undefined; //Undefined, meaning not mayor.
                                 if (!players[socket.id].silenced) {
                                     player.s.emit(Type.SYSTEM, 'You are no longer the Mayor.');

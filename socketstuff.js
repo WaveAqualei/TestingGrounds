@@ -1025,12 +1025,6 @@ socket.on(Type.TARGET,function(name,role,target)
 socket.on(Type.MAYOR, function(name) {
 	addMessage(name+' has revealed themselves as the Mayor!', "highlight");
 	$(`#p-${name}`).append('<span class="emoji" id="${name}-mayor">🎩</span>')
-	$(`#${name}-mayor`).click(() => {
-		if (mod) {
-			$(`#${name}-mayor`).remove();
-			socket.emit(Type.REMOVE_EMOJI, `${name}-mayor`);
-		}
-	});
 });
 socket.on(Type.HUG,function(name,target)	
 {
@@ -1076,7 +1070,7 @@ socket.on(Type.PAUSEPHASE,function(p){
 		paused = p;
 });
 socket.on(Type.GUARDIAN_ANGEL, function(name, yourName) {
-	$(`#p-${name}`).append(`<span class="emoji" id="${name}-angel">👼</span>`);
+	$(`#p-${name}`).append(`<span class="emoji angel" id="${name}-angel">👼</span>`);
 	$(`#${name}-angel`).click(() => {
 		if (mod) {
 			$(`#${name}-angel`).remove();
