@@ -1412,7 +1412,7 @@ function getIpReq(req) {
 function numLivingPlayers() {
     var c = 0;
     for (i in players) {
-        if (players[i].alive && i != mod) {
+        if (players[i].alive && !players[i].spectate && i != mod) {
             c++;
         }
     }
