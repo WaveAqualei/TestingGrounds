@@ -623,20 +623,21 @@ io.on('connection', function (socket) {
             //Tell the new arrival what phase it is.
             socket.emit(Type.SETPHASE, phase, true, timer.time);
 
-            var send = {};
+            if (players[mod] && mod != socket.id) {
+                var send = {};
 
-            for (i in players[socket.id].chats) {
-                if (players[socket.id].chats[i]) {
-                    send[i] = players[socket.id].chats[i];
+                for (i in players[socket.id].chats) {
+                    if (players[socket.id].chats[i]) {
+                        send[i] = players[socket.id].chats[i];
+                    }
                 }
-            }
-            //Exceptions
-            send.name = players[socket.id].name;
-            send.alive = players[socket.id].alive;
-            send.blackmailer = players[socket.id].hearwhispers;
-            send.mayor = players[socket.id].mayor !== undefined;
-            send.role = players[socket.id].role;
-            if (players[mod]) {
+                //Exceptions
+                send.name = players[socket.id].name;
+                send.alive = players[socket.id].alive;
+                send.blackmailer = players[socket.id].hearwhispers;
+                send.mayor = players[socket.id].mayor !== undefined;
+                send.role = players[socket.id].role;
+
                 players[mod].s.emit(Type.ROLEUPDATE, send);
             }
             //Resend the list.
@@ -655,6 +656,11 @@ io.on('connection', function (socket) {
             socket.emit(Type.GETWILL, undefined, players[socket.id].will);
             //Set the rejoining player's notes.
             socket.emit(Type.GETNOTES, undefined, players[socket.id].notes);
+
+			//If the mod is reconnecting, send the role data for all players
+			if(mod == socket.id) {
+				sendPlayerInfo();
+			}
         } else if (!nameTaken(joining[ip])) { //Second check for the name being taken
             if (joining[ip]) {
                 socket.emit(Type.PAUSEPHASE, timer.paused);

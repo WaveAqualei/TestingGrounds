@@ -1075,6 +1075,7 @@ socket.on(Type.PAUSEPHASE,function(p){
 		paused = p;
 });
 socket.on(Type.GUARDIAN_ANGEL, function(name, yourName) {
+	if ($(`#${name}-angel`).length) return;
 	$(`#p-${name}`).append(`<span class="emoji angel" id="${name}-angel">👼</span>`);
 	$(`#${name}-angel`).click(() => {
 		if (mod) {

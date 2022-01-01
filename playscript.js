@@ -503,7 +503,6 @@ function openModList(targ)
 					});
 				},
 				"Guardian Angel": function() {
-					if ($(`#${name}-angel`).length) return;
 					socket.emit(Type.GUARDIAN_ANGEL, $(this.parentNode).attr('name'));
 				}
 			};
