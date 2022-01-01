@@ -836,7 +836,6 @@ else
 	}
 	if (phase == 8) //Night
 	{
-		$(".angel").remove();
 		if (!mod) {
 		//Add the night buttons
 		for (i = 1; i < users.length; i++)
@@ -863,7 +862,7 @@ else
 		//Add the voting interface
 		for (i = 1; i < users.length; i++)
 		{
-		    if (!$($('#userlist li')[i]).hasClass('deadplayer') && !$($('#userlist li div span')[i]).hasClass('name spec'))
+		    if (!$($('#userlist li')[i]).hasClass('deadplayer') && !$($('#userlist li')[i]).contains('.name.spec') && !$($('#userlist li')[i]).contains('.angel'))
 			{
 				var li = $('#userlist').children()[i];
 				var button = $('<div class="votebutton">VOTE</div>');
@@ -1076,7 +1075,7 @@ socket.on(Type.PAUSEPHASE,function(p){
 		paused = p;
 });
 socket.on(Type.GUARDIAN_ANGEL, function(name, yourName) {
-	$(`#p-${name}`).append(`<span class="emoji" id="${name}-angel">👼</span>`);
+	$(`#p-${name}`).append(`<span class="emoji angel" id="${name}-angel">👼</span>`);
 	$(`#${name}-angel`).click(() => {
 		if (mod) {
 			$(`#${name}-angel`).remove();
