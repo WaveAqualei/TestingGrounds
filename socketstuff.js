@@ -1081,7 +1081,6 @@ socket.on(Type.GUARDIAN_ANGEL, function(name, yourName) {
 		if (mod) {
 			$(`#${name}-angel`).remove();
 			socket.emit(Type.REMOVE_EMOJI, `${name}-angel`);
-			currentEmojis.guardianAngel = false;
 		}
 	});
 });
