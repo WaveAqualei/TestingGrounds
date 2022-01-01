@@ -599,9 +599,6 @@ io.on('connection', function (socket) {
             //If the player is a mod who disconnected, set them as the mod.
             if (reconnecting.s.id == mod) {
                 mod = socket.id;
-                socket.emit(Type.SETMOD, true);
-            } else {
-                socket.emit(Type.SETMOD, false);
             }
             //Welcome back!
             delete players[reconnecting.s.id];
@@ -659,6 +656,7 @@ io.on('connection', function (socket) {
 
 			//If the mod is reconnecting, send the role data for all players
 			if(mod == socket.id) {
+                socket.emit(Type.SETMOD, true);
 				sendPlayerInfo();
 			}
         } else if (!nameTaken(joining[ip])) { //Second check for the name being taken
