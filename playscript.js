@@ -1,7 +1,6 @@
 window.onbeforeunload = function(){
   return 'If you are in a game and need to leave, please inform the mod before closing this page.';
 };
-const currentEmojis = {};
 mod = false;
 var current_rolelist = [
 	"Town Investigative",
@@ -459,7 +458,7 @@ function openModList(targ)
 					socket.emit(Type.TOGGLE,name,'linked');
 				},
 				'Douse': function () {
-					if (currentEmojis.douse) return;
+					if ($(`#${name}-fire`).length) return;
 				    var name = $(this.parentNode).attr('name');
 				    socket.emit(Type.TOGGLE, name, 'douse');
 					$(`#p-${name}`).append(`<span class="emoji" id="${name}-fire">🔥</span>`);
@@ -467,54 +466,44 @@ function openModList(targ)
 						if (mod) {
 							$(`#${name}-fire`).remove();
 							socket.emit(Type.REMOVE_EMOJI, `${name}-fire`);
-							currentEmojis.douse = false;
 						}
 					});
-					currentEmojis.douse = true;
 				},
 				'Hex': function () {
-					if (currentEmojis.hex) return;
+					if ($(`#${name}-hex`).length) return;
 					var name = $(this.parentNode).attr('name');
 					$(`#p-${name}`).append(`<span class="emoji" id="${name}-hex">文</span>`);
 					$(`#${name}-hex`).click(() => {
 						if (mod) {
 							$(`#${name}-hex`).remove();
 							socket.emit(Type.REMOVE_EMOJI, `${name}-hex`);
-							currentEmojis.hex = false;
 						}
 					});
-					currentEmojis.hex = true;
 				},
 				"Infect": function() {
-					if (currentEmojis.infect) return;
+					if ($(`#${name}-infect`).length) return;
 					var name = $(this.parentNode).attr('name');
 					$(`#p-${name}`).append(`<span class="emoji" id="${name}-infect">☢️</span>`);
 					$(`#${name}-infect`).click(() => {
 						if (mod) {
 							$(`#${name}-infect`).remove();
 							socket.emit(Type.REMOVE_EMOJI, `${name}-infect`);
-							currentEmojis.infect = false;
 						}
-					});;
-					currentEmojis.infect = true;
+					});
 				},
 				"Poison": function() {
-					if (currentEmojis.poison) return;
+					if ($(`#${name}-poison`).length) return;
 					var name = $(this.parentNode).attr('name');
 					$(`#p-${name}`).append(`<span class="emoji" id="${name}-poison">☠️</span>`);
 					$(`#${name}-poison`).click(() => {
 						if (mod) {
 							$(`#${name}-poison`).remove();
 							socket.emit(Type.REMOVE_EMOJI, `${name}-poison`);
-							currentEmojis.poison = false;
 						}
 					});
-					currentEmojis.poison = true;
 				},
 				"Guardian Angel": function() {
-					if (currentEmojis.guardianAngel) return;
 					socket.emit(Type.GUARDIAN_ANGEL, $(this.parentNode).attr('name'));
-					currentEmojis.guardianAngel = true;
 				}
 			};
 			var notifications = {

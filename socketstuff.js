@@ -87,7 +87,9 @@ var Type = {
 	GUARDIAN_ANGEL: 55,
 	REMOVE_EMOJI: 56,
 	NOTES: 57,
-	GETNOTES: 58
+	GETNOTES: 58,
+    DISCONNECT: 59,
+    RECONNECT: 60
 };
 function clearAllInfo()
 {
@@ -399,14 +401,7 @@ socket.on(Type.HEY,function(){
 socket.on(Type.JOIN,function(name, reconnect)
 {
 	users.push(name);
-	if (reconnect)
-	{
-		addMessage(name+' has reconnected.','system');
-	}
-	else
-	{
-		addMessage(name+' has joined.','system');
-	}
+	addMessage(name+' has joined.','system');
 	var num = $('#userlist').children().length;
 	if (num==0)
 	{
@@ -557,7 +552,6 @@ socket.on(Type.JOIN,function(name, reconnect)
 });
 socket.on(Type.LEAVE,function(name)
 {
-	addMessage(name +' has left.','system');
 	var index = users.indexOf(name);
 	$($('#userlist').children()[index]).remove();
 	//Recalculate the numbering.
@@ -575,6 +569,16 @@ socket.on(Type.LEAVE,function(name)
 	}
 	//Remove from list
 	users.splice(index,1);
+});
+socket.on(Type.DISCONNECT,function(name)
+{
+	addMessage(name +' has left.','system');
+	$(`#p-${name}`).append(`<span class="emoji" id="${name}-disconnected">🚫</span>`);
+});
+socket.on(Type.RECONNECT,function(name)
+{
+	addMessage(name +' has reconnected.','system');
+	$(`#${name}-disconnected`).remove();
 });
 socket.on(Type.SETMOD,function(val)
 {
@@ -832,12 +836,11 @@ else
 	}
 	if (phase == 8) //Night
 	{
-		$(".angel").remove();
 		if (!mod) {
 		//Add the night buttons
 		for (i = 1; i < users.length; i++)
 		{
-			if (!$($('#userlist li')[i]).hasClass('deadplayer'))
+			if (!$($('#userlist li')[i]).hasClass('deadplayer') && !$($('#userlist li')[i]).find('.name.spec').length)
 			{
 				var li = $('#userlist').children()[i];
 				var button = $('<div class="nightbutton">TARGET</div>');
@@ -859,7 +862,7 @@ else
 		//Add the voting interface
 		for (i = 1; i < users.length; i++)
 		{
-		    if (!$($('#userlist li')[i]).hasClass('deadplayer') && !$($('#userlist li div span')[i]).hasClass('name spec'))
+		    if (!$($('#userlist li')[i]).hasClass('deadplayer') && !$($('#userlist li')[i]).find('.name.spec').length && !$($('#userlist li')[i]).find('.angel').length)
 			{
 				var li = $('#userlist').children()[i];
 				var button = $('<div class="votebutton">VOTE</div>');
@@ -1020,7 +1023,13 @@ socket.on(Type.TARGET,function(name,role,target)
 
 socket.on(Type.MAYOR, function(name) {
 	addMessage(name+' has revealed themselves as the Mayor!', "highlight");
-	$(`#p-${name}`).append('<span class="emoji">🎩</span>')
+	$(`#p-${name}`).append(`<span class="emoji" id="${name}-mayor">🎩</span>`)
+	$(`#${name}-mayor`).click(() => {
+		if (mod) {
+			$(`#${name}-mayor`).remove();
+			socket.emit(Type.REMOVE_EMOJI, `${name}-mayor`);
+		}
+	});
 });
 socket.on(Type.HUG,function(name,target)	
 {
@@ -1066,12 +1075,12 @@ socket.on(Type.PAUSEPHASE,function(p){
 		paused = p;
 });
 socket.on(Type.GUARDIAN_ANGEL, function(name, yourName) {
-	$(`#p-${name}`).append(`<span class="emoji" id="${name}-angel">👼</span>`);
+	if ($(`#${name}-angel`).length) return;
+	$(`#p-${name}`).append(`<span class="emoji angel" id="${name}-angel">👼</span>`);
 	$(`#${name}-angel`).click(() => {
 		if (mod) {
 			$(`#${name}-angel`).remove();
 			socket.emit(Type.REMOVE_EMOJI, `${name}-angel`);
-			currentEmojis.guardianAngel = false;
 		}
 	});
 });

@@ -806,7 +806,7 @@ module.exports = {
 		//Populate targets array.
 		for (i in players)
 		{
-			if (mod != players[i].s.id)
+			if (mod != players[i].s.id && !players[i].spectate)
 			{
 				playersByName[players[i].name] = players[i];//Quicktarget
 				targets[players[i].name] = [players[i].role,undefined, true];

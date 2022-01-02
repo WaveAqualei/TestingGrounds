@@ -2,7 +2,7 @@ var http = require('http');
 var url = require('url');
 var fs = require('fs');
 var roles = require('./roleinfo');
-var Server = require('socket.io');
+var Server = require('socket.io').Server;
 var io = new Server(http, { pingInterval: 5000, pingTimeout: 10000 });
 var verified = []; //List of ips that are verified to use the MCP.
 var createdList = [];
@@ -49,7 +49,7 @@ var commandList = {
     },
     dev: {
         dev: 'Activate developer powers.',
-	setspectate: 'Toggle someone\'s spectator setting. Usage: /setspectate name',
+        setspectate: 'Toggle someone\'s spectator setting. Usage: /setspectate name',
         alert: 'Send an audio alert to a player.',
         kick: 'Kick a player.',
         ban: 'Ban an ip.',
@@ -120,6 +120,8 @@ var Type = {
     REMOVE_EMOJI: 56,
     NOTES: 57,
     GETNOTES: 58,
+    DISCONNECT: 59,
+    RECONNECT: 60,
 };
 var autoLevel = 1;
 /*
@@ -305,7 +307,7 @@ var server = http.createServer(function (req, res) {
                 req.on('end', function () {
                     if (Object.keys(players).length <= 36) {
                         //Check if the name is taken before serving the page.
-                        if (!nameTaken(playername)) {
+                        if (!nameTaken(playername, getIpReq(req))) {
                             if (nameCheck(playername)) {
                                 var ip = getIpReq(req);
                                 joining[ip] = playername;
@@ -355,7 +357,7 @@ var server = http.createServer(function (req, res) {
             var name = url.parse(req.url).query;
             if (name && typeof name == 'string') {
                 res.writeHead(200, { 'Content-Type': 'text/plain' });
-                if (nameTaken(name)) {
+                if (nameTaken(name, getIpReq(req))) {
                     res.write('taken');
                 } else if (name.length == 0) {
                     res.write('empty');
@@ -479,33 +481,34 @@ var server = http.createServer(function (req, res) {
                 }
             });
             break;
-	case '/Aquabatics.mp3':
-	case '/Bewitching.mp3':
+        case '/Aquabatics.mp3':
+        case '/Bewitching.mp3':
         case '/CalmBeforeTheStorm.mp3':
         case '/CareFree.mp3':
-	case '/Cauldron.mp3':
-	case '/Chaos.mp3':
-	case '/CosmicCove.mp3':
+        case '/Cauldron.mp3':
+        case '/Chaos.mp3':
+        case '/CosmicCove.mp3':
         case '/DarkAlley.mp3':
         case '/DarkHolidays.mp3':
-	case '/GardenGridlock.mp3':
+        case '/GardenGridlock.mp3':
         case '/GreenMeadows.mp3':
         case '/Heated.mp3':
         case '/Homecoming.mp3':
         case '/Inevitable.mp3':
         case '/Innocence.mp3':
-	case '/KakarikoNight.mp3':
-	case '/KakarikoSaved.mp3':
+        case '/KakarikoNight.mp3':
+        case '/KakarikoSaved.mp3':
         case '/LittleItaly.mp3':
-	case '/MountHylia.mp3':
-	case '/PeaceAndTranquility.mp3':
-	case '/Remembrance.mp3':
+        case '/MountHylia.mp3':
+        case '/PeaceAndTranquility.mp3':
+        case '/Remembrance.mp3':
         case '/Searching.mp3':
         case '/ShockAndAwe.mp3':
         case '/Suspicion.mp3':
-	case '/Valkyrie.mp3':
-	case '/Vampiric.mp3':
+        case '/Valkyrie.mp3':
+        case '/Vampiric.mp3':
         case '/WhatLurksInTheNight.mp3':
+        case '/Remembrance.mp3':
         case '/WhoAmI.mp3':
             fs.readFile(__dirname + '/sounds/' + path, function (error, data) {
                 if (error) {
@@ -565,57 +568,59 @@ io.on('connection', function (socket) {
         console.log('Connection attempt from banned ip: ' + ip);
         socket.disconnect();
     } else {
-        //Check if the person is an alt.
+        //Check if the person is reconnecting or an alt.
+        var reconnecting = null;
         var alts = [];
         for (i in players) {
             if (ip == players[i].ip) {
-                alts.push(players[i].name);
+                if(joining[ip] == players[i].name && !players[i].s.connected) {
+                    reconnecting = players[i];
+                } else {
+                    alts.push(players[i].name);
+                }
             }
         }
-        //Second check for the name being taken
-        if (!nameTaken(joining[ip])) {
-            if (dcd[ip] && alts.length == 0 && (!joining[ip] || (joining[ip] && joining[ip] == dcd[ip].name))) {
-                //Rejoining after a dc
-                //Send the list of names in the game to the returning player.
-                var namelist = [];
-                //Send the roles of any dead players
-                for (i in playernums) {
-                    var p = {};
-                    p.name = players[playernums[i]].name;
-                    if (!players[playernums[i]].alive) {
-                        p.role = players[playernums[i]].role;
-                    }
-                    namelist.push(p);
+        //If reconnecting, give them their old slot back
+        if(reconnecting) {
+            //Rejoining after a dc
+            //Send the list of names in the game to the returning player.
+            var namelist = [];
+            //Send the roles of any dead players
+            for (i in playernums) {
+                var p = {};
+                p.name = players[playernums[i]].name;
+                if (!players[playernums[i]].alive) {
+                    p.role = players[playernums[i]].role;
                 }
-                socket.emit(Type.PAUSEPHASE, timer.paused);
-                socket.emit(Type.SETDAYNUMBER, gm.getDay());
-                //If the player is first, set them as the mod.
-                if (Object.keys(players).length == 0) {
-                    mod = socket.id;
-                    socket.emit(Type.SETMOD, true);
-                } else {
-                    socket.emit(Type.SETMOD, false);
-                }
-                //Welcome back!
-                players[socket.id] = dcd[ip];
-                //Replace the old socket.
-                players[socket.id].s = socket;
-                //Reset ping.
-                players[socket.id].ping = 0;
+                namelist.push(p);
+            }
+            socket.emit(Type.PAUSEPHASE, timer.paused);
+            socket.emit(Type.SETDAYNUMBER, gm.getDay());
+            //If the player is a mod who disconnected, set them as the mod.
+            if (reconnecting.s.id == mod) {
+                mod = socket.id;
+            }
+            //Welcome back!
+            delete players[reconnecting.s.id];
+            players[socket.id] = reconnecting;
+            playernums[playernums.indexOf(reconnecting.s.id)] = socket.id;
+            playernames[players[socket.id].name] = socket.id;
+            //Replace the old socket.
+            players[socket.id].s = socket;
+            //Reset ping.
+            players[socket.id].ping = 0;
 
-                playernums.push(socket.id);
-                playernames[players[socket.id].name] = socket.id;
+            socket.emit(Type.ROOMLIST, namelist);
 
-                socket.emit(Type.ROOMLIST, namelist);
+            socket.emit(Type.ACCEPT);
+            socket.emit(Type.SYSTEM, 'You have reconnected.');
+            var name = players[socket.id].name;
+            //Inform everyone of the new arrival.
+            io.emit(Type.RECONNECT, name);
+            //Tell the new arrival what phase it is.
+            socket.emit(Type.SETPHASE, phase, true, timer.time);
 
-                socket.emit(Type.ACCEPT);
-                socket.emit(Type.SYSTEM, 'You have reconnected.');
-                var name = players[socket.id].name;
-                //Inform everyone of the new arrival.
-                io.emit(Type.JOIN, name, true);
-                //Tell the new arrival what phase it is.
-                socket.emit(Type.SETPHASE, phase, true, timer.time);
-
+            if (players[mod] && mod != socket.id) {
                 var send = {};
 
                 for (i in players[socket.id].chats) {
@@ -629,26 +634,33 @@ io.on('connection', function (socket) {
                 send.blackmailer = players[socket.id].hearwhispers;
                 send.mayor = players[socket.id].mayor !== undefined;
                 send.role = players[socket.id].role;
-                if (players[mod]) {
-                    players[mod].s.emit(Type.ROLEUPDATE, send);
+
+                players[mod].s.emit(Type.ROLEUPDATE, send);
+            }
+            //Resend the list.
+            var namelist = [];
+            //Send the roles of any dead players
+            for (i in playernums) {
+                var p = {};
+                p.name = players[playernums[i]].name;
+                if (!players[playernums[i]].alive) {
+                    p.role = players[playernums[i]].role;
                 }
-                //Resend the list.
-                var namelist = [];
-                //Send the roles of any dead players
-                for (i in playernums) {
-                    var p = {};
-                    p.name = players[playernums[i]].name;
-                    if (!players[playernums[i]].alive) {
-                        p.role = players[playernums[i]].role;
-                    }
-                    namelist.push(p);
-                }
-                socket.emit(Type.ROOMLIST, namelist);
-                //Set the rejoining player's will.
-                socket.emit(Type.GETWILL, undefined, players[socket.id].will);
-                //Set the rejoining player's notes.
-                socket.emit(Type.GETNOTES, undefined, players[socket.id].notes);
-            } else if (joining[ip]) {
+                namelist.push(p);
+            }
+            socket.emit(Type.ROOMLIST, namelist);
+            //Set the rejoining player's will.
+            socket.emit(Type.GETWILL, undefined, players[socket.id].will);
+            //Set the rejoining player's notes.
+            socket.emit(Type.GETNOTES, undefined, players[socket.id].notes);
+
+			//If the mod is reconnecting, send the role data for all players
+			if(mod == socket.id) {
+                socket.emit(Type.SETMOD, true);
+				sendPlayerInfo();
+			}
+        } else if (!nameTaken(joining[ip])) { //Second check for the name being taken
+            if (joining[ip]) {
                 socket.emit(Type.PAUSEPHASE, timer.paused);
                 socket.emit(Type.SETDAYNUMBER, gm.getDay());
                 //If the player is first, set them as the mod.
@@ -698,9 +710,9 @@ io.on('connection', function (socket) {
                 }
             }
             /*else //Disabled because it stops the index from connecting.
-			{
-				socket.disconnect();
-			}*/
+            {
+                socket.disconnect();
+            }*/
         } else {
             socket.emit(Type.DENY, 'Sorry, this name is taken.');
             socket.disconnect();
@@ -1161,17 +1173,20 @@ io.on('connection', function (socket) {
     });
     socket.on('disconnect', function () {
         if (players[socket.id]) {
-            io.emit(Type.LEAVE, players[socket.id].name);
             players[socket.id].dc();
         }
     });
 });
 //Functions
-function nameTaken(name) {
+function nameTaken(name, ip) {
     var match = false;
     for (i in players) {
         if (name == players[i].name) {
             match = true;
+            if(ip == players[i].ip && !players[i].s.connected) {
+                // Allow reconnecting
+                return false;
+            }
         }
     }
     return match;
@@ -1262,6 +1277,23 @@ function setPhase(p) {
                 players[i].doused = false;
                 players[i].blackmailed = false;
                 players[i].chats.linked = false;
+
+                //Now that the game is over, we can remove all disconnected players
+                if(!players[i].s.connected) {
+                    io.emit(Type.LEAVE, players[i].name);
+                    //Splice them from the numbers array.
+                    playernums.splice(playernums.indexOf(i), 1);
+                    delete playernames[players[i].name];
+                    delete players[i];
+                }
+            }
+        }
+        if(!players[mod]) {
+            //Mod was disconnected, give it to someone else.
+            if (Object.keys(players).length > 0) {
+                mod = getPlayerByNumber(0).s.id;
+                players[mod].s.emit(Type.SETMOD, true);
+                sendPlayerInfo();
             }
         }
         rainnumber = 0;
@@ -1381,7 +1413,7 @@ function getIpReq(req) {
 function numLivingPlayers() {
     var c = 0;
     for (i in players) {
-        if (players[i].alive && i != mod) {
+        if (players[i].alive && !players[i].spectate && i != mod) {
             c++;
         }
     }
@@ -1407,17 +1439,6 @@ function trialCheck(player) {
         io.emit(Type.HIGHLIGHT, player.name + ' has been put on trial. What is your defense?');
         io.emit(Type.SETPHASE, phase, true, timer.time);
         ontrial = player.s.id;
-    }
-}
-//--Save the info of a dc'd players.
-function dcStore(p) {
-    if (Object.keys(dcd).length <= 20) {
-        dcd[p.ip] = p;
-        setTimeout(function () {
-            if (p) {
-                p.clear();
-            }
-        }, 5 * 60 * 1000); // 5 minutes.
     }
 }
 function isVerified(ip) {
@@ -1689,18 +1710,29 @@ function Player(socket, name, ip) {
             }
         },
         dc: function () {
-            //Store the player's info in case they rejoin.
-            dcStore(this);
-            //Splice them from the numbers array.
-            playernums.splice(playernums.indexOf(this.s.id), 1);
-            delete playernames[this.name];
-            delete players[this.s.id];
-            if (mod == this.s.id) {
-                //Player was mod, give it to someone else.
-                if (Object.keys(players).length > 0) {
-                    mod = getPlayerByNumber(0).s.id;
-                    players[mod].s.emit(Type.SETMOD, true);
-                    sendPlayerInfo();
+            io.emit(Type.DISCONNECT, this.name);
+            if(phase === Phase.PREGAME) {
+                io.emit(Type.LEAVE, this.name);
+                //Splice them from the numbers array.
+                playernums.splice(playernums.indexOf(this.s.id), 1);
+                delete playernames[this.name];
+                delete players[this.s.id];
+                if (mod == this.s.id) {
+                    //Player was mod, give it to someone else.
+                    if (Object.keys(players).length > 0) {
+                        mod = getPlayerByNumber(0).s.id;
+                        players[mod].s.emit(Type.SETMOD, true);
+                        sendPlayerInfo();
+                    }
+                }
+            } else {
+                if (mod == this.s.id) {
+                    setTimeout(function () {
+                        if(!(players[mod] && players[mod].s.connected)) {
+                            io.emit(Type.SYSTEM, 'Game canceled because the mod has been disconnected for over a minute.');
+                            setPhase(Phase.PREGAME);
+                        }
+                    }, 1 * 60 * 1000); // 1 minute.
                 }
             }
         },
@@ -1814,9 +1846,6 @@ function Player(socket, name, ip) {
                     socket.emit(Type.SYSTEM, '"' + name + '" is not a valid player.');
                 }
             }
-        },
-        clear: function () {
-            delete dcd[this.ip];
         },
         command: function (com) {
             var c = com.split(' ');
