@@ -453,7 +453,7 @@ var roles = [
             'You will know the role of the player you Control.',
         ],
         goal: 'Survive to see the Town lose the game.',
-        color: '#8400ff',
+        color: '#8634A0',
     },
 
     // NEUTRAL KILLING VANILLA
@@ -733,12 +733,26 @@ var roles = [
     },
     {
         rolename: 'caporegime',
-        alignment: 'mafia head',
+        alignment: 'mafia support',
         abilities: ['Train a non-Mafia member each night and choose your trained targets at night to use their reserved abilities.'],
         attributes: [
             'You may select which Mafia ability you wish to make your trainee hold onto.',
             'Trained players will become untrained after you use them.',
             'When you select a trainee, you may select a second target for them to use their ability on.',
+        ],
+        goal: mafiagoal,
+        color: mafiacolor,
+        custom: true,
+    },
+    {
+        rolename: 'technician',
+        alignment: 'mafia support',
+        abilities: ['You may use one of your devices at night.'],
+        attributes: [
+            'You have three devices: Sabotage, Smoke Grenade, Tap.',
+            'Sabotage will affect certain roles\' abilities. You may not use Sabotage on the same player twice.',
+            'Smoke Grenades take one night to build; they obsure information to their targets and visitors.',
+            'Tapping a player gives you all the notifications they get that night.',
         ],
         goal: mafiagoal,
         color: mafiacolor,
@@ -769,9 +783,9 @@ var roles = [
     {
         rolename: 'associate',
         alignment: 'mafia support',
-        abilities: ['Choose a mafia member to accompany during the day.'],
+        abilities: ['Choose a mafia member to help during the day.'],
         attributes: [
-            'When you accompany a Mafia member, their abilities will be enhanced for the night.',
+            'When you help a Mafia member, their abilities will be enhanced for the night.',
             'You may use Alibi, Stealth, or Efficiency.',
             'You may use Alibi on yourself.',
             'You can only use each ability on each Mafia member once.',
@@ -816,17 +830,41 @@ var roles = [
         color: mafiacolor,
         custom: true,
     },
+    {
+        rolename: 'scout',
+        alignment: 'mafia support',
+        abilities: ['You may accompany a Mafia member at night.'],
+        attributes: ['The Mafia member you visit will have their visit astral the night.',
+                     'You will receive all night feedback the Mafia member you accompany receives.',
+                     'You cannot be controlled.
+                     'If there are no capable Mafia killing roles you will become a Mafioso.',
+        ],
+        goal: mafiagoal,
+        color: mafiacolor,
+        custom: true,
+    },
+    {
+        rolename: 'recon',
+        alignment: 'mafia support',
+        abilities: ['You may spy on a player at night.'],
+        attributes: ['You will know who visits your target, along with who your target visits.',
+                     'If there are no capable Mafia killing roles you will become a Mafioso.',
+        ],
+        goal: mafiagoal,
+        color: mafiacolor,
+        custom: true,
+    },
 
     // COVEN CUSTOM
     {
-        rolename: 'hierophant',
+        rolename: 'lapidarist',
         alignment: 'coven evil',
-        abilities: ['You may cast a Ward on a player at night.'],
+        abilities: ['You may crystallize someone at night, or spend a night to craft a crystal.'],
         attributes: [
-            'Wards reflect all abilities on your target back to their users.',
-            'You cannot reflect Transports.',
-            'You have 3 Wards.',
-            'With the Necronomicon, you have unlimited Wards and you may purify a player at night instead, roleblocking them along with dealing a Powerful attack to them.',
+            'You start with 2 Crystals.',
+            'Crystals reflect abilities back to where they came from.',
+            'If your crystallized target visits you, you will deal a Basic attack to them.',
+            'With the Necronomicon, you have unlimited Crystals and will deliver a Basic attack to your target.',
         ],
         goal: covengoal,
         color: covencolor,
@@ -877,7 +915,7 @@ var roles = [
     {
         rolename: 'servant',
         alignment: 'neutral benign',
-        abilities: ["Carry out your employer's abilities each night."],
+        abilities: ['Carry out your employer\'s abilities each night.'],
         attributes: [
             ' You will share a chat with your employer, and you will gain access to any exclusive chats that your master has access to.',
             'If you are roleblocked, your employer will carry out the action themself.',
@@ -888,17 +926,21 @@ var roles = [
         color: '#80BFBF',
         custom: true,
     },
-
-    // NEUTRAL EVIL CUSTOM
     {
-        rolename: 'gossiper',
-        alignment: 'neutral evil',
-        abilities: ['Select two targets. Your second target will find out role, visitors, and target of your first one.'],
-        attributes: ['You cannot target yourself.', 'Your ability fails if you give information to a townperson, and you will NOT be notified of this.', 'You own one auto-vest.'],
-        goal: 'Survive to see the Town lose the game.',
-        color: '#808000',
+        rolename: 'harmony\'s angel',
+        alignment: 'neutral benign',
+        abilities: ['Watch over a player each night, granting them Powerful defense.'],
+        attributes: [
+            'When you protect a player they cannot be voted up the next day.',
+            'You may protect two more times after you die.',
+            'You may not protect yourself.',
+        ],
+        goal: 'Save four people from attacks.',
+        color: '#0080FF',
         custom: true,
     },
+
+    // NEUTRAL EVIL CUSTOM
     {
         rolename: 'rolestopper',
         alignment: 'neutral evil',
@@ -928,6 +970,7 @@ var roles = [
         color: '#FF69B4',
         custom: true,
     },
+    
     // NEUTRAL KILLING CUSTOM
     {
         rolename: 'butcher',
@@ -985,6 +1028,20 @@ var roles = [
         ],
         goal: 'Kill anyone that would oppose you.',
         color: '#5F0060',
+        custom: true,
+    },
+    {
+        rolename: 'patient',
+        alignment: 'neutral killing',
+        abilities: ['You may attack a player on every odd night.'],
+        attributes: [
+            'You will attack one random player that visits you at night.',
+            'Target wont be notified about charging.',
+            'If you do not choose to attack you will attack someone at random.',
+            'Your victims will have their last will unreadable upon death.',
+        ],
+        goal: 'Live to see everyone electrocuted.',
+        color: '#808000',
         custom: true,
     },
 

@@ -15,15 +15,15 @@ var kicked = false;
 var hey = new Audio('ping.wav');
 //Halloween
 //var hey = new Audio('Giratina.wav');
-var mpregame = new Audio('Cauldron.mp3');
+var mpregame = new Audio('CosmicCove.mp3');
 var whoami = new Audio('KakarikoSaved.mp3');
-var mmodtime = new Audio('Vampiric.mp3');
+var mmodtime = new Audio('Touchstone.mp3');
 //Halloween
 //var mmodtime = new Audio('Bewitching.mp3');
-var mdaytime = new Audio('Heated.mp3');
+var mdaytime = new Audio('Skyworld.mp3');
 var mvoting = new Audio('Suspicion.mp3');
 var mtrial = new Audio('Innocence.mp3');
-var mnight = new Audio('WhatLurksInTheNight.mp3');
+var mnight = new Audio('MountHylia.mp3');
 var musicon = 1;
 mpregame.loop = true;
 whoami.loop = true;
@@ -267,7 +267,7 @@ socket.on(Type.MSG,function(name,msg)
 socket.on(Type.HELP,function(commands)
 {
 	var helpmsgs = [
-		"The Mod does not bite, they are only killing people.",
+		"The Mod does not bite, they are only killing people x.",
 		"The Mod can make mistakes, if you believe there has been a mod error, message them using /mod.",
 		"Please keep your last will closed during Modtime.",
 		"You can tell the mod what you would like to do at night using /mod or /target",
