@@ -31,7 +31,7 @@ var commandList = {
     roles: {
         reveal: 'Reveal yourself as the Mayor, if you have that role. Usage: /reveal, during the day.',
         execute: 'Choose to execute the person you have jailed. Usage /execute, then /execute again to cancel.',
-        seance: 'Choose a player to talk to at night. You may only use this once.',
+        seance: 'Choose a player to talk to at night. You may only use this once during the day.',
         jail: 'Choose to jail a player. Usage: /jail [target] during the day.',
     },
     mod: {
@@ -437,6 +437,7 @@ var server = http.createServer(function (req, res) {
         case '/back3.png':
         case '/lastwillbutton.png':
         case '/notesbutton.png':
+	case '/notesclose.png':
         case '/music.png':
         case '/nomusic.png':
         case '/Snowback1.png':
@@ -502,7 +503,10 @@ var server = http.createServer(function (req, res) {
 	case '/Remembrance.mp3':
         case '/Searching.mp3':
         case '/ShockAndAwe.mp3':
+	case '/Skyworld.mp3':
+	case '/StarlitSky.mp3':
         case '/Suspicion.mp3':
+	case '/Touchstone.mp3':
 	case '/Valkyrie.mp3':
 	case '/Vampiric.mp3':
         case '/WhatLurksInTheNight.mp3':
