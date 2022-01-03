@@ -821,12 +821,12 @@ io.on('connection', function (socket) {
 	});
 	socket.on(Type.SETROLE, function (name, role) {
 		if (socket.id == mod) {
-			role = sanitize(role);
-			if (role.length > 16) {
-				socket.emit(Type.SYSTEM, 'Role name cannot be more than 16 characters.');
+			if (role.length > 32) {
+				socket.emit(Type.SYSTEM, 'Role name cannot be more than 32 characters.');
 			} else {
 				var p = getPlayerByName(name);
 				if (p) {
+					role = sanitize(role);
 					p.setRole(role);
 				} else {
 					socket.emit(Type.SYSTEM, 'Invalid name "' + name + '", did you break something?');
@@ -840,8 +840,8 @@ io.on('connection', function (socket) {
 		if (socket.id == mod) {
 			prev_rolled = roles;
 			for (i in names) {
-				if (roles[i].length > 20) {
-					socket.emit(Type.SYSTEM, 'Invalid rolelist! Role name cannot be more than 20 characters: ' + roles[i]);
+				if (roles[i].length > 32) {
+					socket.emit(Type.SYSTEM, 'Invalid rolelist! Role name cannot be more than 32 characters: ' + roles[i]);
 					break;
 				}
 				var p = getPlayerByName(names[i]);
