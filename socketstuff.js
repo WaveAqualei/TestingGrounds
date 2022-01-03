@@ -267,7 +267,7 @@ socket.on(Type.MSG,function(name,msg)
 socket.on(Type.HELP,function(commands)
 {
 	var helpmsgs = [
-		"The Mod does not bite, they are only killing people x.",
+		"The Mod does not bite, they are only killing people.",
 		"The Mod can make mistakes, if you believe there has been a mod error, message them using /mod.",
 		"Please keep your last will closed during Modtime.",
 		"You can tell the mod what you would like to do at night using /mod or /target",
