@@ -836,7 +836,7 @@ var roles = [
 		abilities: ['You may accompany a Mafia member at night.'],
 		attributes: ['The Mafia member you visit will have their visit astral the night.',
 					 'You will receive all night feedback the Mafia member you accompany receives.',
-					 'You cannot be controlled.
+					 'You cannot be controlled.',
 					 'If there are no capable Mafia killing roles you will become a Mafioso.',
 		],
 		goal: mafiagoal,
