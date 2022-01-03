@@ -15,15 +15,15 @@ var kicked = false;
 var hey = new Audio('ping.wav');
 //Halloween
 //var hey = new Audio('Giratina.wav');
-var mpregame = new Audio('Cauldron.mp3');
+var mpregame = new Audio('CosmicCove.mp3');
 var whoami = new Audio('KakarikoSaved.mp3');
-var mmodtime = new Audio('Vampiric.mp3');
+var mmodtime = new Audio('Touchstone.mp3');
 //Halloween
 //var mmodtime = new Audio('Bewitching.mp3');
-var mdaytime = new Audio('Heated.mp3');
+var mdaytime = new Audio('Skyworld.mp3');
 var mvoting = new Audio('Suspicion.mp3');
 var mtrial = new Audio('Innocence.mp3');
-var mnight = new Audio('WhatLurksInTheNight.mp3');
+var mnight = new Audio('MountHylia.mp3');
 var musicon = 1;
 mpregame.loop = true;
 whoami.loop = true;
@@ -88,8 +88,8 @@ var Type = {
 	REMOVE_EMOJI: 56,
 	NOTES: 57,
 	GETNOTES: 58,
-    DISCONNECT: 59,
-    RECONNECT: 60
+	DISCONNECT: 59,
+	RECONNECT: 60
 };
 function clearAllInfo()
 {
@@ -186,7 +186,7 @@ function modInterface()
 				$(this).removeClass('releasebutton');
 				$(this).addClass('jailbutton');
 				$(this).html('<span>Jail</span>');
-			}	
+			}
 		});
 		var will = $('<div class="controlbutton modwillbutton"><span>W</span></div>');
 		var more = $('<div class="controlbutton more"></div>');
@@ -200,12 +200,12 @@ function modInterface()
 		{
 			openUserWill(this);
 		});
-		
+
 		info.append(more);
 		info.append(will);
 		info.append(jail);
 		info.append(kill);
-		
+
 		//Adding bottom row
 		var modcontrols = $('<div class="modcontrols"></div>');
 		var rolechanger = $('<input type="text" class="role"></li>');
@@ -214,7 +214,7 @@ function modInterface()
 				if (e.keyCode==13) //Enter
 				{
 					var index = $('.role').index($(this));
-					var name = $('.name')[index].innerHTML;		
+					var name = $('.name')[index].innerHTML;
 					socket.emit(Type.SETROLE,name,this.value);
 					this.style.background='green';
 				}
@@ -232,7 +232,7 @@ function modInterface()
 			button.attr('type',buttons[i]);
 			button.click(function()
 			{
-				var name = $($(this).parent().parent().children()[0]).children()[1].innerHTML;	
+				var name = $($(this).parent().parent().children()[0]).children()[1].innerHTML;
 				var chat = $(this).attr('type');
 				if ($(this).hasClass(chat+'buttondown'))
 				{
@@ -431,7 +431,7 @@ socket.on(Type.JOIN,function(name, reconnect)
 	info.append(name);
 	//Bottom row
 	if (mod)
-	{		
+	{
 		$('#inputarea').append(rlbutton);
 		$('#inputarea').append(ambutton);
 		//Addition to the top row
@@ -470,7 +470,7 @@ socket.on(Type.JOIN,function(name, reconnect)
 				$(this).removeClass('releasebutton');
 				$(this).addClass('jailbutton');
 				$(this).html('<span>Jail</span>');
-			}	
+			}
 		});
 		var will = $('<div class="controlbutton modwillbutton"><span>W</span></div>');
 		var more = $('<div class="controlbutton more"><span class="downarrow"></span></div>');
@@ -494,7 +494,7 @@ socket.on(Type.JOIN,function(name, reconnect)
 				if (e.keyCode==13) //Enter
 				{
 					var index = $('.role').index($(this));
-					var name = $('.name')[index].innerHTML;		
+					var name = $('.name')[index].innerHTML;
 					socket.emit(Type.SETROLE,name,this.value);
 					this.style.background='green';
 					this.old = this.value;
@@ -512,11 +512,11 @@ socket.on(Type.JOIN,function(name, reconnect)
 			//Stop it from going over 20 chars
 			if (this.value.length > 20)
 			{
-				this.value = this.value.substring(0,15);	
-			}			
+				this.value = this.value.substring(0,15);
+			}
 		});
 		modcontrols.append(rolechanger);
-		
+
 		var buttons = ['mafia','jailor','blackmailer','medium','mayor','coven'];
 		for (i in buttons)
 		{
@@ -525,7 +525,7 @@ socket.on(Type.JOIN,function(name, reconnect)
 			button.attr('type',buttons[i]);
 			button.click(function()
 			{
-				var name = $($(this).parent().parent().children()[0]).children()[1].innerHTML;	
+				var name = $($(this).parent().parent().children()[0]).children()[1].innerHTML;
 				var chat = $(this).attr('type');
 				if ($(this).hasClass(chat+'buttondown'))
 				{
@@ -618,16 +618,16 @@ socket.on(Type.SETMOD,function(val)
 			}
 			$('#userlist li')[i].innerHTML='';
 			$($('#userlist li')[i]).append(info);
-			
+
 		}
 		if ($('#rolelist').length != 0)
 		{
 			$('#rolelist').remove();
-		}		
+		}
 		if ($('#rolelistbutton').length != 0)
 		{
 			$('#rolelistbutton').remove();
-		}		
+		}
 		if ($('#automodsettingsbutton').length != 0)
 		{
 			$('#automodsettingsbutton').remove();
@@ -654,14 +654,14 @@ socket.on(Type.ROOMLIST,function(list)
 			var num = (i==0)?'MOD':i; //Num is MOD if i is 0, otherwise num is equal to i.
 			if (devs.indexOf(list[i].name) != -1)
 			{
-				var name = '<span class="name dev">'+list[i].name+'</span>';	
+				var name = '<span class="name dev">'+list[i].name+'</span>';
 			}
 			else
 			{
 				var name = '<span class="name">'+list[i].name+'</span>';
 			}
 			if (list[i].role)
-			{	
+			{
 				//Player is dead.
 				$('#userlist').append(`<li class="deadplayer"><div class="info" id="p-${list[i].name}"><span class="num">${num}</span>${name}</div><div><span>${list[i].role}</span></div></li>`);
 			}
@@ -669,7 +669,7 @@ socket.on(Type.ROOMLIST,function(list)
 			{
 				$('#userlist').append(`<li><div class="info" id="p-${list[i].name}"><span class="num">${num}</span>${name}</div></li>`);
 			}
-			
+
 			users.push(list[i].name);
 		}
 	}
@@ -693,7 +693,7 @@ socket.on(Type.TOGGLELIVING,function(p)
 		{
 			li.outerHTML = `<li><div class="info" id="p-${p.name}"><span class="num">${index}</span><span class="name">${p.name}</span></div></li>`;
 		}
-	}	
+	}
 });
 socket.on(Type.KICK,function()
 {
@@ -714,7 +714,7 @@ socket.on(Type.SETDAYNUMBER,function(num){
 	{
 		$('#nightli').html('Night '+num);
 	}
-	
+
 });
 socket.on(Type.SETPHASE,function(phase,silent,time)
 {
@@ -786,7 +786,7 @@ else
 	{
 		if (phase == 5)
 		{
-		mtrial.play();	
+		mtrial.play();
 		mtrial.currentTime = 0;
 		if (musicon == 1)
 		{
@@ -821,7 +821,7 @@ else
 	$($('header ul li')[phase]).addClass('current');
 	$('#clock').remove();
 	$('.pausebutton, .playbutton').remove();
-	if (!silent)	
+	if (!silent)
 	{
 		addMessage($('header ul li')[phase].innerHTML,'highlight');
 	}
@@ -848,7 +848,7 @@ else
 				{
 					var index = $('#userlist li').index(this.parentNode.parentNode.parentNode);
 					var name = users[index];
-					socket.emit(Type.TARGET,name);	
+					socket.emit(Type.TARGET,name);
 				});
 				var nightinterface = $('<div class="nightinterface"></div>');
 				nightinterface.append(button);
@@ -862,7 +862,7 @@ else
 		//Add the voting interface
 		for (i = 1; i < users.length; i++)
 		{
-		    if (!$($('#userlist li')[i]).hasClass('deadplayer') && !$($('#userlist li')[i]).find('.name.spec').length && !$($('#userlist li')[i]).find('.angel').length)
+			if (!$($('#userlist li')[i]).hasClass('deadplayer') && !$($('#userlist li')[i]).find('.name.spec').length && !$($('#userlist li')[i]).find('.angel').length)
 			{
 				var li = $('#userlist').children()[i];
 				var button = $('<div class="votebutton">VOTE</div>');
@@ -870,7 +870,7 @@ else
 				{
 					var index = $('#userlist li').index(this.parentNode.parentNode.parentNode);
 					var name = users[index];
-					socket.emit(Type.VOTE,name);	
+					socket.emit(Type.VOTE,name);
 				});
 				var count = $('<div class="votecount">0</div>');
 				var votinginterface = $('<div class="votinginterface"></div>');
@@ -894,13 +894,13 @@ else
 		{
 			socket.emit(Type.VERDICT,true); //true for inno
 		});
-		
+
 		verdict.append(guilty);
 		verdict.append(inno);
 		$('#main').append(verdict);
 		verdict.animate({'left':'60%'},'fast');
 	}
-	
+
 	//Initially start all songs.
 			mpregame.play();
 			whoami.play();
@@ -909,15 +909,15 @@ else
 			mvoting.play();
 			mtrial.play();
 			mnight.play();
-	
+
 });
 socket.on(Type.WHISPER,function(msg)
 {
-	addMessage(msg,'whisper'); 
+	addMessage(msg,'whisper');
 });
 socket.on(Type.MOD,function(msg)
 {
-	addMessage(msg,'mod'); 	
+	addMessage(msg,'mod');
 });
 socket.on(Type.SWITCH,function(name1,name2)
 {
@@ -926,7 +926,7 @@ socket.on(Type.SWITCH,function(name1,name2)
 	users[i1] = name2;
 	users[i2] = name1;
 	//Swap li's
-	var a = $($('#userlist li')[i1]); 
+	var a = $($('#userlist li')[i1]);
 	var b = $($('#userlist li')[i2]);
 	//Swap list items
 	b.before(a);
@@ -940,7 +940,7 @@ socket.on(Type.PRENOT,function(notification)
 	switch (notification)
    {
 	  case 'GUARDIAN_ANGEL':
-	    addMessage({msg: "The Guardian Angel was watching over you!", styling: 'reviving'}, 'prenot');
+		addMessage({msg: "The Guardian Angel was watching over you!", styling: 'reviving'}, 'prenot');
 		break;
 	  case 'POISON_CURABLE':
 		addMessage({msg: "You were poisoned. You will die tomorrow unless you are cured!", styling: 'dying'}, 'prenot');
@@ -948,75 +948,75 @@ socket.on(Type.PRENOT,function(notification)
 	  case 'POISON_UNCURABLE':
 		addMessage({msg: "You were poisoned. You will die tomorrow!", styling: 'dying'}, 'prenot');
 		break;
-	  case 'PROTECTED': 
-	  	addMessage({msg: "You were attacked but someone protected you!", styling: 'reviving'}, 'prenot');
-	  	break;
-	  case 'SAVED_BY_BG': 
-	  	addMessage({msg: "You were attacked but someone fought off your attacker!", styling: 'reviving'}, 'prenot');
-	  	break;
-	  case 'SAVED_BY_TRAP': 
-	  	addMessage({msg: "You were attacked but a trap saved you!", styling: 'reviving'}, 'prenot');
-	  	break;
-	  case 'SAVED_BY_GA': 
-	  	addMessage({msg: "You were attacked but the Guardian Angel saved you!", styling: 'reviving'}, 'prenot');
-	  	break;
-	  case 'TARGET_ATTACKED': 
-	  	addMessage({msg: "Your target was attacked!", styling: 'dying'}, 'prenot');
-	  	break;
+	  case 'PROTECTED':
+		addMessage({msg: "You were attacked but someone protected you!", styling: 'reviving'}, 'prenot');
+		break;
+	  case 'SAVED_BY_BG':
+		addMessage({msg: "You were attacked but someone fought off your attacker!", styling: 'reviving'}, 'prenot');
+		break;
+	  case 'SAVED_BY_TRAP':
+		addMessage({msg: "You were attacked but a trap saved you!", styling: 'reviving'}, 'prenot');
+		break;
+	  case 'SAVED_BY_GA':
+		addMessage({msg: "You were attacked but the Guardian Angel saved you!", styling: 'reviving'}, 'prenot');
+		break;
+	  case 'TARGET_ATTACKED':
+		addMessage({msg: "Your target was attacked!", styling: 'dying'}, 'prenot');
+		break;
 	  case 'MEDUSA_STONE':
 		addMessage({msg: "You turned someone to stone.", styling: 'reviving'}, 'prenot');
 		break;
-      case 'DEAD':         
-         addMessage({msg:'You have died!',styling:'dying'},'prenot');
-      break;
-      case 'BLACKMAIL':
-         addMessage({msg:'Someone threatened to reveal your secrets. You are blackmailed!',styling:'dying'},'prenot');
-      break;
-      case 'DOUSE':
-         addMessage({msg:'You were doused!',styling:'dying'},'prenot');
-      break;
-      case 'TARGETIMMUNE':
-         addMessage({msg:'Your target\'s defense was too strong to kill.',styling:'dying'},'prenot');
-      break;
-      case 'IMMUNE':
-         addMessage({msg:'Someone attacked you but your defense was too strong!',styling:'dying'},'prenot');
-      break;
-      case 'JESTER':
-         addMessage({msg:'The Jester will have their revenge from the grave!',styling:'dying'},'prenot');
-      break;
-      case 'SHOTVET':
-         addMessage({msg:'You were shot by the Veteran you visited!',styling:'dying'},'prenot');
-      break;
-      case 'VETSHOT':
-         addMessage({msg:'You shot someone who visited you!',styling:'dying'},'prenot');
-      break;
-      case 'RB':
-         addMessage({msg:'Someone occupied your night. You were roleblocked!',styling:'dying'},'prenot');
-      break;
-      case 'WITCHED':
-         addMessage({msg:'You felt a mystical power dominating you. You were controlled by a Witch!',styling:'dying'},'prenot');
-      break;
-      case 'REVIVE':
-         addMessage({msg:'You were revived!',styling:'reviving'},'prenot');
-      break;
-      case 'HEAL':
-         addMessage({msg:'You were attacked but someone nursed you back to health!',styling:'reviving'},'prenot');
-      break;
-      case 'JAILED':
-         addMessage({msg:'You were hauled off to jail!',styling:'jailing'},'prenot');
-      break;
-      case 'JAILING':
-         addMessage({msg:'You hauled your target off to jail!',styling:'jailing'},'prenot');
-      break;
+	  case 'DEAD':
+		 addMessage({msg:'You have died!',styling:'dying'},'prenot');
+	  break;
+	  case 'BLACKMAIL':
+		 addMessage({msg:'Someone threatened to reveal your secrets. You are blackmailed!',styling:'dying'},'prenot');
+	  break;
+	  case 'DOUSE':
+		 addMessage({msg:'You were doused!',styling:'dying'},'prenot');
+	  break;
+	  case 'TARGETIMMUNE':
+		 addMessage({msg:'Your target\'s defense was too strong to kill.',styling:'dying'},'prenot');
+	  break;
+	  case 'IMMUNE':
+		 addMessage({msg:'Someone attacked you but your defense was too strong!',styling:'dying'},'prenot');
+	  break;
+	  case 'JESTER':
+		 addMessage({msg:'The Jester will have their revenge from the grave!',styling:'dying'},'prenot');
+	  break;
+	  case 'SHOTVET':
+		 addMessage({msg:'You were shot by the Veteran you visited!',styling:'dying'},'prenot');
+	  break;
+	  case 'VETSHOT':
+		 addMessage({msg:'You shot someone who visited you!',styling:'dying'},'prenot');
+	  break;
+	  case 'RB':
+		 addMessage({msg:'Someone occupied your night. You were roleblocked!',styling:'dying'},'prenot');
+	  break;
+	  case 'WITCHED':
+		 addMessage({msg:'You felt a mystical power dominating you. You were controlled by a Witch!',styling:'dying'},'prenot');
+	  break;
+	  case 'REVIVE':
+		 addMessage({msg:'You were revived!',styling:'reviving'},'prenot');
+	  break;
+	  case 'HEAL':
+		 addMessage({msg:'You were attacked but someone nursed you back to health!',styling:'reviving'},'prenot');
+	  break;
+	  case 'JAILED':
+		 addMessage({msg:'You were hauled off to jail!',styling:'jailing'},'prenot');
+	  break;
+	  case 'JAILING':
+		 addMessage({msg:'You hauled your target off to jail!',styling:'jailing'},'prenot');
+	  break;
 	  case 'LINKED':
-         addMessage({msg:'You have been linked!',styling:'reviving'},'prenot');
-      break;
-      case 'FULLMOON':
-         addMessage({msg:'There is a full moon out tonight.',styling:'moon'},'prenot');
-      break;
+		 addMessage({msg:'You have been linked!',styling:'reviving'},'prenot');
+	  break;
+	  case 'FULLMOON':
+		 addMessage({msg:'There is a full moon out tonight.',styling:'moon'},'prenot');
+	  break;
    }
 });
-socket.on(Type.TARGET,function(name,role,target)	
+socket.on(Type.TARGET,function(name,role,target)
 {
 	addMessage({name:name,role:role,target:target},'target');
 });
@@ -1031,7 +1031,7 @@ socket.on(Type.MAYOR, function(name) {
 		}
 	});
 });
-socket.on(Type.HUG,function(name,target)	
+socket.on(Type.HUG,function(name,target)
 {
 	addMessage({name:name,target:target},'hug');
 });
@@ -1042,7 +1042,7 @@ socket.on(Type.VOTE,function(voter,msg,voted,prev)
 		if (prev)
 		{
 			var index = users.indexOf(prev);
-			var li =$('#userlist li')[index]; 
+			var li =$('#userlist li')[index];
 			if (li.childNodes[0].childNodes[2])
 			{
 				var count = li.childNodes[0].childNodes[2].childNodes[1];
@@ -1054,7 +1054,7 @@ socket.on(Type.VOTE,function(voter,msg,voted,prev)
 		if (voted!='')
 		{
 			var index = users.indexOf(voted);
-			var li =$('#userlist li')[index]; 
+			var li =$('#userlist li')[index];
 			var count = li.childNodes[0].childNodes[2].childNodes[1];
 			var num = parseInt(count.innerHTML);
 			num++;
@@ -1069,7 +1069,7 @@ socket.on(Type.VERDICT,function(name,val)
 });
 socket.on(Type.CLEARVOTES,function()
 {
-	$('.votecount').html('0');	
+	$('.votecount').html('0');
 });
 socket.on(Type.PAUSEPHASE,function(p){
 		paused = p;
@@ -1108,12 +1108,12 @@ socket.on(Type.SETDEV,function(name)
 	devs.push(name);
 });
 socket.on(Type.SETSPEC, function (name) {
-    var index = users.indexOf(name);
-    $($('.name')[index]).addClass('spec');
+	var index = users.indexOf(name);
+	$($('.name')[index]).addClass('spec');
 });
 socket.on(Type.REMSPEC, function (name) {
-    var index = users.indexOf(name);
-    $($('.name')[index]).removeClass('spec');
+	var index = users.indexOf(name);
+	$($('.name')[index]).removeClass('spec');
 });
 socket.on(Type.ROLECARD,function(card)
 {
@@ -1201,7 +1201,7 @@ socket.on(Type.GETWILL,function(name,willcontent){
 		will.name = name;
 		var close = $('<div id="closewill"></div>');
 		close.click(function()
-		{	
+		{
 			socket.emit(Type.WILL,$('#modwill textarea').val(),name);
 			$(this.parentNode).remove();
 		});
@@ -1238,7 +1238,7 @@ socket.on(Type.GETNOTES, function (name, notescontent) {
 	}
 });
 socket.on('connect_error', function (err) {
-    //$('#try').html('<p>Our dancing kitty has failed to reconnect you. No milk for him tonight. Please rejoin.</p>');
+	//$('#try').html('<p>Our dancing kitty has failed to reconnect you. No milk for him tonight. Please rejoin.</p>');
 });
 socket.on(Type.ACCEPT,function()
 {
@@ -1419,11 +1419,11 @@ socket.on(Type.SUGGESTIONS,function(results){
 });
 socket.on(Type.SHOWLIST,function(list)
 {
-	addMessage(list,'rolelist');	
+	addMessage(list,'rolelist');
 });
 socket.on(Type.SHOWALLROLES,function(list)
 {
-	addMessage(list,'allroles');	
+	addMessage(list,'allroles');
 });
 socket.on('disconnect',function()
 {
