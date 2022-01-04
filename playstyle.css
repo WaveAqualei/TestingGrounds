@@ -460,7 +460,7 @@ header ul li span
 	margin:0;
 	margin-left:-2px;
 	overflow:auto;
-	background-color: #EBECF0;
+	background-color: #3B4545;
 }
 #userlist>li
 {
@@ -483,17 +483,18 @@ header ul li span
 .name
 {
 	float:left;
+	font-weight:bold;
 	overflow:hidden;
 	text-overflow:ellipsis;
 	white-space: nowrap;
 	padding-left: 5px;
     margin-right: -5px;
-	/*color: white;*/
+	color:#FFFFFF;
 }
 .dev
 {
 	font-weight:bold;
-	color:#38832B;
+	color:#008888;
 }
 .spec
 {
