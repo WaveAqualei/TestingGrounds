@@ -759,13 +759,13 @@ io.on('connection', function (socket) {
 				case 'HEAL':
 					players[mod].s.emit(Type.SYSTEM, name + ' was attacked and healed.');
 					break;
-					case 'SAVED_BY_BG':
+				case 'SAVED_BY_BG':
 					players[mod].s.emit(Type.SYSTEM, name + ' was attacked and saved by a Bodyguard.');
 					break;
-					case 'PROTECTED':
+				case 'PROTECTED':
 					players[mod].s.emit(Type.SYSTEM, name + ' was attacked and protected.');
 					break;
-					case 'SAVED_BY_TRAP':
+				case 'SAVED_BY_TRAP':
 					players[mod].s.emit(Type.SYSTEM, name + ' was attacked and saved by a trap.');
 					break;
 				case 'DEAD':
@@ -801,19 +801,19 @@ io.on('connection', function (socket) {
 				case 'JAILED':
 					players[mod].s.emit(Type.SYSTEM, name + ' was hauled off to jail.');
 					break;
-					case 'GUARDIAN_ANGEL':
+				case 'GUARDIAN_ANGEL':
 					players[mod].s.emit(Type.SYSTEM, name + ' was watched by their Guardian Angel.');
 					break;
-					case 'SAVED_BY_GA':
+				case 'SAVED_BY_GA':
 					players[mod].s.emit(Type.SYSTEM, name + ' was attacked but their Guardian Angel saved them.');
 					break;
-					case 'POISON_CURABLE':
+				case 'POISON_CURABLE':
 					players[mod].s.emit(Type.SYSTEM, name + ' was poisoned. They will die unless they are cured.');
 					break;
-					case 'POISON_UNCURABLE':
+				case 'POISON_UNCURABLE':
 					players[mod].s.emit(Type.SYSTEM, name + ' was poisoned.');
 					break;
-					case 'MEDUSA_STONE':
+				case 'MEDUSA_STONE':
 					players[mod].s.emit(Type.SYSTEM, name + ' stoned someone.');
 					break;
 			}
