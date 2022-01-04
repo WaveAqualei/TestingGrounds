@@ -3213,17 +3213,23 @@ function Player(socket, name, ip) {
 						if (mod == this.s.id) {
 							io.emit(Type.HIGHLIGHT, msg, 'modchat');
 						} else if (this.chats.jailed) {
-							this.specMessage(msg, { jailor: true, jailed: true });
-						} else if (this.chats.mafia) {
-							this.specMessage(msg, { mafia: true });
-						} else if (this.chats.coven) {
-							this.specMessage(msg, { coven: true });
-						} else if (this.chats.jailor) {
-							this.specMessage(msg, { jailor: true, jailed: true }, 'Jailor');
-						} else if (this.chats.medium) {
-							this.specMessage(msg, { dead: true }, 'Medium');
-							//Echo the message back to the medium.
-							this.s.emit(Type.MSG, 'Medium', { msg: msg, styling: 'medium' });
+							this.specMessage(msg, { jailor: true, jailed: true }, null, 'jailed');
+						} else if (this.chats.mafia || this.chats.coven || this.chats.jailor || this.chats.medium) {
+							var sendTo = {};
+							if(this.chats.mafia) sendTo.mafia = true;
+							if(this.chats.coven) sendTo.coven = true;
+							if(Object.keys(sendTo).length) {
+								this.specMessage(msg, sendTo);
+							}
+
+							if (this.chats.jailor) {
+								this.specMessage(msg, { jailor: true, jailed: true }, 'Jailor', 'jailor');
+							}
+							if (this.chats.medium) {
+								this.specMessage(msg, { dead: true }, 'Medium', 'medium');
+								//Echo the message back to the medium.
+								this.s.emit(Type.MSG, 'Medium', { msg: msg, styling: 'medium' });
+							}
 						}
 						if (this.chats.linked) {
 							this.specMessage(msg, { linked: true });
@@ -3254,7 +3260,7 @@ function Player(socket, name, ip) {
 								}
 							}
 						} else {
-							this.specMessage(msg, { dead: true, medium: true });
+							this.specMessage(msg, { dead: true, medium: true }, null, 'dead');
 						}
 					}
 					break;
@@ -3293,17 +3299,18 @@ function Player(socket, name, ip) {
 		specMessage: function (
 			msg,
 			types,
-			specname //Display a message only to players able to see certain chats.
+			specname, //Display a message only to players able to see certain chats.
+			primary	// Color the message as being from this chat even for people who can't see that chat
 		) {
 			for (i in players) {
 				if (i == mod || players[i].spectate) {
 					//Mod can view all chats.
-					players[i].s.emit(Type.MSG, specname ? specname + '(' + this.name + ')' : this.name, { styling: Object.keys(types)[0], msg: msg });
+					players[i].s.emit(Type.MSG, specname ? specname + '(' + this.name + ')' : this.name, { styling: primary || Object.keys(types)[0], msg: msg });
 				} else {
 					for (j in types) {
 						if (players[i].chats[j] == types[j]) {
 							//Use the special name if one is provided.
-							players[i].s.emit(Type.MSG, specname ? specname : this.name, { styling: j, msg: msg });
+							players[i].s.emit(Type.MSG, specname ? specname : this.name, { styling: primary || j, msg: msg });
 							break;
 						}
 					}
