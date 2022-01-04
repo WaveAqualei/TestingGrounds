@@ -845,12 +845,12 @@ io.on('connection', function (socket) {
 	});
 	socket.on(Type.SETROLE, function (name, role) {
 		if (socket.id == mod) {
-			role = sanitize(role);
-			if (role.length > 16) {
-				socket.emit(Type.SYSTEM, 'Role name cannot be more than 16 characters.');
+			if (role.length > 32) {
+				socket.emit(Type.SYSTEM, 'Role name cannot be more than 32 characters.');
 			} else {
 				var p = getPlayerByName(name);
 				if (p) {
+					role = sanitize(role);
 					p.setRole(role);
 				} else {
 					socket.emit(Type.SYSTEM, 'Invalid name "' + name + '", did you break something?');
@@ -864,8 +864,8 @@ io.on('connection', function (socket) {
 		if (socket.id == mod) {
 			prev_rolled = roles;
 			for (i in names) {
-				if (roles[i].length > 20) {
-					socket.emit(Type.SYSTEM, 'Invalid rolelist! Role name cannot be more than 20 characters: ' + roles[i]);
+				if (roles[i].length > 32) {
+					socket.emit(Type.SYSTEM, 'Invalid rolelist! Role name cannot be more than 32 characters: ' + roles[i]);
 					break;
 				}
 				var p = getPlayerByName(names[i]);
@@ -996,13 +996,13 @@ io.on('connection', function (socket) {
 				player.chats.dead = !player.chats.dead;
 				if (player.alive) {
 					if (!players[socket.id].silenced) {
-						io.emit(Type.HIGHLIGHT, name + ' has been revived!');
+						io.emit(Type.HIGHLIGHT, name + ' has been revived!', 'reviving');
 						player.s.emit(Type.PRENOT, 'REVIVE');
 					}
 					io.emit(Type.TOGGLELIVING, { name: name });
 				} else {
 					if (!players[socket.id].silenced) {
-						io.emit(Type.HIGHLIGHT, name + ' has died!');
+						io.emit(Type.HIGHLIGHT, name + ' has died!', 'dying');
 						io.emit(Type.HIGHLIGHT, 'Their role was ' + player.role);
 						var show = sanitize(player.will);
 						show = show.replace(/(\n)/g, '<br />');
@@ -3157,7 +3157,7 @@ function Player(socket, name, ip) {
 					if (this.silenced) {
 						this.silencedError();
 					} else if (mod == this.s.id) {
-						io.emit(Type.HIGHLIGHT, msg);
+						io.emit(Type.HIGHLIGHT, msg, 'modchat');
 					} else if (this.spectate) {
 						this.specMessage(msg, { spectate: true });
 					} else {
@@ -3171,7 +3171,7 @@ function Player(socket, name, ip) {
 					if (this.silenced) {
 						this.silencedError();
 					} else if (mod == this.s.id) {
-						io.emit(Type.HIGHLIGHT, msg);
+						io.emit(Type.HIGHLIGHT, msg, 'modchat');
 					} else if (this.spectate) {
 						this.specMessage(msg, { spectate: true });
 					} else if (this.alive) {
@@ -3189,7 +3189,7 @@ function Player(socket, name, ip) {
 					if (this.silenced) {
 						this.silencedError();
 					} else if (mod == this.s.id) {
-						io.emit(Type.HIGHLIGHT, msg);
+						io.emit(Type.HIGHLIGHT, msg, 'modchat');
 					} else if (this.spectate) {
 						this.specMessage(msg, { spectate: true });
 					} else if (this.alive) {
@@ -3211,7 +3211,7 @@ function Player(socket, name, ip) {
 						this.silencedError();
 					} else if (this.alive && !this.spectate) {
 						if (mod == this.s.id) {
-							io.emit(Type.HIGHLIGHT, msg);
+							io.emit(Type.HIGHLIGHT, msg, 'modchat');
 						} else if (this.chats.jailed) {
 							this.specMessage(msg, { jailor: true, jailed: true });
 						} else if (this.chats.mafia) {
@@ -3262,7 +3262,7 @@ function Player(socket, name, ip) {
 					if (this.silenced) {
 						this.silencedError();
 					} else if (mod == this.s.id) {
-						io.emit(Type.HIGHLIGHT, msg);
+						io.emit(Type.HIGHLIGHT, msg, 'modchat');
 					} else if (this.spectate) {
 						this.specMessage(msg, { spectate: true });
 					} else {
@@ -3273,7 +3273,7 @@ function Player(socket, name, ip) {
 					if (this.silenced) {
 						this.silencedError();
 					} else if (mod == this.s.id) {
-						io.emit(Type.HIGHLIGHT, msg);
+						io.emit(Type.HIGHLIGHT, msg, 'modchat');
 					} else if (this.spectate) {
 						this.specMessage(msg, { spectate: true });
 					} else if (!this.alive) {

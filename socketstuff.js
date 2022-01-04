@@ -387,9 +387,9 @@ socket.on(Type.ME,function(name,msg)
 {
 	addMessage(name+' '+msg,'me');
 });
-socket.on(Type.HIGHLIGHT,function(msg)
+socket.on(Type.HIGHLIGHT,function(msg, styling)
 {
-	addMessage(msg,'highlight');
+	addMessage({msg: msg, styling: styling}, 'highlight');
 });
 socket.on(Type.PING,function()
 {
@@ -823,7 +823,7 @@ else
 	$('.pausebutton, .playbutton').remove();
 	if (!silent)
 	{
-		addMessage($('header ul li')[phase].innerHTML,'highlight');
+		addMessage({msg: $('header ul li')[phase].innerHTML, styling: 'phasechange'}, 'highlight');
 	}
 	//Move the clock.
 	if (time > 0)

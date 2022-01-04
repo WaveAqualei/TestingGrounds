@@ -255,22 +255,26 @@ function addMessage(msg, type)
 			$('#main').append('<li>'+msg+'</li>');
 		break;
 		case 'highlight':
-			var changes = ['maf','arso','jester','ww','town','sk','neut'];
-			for (i in changes)
-			{
-				var start = '['+changes[i]+']';
-				var end = '[/'+changes[i]+']';
-				var a = msg.indexOf(start);
-				var b = msg.indexOf(end);
-				while ( a!=-1 && b!=-1)
+			msg.msg = (function(msg) {
+				var changes = ['maf','cov','arso','jester','ww','town','sk','neut'];
+				for (i in changes)
 				{
+					var start = '['+changes[i]+']';
+					var end = '[/'+changes[i]+']';
 					var a = msg.indexOf(start);
 					var b = msg.indexOf(end);
-					msg = msg.replace(start,'<'+changes[i]+'>');
-					msg = msg.replace(end,'</'+changes[i]+'>');
+					while ( a!=-1 && b!=-1)
+					{
+						var a = msg.indexOf(start);
+						var b = msg.indexOf(end);
+						msg = msg.replace(start,'<'+changes[i]+'>');
+						msg = msg.replace(end,'</'+changes[i]+'>');
+					}
 				}
-			}
-			$('#main').append('<li class="highlight"><b>'+msg+'</b></li>');
+				return msg;
+			})(msg.msg);
+			msg.styling = msg.styling || 'highlight';
+			$('#main').append('<li class="'+msg.styling+'"><b>'+msg.msg+'</b></li>');
 		break;
 		case 'whisper':
 			if (!msg.msg)
