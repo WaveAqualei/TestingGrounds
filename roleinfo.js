@@ -747,12 +747,11 @@ var roles = [
 	{
 		rolename: 'technician',
 		alignment: 'mafia support',
-		abilities: ['You may use one of your devices at night.'],
+		abilities: ['You may use one of your three devices at night.'],
 		attributes: [
-			'You have three devices: Sabotage, Smoke Grenade, Tap.',
-			'Sabotage will affect certain roles\' abilities. You may not use Sabotage on the same player twice.',
+			'Sabotage will affect certain roles\' abilities. You may not Sabotage the same player twice.',
 			'Smoke Grenades take one night to build; they obsure information to their targets and visitors.',
-			'Tapping a player gives you all the notifications they get that night.',
+			'Tapping a player gives you all notifications and results they get that night.',
 		],
 		goal: mafiagoal,
 		color: mafiacolor,
@@ -836,7 +835,7 @@ var roles = [
 		abilities: ['You may accompany a Mafia member at night.'],
 		attributes: ['The Mafia member you visit will have their visit astral the night.',
 					 'You will receive all night feedback the Mafia member you accompany receives.',
-					 'You cannot be controlled.
+					 'You cannot be controlled.',
 					 'If there are no capable Mafia killing roles you will become a Mafioso.',
 		],
 		goal: mafiagoal,
@@ -927,7 +926,7 @@ var roles = [
 		custom: true,
 	},
 	{
-		rolename: 'harmony\'s angel',
+		rolename: 'harmony angel',
 		alignment: 'neutral benign',
 		abilities: ['Watch over a player each night, granting them Powerful defense.'],
 		attributes: [
