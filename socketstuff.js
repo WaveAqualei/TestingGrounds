@@ -964,7 +964,7 @@ socket.on(Type.PRENOT,function(notification)
 		addMessage({msg: "Your target was attacked!", styling: 'dying'}, 'prenot');
 		break;
 	  case 'MEDUSA_STONE':
-		addMessage({msg: "You turned someone to stone.", styling: 'reviving'}, 'prenot');
+		addMessage({msg: "You turned someone to stone.", styling: 'dying'}, 'prenot');
 		break;
 	  case 'DEAD':
 		 addMessage({msg:'You have died!',styling:'dying'},'prenot');
@@ -1003,10 +1003,10 @@ socket.on(Type.PRENOT,function(notification)
 		 addMessage({msg:'You were attacked but someone nursed you back to health!',styling:'reviving'},'prenot');
 	  break;
 	  case 'JAILED':
-		 addMessage({msg:'You were hauled off to jail!',styling:'jailing'},'prenot');
+		 addMessage({msg:'You were hauled off to jail!',styling:'dying'},'prenot');
 	  break;
 	  case 'JAILING':
-		 addMessage({msg:'You hauled your target off to jail!',styling:'jailing'},'prenot');
+		 addMessage({msg:'You hauled your target off to jail!',styling:'reviving'},'prenot');
 	  break;
 	  case 'LINKED':
 		 addMessage({msg:'You have been linked!',styling:'reviving'},'prenot');
@@ -1022,7 +1022,7 @@ socket.on(Type.TARGET,function(name,role,target)
 });
 
 socket.on(Type.MAYOR, function(name) {
-	addMessage(name+' has revealed themselves as the Mayor!', "highlight");
+	addMessage(name+' has revealed themselves as the Mayor!', "#CB4154");
 	$(`#p-${name}`).append(`<span class="emoji" id="${name}-mayor">🎩</span>`)
 	$(`#${name}-mayor`).click(() => {
 		if (mod) {
