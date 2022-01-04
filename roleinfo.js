@@ -926,7 +926,7 @@ var roles = [
 		custom: true,
 	},
 	{
-		rolename: 'harmony angel',
+		rolename: 'harmony\'s angel',
 		alignment: 'neutral benign',
 		abilities: ['Watch over a player each night, granting them Powerful defense.'],
 		attributes: [
