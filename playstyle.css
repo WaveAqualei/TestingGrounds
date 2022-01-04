@@ -404,15 +404,15 @@ header ul li span
 }
 .modchat
 {
-	background:#FBFF9C;
+	background:#00baba;
 }
 .phasechange
 {
-	background:#CCCCFF;
+	background:#fff700;
 }
 .mayor_reveal
 {
-	background:#F07A8A;
+	background:#11c700;
 }
 .rolecard
 {
@@ -490,7 +490,7 @@ header ul li span
 	font-weight:bold;
 	max-width:15%;
 	padding-left:5px;
-	/*color: white;*/
+	color:#FFFFFF;
 }
 .name
 {
@@ -511,7 +511,7 @@ header ul li span
 .spec
 {
 	font-weight:bold;
-	color:#0099FF;
+	color:#6699CC;
 }
 #inputarea
 {
@@ -1339,7 +1339,7 @@ ww
 {
 	color:#855217;
 }
-jester
+jest
 {
 	color:#E542C7;
 }
@@ -1364,22 +1364,34 @@ neut
 {
 	color: #BF40BF;
 }
+.vamp
+{
+	color:#405243;
+}
 .linked
 {
 	color:green;
 }
-.dead, .medium
+.dead
 {
 	color: grey;
     text-shadow: 0px 0px 10px #6FADB1;
 }
+.medium
+{
+	color:#00c3ff;
+}
 .spectate
 {
-    color:#0099FF;
+    color:#6699CC;
 }
-.jailor, .jailed
+.jailed
 {
-	color:#643E33;
+	color:#4a3526;
+}
+.jailor
+{
+	color:#c78800;
 }
 .jailing
 {
@@ -1388,15 +1400,15 @@ neut
 .moon
 {
 	background:#249AC7;
-	color:white;
+	color:#ADD8E6;
 }
 .whisper
 {
-	color:#5D0034;
+	color:#73005a;
 }
 .mod
 {
-	color:#5D0034;
+	color:#9e0058;
 }
 .dying
 {
