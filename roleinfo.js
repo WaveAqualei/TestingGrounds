@@ -926,7 +926,7 @@ var roles = [
 		custom: true,
 	},
 	{
-		rolename: 'harmony\'s angel',
+		rolename: "harmony's angel",
 		alignment: 'neutral benign',
 		abilities: ['Watch over a player each night, granting them Powerful defense.'],
 		attributes: [
@@ -935,7 +935,7 @@ var roles = [
 			'You may not protect yourself.',
 		],
 		goal: 'Save four people from attacks.',
-		color: '#0080FF',
+		color: '#BFBFBF',
 		custom: true,
 	},
 
