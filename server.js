@@ -3213,13 +3213,13 @@ function Player(socket, name, ip) {
 						if (mod == this.s.id) {
 							io.emit(Type.HIGHLIGHT, msg, 'modchat');
 						} else if (this.chats.jailed) {
-							this.specMessage(msg, { jailed: true });
+							this.specMessage(msg, { jailor: true, jailed: true });
 						} else if (this.chats.mafia) {
 							this.specMessage(msg, { mafia: true });
 						} else if (this.chats.coven) {
 							this.specMessage(msg, { coven: true });
 						} else if (this.chats.jailor) {
-							this.specMessage(msg, { jailor: true }, 'Jailor');
+							this.specMessage(msg, { jailor: true, jailed: true }, 'Jailor');
 						} else if (this.chats.medium) {
 							this.specMessage(msg, { dead: true }, 'Medium');
 							//Echo the message back to the medium.
