@@ -404,7 +404,7 @@ header ul li span
 }
 .modchat
 {
-	background:#00baba;
+	background:#de007c;
 }
 .phasechange
 {
@@ -490,7 +490,7 @@ header ul li span
 	font-weight:bold;
 	max-width:15%;
 	padding-left:5px;
-	color:#FFFFFF;
+	color:#f0ecf4;
 }
 .name
 {
@@ -506,12 +506,12 @@ header ul li span
 .dev
 {
 	font-weight:bold;
-	color:#008888;
+	color:#9e0058;
 }
 .spec
 {
 	font-weight:bold;
-	color:#6699CC;
+	color:#0000FF;
 }
 #inputarea
 {
@@ -1383,7 +1383,7 @@ neut
 }
 .spectate
 {
-    color:#6699CC;
+    color:#0000FF;
 }
 .jailed
 {
