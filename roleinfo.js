@@ -751,7 +751,7 @@ var roles = [
 		attributes: [
 			'Sabotage will affect certain roles\' abilities. You may not Sabotage the same player twice.',
 			'Smoke Grenades take one night to build; they obsure information to their targets and visitors.',
-			'Tapping a player gives you all notifications and results they get that night.',
+			'Tapping a player gives you all notifications they get that night.',
 		],
 		goal: mafiagoal,
 		color: mafiacolor,
