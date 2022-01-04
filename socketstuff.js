@@ -1023,7 +1023,7 @@ socket.on(Type.TARGET,function(name,role,target)
 
 socket.on(Type.MAYOR, function(name) {
 	addMessage({msg: name+' has revealed themselves as the Mayor!', styling: 'mayor_reveal'}, "highlight");
-	$(`#p-${name}`).append(`<span class="emoji" id="${name}-mayor">🎩</span>`)
+	$(`#p-${name}`).append(`<span class="emoji" id="${name}-mayor">Mayor</span>`)
 	$(`#${name}-mayor`).click(() => {
 		if (mod) {
 			$(`#${name}-mayor`).remove();
