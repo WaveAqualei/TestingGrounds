@@ -1433,7 +1433,9 @@ function getIp(socket) {
 	return socket.handshake.headers['x-forwarded-for'] || socket.handshake.address.address || '127.0.0.1';
 }
 function getIpReq(req) {
-	return req.headers['x-forwarded-for'] || req.connection.remoteAddress || req.socket.remoteAddress || req.connection.socket.remoteAddress;
+	var ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress || req.socket?.remoteAddress || req.connection.socket?.remoteAddress;
+	if(!ip || ip.trim() == '::1') return '127.0.0.1';
+	return ip;
 }
 //--Number of living players
 function numLivingPlayers() {
@@ -3211,13 +3213,13 @@ function Player(socket, name, ip) {
 						if (mod == this.s.id) {
 							io.emit(Type.HIGHLIGHT, msg, 'modchat');
 						} else if (this.chats.jailed) {
-							this.specMessage(msg, { jailor: true, jailed: true });
+							this.specMessage(msg, { jailed: true });
 						} else if (this.chats.mafia) {
 							this.specMessage(msg, { mafia: true });
 						} else if (this.chats.coven) {
 							this.specMessage(msg, { coven: true });
 						} else if (this.chats.jailor) {
-							this.specMessage(msg, { jailor: true, jailed: true }, 'Jailor');
+							this.specMessage(msg, { jailor: true }, 'Jailor');
 						} else if (this.chats.medium) {
 							this.specMessage(msg, { dead: true }, 'Medium');
 							//Echo the message back to the medium.
