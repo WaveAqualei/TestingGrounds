@@ -935,7 +935,7 @@ var roles = [
 			'You may not protect yourself.',
 		],
 		goal: 'Save four people from attacks.',
-		color: '#BFBFBF',
+		color: '#CFD4B4',
 		custom: true,
 	},
 
