@@ -3214,16 +3214,22 @@ function Player(socket, name, ip) {
 							io.emit(Type.HIGHLIGHT, msg, 'modchat');
 						} else if (this.chats.jailed) {
 							this.specMessage(msg, { jailor: true, jailed: true });
-						} else if (this.chats.mafia) {
-							this.specMessage(msg, { mafia: true });
-						} else if (this.chats.coven) {
-							this.specMessage(msg, { coven: true });
-						} else if (this.chats.jailor) {
-							this.specMessage(msg, { jailor: true, jailed: true }, 'Jailor');
-						} else if (this.chats.medium) {
-							this.specMessage(msg, { dead: true }, 'Medium');
-							//Echo the message back to the medium.
-							this.s.emit(Type.MSG, 'Medium', { msg: msg, styling: 'medium' });
+						} else if (this.chats.mafia || this.chats.coven || this.chats.jailor || this.chats.medium) {
+							var sendTo = {};
+							if(this.chats.mafia) sendTo.mafia = true;
+							if(this.chats.coven) sendTo.coven = true;
+							if(Object.keys(sendTo).length) {
+								this.specMessage(msg, sendTo);
+							}
+
+							if (this.chats.jailor) {
+								this.specMessage(msg, { jailor: true, jailed: true }, 'Jailor');
+							}
+							if (this.chats.medium) {
+								this.specMessage(msg, { dead: true }, 'Medium');
+								//Echo the message back to the medium.
+								this.s.emit(Type.MSG, 'Medium', { msg: msg, styling: 'medium' });
+							}
 						}
 						if (this.chats.linked) {
 							this.specMessage(msg, { linked: true });
