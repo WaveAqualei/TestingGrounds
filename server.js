@@ -3223,7 +3223,7 @@ function Player(socket, name, ip) {
 						} else if (this.chats.medium) {
 							this.specMessage(msg, { dead: true }, 'Medium');
 							//Echo the message back to the medium.
-							this.s.emit(Type.MSG, 'Medium', { msg: msg, styling: 'dead' });
+							this.s.emit(Type.MSG, 'Medium', { msg: msg, styling: 'medium' });
 						}
 						if (this.chats.linked) {
 							this.specMessage(msg, { linked: true });
