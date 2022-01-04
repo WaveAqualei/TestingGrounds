@@ -850,7 +850,6 @@ io.on('connection', function (socket) {
 			} else {
 				var p = getPlayerByName(name);
 				if (p) {
-					role = sanitize(role);
 					p.setRole(role);
 				} else {
 					socket.emit(Type.SYSTEM, 'Invalid name "' + name + '", did you break something?');
@@ -870,7 +869,6 @@ io.on('connection', function (socket) {
 				}
 				var p = getPlayerByName(names[i]);
 				if (p) {
-					roles[i] = sanitize(roles[i]);
 					p.setRole(roles[i]);
 				} else {
 					socket.emit(Type.SYSTEM, 'Invalid rolelist! Could not find player: ' + names[i]);
@@ -1003,7 +1001,7 @@ io.on('connection', function (socket) {
 				} else {
 					if (!players[socket.id].silenced) {
 						io.emit(Type.HIGHLIGHT, name + ' has died!', 'dying');
-						io.emit(Type.HIGHLIGHT, 'Their role was ' + player.role);
+						io.emit(Type.HIGHLIGHT, 'Their role was ' + sanitize(player.role));
 						var show = sanitize(player.will);
 						show = show.replace(/(\n)/g, '<br />');
 						if (!player.cleaned) {
@@ -1400,7 +1398,7 @@ function setPhase(p) {
 		mafmembers = 'Your partners in crime are:';
 		for (i in players) {
 			if (players[i].chats.mafia && !players[i].spectate) {
-				mafmembers = mafmembers + ' ' + players[i].name + ' (' + players[i].role + ')';
+				mafmembers = mafmembers + ' ' + players[i].name + ' (' + sanitize(players[i].role) + ')';
 			}
 		}
 		for (i in players) {
@@ -1412,7 +1410,7 @@ function setPhase(p) {
 		covmembers = 'Your partners in witchery are:';
 		for (i in players) {
 			if (players[i].chats.coven && !players[i].spectate) {
-				covmembers = covmembers + ' ' + players[i].name + '(' + players[i].role + ')';
+				covmembers = covmembers + ' ' + players[i].name + '(' + sanitize(players[i].role) + ')';
 			}
 		}
 		for (i in players) {
@@ -1734,7 +1732,7 @@ function Player(socket, name, ip) {
 				var rolecard = roles.getRoleCard(role, {});
 				this.s.emit(Type.ROLECARD, rolecard);
 			} else {
-				this.s.emit(Type.SYSTEM, 'Your role is ' + role);
+				this.s.emit(Type.SYSTEM, 'Your role is ' + sanitize(role));
 			}
 		},
 		dc: function () {
@@ -2736,7 +2734,7 @@ function Player(socket, name, ip) {
 							}
 							this.s.emit(Type.ROLECARD, roles.getRoleCard(this.role, results));
 						} else {
-							this.s.emit(Type.SYSTEM, 'Your role is ' + this.role + '.');
+							this.s.emit(Type.SYSTEM, 'Your role is ' + sanitize(this.role) + '.');
 						}
 					} else {
 						c.splice(0, 1);

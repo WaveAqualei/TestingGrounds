@@ -91,6 +91,10 @@ var Type = {
 	DISCONNECT: 59,
 	RECONNECT: 60
 };
+function sanitize(msg)
+{
+	return $("<span>").text(msg).html()
+}
 function clearAllInfo()
 {
 	var all = $('.controlbutton');
@@ -663,7 +667,8 @@ socket.on(Type.ROOMLIST,function(list)
 			if (list[i].role)
 			{
 				//Player is dead.
-				$('#userlist').append(`<li class="deadplayer"><div class="info" id="p-${list[i].name}"><span class="num">${num}</span>${name}</div><div><span>${list[i].role}</span></div></li>`);
+				var role_safe = sanitize(list[i].role);
+				$('#userlist').append(`<li class="deadplayer"><div class="info" id="p-${list[i].name}"><span class="num">${num}</span>${name}</div><div><span>${role_safe}</span></div></li>`);
 			}
 			else
 			{
@@ -687,7 +692,8 @@ socket.on(Type.TOGGLELIVING,function(p)
 		index = index==0?'MOD':index;
 		if (p.role)
 		{
-			li.outerHTML = '<li class="deadplayer"><div><span class="num">'+index+'</span><span class="name">'+p.name+'</span></div><div><span>'+p.role+'</span></div></li>';
+			var role_safe = sanitize(p.role);
+			li.outerHTML = '<li class="deadplayer"><div><span class="num">'+index+'</span><span class="name">'+p.name+'</span></div><div><span>'+role_safe+'</span></div></li>';
 		}
 		else
 		{
@@ -1018,7 +1024,7 @@ socket.on(Type.PRENOT,function(notification)
 });
 socket.on(Type.TARGET,function(name,role,target)
 {
-	addMessage({name:name,role:role,target:target},'target');
+	addMessage({name:name,role:sanitize(role),target:target},'target');
 });
 
 socket.on(Type.MAYOR, function(name) {
