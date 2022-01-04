@@ -402,6 +402,14 @@ header ul li span
 	/*background-color: rgba(207,47,0,0.7);
 	background-color: rgba(212,36,38,0.7);*/
 }
+.modchat
+{
+	background:#FBFF9C;
+}
+.phasechange
+{
+	background:#CCCCFF;
+}
 .rolecard
 {
 	background:url("http://i.imgur.com/SB1069d.jpg");

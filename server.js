@@ -972,13 +972,13 @@ io.on('connection', function (socket) {
 				player.chats.dead = !player.chats.dead;
 				if (player.alive) {
 					if (!players[socket.id].silenced) {
-						io.emit(Type.HIGHLIGHT, name + ' has been revived!');
+						io.emit(Type.HIGHLIGHT, name + ' has been revived!', 'reviving');
 						player.s.emit(Type.PRENOT, 'REVIVE');
 					}
 					io.emit(Type.TOGGLELIVING, { name: name });
 				} else {
 					if (!players[socket.id].silenced) {
-						io.emit(Type.HIGHLIGHT, name + ' has died!');
+						io.emit(Type.HIGHLIGHT, name + ' has died!', 'dying');
 						io.emit(Type.HIGHLIGHT, 'Their role was ' + player.role);
 						var show = sanitize(player.will);
 						show = show.replace(/(\n)/g, '<br />');
@@ -3133,7 +3133,7 @@ function Player(socket, name, ip) {
 					if (this.silenced) {
 						this.silencedError();
 					} else if (mod == this.s.id) {
-						io.emit(Type.HIGHLIGHT, msg);
+						io.emit(Type.HIGHLIGHT, msg, 'modchat');
 					} else if (this.spectate) {
 						this.specMessage(msg, { spectate: true });
 					} else {
@@ -3147,7 +3147,7 @@ function Player(socket, name, ip) {
 					if (this.silenced) {
 						this.silencedError();
 					} else if (mod == this.s.id) {
-						io.emit(Type.HIGHLIGHT, msg);
+						io.emit(Type.HIGHLIGHT, msg, 'modchat');
 					} else if (this.spectate) {
 						this.specMessage(msg, { spectate: true });
 					} else if (this.alive) {
@@ -3165,7 +3165,7 @@ function Player(socket, name, ip) {
 					if (this.silenced) {
 						this.silencedError();
 					} else if (mod == this.s.id) {
-						io.emit(Type.HIGHLIGHT, msg);
+						io.emit(Type.HIGHLIGHT, msg, 'modchat');
 					} else if (this.spectate) {
 						this.specMessage(msg, { spectate: true });
 					} else if (this.alive) {
@@ -3187,7 +3187,7 @@ function Player(socket, name, ip) {
 						this.silencedError();
 					} else if (this.alive && !this.spectate) {
 						if (mod == this.s.id) {
-							io.emit(Type.HIGHLIGHT, msg);
+							io.emit(Type.HIGHLIGHT, msg, 'modchat');
 						} else if (this.chats.jailed) {
 							this.specMessage(msg, { jailor: true, jailed: true });
 						} else if (this.chats.mafia) {
@@ -3238,7 +3238,7 @@ function Player(socket, name, ip) {
 					if (this.silenced) {
 						this.silencedError();
 					} else if (mod == this.s.id) {
-						io.emit(Type.HIGHLIGHT, msg);
+						io.emit(Type.HIGHLIGHT, msg, 'modchat');
 					} else if (this.spectate) {
 						this.specMessage(msg, { spectate: true });
 					} else {
@@ -3249,7 +3249,7 @@ function Player(socket, name, ip) {
 					if (this.silenced) {
 						this.silencedError();
 					} else if (mod == this.s.id) {
-						io.emit(Type.HIGHLIGHT, msg);
+						io.emit(Type.HIGHLIGHT, msg, 'modchat');
 					} else if (this.spectate) {
 						this.specMessage(msg, { spectate: true });
 					} else if (!this.alive) {
