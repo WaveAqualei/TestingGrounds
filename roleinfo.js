@@ -25,6 +25,7 @@ var roles = [
 		attributes: ['You will know if your target is suspicious.'],
 		goal: towngoal,
 		color: towncolor,
+		text-shadow: 0px 0px 10px #000000;
 	},
 	{
 		rolename: 'investigator',
@@ -33,6 +34,7 @@ var roles = [
 		attributes: ['None'],
 		goal: towngoal,
 		color: towncolor,
+		text-shadow: 0px 0px 10px #000000;
 	},
 	{
 		rolename: 'lookout',
@@ -41,6 +43,7 @@ var roles = [
 		attributes: ['None'],
 		goal: towngoal,
 		color: towncolor,
+		text-shadow: 0px 0px 10px #000000;
 	},
 	{
 		rolename: 'tracker',
@@ -49,6 +52,7 @@ var roles = [
 		attributes: ['None'],
 		goal: towngoal,
 		color: towncolor,
+		text-shadow: 0px 0px 10px #000000;
 	},
 	{
 		rolename: 'spy',
@@ -57,6 +61,7 @@ var roles = [
 		attributes: ['You will know who the Mafia and Coven visit each night.'],
 		goal: towngoal,
 		color: towncolor,
+		text-shadow: 0px 0px 10px #000000;
 	},
 	{
 		rolename: 'psychic',
@@ -69,6 +74,7 @@ var roles = [
 		],
 		goal: towngoal,
 		color: towncolor,
+		text-shadow: 0px 0px 10px #000000;
 	},
 
 	// TOWN SUPPORT VANILLA
