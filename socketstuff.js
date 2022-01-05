@@ -1082,6 +1082,7 @@ socket.on(Type.PAUSEPHASE,function(p){
 });
 socket.on(Type.GUARDIAN_ANGEL, function(name, yourName) {
 	if ($(`#${name}-angel`).length) return;
+	addMessage({msg: name+' has been protected by the Guardian Angel.', styling: 'highlight'}, "highlight");
 	$(`#p-${name}`).append(`<span class="emoji angel" id="${name}-angel" style="color:#FFFFFF">👼</span>`);
 	$(`#${name}-angel`).click(() => {
 		if (mod) {
