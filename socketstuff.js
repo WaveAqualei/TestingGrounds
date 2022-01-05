@@ -1028,7 +1028,7 @@ socket.on(Type.TARGET,function(name,role,target)
 });
 
 socket.on(Type.MAYOR, function(name) {
-	addMessage({msg: name+' has revealed themselves as the Mayor!', styling: 'mayor_reveal'}, "highlight");
+	addMessage({msg: '🎩' +name+' has revealed themselves as the Mayor!', styling: 'mayor_reveal'}, "highlight");
 	$(`#p-${name}`).append(`<span class="emoji" id="${name}-mayor" style="color:#b0ff39">Mayor</span>`)
 	$(`#${name}-mayor`).click(() => {
 		if (mod) {
