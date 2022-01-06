@@ -920,7 +920,9 @@ header ul li span
 }
 .deadplayer
 {
-	background:grey;
+	background:#000000;
+	font-weight:bold;
+	color:#FFFFFF;
 	
 }
 .deadplayer div
