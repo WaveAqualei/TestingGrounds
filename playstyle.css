@@ -26,7 +26,7 @@ header
 	list-style:none;
 	overflow-y:auto;
 	overflow-x:hidden;
-	background-color: #EBECF0;
+	background-color: #3B4545;
 }
 .moonimg
 {
@@ -84,7 +84,8 @@ header .moonimg
 {
 	width:100%;
 	padding-left:5px;
-	/*color: white;*/
+	color:#FFFFFF;
+	font-family:'Helvecita';
 }
 .rolecardcontainer
 {
