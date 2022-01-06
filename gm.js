@@ -734,7 +734,7 @@ module.exports = {
 			var selfVisiting = false;
 			for (i in arr)
 			{
-				if (!isNaN(arr[i]))
+				if (!isNaN(arr[i]) && playernums[arr[i]])
 				{
 					arr[i] = players[playernums[arr[i]]].name;
 				}

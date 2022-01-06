@@ -58,7 +58,8 @@ var Type = {
 	NOTES: 57,
 	GETNOTES: 58,
 	DISCONNECT: 59,
-	RECONNECT: 60
+	RECONNECT: 60,
+	TARGETING_OPTIONS: 61,
 };
 /*
  * 0 = No auto

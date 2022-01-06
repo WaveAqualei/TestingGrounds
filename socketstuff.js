@@ -192,7 +192,7 @@ function connectSocket(reconnecting)
 		var display = msgToHTML(type, args);
 		if(display) {
 			addMessage(display);
-		}
+	}
 		if(listeners[type]) {
 			listeners[type].apply(socket, args);
 		}
@@ -334,21 +334,21 @@ addSocketListener(Type.JOIN,function(name)
 		//Add in a rolelist button if it is does not already exist
 		if ($('#rolelistbutton').length == 0)
 		{
-			var rlbutton = $('<div id="rolelistbutton"></div>');
-			rlbutton.click(function()
-			{
-				openRolelist();
-			});
+		var rlbutton = $('<div id="rolelistbutton"></div>');
+		rlbutton.click(function()
+		{
+			openRolelist();
+		});
 			$('#inputarea').append(rlbutton);
 		}
 		//Add in an automod settings button if it doesn't exist
 		if ($('#automodsettingsbutton').length == 0)
 		{
-			var ambutton = $('<div id="automodsettingsbutton"></div>');
-			ambutton.click(function()
-			{
-				autoModSettings();
-			});
+		var ambutton = $('<div id="automodsettingsbutton"></div>');
+		ambutton.click(function()
+		{
+			autoModSettings();
+		});
 			$('#inputarea').append(ambutton);
 		}
 		addModControls();
@@ -440,7 +440,7 @@ addSocketListener(Type.JOIN,function(name)
 			}
 		});
 		modcontrols.append(rolechanger);
-	}
+				}
 	li.append(info);
 	if (mod) {
 		li.append(modcontrols);
@@ -563,7 +563,7 @@ addSocketListener(Type.ROOMLIST,function(list)
 					$(`#${list[i].name}-will`).click((e) => {
 						openUserWill(e.target);
 					});
-				}
+			}
 			}
 			else
 			{
@@ -594,7 +594,7 @@ addSocketListener(Type.ROOMLIST,function(list)
 				$('#userlist').append(user_names[list[i].name]);
 				delete user_names[list[i].name];
 				users.push(list[i].name);
-			}
+	}
 			else
 			{
 				listeners[Type.JOIN](list[i].name);
@@ -632,16 +632,16 @@ addSocketListener(Type.TOGGLELIVING,function(p)
 				$(`#${p.name}-will`).click(() => {
 					openUserWill($(`#p-${p.name}`));
 				});
-			}
+		}
 		}
 		else
 		{
 			li.removeClass('deadplayer');
 			if(p.name != player_name) {
 				li.find('.roledisplay').remove();
-			}
-			li.find(`#${p.name}-will`).remove();
 		}
+			li.find(`#${p.name}-will`).remove();
+	}
 	}
 });
 addSocketListener(Type.KICK,function()
@@ -779,29 +779,6 @@ else
 			addPauseButton(phase);
 		}
 	}
-	if (phase == 8) //Night
-	{
-		if (!mod) {
-		//Add the night buttons
-		for (i = 1; i < users.length; i++)
-		{
-			if (!$($('#userlist li')[i]).hasClass('deadplayer') && !$($('#userlist li')[i]).find('.name.spec').length)
-			{
-				var li = $('#userlist').children()[i];
-				var button = $('<div class="nightbutton">TARGET</div>');
-				button.click(function()
-				{
-					var index = $('#userlist li').index(this.parentNode.parentNode.parentNode);
-					var name = users[index];
-					socket.sendMessage(Type.TARGET,name);
-				});
-				var nightinterface = $('<div class="nightinterface"></div>');
-				nightinterface.append(button);
-				$($(li).children()[0]).append(nightinterface);
-			}
-		}
-	}
-	}
 	if (phase == 4 && !mod) //Voting
 	{
 		//Add the voting interface
@@ -856,7 +833,48 @@ else
 			mnight.play();
 
 });
-addSocketListener(Type.SWITCH,function(name1,name2)
+socket.on(Type.TARGETING_OPTIONS,function(legal_targets) {
+	if(!legal_targets.length || !legal_targets[0].length) {
+		// No legal targets
+		return;
+	}
+	var n, i;
+	var targets_chosen = legal_targets.map(()=>'');
+	for(n = legal_targets.length-1; n >= 0; n--) {
+		targetlist = legal_targets[n];
+		//Add the night buttons
+		for (i = 1; i < users.length; i++)
+		{
+			var name = users[i];
+			var player_el = $(`#p-${name}`);
+			var nightinterface = $('<div class="nightinterface"></div>');
+			if(targetlist.includes(users[i])) {
+				var button = $('<div class="nightbutton">TARGET</div>');
+				button.data('target-name', name);
+				button.data('target-num', n);
+				button.click(function()
+				{
+					var n = $(this).data('target-num');
+					var name = $(this).data('target-name');
+					if($(this).hasClass('pressed')) {
+						targets_chosen[n] = '';
+						$(this).removeClass('pressed');
+					} else {
+						if(targets_chosen[n]) {
+							$($('#p-'+targets_chosen[n]).find('.nightinterface')[n]).find('.nightbutton').removeClass('pressed');
+						}
+						targets_chosen[n] = name;
+						$(this).addClass('pressed');
+					}
+					socket.sendMessage(Type.TARGET, targets_chosen.filter(a=>a).join(' ') || '0');
+				});
+				nightinterface.append(button);
+			}
+			player_el.append(nightinterface);
+		}
+	}
+});
+socket.on(Type.WHISPER,function(msg)
 {
 	var i1=users.indexOf(name1);
 	var i2=users.indexOf(name2);
@@ -1257,13 +1275,13 @@ function kittyReconnect()
 				blocker.append(notify);
 				$('body').append(blocker);
 			}
-			setTimeout(function()
-			{
+				setTimeout(function()
+				{
 				connectSocket(true);
-				connectAttempt++;
-				$('#count').html(connectAttempt+'/10');
-			},1000);
-		}
+					connectAttempt++;
+					$('#count').html(connectAttempt+'/10');
+				},1000);
+			}
 		else
 		{
 			$('#try').html('<p>Our dancing kitty has failed to reconnect you. No milk for him tonight. Please rejoin.</p>');
