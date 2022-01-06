@@ -53,7 +53,7 @@ header .moonimg
     padding-left:1em;
     border-radius: 1em;
     padding-right: 50px;
-    font-family: 'Open Sans', Arial, sans-serif;
+    font-family: 'Open Sans', Helvetica, sans-serif;
     background: #CFD7D7;
     margin: 0.5em;
     text-align:center;
@@ -85,7 +85,7 @@ header .moonimg
 	width:100%;
 	padding-left:5px;
 	color:#FFFFFF;
-	font-family: 'Open Sans', Arial, sans-serif;
+	font-family: 'SuperRareFont', Helvetica, sans-serif;
 }
 .rolecardcontainer
 {
@@ -417,8 +417,8 @@ header ul li span
 {
 	background:black;
 	background-size: 100% 100%;
-	height: 400px;
-    width: 267px;
+	height: 450px;
+    width: 300px;
     text-shadow: 0px 4px 6px #191919;
     color:white;
     position:relative;
@@ -825,7 +825,7 @@ header ul li span
 }
 #will, #modwill
 {
-	background:url("unitylastwill.png");
+	background:url("will.png");
 	background-size:100% 100%;
 	display:none;
 	position:absolute;
@@ -1406,7 +1406,7 @@ neut
 }
 .mod
 {
-	color:#de007c;
+	color:#ff80c7;
 }
 .dying
 {
