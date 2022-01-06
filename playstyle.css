@@ -423,6 +423,7 @@ header ul li span
     color:white;
     position:relative;
     padding:20px;
+	border:5px solid #265B5F;
     padding-top:10px;
     float:left;
 }
@@ -444,7 +445,7 @@ header ul li span
 	display: block;
     color: white;
     position: absolute;
-    left: 27px;
+    left: auto;
     bottom: 20px;
 }
 #adjustabledivider
@@ -518,12 +519,12 @@ header ul li span
 	width:100%;
 	height:5%;
 	border-top:1px solid black;
-	background-color: #EBECF0;
+	background-color: #265B5F;
 }
 #c
 {
 	float:left;
-	width:80%;
+	width:82%;
 }
 .votinginterface
 {
