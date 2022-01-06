@@ -187,7 +187,7 @@ header .moonimg
 	margin-left:auto;
 	margin-right:auto;
 	min-height:100px;
-	border: 1px solid black;
+	border: 2px solid #265B5F;
 	display:block;
 	font-family: 'Open Sans', Arial, sans-serif;
 }
@@ -195,7 +195,7 @@ header .moonimg
 {
 	height:30px;
 	width:100%;
-	background: #151633;
+	background: #3b5b5f;
 	position: relative;
 	font-family:'Denk One', Arial, sans-serif;
 	color:white;
@@ -220,7 +220,7 @@ header .moonimg
 }
 .automodcontainer table
 {
-	border: 1px solid black;
+	border: 1px solid #265B5F;
 	display:block;
     margin: 0;
     margin-top: 10px;
@@ -254,7 +254,7 @@ table tbody
 }
 .automodcontainer table tr:first-child
 {
-	border-bottom:1px solid black;
+	border-bottom:1px solid #265B5F;
 	display:block;
 }
 .automodcontainer table tr:first-child td
@@ -268,7 +268,7 @@ table tbody
 	padding-right:5px;
 	float:left;
 	height:100%;
-	border-bottom:1px solid #ADADAD;
+	border-bottom:1px solid #265B5F;
 }
 .automodcontainer table tr:last-child td
 {
@@ -276,7 +276,7 @@ table tbody
 }
 .automodcontainer table tr td:first-child
 {
-	border-right: 1px solid #ADADAD;
+	border-right: 1px solid #265B5F;
 }
 .automodcontainer table tr td:last-child
 {
@@ -284,7 +284,7 @@ table tbody
 	border-right:none;
 	overflow:auto;
 	width:unset;
-	border-left: 1px solid #ADADAD;
+	border-left: 1px solid #265B5F;
 }
 .automodbutton
 {
@@ -314,7 +314,7 @@ table tbody
 	width:30%;
 	height:22px;
 	line-height:22px;
-    /*color:white;*/
+	color:#FFFFFF;
 }
 .automodcontainer h2
 {
@@ -400,18 +400,22 @@ header ul li span
 .highlight
 {
 	background:#faff96;
+	color:#000000;
 }
 .modchat
 {
 	background:#e8d1e4;
+	color:#000000;
 }
 .phasechange
 {
 	background:#fff700;
+	color:#000000;
 }
 .mayor_reveal
 {
 	background:#11c700;
+	color:#000000;
 }
 .rolecard
 {
@@ -510,7 +514,7 @@ header ul li span
 .spec
 {
 	font-weight:bold;
-	color:#82c6fa;
+	color:#adb839;
 }
 #inputarea
 {
@@ -1359,11 +1363,11 @@ neut
 /*----Chat messages----*/
 .mafia
 {
-	color:red;
+	color:#ff4d4d;
 }
 .coven 
 {
-	color: #BF40BF;
+	color: #bc57ff;
 }
 .vamp
 {
@@ -1371,11 +1375,11 @@ neut
 }
 .linked
 {
-	color:green;
+	color:lawngreen;
 }
 .dead
 {
-	color: grey;
+	color: #d9d9d9;
     text-shadow: 0px 0px 10px #6FADB1;
 }
 .medium
@@ -1384,11 +1388,11 @@ neut
 }
 .spectate
 {
-    color:#0000FF;
+    color:mediumaquamarine;
 }
 .jailed
 {
-	color:#4a3526;
+	color:antiquewhite;
 }
 .jailor
 {
@@ -1402,10 +1406,6 @@ neut
 {
 	background:#249AC7;
 	color:#ADD8E6;
-}
-.whisper
-{
-	color:#73005a;
 }
 .mod
 {
@@ -1424,6 +1424,7 @@ neut
 .reviving
 {
 	background:#4ADF00;
+	color:#000000
 }
 .vote
 {
@@ -1431,7 +1432,7 @@ neut
 }
 .whisper
 {
-	color:#0047AB;
+	color:cornflowerblue;
 }
 .guilty
 {
