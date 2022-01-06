@@ -537,7 +537,7 @@ var roles = [
 			'You cannot be killed at night.',
 		],
 		goal: 'Kill all who would oppose you.',
-		color: '#424242'; text-shadow: '1px 1px 10px #deff70';
+		color: '#424242; text-shadow: 1px 1px 10px #deff70',
 		
 	},
 	{
