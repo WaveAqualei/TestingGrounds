@@ -537,7 +537,7 @@ var roles = [
 			'You cannot be killed at night.',
 		],
 		goal: 'Kill all who would oppose you.',
-		color: '#424242; text-shadow: 1px 1px 10px #deff70',
+		color: '#424242; text-shadow: 0px 0px 5px #deff70',
 		
 	},
 	{
@@ -1495,16 +1495,16 @@ module.exports = {
 			var goal = "<span class='goal'><div style='color:" + hilitecolor + "'><b>Goal</b>: </div>" + roles[num].goal + '</span>';
 			output = "<div class='rolecard'>" + format(name) + al + '<br>' + abi + '<br>' + att + '<br>' + goal + '</div>';
 			//Add invest and consig results if they are available
-			if (results.investResult) {
-				var container = '<div class="investresultcontainer">';
-				container = container + "<div class='investresult'>" + results.investResult + '</div>' + '</div>';
-				output += container;
-			}
-			if (results.sheriffResult) {
-				var container = '<div class="investresultcontainer">';
-				container = container + "<div class='sheriffresult'>" + results.sheriffResult + '</div>' + '</div>';
-				output += container;
-			}
+			//if (results.investResult) {
+				//var container = '<div class="investresultcontainer">';
+				//container = container + "<div class='investresult'>" + results.investResult + '</div>' + '</div>';
+				//output += container;
+			//}
+			//if (results.sheriffResult) {
+				//var container = '<div class="investresultcontainer">';
+				//container = container + "<div class='sheriffresult'>" + results.sheriffResult + '</div>' + '</div>';
+				//output += container;
+			//}
 			return output;
 		}
 		return 'You need to specify a role!<br>';
