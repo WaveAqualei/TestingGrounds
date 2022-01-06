@@ -255,7 +255,15 @@ function modInterface()
 	}
 	$('.name').addClass('shorten');
 }
-var socket= io.connect({'pingInterval': 45000});
+var urlParams = new URLSearchParams(window.location.search);
+var player_name = urlParams.get("name");
+if(!player_name) window.location = '/';
+var socket= io.connect({
+	'reconnect': false,
+	extraHeaders: {
+		'x-player-name': player_name,
+	},
+});
 socket.on(Type.MSG,function(name,msg)
 {
 	if (msg.styling)

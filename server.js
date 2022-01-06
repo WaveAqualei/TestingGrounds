@@ -297,49 +297,24 @@ var server = http.createServer(function (req, res) {
 			res.end();
 			break;
 		case '/play':
-			if (req.method == 'POST') {
-				var playername;
-				req.on('data', function (name) {
-					playername = name.toString();
-					playername = playername.substring(5, playername.length); //Drop the preceding 'name='
-				});
-
-				req.on('end', function () {
-					if (Object.keys(players).length <= 36) {
-						//Check if the name is taken before serving the page.
-						if (!nameTaken(playername, getIpReq(req))) {
-							if (nameCheck(playername)) {
-								var ip = getIpReq(req);
-								joining[ip] = playername;
-								//Serve the page.
-								fs.readFile(__dirname + path + '.html', function (error, data) {
-									if (error) {
-										res.writeHead(404);
-										res.write("<h1>Oops! This page doesn't seem to exist! 404</h1>");
-										res.end();
-									} else {
-										res.writeHead(200, { 'Content-Type': 'text/html' });
-										res.write(data, 'utf8');
-										res.end();
-									}
-								});
-							} else {
-								res.write('Invalid name!');
-								res.end();
-							}
-						} else {
-							res.write('Sorry, that name was taken!');
-							res.end();
-						}
-					} else {
-						res.write('Sorry, the server is currently full. Please try again later~');
-						res.end();
-					}
-				});
-			} else {
+			var name = url.parse(req.url, true).query.name;
+			if(!name) {
 				res.writeHead(302, { Location: '/' }); //Send em home
 				res.end();
+				break;
 			}
+			//Serve the page.
+			fs.readFile(__dirname + path + '.html', function (error, data) {
+				if (error) {
+					res.writeHead(404);
+					res.write("<h1>Oops! This page doesn't seem to exist! 404</h1>");
+					res.end();
+				} else {
+					res.writeHead(200, { 'Content-Type': 'text/html' });
+					res.write(data, 'utf8');
+					res.end();
+				}
+			});
 			break;
 		case '/time':
 			//Calculate time until the test.
@@ -543,8 +518,6 @@ server.listen(port, function () {
 var players = [];
 //To store the order of players.
 var playernums = [];
-//List of ip's waiting to join.
-var joining = [];
 //List of names with their socket.id's. Needed to provide quick access to the player objects.
 var playernames = [];
 //Array to hold the info of players that have dc'd. Maximum of 20 players and players are removed after 5 minutes.
@@ -553,6 +526,7 @@ var dcd = [];
 io.listen(server);
 io.on('connection', function (socket) {
 	var ip = getIp(socket);
+	var connecting_as_name = socket.handshake.headers['x-player-name'];
 	var banned = false;
 	var reason = '';
 	for (i in banlist) {
@@ -577,7 +551,7 @@ io.on('connection', function (socket) {
 		var alts = [];
 		for (i in players) {
 			if (ip == players[i].ip) {
-				if(joining[ip] == players[i].name && !players[i].s.connected) {
+				if(connecting_as_name == players[i].name && !players[i].s.connected) {
 					reconnecting = players[i];
 				} else {
 					alts.push(players[i].name);
@@ -663,8 +637,8 @@ io.on('connection', function (socket) {
 				socket.emit(Type.SETMOD, true);
 				sendPlayerInfo();
 			}
-		} else if (!nameTaken(joining[ip])) { //Second check for the name being taken
-			if (joining[ip]) {
+		} else if (!nameTaken(connecting_as_name)) { //Second check for the name being taken
+			if (connecting_as_name) {
 				socket.emit(Type.PAUSEPHASE, timer.paused);
 				socket.emit(Type.SETDAYNUMBER, gm.getDay());
 				//If the player is first, set them as the mod.
@@ -679,27 +653,26 @@ io.on('connection', function (socket) {
 					p.name = players[playernums[i]].name;
 					if (!players[playernums[i]].alive) {
 						p.role = players[playernums[i]].role;
+						p.rolecolor = roles.getRoleData(players[playernums[i]].role).color;
 					}
 					namelist.push(p);
 				}
 				socket.emit(Type.ROOMLIST, namelist);
-				var name = joining[ip];
-				delete joining[ip];
-				players[socket.id] = Player(socket, name, ip);
+				players[socket.id] = Player(socket, connecting_as_name, ip);
 				//Inform everyone of the new arrival.
-				io.emit(Type.JOIN, name);
+				io.emit(Type.JOIN, connecting_as_name);
 				if (phase != 0) {
 					for (i in players) {
-						if (name == players[i].name) {
+						if (connecting_as_name == players[i].name) {
 							players[i].spectate = true;
 							players[i].setRole('Spectator');
 						}
 					}
-					io.emit(Type.SETSPEC, name);
+					io.emit(Type.SETSPEC, connecting_as_name);
 				}
 				if (alts.length > 0) {
 					//Inform everyone of the alt.
-					io.emit(Type.HIGHLIGHT, 'Please be aware that ' + name + ' is an alt of ' + gm.grammarList(alts) + '.');
+					io.emit(Type.HIGHLIGHT, 'Please be aware that ' + connecting_as_name + ' is an alt of ' + gm.grammarList(alts) + '.');
 				}
 				//Tell the new arrival what phase it is.
 				socket.emit(Type.SETPHASE, phase, true, timer.time);
