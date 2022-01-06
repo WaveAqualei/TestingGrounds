@@ -402,7 +402,7 @@ socket.on(Type.PING,function()
 socket.on(Type.HEY,function(){
 	hey.play();
 });
-socket.on(Type.JOIN,function(name, reconnect)
+socket.on(Type.JOIN,function(name)
 {
 	users.push(name);
 	addMessage(name+' has joined.','system');
