@@ -195,7 +195,7 @@ var roles = [
 			'If you execute a Town member, you forfeit further executions.',
 		],
 		day_targeting: ['living other'],
-		targeting: ['jailed'],
+		targeting: ['jailed notfirst'],
 		goal: towngoal,
 		color: towncolor,
 	},
