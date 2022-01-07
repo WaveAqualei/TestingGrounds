@@ -668,7 +668,7 @@ socket.on(Type.ROOMLIST,function(list)
 			{
 				//Player is dead.
 				var role_safe = sanitize(list[i].role);
-				$('#userlist').append(`<li class="deadplayer"><div class="info" id="p-${list[i].name}"><span class="num">${num}</span>${name}</div><div><span>${role_safe}</span></div></li>`);
+				$('#userlist').append(`<li class="deadplayer"><div class="info" id="p-${list[i].name}"><span class="num">${num}</span>${name}</div><div><span style="color: ${list[i].rolecolor}">${role_safe}</span></div></li>`);
 			}
 			else
 			{
@@ -693,7 +693,7 @@ socket.on(Type.TOGGLELIVING,function(p)
 		if (p.role)
 		{
 			var role_safe = sanitize(p.role);
-			li.outerHTML = '<li class="deadplayer"><div><span class="num">'+index+'</span><span class="name">'+p.name+'</span></div><div><span>'+role_safe+'</span></div></li>';
+			li.outerHTML = `<li class="deadplayer"><div class="info" id="p-${p.name}"><span class="num">${index}</span><span class="name">${p.name}</span></div><div><span style="color: ${p.rolecolor}">${role_safe}</span></div></li>`;
 		}
 		else
 		{
