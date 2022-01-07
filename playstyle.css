@@ -2,7 +2,7 @@ html,body
 {
 	margin:0;
 	padding:0;
-    background-color: #FFFFFF;
+	background-color: #FFFFFF;
 	height:100%;
 	width:100%;
 	overflow:hidden;
@@ -47,38 +47,38 @@ header .moonimg
 .investresult, .sheriffresult
 {
 	position:relative;
-    width: 20em;
-    font-size: 0.9em;
-    padding: 0.5em;
-    padding-left:1em;
-    border-radius: 1em;
-    padding-right: 50px;
-    font-family: 'Open Sans', Helvetica, sans-serif;
-    background: #CFD7D7;
-    margin: 0.5em;
-    text-align:center;
+	width: 20em;
+	font-size: 0.9em;
+	padding: 0.5em;
+	padding-left:1em;
+	border-radius: 1em;
+	padding-right: 50px;
+	font-family: 'Open Sans', Helvetica, sans-serif;
+	background: #CFD7D7;
+	margin: 0.5em;
+	text-align:center;
 }
 .investresult:after
 {
 	position: absolute;
-    display: block;
-    content: '';
-    background: url(invest.png);
-    height: 50px;
-    width: 50px;
-    right: -10px;
-    top: 0px;
+	display: block;
+	content: '';
+	background: url(invest.png);
+	height: 50px;
+	width: 50px;
+	right: -10px;
+	top: 0px;
 }
 .sheriffresult:after
 {
 	position: absolute;
-    display: block;
-    content: '';
-    background: url(sheriff.png);
-    height: 50px;
-    width: 50px;
-    right: -10px;
-    top: -10px;
+	display: block;
+	content: '';
+	background: url(sheriff.png);
+	height: 50px;
+	width: 50px;
+	right: -10px;
+	top: -10px;
 }
 #main>li
 {
@@ -113,7 +113,7 @@ header .moonimg
 	padding:0;
 	list-style:none;
 	color:white;
-    overflow:auto;
+	overflow:auto;
 }
 #automodsettings
 {
@@ -223,11 +223,11 @@ header .moonimg
 {
 	border: 1px solid #265B5F;
 	display:block;
-    margin: 0;
-    margin-top: 10px;
-    margin-bottom: 10px;
-    margin-left: auto;
-    margin-right: auto;
+	margin: 0;
+	margin-top: 10px;
+	margin-bottom: 10px;
+	margin-left: auto;
+	margin-right: auto;
 }
 table tbody
 {
@@ -295,11 +295,11 @@ table tbody
 	text-align:center;
 	line-height:20px;
 	border: 1px solid #00043D;
-    background: #4B72C4;
-    cursor: pointer;
-    font-family: 'Open Sans', Arial, sans-serif;
-    font-size:15px;
-    color:#0D1771;
+	background: #4B72C4;
+	cursor: pointer;
+	font-family: 'Open Sans', Arial, sans-serif;
+	font-size:15px;
+	color:#0D1771;
 }
 .automodbutton:hover
 {
@@ -319,7 +319,7 @@ table tbody
 }
 .automodcontainer h2
 {
-    color:white;
+	color:white;
 }
 .messagetable tr td:first-child
 {
@@ -328,7 +328,7 @@ table tbody
 .messagetable tr td
 {
 	width:70%;
-    /*color:white;*/
+	/*color:white;*/
 }
 .messagetable tr
 {
@@ -370,10 +370,10 @@ header ul li
 	margin:0;
 	margin-left:-1px;
 	padding:0;
-    text-align: center;
-    display: block;
-    color: white;
-    height:100%;
+	text-align: center;
+	display: block;
+	color: white;
+	height:100%;
 	border-left:1px solid black;
 	position:relative;
 	width:10%;
@@ -419,14 +419,14 @@ header ul li span
 	background:black;
 	background-size: 100% 100%;
 	height: 450px;
-    width: 300px;
-    text-shadow: 0px 4px 6px #191919;
-    color:white;
-    position:relative;
-    padding:20px;
+	width: 300px;
+	text-shadow: 0px 4px 6px #191919;
+	color:white;
+	position:relative;
+	padding:20px;
 	border:5px solid #265B5F;
-    padding-top:10px;
-    float:left;
+	padding-top:10px;
+	float:left;
 }
 .rolecard h2
 {
@@ -434,20 +434,20 @@ header ul li span
 }
 .rolecard .aligntext
 {
-    float: left;
+	float: left;
 }
 .rolecard .abilities
 {
 	float: left;
-    width: 100%;
+	width: 100%;
 }
 .goal
 {
 	display: block;
-    color: white;
-    position: absolute;
-    left: auto;
-    bottom: 20px;
+	color: white;
+	position: absolute;
+	left: auto;
+	bottom: 20px;
 }
 #adjustabledivider
 {
@@ -501,7 +501,7 @@ header ul li span
 	text-overflow:ellipsis;
 	white-space: nowrap;
 	padding-left: 5px;
-    margin-right: -5px;
+	margin-right: -5px;
 	color:#FFFFFF;
 }
 .dev
@@ -529,15 +529,15 @@ header ul li span
 }
 .votinginterface
 {
-    float: right;
-    height: 100%;
-    width: 100px;
+	float: right;
+	height: 100%;
+	width: 100px;
 }
 .nightinterface
 {
-    float: right;
-    height: 100%;
-    width: 100px;
+	float: right;
+	height: 100%;
+	width: 100px;
 }
 .votebutton
 {
@@ -893,18 +893,18 @@ header ul li span
 }
 #notes textarea, #modnotes textarea 
 {
-    	background-color: transparent;
-    	border-style: none;
-    	border-color: Transparent;
-    	font-size: 18px;
-    	font-family: Helvetica;
-    	outline: none;
-    	overflow: hidden;
-    	height: 80%;
-    	width: 80%;
-    	margin: 8%;
-    	margin-top: 15%;
-    	resize: none;
+		background-color: transparent;
+		border-style: none;
+		border-color: Transparent;
+		font-size: 18px;
+		font-family: Helvetica;
+		outline: none;
+		overflow: hidden;
+		height: 80%;
+		width: 80%;
+		margin: 8%;
+		margin-top: 15%;
+		resize: none;
 }
 #notes div, #modnotes div 
 {
@@ -1198,20 +1198,20 @@ header ul li span
 .showroles, .showlist
 {
 	height: 80%;
-    	flex-grow: 2;
-    	text-align: center;
-  	background: linear-gradient(#364040, #3B4545);
-    	box-shadow: inset 0px 1px 0px 0px black;
-    	margin-top: auto;
-    	margin-bottom: auto;
-    	vertical-align: middle;
-    	cursor: pointer;
-    	font-weight: bold;
-    	color: #FFFFFF;
-    	font-family: Arial;
-    	font-size: 15px;
-    	border: 1px solid black;
-    	padding-top: 6px;
+	flex-grow: 2;
+	text-align: center;
+	background: linear-gradient(#364040, #3B4545);
+	box-shadow: inset 0px 1px 0px 0px black;
+	margin-top: auto;
+	margin-bottom: auto;
+	vertical-align: middle;
+	cursor: pointer;
+	font-weight: bold;
+	color: #FFFFFF;
+	font-family: Arial;
+	font-size: 15px;
+	border: 1px solid black;
+	padding-top: 6px;
 }
 .showroles:hover, .showlist:hover
 {
@@ -1258,15 +1258,15 @@ header ul li span
 	width: 6em;
 	background: linear-gradient(#f9f9f9, #e9e9e9);
 	margin-top: 5px;
-    text-align: center;
-    box-shadow: inset 0px 1px 0px 0px #ffffff;
-    cursor: pointer;
-    font-weight: bold;
-    color: #666666;
-    font-family: Arial;
-    font-size: 15px;
-    border: 1px solid #dcdcdc;
-    position:relative;
+	text-align: center;
+	box-shadow: inset 0px 1px 0px 0px #ffffff;
+	cursor: pointer;
+	font-weight: bold;
+	color: #666666;
+	font-family: Arial;
+	font-size: 15px;
+	border: 1px solid #dcdcdc;
+	position:relative;
 }
 #autoRolesButton:hover
 {
@@ -1381,7 +1381,7 @@ neut
 .dead
 {
 	color: #d9d9d9;
-    text-shadow: 0px 0px 10px #6FADB1;
+	text-shadow: 0px 0px 10px #6FADB1;
 }
 .medium
 {
@@ -1389,7 +1389,7 @@ neut
 }
 .spectate
 {
-    color:mediumaquamarine;
+	color:mediumaquamarine;
 }
 .jailed
 {
