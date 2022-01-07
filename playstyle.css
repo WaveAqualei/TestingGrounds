@@ -26,7 +26,7 @@ header
 	list-style:none;
 	overflow-y:auto;
 	overflow-x:hidden;
-	background-color: #3B4545;
+	background-color: #364040;
 }
 .moonimg
 {
@@ -112,6 +112,7 @@ header .moonimg
 	margin:0;
 	padding:0;
 	list-style:none;
+	color:white;
     overflow:auto;
 }
 #automodsettings
@@ -399,11 +400,11 @@ header ul li span
 }
 .highlight
 {
-	background:#8c8800;
+	background:#996829;
 }
 .modchat
 {
-	background:#8c0050;
+	background:#3d0029;
 }
 .phasechange
 {
@@ -411,7 +412,7 @@ header ul li span
 }
 .mayor_reveal
 {
-	background:#0b8200;
+	background:#075700;
 }
 .rolecard
 {
@@ -1167,7 +1168,7 @@ header ul li span
 }
 .setroles
 {
-	background: url('accept.png'), linear-gradient(#f9f9f9, #e9e9e9);
+	background: url('accept.png'), linear-gradient(#364040, #3B4545);
 	background-size: 100% 100%;
 	height:100%;
 	flex-grow:1;
@@ -1175,7 +1176,7 @@ header ul li span
 }
 .roll
 {
-	background: url('roll.png'), linear-gradient(#f9f9f9, #e9e9e9);
+	background: url('roll.png'), linear-gradient(#364040, #3B4545);
 	background-size: 100% 100%;
 	height:100%;
 	flex-grow:1;
@@ -1196,25 +1197,25 @@ header ul li span
 }
 .showroles, .showlist
 {
-	height:80%;
-	flex-grow:2;
-	text-align:center;
-	background:linear-gradient(#f9f9f9, #e9e9e9);
-	box-shadow:inset 0px 1px 0px 0px #ffffff;
-	margin-top:auto;
-	margin-bottom:auto;
-	vertical-align:middle;
-	cursor:pointer;
-	font-weight:bold;
-	color:#666666;
-	font-family:Arial;
-	font-size:15px;
-	border:1px solid #dcdcdc;
-	padding-top:6px;
+	height: 80%;
+    	flex-grow: 2;
+    	text-align: center;
+  	background: linear-gradient(#364040, #3B4545);
+    	box-shadow: inset 0px 1px 0px 0px black;
+    	margin-top: auto;
+    	margin-bottom: auto;
+    	vertical-align: middle;
+    	cursor: pointer;
+    	font-weight: bold;
+    	color: #FFFFFF;
+    	font-family: Arial;
+    	font-size: 15px;
+    	border: 1px solid black;
+    	padding-top: 6px;
 }
 .showroles:hover, .showlist:hover
 {
-	background:#f9f9f9;
+	background:black;
 }
 .showroles:active, .showlist:active
 {
@@ -1238,6 +1239,8 @@ header ul li span
 	float:left;
 	width:50%;
 	padding: 5px;
+	color: white;
+	background: linear-gradient(#364040, #3B4545);
 }
 .extracontrols .options .checkbox
 {
@@ -1361,7 +1364,7 @@ neut
 /*----Chat messages----*/
 .mafia
 {
-	color:#ff4d4d;
+	color:#ff6969;
 }
 .coven 
 {
