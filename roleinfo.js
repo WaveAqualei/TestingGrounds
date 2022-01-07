@@ -1509,6 +1509,16 @@ module.exports = {
 		}
 		return 'You need to specify a role!<br>';
 	},
+	getRoleData: function (name) {
+		var num = getRoleNum(name.toLowerCase());
+		if (num == -1) {
+			// Default custom role
+			return {
+				rolename: name,
+			};
+		}
+		return roles[num];
+	},
 	formatAlignment: function (str) {
 		if (module.exports.hasRolecard(str)) {
 			var num = getRoleNum(str.toLowerCase());

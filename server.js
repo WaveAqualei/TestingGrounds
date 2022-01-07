@@ -595,6 +595,7 @@ io.on('connection', function (socket) {
 				p.name = players[playernums[i]].name;
 				if (!players[playernums[i]].alive) {
 					p.role = players[playernums[i]].role;
+					p.rolecolor = roles.getRoleData(players[playernums[i]].role).color;
 				}
 				namelist.push(p);
 			}
@@ -1011,7 +1012,11 @@ io.on('connection', function (socket) {
 						}
 						player.s.emit(Type.PRENOT, 'DEAD');
 					}
-					io.emit(Type.TOGGLELIVING, { name: name, role: player.role });
+					io.emit(Type.TOGGLELIVING, {
+						name: name,
+						role: player.role,
+						rolecolor: roles.getRoleData(player.role).color,
+					});
 				}
 			}
 		} else {
