@@ -1744,7 +1744,11 @@ function Player(socket, name, ip) {
 		},
 		dc: function () {
 			io.emit(Type.DISCONNECT, this.name);
-			if(phase === Phase.PREGAME) {
+			var is_late_spectator = playernums.slice(playernums.indexOf(this.s.id)).every(function(id) {
+				//It's OK to renumber spectators
+				return players[id].spectate;
+			});
+			if(phase === Phase.PREGAME || is_late_spectator) {
 				io.emit(Type.LEAVE, this.name);
 				//Splice them from the numbers array.
 				playernums.splice(playernums.indexOf(this.s.id), 1);
