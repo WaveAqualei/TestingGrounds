@@ -1577,72 +1577,76 @@ function setPhase(p) {
 		offerTargetingOptions();
 	}
 }
+function getPlayerTargetingOptions(player) {
+	var params = {};
+	switch(phase) {
+	case Phase.FIRSTDAY:
+	case Phase.DAY:
+	case Phase.VOTING:
+	case Phase.TRIAL:
+	case Phase.VERDICTS:
+	case Phase.LASTWORDS:
+		params.day = true;
+		break;
+	case Phase.NIGHT:
+		break;
+	default:
+		return [];
+	}
+	if(!player.alive) {
+		params.dead = true;
+	}
+	var key = Object.keys(params).concat(['targeting']).join('_');
+	var role_data = roles.getRoleData(player.role);
+	var role_targeting = role_data[key] || [];
+
+	var targetables = playernums.map(function(id) {
+		var p = players[id];
+		var r = roles.getRoleData(p.role);
+		var params;
+		if(id === mod) params = {mod: true};
+		else if(p.spectate) params = {spec: true};
+		else params = {
+			any: true,
+			living: p.alive,
+			dead: !p.alive,
+			other: p !== player,
+			self: p === player,
+			town: !!r.alignment.match(/^town/),
+			nontown: !r.alignment.match(/^town/),
+			mafia: !!r.alignment.match(/^mafia/),
+			nonmafia: !r.alignment.match(/^mafia/),
+			coven: !!r.alignment.match(/^coven/),
+			noncoven: !r.alignment.match(/^coven/),
+			vampire: !!r.alignment.match(/^vampire/) || r.rolename === 'vampire',
+			nonvampire: !r.alignment.match(/^vampire/) && r.rolename !== 'vampire',
+			notfirst: gm.getDay() > 1,
+			jailed: p.chats.jailed,
+			target: p === player.goal_target,
+		};
+		return {
+			name: p.name,
+			params: params,
+		};
+	});
+	return role_targeting.map(function(targeting_str) {
+		var rules = targeting_str.split(' ').filter(a=>a);
+		return targetables.filter(function(a) {
+			return rules.every(rule=>a.params[rule]);
+		}).map(function(a) {
+			return a.name;
+		});
+	});
+}
 function offerTargetingOptions() {
 	for(i in players) {
 		if(i == mod) {
 			continue;
 		}
-		var player = players[i];
-		var params = {};
-		switch(phase) {
-		case Phase.FIRSTDAY:
-		case Phase.DAY:
-		case Phase.VOTING:
-		case Phase.TRIAL:
-		case Phase.VERDICTS:
-		case Phase.LASTWORDS:
-			params.day = true;
-			break;
-		case Phase.NIGHT:
-			break;
-		default:
-			return;
+		var legal_targets = getPlayerTargetingOptions(players[i]);
+		if(legal_targets.length) {
+			player.s.sendMessage(Type.TARGETING_OPTIONS, legal_targets);
 		}
-		if(!player.alive) {
-			params.dead = true;
-		}
-		var key = Object.keys(params).concat(['targeting']).join('_');
-		var role_data = roles.getRoleData(player.role);
-		var role_targeting = role_data[key] || [];
-
-		var targetables = playernums.map(function(id) {
-			var p = players[id];
-			var r = roles.getRoleData(p.role);
-			var params;
-			if(id === mod) params = {mod: true};
-			else if(p.spectate) params = {spec: true};
-			else params = {
-				any: true,
-				living: p.alive,
-				dead: !p.alive,
-				other: p !== player,
-				self: p === player,
-				town: !!r.alignment.match(/^town/),
-				nontown: !r.alignment.match(/^town/),
-				mafia: !!r.alignment.match(/^mafia/),
-				nonmafia: !r.alignment.match(/^mafia/),
-				coven: !!r.alignment.match(/^coven/),
-				noncoven: !r.alignment.match(/^coven/),
-				vampire: !!r.alignment.match(/^vampire/) || r.rolename === 'vampire',
-				nonvampire: !r.alignment.match(/^vampire/) && r.rolename !== 'vampire',
-				notfirst: gm.getDay() > 1,
-				jailed: p.chats.jailed,
-				target: p === player.goal_target,
-			};
-			return {
-				name: p.name,
-				params: params,
-			};
-		});
-		var legal_targets = role_targeting.map(function(targeting_str) {
-			var rules = targeting_str.split(' ').filter(a=>a);
-			return targetables.filter(function(a) {
-				return rules.every(rule=>a.params[rule]);
-			}).map(function(a) {
-				return a.name;
-			});
-		});
-		player.s.sendMessage(Type.TARGETING_OPTIONS, legal_targets);
 	}
 }
 //--IP functions
@@ -2830,15 +2834,16 @@ function Player(socket, name, ip) {
 					if (c[0].toLowerCase() == 'ft' || c[0].toLowerCase() == 'freetarget') {
 						free = true;
 					}
+					var legal_targets = getPlayerTargetingOptions(this);
 					if (mod == this.s.id) {
 						this.s.sendMessage(Type.SYSTEM, 'The mod cannot use this command.');
 					} else if (this.spectate) {
 						this.s.sendMessage(Type.SYSTEM, 'You are not allowed to take influence in the game.');
 					} else if (this.chats.jailed) {
 						this.s.sendMessage(Type.SYSTEM, 'You cannot use this command while jailed.');
-					} else if (!this.alive) {
+					} else if (!this.alive && !legal_targets.length) {
 						this.s.sendMessage(Type.SYSTEM, 'You cannot use this while dead.');
-					} else if (phase != Phase.NIGHT) {
+					} else if (phase != Phase.NIGHT && !legal_targets.length) {
 						this.s.sendMessage(Type.SYSTEM, 'You can only use this command at night.');
 					} else {
 						var args = c.slice(1, c.length);

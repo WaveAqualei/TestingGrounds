@@ -806,9 +806,13 @@ module.exports = {
 			{
 				playersByName[player.name] = player;//Quicktarget
 				targets[player.name] = [player.role,undefined, true];
-				if (player.alive)
+				if (player.alive || loggedActions[player.name])
 				{
 					displayTargets[player.name] = [player.role,undefined, true, []];
+					if(!player.alive)
+					{
+						displayTargets[player.name][0] += ' (Dead)';
+					}
 					if (loggedActions[player.name])
 					{
 						targets[player.name][1] = loggedActions[player.name].slice(); //Add the target.
