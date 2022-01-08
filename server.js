@@ -1731,8 +1731,8 @@ function Player(socket, name, ip) {
 		},
 		//Player functions
 		setRole: function (role) {
-			this.role = role;
-			if (role.trim().length == 0) {
+			this.role = role = role.trim();
+			if (role.length == 0) {
 				this.role = 'NoRole';
 				this.s.emit(Type.System, 'Your role has been removed.');
 			} else if (roles.hasRolecard(role)) {
