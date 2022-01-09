@@ -512,7 +512,7 @@ header ul li span
 .spec
 {
 	font-weight:bold;
-	color:#adb839;
+	color:#B5A642;
 }
 #inputarea
 {
@@ -1424,8 +1424,7 @@ neut
 }
 .reviving
 {
-	background:#4ADF00;
-	color:#000000
+	background:#60824f;
 }
 .vote
 {
@@ -1441,7 +1440,7 @@ neut
 }
 .inno
 {
-	color:#00BF00;
+	color:#00ba00;
 }
 .abstain
 {
