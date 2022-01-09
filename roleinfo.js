@@ -115,6 +115,29 @@ var roles = [
 		targeting: ['living', 'living'],
 		goal: towngoal,
 		color: towncolor,
+		interpret_targeting: function(targets) {
+			if(targets.length === 2) {
+				this.schedule_action(1, 'default', targets);
+			}
+			this.immunities({
+				control_immunity: true,
+				roleblock_immunity: true,
+			});
+		},
+		actions: {
+			default: function(targets) {
+				var [a, b] = targets;
+				this.notify(a, "You were transported to another location!");
+				this.notify(b, "You were transported to another location!");
+				this.pending_actions.map(function(action) {
+					action.targets = action.targets.map(function(target) {
+						if(target === a) return b;
+						if(target === b) return a;
+						return target;
+					});
+				});
+			},
+		},
 	},
 	{
 		rolename: 'retributionist',
@@ -124,6 +147,17 @@ var roles = [
 		targeting: ['dead town', 'living'],
 		goal: towngoal,
 		color: towncolor,
+		interpret_targeting: function(targets, self) {
+			this.schedule_action(0, 'default', targets);
+		},
+		actions: {
+			default: function(targets) {
+				this.control(targets[0], {
+					type: 'default',
+					targets: [targets[1]],
+				});
+			},
+		},
 	},
 
 	// TOWN PROTECTIVE VANILLA
