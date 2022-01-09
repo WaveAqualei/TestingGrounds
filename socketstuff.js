@@ -513,11 +513,6 @@ socket.on(Type.JOIN,function(name)
 			{
 				this.style.background='green';
 			}
-			//Stop it from going over 20 chars
-			if (this.value.length > 20)
-			{
-				this.value = this.value.substring(0,15);
-			}
 		});
 		modcontrols.append(rolechanger);
 
