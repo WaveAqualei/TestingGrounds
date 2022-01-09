@@ -1256,7 +1256,7 @@ function setPhase(p) {
 	if (phase >= Phase.DAY && phase <= Phase.FIRSTDAY && p <= Phase.MODTIME) {
 		if (autoLevel > 0) {
 			//Evaluate night actions.
-			var results = gm.evaluate(players, playernames, mod, roles, autoLevel, phase);
+			var results = gm.evaluate(players, playernames, playernums, mod, roles, autoLevel, phase);
 			if (autoLevel == 3) {
 				for (i in results.targets) {
 					var type = results.actions[i][0];
