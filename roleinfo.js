@@ -410,7 +410,7 @@ var roles = [
 		alignment: 'neutral benign',
 		abilities: ['Remember who you were by selecting a graveyard role.'],
 		attributes: ['When you choose a role it will be revealed to all the players in the game.'],
-		goal: 'Remember who you were and complete that roles objectives.',
+		goal: 'Remember who you were and complete that role\'s objective.',
 		color: '#94ffff',
 	},
 	{
@@ -537,7 +537,7 @@ var roles = [
 			'You cannot be killed at night.',
 		],
 		goal: 'Kill all who would oppose you.',
-		color: '#424242; text-shadow: 0px 0px 5px #deff70',
+		color: '#424242; text-shadow: 0px 0px 5px #bbff00',
 		
 	},
 	{
