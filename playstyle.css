@@ -864,16 +864,15 @@ header ul li span
 }
 #will div, #modwill div
 {
-	border:black 1px solid;
-	display:block;	
-	position:absolute;
-	right:6%;
-	top:1.5%;
-	left:89%;
-	bottom:95%;	
-	background:url("button.png");
-	background-size:100%,100%;
-	border:black 1px solid;
+    display: block;
+    position: absolute;
+    right: 6%;
+    top: 4.5%;
+    left: 86%;
+    bottom: 89.5%;
+    background: url(button.png);
+    background-size: cover;
+    border: black 1px solid;
 }
 #will div:hover, #modwill div:hover
 {
@@ -1375,11 +1374,13 @@ neut
 /*----Chat messages----*/
 .mafia
 {
-	color:#ff6969;
+	color:#ff4747;
+	text-shadow: 0px 0px 10px black;
 }
 .coven 
 {
 	color: #bc57ff;
+	text-shadow: 0px 0px 10px black;
 }
 .vamp
 {
@@ -1391,8 +1392,8 @@ neut
 }
 .dead
 {
-	color: #d9d9d9;
-	text-shadow: 0px 0px 10px #6FADB1;
+	color: #c7c7c7;
+	text-shadow: 0px 0px 10px #4b7c80;
 }
 .medium
 {
@@ -1405,10 +1406,12 @@ neut
 .jailed
 {
 	color:antiquewhite;
+	text-shadow: 0px 0px 10px #c78800;
 }
 .jailor
 {
 	color:#c78800;
+	text-shadow: 0px 0px 10px black;
 }
 .jailing
 {
@@ -1435,15 +1438,15 @@ neut
 }
 .reviving
 {
-	background:#60824f;
+	background:#00992b;
 }
 .vote
 {
-	color:green;
+	color:#00de00;
 }
 .whisper
 {
-	color:cornflowerblue;
+	color:#80adff;
 }
 .guilty
 {
@@ -1451,7 +1454,7 @@ neut
 }
 .inno
 {
-	color:#00ba00;
+	color:#00BF00;
 }
 .abstain
 {
