@@ -664,6 +664,12 @@ socket.on(Type.ROOMLIST,function(list)
 				//Player is dead.
 				var role_safe = sanitize(list[i].role);
 				$('#userlist').append(`<li class="deadplayer"><div class="info" id="p-${list[i].name}"><span class="num">${num}</span>${name}</div><div><span style="color: ${list[i].rolecolor}">${role_safe}</span></div></li>`);
+				if(list[i].haswill) {
+					$(`#p-${list[i].name}`).append(`<span class="emoji" id="${list[i].name}-will">📜</span>`);
+					$(`#${list[i].name}-will`).click((e) => {
+						openUserWill(e.target);
+					});
+				}
 			}
 			else
 			{
@@ -689,6 +695,12 @@ socket.on(Type.TOGGLELIVING,function(p)
 		{
 			var role_safe = sanitize(p.role);
 			li.outerHTML = `<li class="deadplayer"><div class="info" id="p-${p.name}"><span class="num">${index}</span><span class="name">${p.name}</span></div><div><span style="color: ${p.rolecolor}">${role_safe}</span></div></li>`;
+			if(p.haswill) {
+				$(`#p-${p.name}`).append(`<span class="emoji" id="${p.name}-will">📜</span>`);
+				$(`#${p.name}-will`).click(() => {
+					openUserWill($(`#p-${p.name}`));
+				});
+			}
 		}
 		else
 		{
@@ -1204,11 +1216,16 @@ socket.on(Type.GETWILL,function(name,willcontent){
 		var close = $('<div id="closewill"></div>');
 		close.click(function()
 		{
-			socket.emit(Type.WILL,$('#modwill textarea').val(),name);
+			var txt = $('#modwill textarea');
+			if(!txt.attr("readonly")) socket.emit(Type.WILL,txt.val(),name);
 			$(this.parentNode).remove();
 		});
 		var txt = $('<textarea id="willcontent"></textarea>');
 		txt.val(willcontent);
+		if(!mod) 
+		{
+			txt.attr("readonly", true);
+		}
 		will.append(close);
 		will.append(txt);
 		$('body').append(will);
