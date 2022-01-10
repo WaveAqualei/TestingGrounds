@@ -799,47 +799,47 @@ module.exports = {
 		}
 		return str;
 	},
-	evaluate:function(players, playernames, mod, roles, lvl, fromphase){
+	evaluate:function(players, playernames, playernums, mod, roles, lvl, fromphase){
 		var targets = {};
 		var displayTargets = {};
 		var playersByName = {};		//Quick target array to get back to the players array.
 		//Populate targets array.
-		for (i in players)
+		for (var i = 0; i < playernums.length; i++)
 		{
-			if (mod != players[i].s.id && !players[i].spectate)
+			var player = players[playernums[i]];
+			if (mod != player.s.id && !player.spectate)
 			{
-				playersByName[players[i].name] = players[i];//Quicktarget
-				targets[players[i].name] = [players[i].role,undefined, true];
-				if (players[i].alive)
+				playersByName[player.name] = player;//Quicktarget
+				targets[player.name] = [player.role,undefined, true];
+				if (player.alive)
 				{
-					displayTargets[players[i].name] = [players[i].role,undefined, true, []];
-					if (loggedActions[players[i].name])
+					displayTargets[player.name] = [player.role,undefined, true, []];
+					if (loggedActions[player.name])
 					{
-						targets[players[i].name][1] = loggedActions[players[i].name].slice(); //Add the target.
-						displayTargets[players[i].name][1] = loggedActions[players[i].name].slice();
+						targets[player.name][1] = loggedActions[player.name].slice(); //Add the target.
+						displayTargets[player.name][1] = loggedActions[player.name].slice();
 					}
 					else
 					{
-						targets[players[i].name][1] = [];
+						targets[player.name][1] = [];
 					}
 				}
 				//Populate the beingTargetted array for quick access.
-				if (targets[players[i].name][1] != []) //If a player is targetting someone
+				if (targets[player.name][1] != []) //If a player is targetting someone
 				{
-					for (k in targets[players[i].name][1]) //For all targetted players, add them to the list.
+					for (k in targets[player.name][1]) //For all targetted players, add them to the list.
 					{
-						var t = targets[players[i].name][1][k];
+						var t = targets[player.name][1][k];
 						if (beingTargetted[t])
 						{
-							beingTargetted[t].push(players[i].name);
+							beingTargetted[t].push(player.name);
 						}
 						else
 						{
-							beingTargetted[t] = [players[i].name];
+							beingTargetted[t] = [player.name];
 						}
 					}
 				}
-				
 			}
 		}
 		//Only do this bit if suggestions are enabled ie. auto is 2

@@ -596,6 +596,7 @@ io.on('connection', function (socket) {
 				if (!players[playernums[i]].alive) {
 					p.role = players[playernums[i]].role;
 					p.rolecolor = roles.getRoleData(players[playernums[i]].role).color;
+					p.haswill = !!players[playernums[i]].publicwill;
 				}
 				namelist.push(p);
 			}
@@ -650,6 +651,8 @@ io.on('connection', function (socket) {
 				p.name = players[playernums[i]].name;
 				if (!players[playernums[i]].alive) {
 					p.role = players[playernums[i]].role;
+					p.rolecolor = roles.getRoleData(players[playernums[i]].role).color;
+					p.haswill = !!players[playernums[i]].publicwill;
 				}
 				namelist.push(p);
 			}
@@ -680,6 +683,8 @@ io.on('connection', function (socket) {
 					p.name = players[playernums[i]].name;
 					if (!players[playernums[i]].alive) {
 						p.role = players[playernums[i]].role;
+						p.rolecolor = roles.getRoleData(players[playernums[i]].role).color;
+						p.haswill = !!players[playernums[i]].publicwill;
 					}
 					namelist.push(p);
 				}
@@ -881,13 +886,13 @@ io.on('connection', function (socket) {
 		}
 	});
 	socket.on(Type.GETWILL, function (num) {
-		if (socket.id == mod) {
-			var p = getPlayerByNumber(num);
-			if (p) {
-				socket.emit(Type.GETWILL, p.name, p.will);
-			} else {
-				socket.emit(Type.SYSTEM, 'Invalid player number: ' + num);
-			}
+		var p = getPlayerByNumber(num);
+		if (!p) {
+			socket.emit(Type.SYSTEM, 'Invalid player number: ' + num);
+		} else if (socket.id == mod) {
+			socket.emit(Type.GETWILL, p.name, p.will);
+		} else if (p.publicwill) {
+			socket.emit(Type.GETWILL, p.name, p.publicwill);
 		} else {
 			socket.emit(Type.SYSTEM, 'Only the mod can do that.');
 		}
@@ -957,12 +962,16 @@ io.on('connection', function (socket) {
 	});
 	socket.on(Type.WILL, function (will, name) {
 		if (will !== undefined && will !== null) {
-			if (name && mod == socket.id) {
-				var p = getPlayerByName(name);
-				if (p) {
-					p.will = will;
+			if (name) {
+				if (mod == socket.id) {
+					var p = getPlayerByName(name);
+					if (p) {
+						p.will = will;
+					} else {
+						socket.emit(Type.SYSTEM, 'Invalid player name:' + name);
+					}
 				} else {
-					socket.emit(Type.SYSTEM, 'Invalid player name:' + name);
+					socket.emit(Type.SYSTEM, 'Can\t edit another player\'s will: you are not the mod.');
 				}
 			} else {
 				players[socket.id].will = will;
@@ -998,6 +1007,7 @@ io.on('connection', function (socket) {
 						io.emit(Type.HIGHLIGHT, name + ' has been revived!', 'reviving');
 						player.s.emit(Type.PRENOT, 'REVIVE');
 					}
+					delete player.publicwill;
 					io.emit(Type.TOGGLELIVING, { name: name });
 				} else {
 					if (!players[socket.id].silenced) {
@@ -1006,6 +1016,7 @@ io.on('connection', function (socket) {
 						var show = sanitize(player.will);
 						show = show.replace(/(\n)/g, '<br />');
 						if (!player.cleaned) {
+							player.publicwill = player.will;
 							io.emit(Type.WILL, show);
 						} else {
 							io.emit(Type.HIGHLIGHT, 'We could not find a last will.');
@@ -1016,6 +1027,7 @@ io.on('connection', function (socket) {
 						name: name,
 						role: player.role,
 						rolecolor: roles.getRoleData(player.role).color,
+						haswill: !!player.publicwill,
 					});
 				}
 			}
@@ -1256,7 +1268,7 @@ function setPhase(p) {
 	if (phase >= Phase.DAY && phase <= Phase.FIRSTDAY && p <= Phase.MODTIME) {
 		if (autoLevel > 0) {
 			//Evaluate night actions.
-			var results = gm.evaluate(players, playernames, mod, roles, autoLevel, phase);
+			var results = gm.evaluate(players, playernames, playernums, mod, roles, autoLevel, phase);
 			if (autoLevel == 3) {
 				for (i in results.targets) {
 					var type = results.actions[i][0];
@@ -1731,8 +1743,8 @@ function Player(socket, name, ip) {
 		},
 		//Player functions
 		setRole: function (role) {
-			this.role = role;
-			if (role.trim().length == 0) {
+			this.role = role = role.trim();
+			if (role.length == 0) {
 				this.role = 'NoRole';
 				this.s.emit(Type.System, 'Your role has been removed.');
 			} else if (roles.hasRolecard(role)) {
@@ -1744,7 +1756,11 @@ function Player(socket, name, ip) {
 		},
 		dc: function () {
 			io.emit(Type.DISCONNECT, this.name);
-			if(phase === Phase.PREGAME) {
+			var is_late_spectator = playernums.slice(playernums.indexOf(this.s.id)).every(function(id) {
+				//It's OK to renumber spectators
+				return players[id].spectate;
+			});
+			if(phase === Phase.PREGAME || is_late_spectator) {
 				io.emit(Type.LEAVE, this.name);
 				//Splice them from the numbers array.
 				playernums.splice(playernums.indexOf(this.s.id), 1);
