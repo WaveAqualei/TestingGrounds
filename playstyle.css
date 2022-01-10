@@ -419,6 +419,7 @@ header ul li span
 	background:black;
 	background-size: 100% 100%;
 	height: 450px;
+<<<<<<< HEAD
 	width: 300px;
 	text-shadow: 0px 4px 6px #191919;
 	color:white;
@@ -427,6 +428,16 @@ header ul li span
 	border:5px solid #265B5F;
 	padding-top:10px;
 	float:left;
+=======
+    width: 300px;
+    text-shadow: 0px 4px 6px #191919;
+    color:white;
+    position:relative;
+    padding:20px;
+	border:5px solid #A78A52;
+    padding-top:10px;
+    float:left;
+>>>>>>> remotes/WaveAqualei/master
 }
 .rolecard h2
 {
@@ -512,7 +523,7 @@ header ul li span
 .spec
 {
 	font-weight:bold;
-	color:#adb839;
+	color:#B5A642;
 }
 #inputarea
 {
@@ -1424,8 +1435,7 @@ neut
 }
 .reviving
 {
-	background:#4ADF00;
-	color:#000000
+	background:#60824f;
 }
 .vote
 {
@@ -1441,7 +1451,7 @@ neut
 }
 .inno
 {
-	color:#00BF00;
+	color:#00ba00;
 }
 .abstain
 {
