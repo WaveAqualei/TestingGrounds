@@ -2,7 +2,7 @@ html,body
 {
 	margin:0;
 	padding:0;
-	background-color: #FFFFFF;
+	background-color: #3B4545;
 	height:100%;
 	width:100%;
 	overflow:hidden;
@@ -838,29 +838,29 @@ header ul li span
 }
 #will, #modwill
 {
-	background:url("will.png");
-	background-size:100% 100%;
-	display:none;
-	position:absolute;
-	left:45%;
-	top:10%;
-	right:20%;
-	bottom:10%;
+    background: url(will.png);
+    background-size: 100% 100%;
+    display: none;
+    position: absolute;
+    left: 45%;
+    top: 5%;
+    right: 23.75%;
+    bottom: 8%;
 }
 #will textarea, #modwill textarea
 {
-	background-color:transparent;
-	border-style:none;
-	border-color:Transparent;
-	font-size: 18px;
-	font-family: Helvetica;
-	outline:none;
-	overflow:hidden;
-	height:80%;
-	width:80%;
-	margin:8%;
-	margin-top:10%;
-	resize:none;
+    background-color: transparent;
+    border-style: none;
+    border-color: Transparent;
+    font-size: 18px;
+    font-family: Helvetica;
+    outline: none;
+    overflow: hidden;
+    height: 70%;
+    width: 85%;
+    margin: 7%;
+    margin-top: 21.5%;
+    resize: none;
 }
 #will div, #modwill div
 {
