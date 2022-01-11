@@ -172,13 +172,13 @@ function modInterface()
 				$(this).addClass('killbutton');
 				$(this).html('<span>Kill</span>');
 			}
-			socket.emit(Type.TOGGLELIVING,users[index]);
+			socket.sendMessage(Type.TOGGLELIVING,users[index]);
 		});
 		var jail= $('<div class="controlbutton jailbutton"><span>Jail</span></div>');
 		jail.click(function()
 		{
 			var index = $('.jailbutton, .releasebutton').index($(this))
-			socket.emit(Type.TOGGLE,users[index],'jailed');
+			socket.sendMessage(Type.TOGGLE,users[index],'jailed');
 			if ($(this).hasClass('jailbutton'))
 			{
 				$(this).removeClass('jailbutton');
@@ -219,7 +219,7 @@ function modInterface()
 				{
 					var index = $('.role').index($(this));
 					var name = $('.name')[index].innerHTML;
-					socket.emit(Type.SETROLE,name,this.value);
+					socket.sendMessage(Type.SETROLE,name,this.value);
 					this.style.background='green';
 				}
 				else
@@ -246,7 +246,7 @@ function modInterface()
 				{
 					$(this).addClass(chat+'buttondown');
 				}
-				socket.emit(Type.TOGGLE,name,chat);
+				socket.sendMessage(Type.TOGGLE,name,chat);
 			});
 			modcontrols.append(button);
 		}
@@ -255,8 +255,40 @@ function modInterface()
 	}
 	$('.name').addClass('shorten');
 }
-var socket= io.connect({'pingInterval': 45000});
-socket.on(Type.MSG,function(name,msg)
+var urlParams = new URLSearchParams(window.location.search);
+var player_name = urlParams.get("name");
+if(!player_name) window.location = '/';
+var listeners = {};
+function addSocketListener(type, callback)
+{
+	listeners[type] = callback;
+}
+var socket;
+function connectSocket()
+{
+	socket = new WebSocket('ws://'+window.location.host+'/');
+	socket.addEventListener('open', function()
+	{
+		socket.sendMessage(Type.JOIN, player_name);
+	});
+	socket.addEventListener('close',function()
+	{
+		kittyReconnect();
+	});
+	socket.addEventListener('message', function(event)
+	{
+		var [type, ...args] = JSON.parse(event.data);
+		if(type && listeners[type]) {
+			listeners[type].apply(socket, args);
+		}
+	});
+	socket.sendMessage = function()
+	{
+		this.send(JSON.stringify(Array.prototype.slice.call(arguments)));
+	}
+}
+connectSocket();
+addSocketListener(Type.MSG,function(name,msg)
 {
 	if (msg.styling)
 	{
@@ -268,7 +300,7 @@ socket.on(Type.MSG,function(name,msg)
 		addMessage(name+': '+msg,'msg');
 	}
 });
-socket.on(Type.HELP,function(commands)
+addSocketListener(Type.HELP,function(commands)
 {
 	var helpmsgs = [
 		"The Mod does not bite, they are only killing people.",
@@ -387,22 +419,22 @@ socket.on(Type.HELP,function(commands)
 	addMessage(txt3,'help');
 	addMessage(com3,'help');
 });
-socket.on(Type.ME,function(name,msg)
+addSocketListener(Type.ME,function(name,msg)
 {
 	addMessage(name+' '+msg,'me');
 });
-socket.on(Type.HIGHLIGHT,function(msg, styling)
+addSocketListener(Type.HIGHLIGHT,function(msg, styling)
 {
 	addMessage({msg: msg, styling: styling}, 'highlight');
 });
-socket.on(Type.PING,function()
+addSocketListener(Type.PING,function()
 {
-	socket.emit(Type.PONG);
+	socket.sendMessage(Type.PONG);
 });
-socket.on(Type.HEY,function(){
+addSocketListener(Type.HEY,function(){
 	hey.play();
 });
-socket.on(Type.JOIN,function(name)
+addSocketListener(Type.JOIN,function(name)
 {
 	users.push(name);
 	addMessage(name+' has joined.','system');
@@ -456,13 +488,13 @@ socket.on(Type.JOIN,function(name)
 				$(this).addClass('killbutton');
 				$(this).html('<span>Kill</span>');
 			}
-			socket.emit(Type.TOGGLELIVING,users[index]);
+			socket.sendMessage(Type.TOGGLELIVING,users[index]);
 		});
 		var jail= $('<div class="controlbutton jailbutton"><span>Jail</span></div>');
 		jail.click(function()
 		{
 			var index = $('.jailbutton, .releasebutton').index($(this))
-			socket.emit(Type.TOGGLE,users[index],'jailed');
+			socket.sendMessage(Type.TOGGLE,users[index],'jailed');
 			if ($(this).hasClass('jailbutton'))
 			{
 				$(this).removeClass('jailbutton');
@@ -499,7 +531,7 @@ socket.on(Type.JOIN,function(name)
 				{
 					var index = $('.role').index($(this));
 					var name = $('.name')[index].innerHTML;
-					socket.emit(Type.SETROLE,name,this.value);
+					socket.sendMessage(Type.SETROLE,name,this.value);
 					this.style.background='green';
 					this.old = this.value;
 				}
@@ -534,7 +566,7 @@ socket.on(Type.JOIN,function(name)
 				{
 					$(this).addClass(chat+'buttondown');
 				}
-				socket.emit(Type.TOGGLE,name,chat);
+				socket.sendMessage(Type.TOGGLE,name,chat);
 			});
 			modcontrols.append(button);
 		}
@@ -549,7 +581,7 @@ socket.on(Type.JOIN,function(name)
 		$('.name').addClass('shorten');
 	}
 });
-socket.on(Type.LEAVE,function(name)
+addSocketListener(Type.LEAVE,function(name)
 {
 	var index = users.indexOf(name);
 	$($('#userlist').children()[index]).remove();
@@ -569,17 +601,17 @@ socket.on(Type.LEAVE,function(name)
 	//Remove from list
 	users.splice(index,1);
 });
-socket.on(Type.DISCONNECT,function(name)
+addSocketListener(Type.DISCONNECT,function(name)
 {
 	addMessage(name +' has left.','system');
 	$(`#p-${name}`).append(`<span class="emoji" id="${name}-disconnected">🚫</span>`);
 });
-socket.on(Type.RECONNECT,function(name)
+addSocketListener(Type.RECONNECT,function(name)
 {
 	addMessage(name +' has reconnected.','system');
 	$(`#${name}-disconnected`).remove();
 });
-socket.on(Type.SETMOD,function(val)
+addSocketListener(Type.SETMOD,function(val)
 {
 	if (val && !mod)
 	{
@@ -634,15 +666,15 @@ socket.on(Type.SETMOD,function(val)
 		$('.name').removeClass('shorten');
 	}
 });
-socket.on(Type.SYSTEM,function(msg)
+addSocketListener(Type.SYSTEM,function(msg)
 {
 	addMessage(msg,'system');
 });
-socket.on(Type.SYSSENT,function(to,msg)
+addSocketListener(Type.SYSSENT,function(to,msg)
 {
 	addMessage('To '+to+': '+msg,'system');
 });
-socket.on(Type.ROOMLIST,function(list)
+addSocketListener(Type.ROOMLIST,function(list)
 {
 	if (!mod)
 	{
@@ -684,7 +716,7 @@ socket.on(Type.ROOMLIST,function(list)
 		$('.name').addClass('shorten');
 	}
 });
-socket.on(Type.TOGGLELIVING,function(p)
+addSocketListener(Type.TOGGLELIVING,function(p)
 {
 	if (!mod)
 	{
@@ -708,15 +740,15 @@ socket.on(Type.TOGGLELIVING,function(p)
 		}
 	}
 });
-socket.on(Type.KICK,function()
+addSocketListener(Type.KICK,function()
 {
 	kicked = true;
 });
-socket.on(Type.DENY,function(reason){
+addSocketListener(Type.DENY,function(reason){
 	addMessage(reason,'system');
 	kicked = true;
 });
-socket.on(Type.SETDAYNUMBER,function(num){
+addSocketListener(Type.SETDAYNUMBER,function(num){
 	daynumber = num;
 	$('#dayli').html('Day '+num);
 	if (num % 2 == 0)
@@ -729,7 +761,7 @@ socket.on(Type.SETDAYNUMBER,function(num){
 	}
 
 });
-socket.on(Type.SETPHASE,function(phase,silent,time)
+addSocketListener(Type.SETPHASE,function(phase,silent,time)
 {
 	currentphase = phase;
 	if (phase == 0)
@@ -861,7 +893,7 @@ else
 				{
 					var index = $('#userlist li').index(this.parentNode.parentNode.parentNode);
 					var name = users[index];
-					socket.emit(Type.TARGET,name);
+					socket.sendMessage(Type.TARGET,name);
 				});
 				var nightinterface = $('<div class="nightinterface"></div>');
 				nightinterface.append(button);
@@ -883,7 +915,7 @@ else
 				{
 					var index = $('#userlist li').index(this.parentNode.parentNode.parentNode);
 					var name = users[index];
-					socket.emit(Type.VOTE,name);
+					socket.sendMessage(Type.VOTE,name);
 				});
 				var count = $('<div class="votecount">0</div>');
 				var votinginterface = $('<div class="votinginterface"></div>');
@@ -900,12 +932,12 @@ else
 		var guilty = $('<div class="verdictbutton guiltybutton">Guilty</div>');
 		guilty.click(function()
 		{
-			socket.emit(Type.VERDICT,false); //false for guilty
+			socket.sendMessage(Type.VERDICT,false); //false for guilty
 		});
 		var inno = $('<div class="verdictbutton innobutton">Innocent</div>');
 		inno.click(function()
 		{
-			socket.emit(Type.VERDICT,true); //true for inno
+			socket.sendMessage(Type.VERDICT,true); //true for inno
 		});
 
 		verdict.append(guilty);
@@ -924,15 +956,15 @@ else
 			mnight.play();
 
 });
-socket.on(Type.WHISPER,function(msg)
+addSocketListener(Type.WHISPER,function(msg)
 {
 	addMessage(msg,'whisper');
 });
-socket.on(Type.MOD,function(msg)
+addSocketListener(Type.MOD,function(msg)
 {
 	addMessage(msg,'mod');
 });
-socket.on(Type.SWITCH,function(name1,name2)
+addSocketListener(Type.SWITCH,function(name1,name2)
 {
 	var i1=users.indexOf(name1);
 	var i2=users.indexOf(name2);
@@ -948,7 +980,7 @@ socket.on(Type.SWITCH,function(name1,name2)
 	$('.num')[i1].innerHTML = (i1==0)?'MOD':i1;
 	$('.num')[i2].innerHTML = (i2==0)?'MOD':i2;
 });
-socket.on(Type.PRENOT,function(notification)
+addSocketListener(Type.PRENOT,function(notification)
 {
 	switch (notification)
    {
@@ -1029,26 +1061,26 @@ socket.on(Type.PRENOT,function(notification)
 	  break;
    }
 });
-socket.on(Type.TARGET,function(name,role,target)
+addSocketListener(Type.TARGET,function(name,role,target)
 {
 	addMessage({name:name,role:sanitize(role),target:target},'target');
 });
 
-socket.on(Type.MAYOR, function(name) {
+addSocketListener(Type.MAYOR, function(name) {
 	addMessage({msg: '🎩' +name+' has revealed themselves as the Mayor!', styling: 'mayor_reveal'}, "highlight");
 	$(`#p-${name}`).append(`<span class="emoji" id="${name}-mayor" style="color:#b0ff39">Mayor</span>`)
 	$(`#${name}-mayor`).click(() => {
 		if (mod) {
 			$(`#${name}-mayor`).remove();
-			socket.emit(Type.REMOVE_EMOJI, `${name}-mayor`);
+			socket.sendMessage(Type.REMOVE_EMOJI, `${name}-mayor`);
 		}
 	});
 });
-socket.on(Type.HUG,function(name,target)
+addSocketListener(Type.HUG,function(name,target)
 {
 	addMessage({name:name,target:target},'hug');
 });
-socket.on(Type.VOTE,function(voter,msg,voted,prev)
+addSocketListener(Type.VOTE,function(voter,msg,voted,prev)
 {
 	if (!mod)
 	{
@@ -1076,38 +1108,38 @@ socket.on(Type.VOTE,function(voter,msg,voted,prev)
 	}
 	addMessage({voter:voter,msg:msg,voted:voted},'vote');
 });
-socket.on(Type.VERDICT,function(name,val)
+addSocketListener(Type.VERDICT,function(name,val)
 {
 	addMessage({name:name,val:val},'verdict');
 });
-socket.on(Type.CLEARVOTES,function()
+addSocketListener(Type.CLEARVOTES,function()
 {
 	$('.votecount').html('0');
 });
-socket.on(Type.PAUSEPHASE,function(p){
+addSocketListener(Type.PAUSEPHASE,function(p){
 		paused = p;
 });
-socket.on(Type.GUARDIAN_ANGEL, function(name, yourName) {
+addSocketListener(Type.GUARDIAN_ANGEL, function(name, yourName) {
 	if ($(`#${name}-angel`).length) return;
 	addMessage({msg: '👼 The Guardian Angel has protected '+name+'.', styling: 'highlight'}, "highlight");
 	$(`#p-${name}`).append(`<span class="emoji angel" id="${name}-angel" style="color:#FFFFFF">👼</span>`);
 	$(`#${name}-angel`).click(() => {
 		if (mod) {
 			$(`#${name}-angel`).remove();
-			socket.emit(Type.REMOVE_EMOJI, `${name}-angel`);
+			socket.sendMessage(Type.REMOVE_EMOJI, `${name}-angel`);
 		}
 	});
 });
 
-socket.on(Type.REMOVE_EMOJI, function(emojiId) {
+addSocketListener(Type.REMOVE_EMOJI, function(emojiId) {
 	$(`#${emojiId}`).remove();
 });
 
-socket.on(Type.TICK,function(time)
+addSocketListener(Type.TICK,function(time)
 {
 	$('#clock').html(time);
 });
-socket.on(Type.JUDGEMENT,function(votes,result)
+addSocketListener(Type.JUDGEMENT,function(votes,result)
 {
 	var msg = {
 		result:result,
@@ -1115,32 +1147,32 @@ socket.on(Type.JUDGEMENT,function(votes,result)
 		};
 	addMessage(msg,'judgement');
 });
-socket.on(Type.SETDEV,function(name)
+addSocketListener(Type.SETDEV,function(name)
 {
 	var index = users.indexOf(name);
 	$($('.name')[index]).addClass('dev');
 	devs.push(name);
 });
-socket.on(Type.SETSPEC, function (name) {
+addSocketListener(Type.SETSPEC, function (name) {
 	var index = users.indexOf(name);
 	$($('.name')[index]).addClass('spec');
 });
-socket.on(Type.REMSPEC, function (name) {
+addSocketListener(Type.REMSPEC, function (name) {
 	var index = users.indexOf(name);
 	$($('.name')[index]).removeClass('spec');
 });
-socket.on(Type.ROLECARD,function(card)
+addSocketListener(Type.ROLECARD,function(card)
 {
 	addMessage(card,'rolecard');
 });
-socket.on(Type.WILL,function(will)
+addSocketListener(Type.WILL,function(will)
 {
 	addMessage(will,'will');
 });
-socket.on(Type.NOTES, function (notes) {
+addSocketListener(Type.NOTES, function (notes) {
 	addMessage(notes, 'notes');
 });
-socket.on(Type.ROLEUPDATE,function(send){
+addSocketListener(Type.ROLEUPDATE,function(send){
 	var index = users.indexOf(send.name);
 	for (i in send)
 	{
@@ -1170,7 +1202,7 @@ socket.on(Type.ROLEUPDATE,function(send){
 		button.html('<span>Release</span>');
 	}
 });
-socket.on(Type.MASSROLEUPDATE,function(people){
+addSocketListener(Type.MASSROLEUPDATE,function(people){
 	if (mod)
 	{
 		clearAllInfo();
@@ -1208,7 +1240,7 @@ socket.on(Type.MASSROLEUPDATE,function(people){
 		}
 	}
 });
-socket.on(Type.GETWILL,function(name,willcontent){
+addSocketListener(Type.GETWILL,function(name,willcontent){
 	if (name)
 	{
 		var will = $('<div id="modwill"></div>');
@@ -1217,7 +1249,7 @@ socket.on(Type.GETWILL,function(name,willcontent){
 		close.click(function()
 		{
 			var txt = $('#modwill textarea');
-			if(!txt.attr("readonly")) socket.emit(Type.WILL,txt.val(),name);
+			if(!txt.attr("readonly")) socket.sendMessage(Type.WILL,txt.val(),name);
 			$(this.parentNode).remove();
 		});
 		var txt = $('<textarea id="willcontent"></textarea>');
@@ -1236,13 +1268,13 @@ socket.on(Type.GETWILL,function(name,willcontent){
 		$('#willcontent').val(willcontent);
 	}
 });
-socket.on(Type.GETNOTES, function (name, notescontent) {
+addSocketListener(Type.GETNOTES, function (name, notescontent) {
 	if (name) {
 		var notes = $('<div id="modnotes"></div>');
 		notes.name = name;
 		var close = $('<div id="closenotes"></div>');
 		close.click(function () {
-			socket.emit(Type.NOTES, $('#modnotes textarea').val(), name);
+			socket.sendMessage(Type.NOTES, $('#modnotes textarea').val(), name);
 			$(this.parentNode).remove();
 		});
 		var txt = $('<textarea id="notescontent"></textarea>');
@@ -1256,15 +1288,12 @@ socket.on(Type.GETNOTES, function (name, notescontent) {
 		$('#notescontent').val(notescontent);
 	}
 });
-socket.on('connect_error', function (err) {
-	//$('#try').html('<p>Our dancing kitty has failed to reconnect you. No milk for him tonight. Please rejoin.</p>');
-});
-socket.on(Type.ACCEPT,function()
+addSocketListener(Type.ACCEPT,function()
 {
 	connectAttempt = 0;
 	$('.blocker').remove();
 });
-socket.on(Type.ROLL,function(result,names)
+addSocketListener(Type.ROLL,function(result,names)
 {
 	rolelist_result = [];
 	for (i in result)
@@ -1282,7 +1311,7 @@ socket.on(Type.ROLL,function(result,names)
 	}
 	rolelist_names = names;
 1});
-socket.on(Type.LATENCIES,function(p)
+addSocketListener(Type.LATENCIES,function(p)
 {
 	if (typeof p == "number")
 	{
@@ -1296,7 +1325,7 @@ socket.on(Type.LATENCIES,function(p)
 		}
 	}
 });
-socket.on(Type.SUGGESTIONS,function(results){
+addSocketListener(Type.SUGGESTIONS,function(results){
 	//Check if scrolled to bottom.
 	var atBottom = ( 10 +$('#main').scrollTop() + $('#main').prop('offsetHeight') >= $('#main').prop('scrollHeight'));
 	var container = $('<div class="automodcontainer"><header><p>Automod</p></header</div>');
@@ -1436,15 +1465,15 @@ socket.on(Type.SUGGESTIONS,function(results){
 		$("#main").prop('scrollTop',end);
 	}
 });
-socket.on(Type.SHOWLIST,function(list)
+addSocketListener(Type.SHOWLIST,function(list)
 {
 	addMessage(list,'rolelist');
 });
-socket.on(Type.SHOWALLROLES,function(list)
+addSocketListener(Type.SHOWALLROLES,function(list)
 {
 	addMessage(list,'allroles');
 });
-socket.on('disconnect',function()
+function kittyReconnect()
 {
 	if (!kicked)
 	{
@@ -1468,7 +1497,7 @@ socket.on('disconnect',function()
 			}
 			if (connectAttempt == 0)
 			{
-				socket.connect();
+				connectSocket();
 				connectAttempt++;
 				$('#count').html(connectAttempt+'/10');
 			}
@@ -1476,7 +1505,7 @@ socket.on('disconnect',function()
 			{
 				setTimeout(function()
 				{
-					socket.connect();
+					connectSocket();
 					connectAttempt++;
 					$('#count').html(connectAttempt+'/10');
 				},1000);
@@ -1487,4 +1516,4 @@ socket.on('disconnect',function()
 			$('#try').html('<p>Our dancing kitty has failed to reconnect you. No milk for him tonight. Please rejoin.</p>');
 		}
 	}
-});
+}
