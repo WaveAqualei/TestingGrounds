@@ -2,7 +2,7 @@ var http = require('http');
 var url = require('url');
 var fs = require('fs');
 var roles = require('./roleinfo');
-var Server = require('socket.io').Server;
+var Server = require('socket.io');
 var io = new Server(http, { pingInterval: 5000, pingTimeout: 10000 });
 var verified = []; //List of ips that are verified to use the MCP.
 var createdList = [];
@@ -595,6 +595,8 @@ io.on('connection', function (socket) {
 				p.name = players[playernums[i]].name;
 				if (!players[playernums[i]].alive) {
 					p.role = players[playernums[i]].role;
+					p.rolecolor = roles.getRoleData(players[playernums[i]].role).color;
+					p.haswill = !!players[playernums[i]].publicwill;
 				}
 				namelist.push(p);
 			}
@@ -649,6 +651,8 @@ io.on('connection', function (socket) {
 				p.name = players[playernums[i]].name;
 				if (!players[playernums[i]].alive) {
 					p.role = players[playernums[i]].role;
+					p.rolecolor = roles.getRoleData(players[playernums[i]].role).color;
+					p.haswill = !!players[playernums[i]].publicwill;
 				}
 				namelist.push(p);
 			}
@@ -679,6 +683,8 @@ io.on('connection', function (socket) {
 					p.name = players[playernums[i]].name;
 					if (!players[playernums[i]].alive) {
 						p.role = players[playernums[i]].role;
+						p.rolecolor = roles.getRoleData(players[playernums[i]].role).color;
+						p.haswill = !!players[playernums[i]].publicwill;
 					}
 					namelist.push(p);
 				}
@@ -759,6 +765,15 @@ io.on('connection', function (socket) {
 				case 'HEAL':
 					players[mod].s.emit(Type.SYSTEM, name + ' was attacked and healed.');
 					break;
+				case 'SAVED_BY_BG':
+					players[mod].s.emit(Type.SYSTEM, name + ' was attacked and saved by a Bodyguard.');
+					break;
+				case 'PROTECTED':
+					players[mod].s.emit(Type.SYSTEM, name + ' was attacked and protected.');
+					break;
+				case 'SAVED_BY_TRAP':
+					players[mod].s.emit(Type.SYSTEM, name + ' was attacked and saved by a trap.');
+					break;
 				case 'DEAD':
 					players[mod].s.emit(Type.SYSTEM, name + ' was killed.');
 					break;
@@ -778,7 +793,7 @@ io.on('connection', function (socket) {
 					players[mod].s.emit(Type.SYSTEM, name + ' was shot by a Veteran.');
 					break;
 				case 'VETSHOT':
-					players[mod].s.emit(Type.SYSTEM, name + ' attacked a visitor.');
+					players[mod].s.emit(Type.SYSTEM, name + ' shot one of their visitors.');
 					break;
 				case 'RB':
 					players[mod].s.emit(Type.SYSTEM, name + ' was roleblocked.');
@@ -791,6 +806,24 @@ io.on('connection', function (socket) {
 					break;
 				case 'JAILED':
 					players[mod].s.emit(Type.SYSTEM, name + ' was hauled off to jail.');
+					break;
+				case 'GUARDIAN_ANGEL':
+					players[mod].s.emit(Type.SYSTEM, name + ' was watched by their Guardian Angel.');
+					break;
+				case 'SAVED_BY_GA':
+					players[mod].s.emit(Type.SYSTEM, name + ' was attacked but their Guardian Angel saved them.');
+					break;
+				case 'POISON_CURABLE':
+					players[mod].s.emit(Type.SYSTEM, name + ' was poisoned. They will die unless they are cured.');
+					break;
+				case 'POISON_UNCURABLE':
+					players[mod].s.emit(Type.SYSTEM, name + ' was poisoned.');
+					break;
+				case 'MEDUSA_STONE':
+					players[mod].s.emit(Type.SYSTEM, name + ' stoned someone.');
+					break;
+				case 'TRANSPORT':
+					players[mod].s.emit(Type.SYSTEM, name + ' was transported.');
 					break;
 			}
 			player.s.emit(Type.PRENOT, prenot);
@@ -821,9 +854,8 @@ io.on('connection', function (socket) {
 	});
 	socket.on(Type.SETROLE, function (name, role) {
 		if (socket.id == mod) {
-			role = sanitize(role);
-			if (role.length > 16) {
-				socket.emit(Type.SYSTEM, 'Role name cannot be more than 16 characters.');
+			if (role.length > 32) {
+				socket.emit(Type.SYSTEM, 'Role name cannot be more than 32 characters.');
 			} else {
 				var p = getPlayerByName(name);
 				if (p) {
@@ -840,13 +872,12 @@ io.on('connection', function (socket) {
 		if (socket.id == mod) {
 			prev_rolled = roles;
 			for (i in names) {
-				if (roles[i].length > 20) {
-					socket.emit(Type.SYSTEM, 'Invalid rolelist! Role name cannot be more than 20 characters: ' + roles[i]);
+				if (roles[i].length > 32) {
+					socket.emit(Type.SYSTEM, 'Invalid rolelist! Role name cannot be more than 32 characters: ' + roles[i]);
 					break;
 				}
 				var p = getPlayerByName(names[i]);
 				if (p) {
-					roles[i] = sanitize(roles[i]);
 					p.setRole(roles[i]);
 				} else {
 					socket.emit(Type.SYSTEM, 'Invalid rolelist! Could not find player: ' + names[i]);
@@ -858,13 +889,13 @@ io.on('connection', function (socket) {
 		}
 	});
 	socket.on(Type.GETWILL, function (num) {
-		if (socket.id == mod) {
-			var p = getPlayerByNumber(num);
-			if (p) {
-				socket.emit(Type.GETWILL, p.name, p.will);
-			} else {
-				socket.emit(Type.SYSTEM, 'Invalid player number: ' + num);
-			}
+		var p = getPlayerByNumber(num);
+		if (!p) {
+			socket.emit(Type.SYSTEM, 'Invalid player number: ' + num);
+		} else if (socket.id == mod) {
+			socket.emit(Type.GETWILL, p.name, p.will);
+		} else if (p.publicwill) {
+			socket.emit(Type.GETWILL, p.name, p.publicwill);
 		} else {
 			socket.emit(Type.SYSTEM, 'Only the mod can do that.');
 		}
@@ -934,15 +965,23 @@ io.on('connection', function (socket) {
 	});
 	socket.on(Type.WILL, function (will, name) {
 		if (will !== undefined && will !== null) {
-			if (name && mod == socket.id) {
-				var p = getPlayerByName(name);
-				if (p) {
-					p.will = will;
+			if (name) {
+				if (mod == socket.id) {
+					var p = getPlayerByName(name);
+					if (p) {
+						p.will = will;
+					} else {
+						socket.emit(Type.SYSTEM, 'Invalid player name:' + name);
+					}
 				} else {
-					socket.emit(Type.SYSTEM, 'Invalid player name:' + name);
+					socket.emit(Type.SYSTEM, 'Can\t edit another player\'s will: you are not the mod.');
 				}
 			} else {
-				players[socket.id].will = will;
+				if(phase == Phase.MODTIME) {
+					socket.emit(Type.SYSTEM, 'Please don\'t edit your will during modtime.');
+				} else {
+					players[socket.id].will = will;
+				}
 			}
 		} else {
 			socket.emit(Type.SYSTEM, 'You sent a null will. Did you break something?');
@@ -972,24 +1011,31 @@ io.on('connection', function (socket) {
 				player.chats.dead = !player.chats.dead;
 				if (player.alive) {
 					if (!players[socket.id].silenced) {
-						io.emit(Type.HIGHLIGHT, name + ' has been revived!');
+						io.emit(Type.HIGHLIGHT, name + ' has been revived!', 'reviving');
 						player.s.emit(Type.PRENOT, 'REVIVE');
 					}
+					delete player.publicwill;
 					io.emit(Type.TOGGLELIVING, { name: name });
 				} else {
 					if (!players[socket.id].silenced) {
-						io.emit(Type.HIGHLIGHT, name + ' has died!');
-						io.emit(Type.HIGHLIGHT, 'Their role was ' + player.role);
+						io.emit(Type.HIGHLIGHT, name + ' has died!', 'dying');
+						io.emit(Type.HIGHLIGHT, 'Their role was ' + sanitize(player.role));
 						var show = sanitize(player.will);
 						show = show.replace(/(\n)/g, '<br />');
 						if (!player.cleaned) {
+							player.publicwill = player.will;
 							io.emit(Type.WILL, show);
 						} else {
 							io.emit(Type.HIGHLIGHT, 'We could not find a last will.');
 						}
 						player.s.emit(Type.PRENOT, 'DEAD');
 					}
-					io.emit(Type.TOGGLELIVING, { name: name, role: player.role });
+					io.emit(Type.TOGGLELIVING, {
+						name: name,
+						role: player.role,
+						rolecolor: roles.getRoleData(player.role).color,
+						haswill: !!player.publicwill,
+					});
 				}
 			}
 		} else {
@@ -1057,7 +1103,7 @@ io.on('connection', function (socket) {
 								if (!players[socket.id].silenced) {
 									player.s.emit(
 										Type.SYSTEM,
-										'You are now the jailor. Use /jail [target] to jail. Use /execute, /exe or /x to execute your prisoner. Do not use this command on the first night.'
+										'You are now the jailor. Use /jail [target] to jail. Use /execute, /exe or /x to execute your prisoner.'
 									);
 								}
 								break;
@@ -1107,7 +1153,7 @@ io.on('connection', function (socket) {
 							if (player.mayor === undefined) {
 								player.mayor = false; //False, meaning not revealed.
 								if (!players[socket.id].silenced) {
-									player.s.emit(Type.SYSTEM, 'You are now the Mayor! Use /reveal to reveal yourself and get 3 votes.');
+									player.s.emit(Type.SYSTEM, 'You are now the Mayor. Use /reveal to reveal yourself and get 3 votes.');
 								}
 							} else {
 								player.mayor = undefined; //Undefined, meaning not mayor.
@@ -1229,7 +1275,7 @@ function setPhase(p) {
 	if (phase >= Phase.DAY && phase <= Phase.FIRSTDAY && p <= Phase.MODTIME) {
 		if (autoLevel > 0) {
 			//Evaluate night actions.
-			var results = gm.evaluate(players, playernames, mod, roles, autoLevel, phase);
+			var results = gm.evaluate(players, playernames, playernums, mod, roles, autoLevel, phase);
 			if (autoLevel == 3) {
 				for (i in results.targets) {
 					var type = results.actions[i][0];
@@ -1376,7 +1422,7 @@ function setPhase(p) {
 		mafmembers = 'Your partners in crime are:';
 		for (i in players) {
 			if (players[i].chats.mafia && !players[i].spectate) {
-				mafmembers = mafmembers + ' ' + players[i].name + ' (' + players[i].role + ')';
+				mafmembers = mafmembers + ' ' + players[i].name + ' (' + sanitize(players[i].role) + ')';
 			}
 		}
 		for (i in players) {
@@ -1388,7 +1434,7 @@ function setPhase(p) {
 		covmembers = 'Your partners in witchery are:';
 		for (i in players) {
 			if (players[i].chats.coven && !players[i].spectate) {
-				covmembers = covmembers + ' ' + players[i].name + '(' + players[i].role + ')';
+				covmembers = covmembers + ' ' + players[i].name + '(' + sanitize(players[i].role) + ')';
 			}
 		}
 		for (i in players) {
@@ -1411,7 +1457,9 @@ function getIp(socket) {
 	return socket.handshake.headers['x-forwarded-for'] || socket.handshake.address.address || '127.0.0.1';
 }
 function getIpReq(req) {
-	return req.headers['x-forwarded-for'] || req.connection.remoteAddress || req.socket.remoteAddress || req.connection.socket.remoteAddress;
+	var ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress || req.socket?.remoteAddress || req.connection.socket?.remoteAddress;
+	if(!ip || ip.trim() == '::1') return '127.0.0.1';
+	return ip;
 }
 //--Number of living players
 function numLivingPlayers() {
@@ -1523,7 +1571,7 @@ function Timer() {
 					break;
 				case Phase.FIRSTDAY:
 					//Change to modtime.
-					setPhase(Phase.MODTIME);
+					setPhase(Phase.NIGHT);
 					break;
 			}
 		},
@@ -1702,20 +1750,24 @@ function Player(socket, name, ip) {
 		},
 		//Player functions
 		setRole: function (role) {
-			this.role = role;
-			if (role.trim().length == 0) {
+			this.role = role = role.trim();
+			if (role.length == 0) {
 				this.role = 'NoRole';
 				this.s.emit(Type.System, 'Your role has been removed.');
 			} else if (roles.hasRolecard(role)) {
 				var rolecard = roles.getRoleCard(role, {});
 				this.s.emit(Type.ROLECARD, rolecard);
 			} else {
-				this.s.emit(Type.SYSTEM, 'Your role is ' + role);
+				this.s.emit(Type.SYSTEM, 'Your role is ' + sanitize(role));
 			}
 		},
 		dc: function () {
 			io.emit(Type.DISCONNECT, this.name);
-			if(phase === Phase.PREGAME) {
+			var is_late_spectator = playernums.slice(playernums.indexOf(this.s.id)).every(function(id) {
+				//It's OK to renumber spectators
+				return players[id].spectate;
+			});
+			if(phase === Phase.PREGAME || is_late_spectator) {
 				io.emit(Type.LEAVE, this.name);
 				//Splice them from the numbers array.
 				playernums.splice(playernums.indexOf(this.s.id), 1);
@@ -2712,7 +2764,7 @@ function Player(socket, name, ip) {
 							}
 							this.s.emit(Type.ROLECARD, roles.getRoleCard(this.role, results));
 						} else {
-							this.s.emit(Type.SYSTEM, 'Your role is ' + this.role + '.');
+							this.s.emit(Type.SYSTEM, 'Your role is ' + sanitize(this.role) + '.');
 						}
 					} else {
 						c.splice(0, 1);
@@ -3133,7 +3185,7 @@ function Player(socket, name, ip) {
 					if (this.silenced) {
 						this.silencedError();
 					} else if (mod == this.s.id) {
-						io.emit(Type.HIGHLIGHT, msg);
+						io.emit(Type.HIGHLIGHT, msg, 'modchat');
 					} else if (this.spectate) {
 						this.specMessage(msg, { spectate: true });
 					} else {
@@ -3147,7 +3199,7 @@ function Player(socket, name, ip) {
 					if (this.silenced) {
 						this.silencedError();
 					} else if (mod == this.s.id) {
-						io.emit(Type.HIGHLIGHT, msg);
+						io.emit(Type.HIGHLIGHT, msg, 'modchat');
 					} else if (this.spectate) {
 						this.specMessage(msg, { spectate: true });
 					} else if (this.alive) {
@@ -3165,7 +3217,7 @@ function Player(socket, name, ip) {
 					if (this.silenced) {
 						this.silencedError();
 					} else if (mod == this.s.id) {
-						io.emit(Type.HIGHLIGHT, msg);
+						io.emit(Type.HIGHLIGHT, msg, 'modchat');
 					} else if (this.spectate) {
 						this.specMessage(msg, { spectate: true });
 					} else if (this.alive) {
@@ -3187,19 +3239,25 @@ function Player(socket, name, ip) {
 						this.silencedError();
 					} else if (this.alive && !this.spectate) {
 						if (mod == this.s.id) {
-							io.emit(Type.HIGHLIGHT, msg);
+							io.emit(Type.HIGHLIGHT, msg, 'modchat');
 						} else if (this.chats.jailed) {
-							this.specMessage(msg, { jailor: true, jailed: true });
-						} else if (this.chats.mafia) {
-							this.specMessage(msg, { mafia: true });
-						} else if (this.chats.coven) {
-							this.specMessage(msg, { coven: true });
-						} else if (this.chats.jailor) {
-							this.specMessage(msg, { jailor: true, jailed: true }, 'Jailor');
-						} else if (this.chats.medium) {
-							this.specMessage(msg, { dead: true }, 'Medium');
-							//Echo the message back to the medium.
-							this.s.emit(Type.MSG, 'Medium', { msg: msg, styling: 'dead' });
+							this.specMessage(msg, { jailor: true, jailed: true }, null, 'jailed');
+						} else if (this.chats.mafia || this.chats.coven || this.chats.jailor || this.chats.medium) {
+							var sendTo = {};
+							if(this.chats.mafia) sendTo.mafia = true;
+							if(this.chats.coven) sendTo.coven = true;
+							if(Object.keys(sendTo).length) {
+								this.specMessage(msg, sendTo);
+							}
+
+							if (this.chats.jailor) {
+								this.specMessage(msg, { jailor: true, jailed: true }, 'Jailor', 'jailor');
+							}
+							if (this.chats.medium) {
+								this.specMessage(msg, { dead: true }, 'Medium', 'medium');
+								//Echo the message back to the medium.
+								this.s.emit(Type.MSG, 'Medium', { msg: msg, styling: 'medium' });
+							}
 						}
 						if (this.chats.linked) {
 							this.specMessage(msg, { linked: true });
@@ -3230,7 +3288,7 @@ function Player(socket, name, ip) {
 								}
 							}
 						} else {
-							this.specMessage(msg, { dead: true, medium: true });
+							this.specMessage(msg, { dead: true, medium: true }, null, 'dead');
 						}
 					}
 					break;
@@ -3238,7 +3296,7 @@ function Player(socket, name, ip) {
 					if (this.silenced) {
 						this.silencedError();
 					} else if (mod == this.s.id) {
-						io.emit(Type.HIGHLIGHT, msg);
+						io.emit(Type.HIGHLIGHT, msg, 'modchat');
 					} else if (this.spectate) {
 						this.specMessage(msg, { spectate: true });
 					} else {
@@ -3249,7 +3307,7 @@ function Player(socket, name, ip) {
 					if (this.silenced) {
 						this.silencedError();
 					} else if (mod == this.s.id) {
-						io.emit(Type.HIGHLIGHT, msg);
+						io.emit(Type.HIGHLIGHT, msg, 'modchat');
 					} else if (this.spectate) {
 						this.specMessage(msg, { spectate: true });
 					} else if (!this.alive) {
@@ -3269,17 +3327,18 @@ function Player(socket, name, ip) {
 		specMessage: function (
 			msg,
 			types,
-			specname //Display a message only to players able to see certain chats.
+			specname, //Display a message only to players able to see certain chats.
+			primary	// Color the message as being from this chat even for people who can't see that chat
 		) {
 			for (i in players) {
 				if (i == mod || players[i].spectate) {
 					//Mod can view all chats.
-					players[i].s.emit(Type.MSG, specname ? specname + '(' + this.name + ')' : this.name, { styling: Object.keys(types)[0], msg: msg });
+					players[i].s.emit(Type.MSG, specname ? specname + '(' + this.name + ')' : this.name, { styling: primary || Object.keys(types)[0], msg: msg });
 				} else {
 					for (j in types) {
 						if (players[i].chats[j] == types[j]) {
 							//Use the special name if one is provided.
-							players[i].s.emit(Type.MSG, specname ? specname : this.name, { styling: j, msg: msg });
+							players[i].s.emit(Type.MSG, specname ? specname : this.name, { styling: primary || j, msg: msg });
 							break;
 						}
 					}

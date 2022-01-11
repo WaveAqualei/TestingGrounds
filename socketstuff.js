@@ -91,6 +91,10 @@ var Type = {
 	DISCONNECT: 59,
 	RECONNECT: 60
 };
+function sanitize(msg)
+{
+	return $("<span>").text(msg).html()
+}
 function clearAllInfo()
 {
 	var all = $('.controlbutton');
@@ -387,9 +391,9 @@ socket.on(Type.ME,function(name,msg)
 {
 	addMessage(name+' '+msg,'me');
 });
-socket.on(Type.HIGHLIGHT,function(msg)
+socket.on(Type.HIGHLIGHT,function(msg, styling)
 {
-	addMessage(msg,'highlight');
+	addMessage({msg: msg, styling: styling}, 'highlight');
 });
 socket.on(Type.PING,function()
 {
@@ -398,7 +402,7 @@ socket.on(Type.PING,function()
 socket.on(Type.HEY,function(){
 	hey.play();
 });
-socket.on(Type.JOIN,function(name, reconnect)
+socket.on(Type.JOIN,function(name)
 {
 	users.push(name);
 	addMessage(name+' has joined.','system');
@@ -508,11 +512,6 @@ socket.on(Type.JOIN,function(name, reconnect)
 			else
 			{
 				this.style.background='green';
-			}
-			//Stop it from going over 20 chars
-			if (this.value.length > 20)
-			{
-				this.value = this.value.substring(0,15);
 			}
 		});
 		modcontrols.append(rolechanger);
@@ -663,7 +662,14 @@ socket.on(Type.ROOMLIST,function(list)
 			if (list[i].role)
 			{
 				//Player is dead.
-				$('#userlist').append(`<li class="deadplayer"><div class="info" id="p-${list[i].name}"><span class="num">${num}</span>${name}</div><div><span>${list[i].role}</span></div></li>`);
+				var role_safe = sanitize(list[i].role);
+				$('#userlist').append(`<li class="deadplayer"><div class="info" id="p-${list[i].name}"><span class="num">${num}</span>${name}</div><div><span style="color: ${list[i].rolecolor}">${role_safe}</span></div></li>`);
+				if(list[i].haswill) {
+					$(`#p-${list[i].name}`).append(`<span class="emoji" id="${list[i].name}-will">📜</span>`);
+					$(`#${list[i].name}-will`).click((e) => {
+						openUserWill(e.target);
+					});
+				}
 			}
 			else
 			{
@@ -687,7 +693,14 @@ socket.on(Type.TOGGLELIVING,function(p)
 		index = index==0?'MOD':index;
 		if (p.role)
 		{
-			li.outerHTML = '<li class="deadplayer"><div><span class="num">'+index+'</span><span class="name">'+p.name+'</span></div><div><span>'+p.role+'</span></div></li>';
+			var role_safe = sanitize(p.role);
+			li.outerHTML = `<li class="deadplayer"><div class="info" id="p-${p.name}"><span class="num">${index}</span><span class="name">${p.name}</span></div><div><span style="color: ${p.rolecolor}">${role_safe}</span></div></li>`;
+			if(p.haswill) {
+				$(`#p-${p.name}`).append(`<span class="emoji" id="${p.name}-will">📜</span>`);
+				$(`#${p.name}-will`).click(() => {
+					openUserWill($(`#p-${p.name}`));
+				});
+			}
 		}
 		else
 		{
@@ -823,7 +836,7 @@ else
 	$('.pausebutton, .playbutton').remove();
 	if (!silent)
 	{
-		addMessage($('header ul li')[phase].innerHTML,'highlight');
+		addMessage({msg: $('header ul li')[phase].innerHTML, styling: 'phasechange'}, 'highlight');
 	}
 	//Move the clock.
 	if (time > 0)
@@ -942,6 +955,9 @@ socket.on(Type.PRENOT,function(notification)
 	  case 'GUARDIAN_ANGEL':
 		addMessage({msg: "The Guardian Angel was watching over you!", styling: 'reviving'}, 'prenot');
 		break;
+	  case 'TRANSPORT':
+		addMessage({msg: "You were transported to another location.", styling: 'dying'}, 'prenot');
+		break;
 	  case 'POISON_CURABLE':
 		addMessage({msg: "You were poisoned. You will die tomorrow unless you are cured!", styling: 'dying'}, 'prenot');
 		break;
@@ -964,7 +980,7 @@ socket.on(Type.PRENOT,function(notification)
 		addMessage({msg: "Your target was attacked!", styling: 'dying'}, 'prenot');
 		break;
 	  case 'MEDUSA_STONE':
-		addMessage({msg: "You turned someone to stone.", styling: 'reviving'}, 'prenot');
+		addMessage({msg: "You turned someone to stone.", styling: 'dying'}, 'prenot');
 		break;
 	  case 'DEAD':
 		 addMessage({msg:'You have died!',styling:'dying'},'prenot');
@@ -1003,10 +1019,10 @@ socket.on(Type.PRENOT,function(notification)
 		 addMessage({msg:'You were attacked but someone nursed you back to health!',styling:'reviving'},'prenot');
 	  break;
 	  case 'JAILED':
-		 addMessage({msg:'You were hauled off to jail!',styling:'jailing'},'prenot');
+		 addMessage({msg:'You were hauled off to jail!',styling:'dying'},'prenot');
 	  break;
 	  case 'JAILING':
-		 addMessage({msg:'You hauled your target off to jail!',styling:'jailing'},'prenot');
+		 addMessage({msg:'You hauled your target off to jail!',styling:'reviving'},'prenot');
 	  break;
 	  case 'LINKED':
 		 addMessage({msg:'You have been linked!',styling:'reviving'},'prenot');
@@ -1018,12 +1034,12 @@ socket.on(Type.PRENOT,function(notification)
 });
 socket.on(Type.TARGET,function(name,role,target)
 {
-	addMessage({name:name,role:role,target:target},'target');
+	addMessage({name:name,role:sanitize(role),target:target},'target');
 });
 
 socket.on(Type.MAYOR, function(name) {
-	addMessage(name+' has revealed themselves as the Mayor!', "highlight");
-	$(`#p-${name}`).append(`<span class="emoji" id="${name}-mayor">🎩</span>`)
+	addMessage({msg: '🎩' +name+' has revealed themselves as the Mayor!', styling: 'mayor_reveal'}, "highlight");
+	$(`#p-${name}`).append(`<span class="emoji" id="${name}-mayor" style="color:#b0ff39">Mayor</span>`)
 	$(`#${name}-mayor`).click(() => {
 		if (mod) {
 			$(`#${name}-mayor`).remove();
@@ -1076,7 +1092,8 @@ socket.on(Type.PAUSEPHASE,function(p){
 });
 socket.on(Type.GUARDIAN_ANGEL, function(name, yourName) {
 	if ($(`#${name}-angel`).length) return;
-	$(`#p-${name}`).append(`<span class="emoji angel" id="${name}-angel">👼</span>`);
+	addMessage({msg: '👼 The Guardian Angel has protected '+name+'.', styling: 'highlight'}, "highlight");
+	$(`#p-${name}`).append(`<span class="emoji angel" id="${name}-angel" style="color:#FFFFFF">👼</span>`);
 	$(`#${name}-angel`).click(() => {
 		if (mod) {
 			$(`#${name}-angel`).remove();
@@ -1202,11 +1219,22 @@ socket.on(Type.GETWILL,function(name,willcontent){
 		var close = $('<div id="closewill"></div>');
 		close.click(function()
 		{
-			socket.emit(Type.WILL,$('#modwill textarea').val(),name);
+			var txt = $('#modwill textarea');
+			if(txt.data('dirty')) socket.emit(Type.WILL,txt.val(),name);
 			$(this.parentNode).remove();
 		});
 		var txt = $('<textarea id="willcontent"></textarea>');
 		txt.val(willcontent);
+		if(mod)
+		{
+			txt.change(function() {
+				$(this).data('dirty', true);
+			});
+		}
+		else
+		{
+			txt.attr('readonly', true);
+		}
 		will.append(close);
 		will.append(txt);
 		$('body').append(will);

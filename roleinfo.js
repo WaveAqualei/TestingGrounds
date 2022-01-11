@@ -8,7 +8,7 @@ var neutcolor = '#bcbcbc';
 var anycolor = '#F5F5F5';
 var mystcolor = '#D7B4F3';
 var overcolor = '#15F4EE';
-var hilitecolor = 'orange';
+var hilitecolor = '#A78A52';
 //Generic goals
 var towngoal = 'Lynch every criminal and evildoer.';
 var mafiagoal = 'Kill anyone that will not submit to the Mafia.';
@@ -410,7 +410,7 @@ var roles = [
 		alignment: 'neutral benign',
 		abilities: ['Remember who you were by selecting a graveyard role.'],
 		attributes: ['When you choose a role it will be revealed to all the players in the game.'],
-		goal: 'Remember who you were and complete that roles objectives.',
+		goal: 'Remember who you were and complete that role\'s objective.',
 		color: '#94ffff',
 	},
 	{
@@ -529,7 +529,7 @@ var roles = [
 	{
 		rolename: 'pestilence',
 		alignment: 'neutral chaos',
-		abilities: ["You may choose to Rampage at a player's house eacn night."],
+		abilities: ["You may choose to Rampage at a player's house each night."],
 		attributes: [
 			'You will attack anyone that visits you or your target.',
 			'You cannot be roleblocked or controlled.',
@@ -537,7 +537,8 @@ var roles = [
 			'You cannot be killed at night.',
 		],
 		goal: 'Kill all who would oppose you.',
-		color: '#424242',
+		color: '#424242; text-shadow: 0px 0px 5px #bbff00',
+		
 	},
 	{
 		rolename: 'vampire',
@@ -747,12 +748,11 @@ var roles = [
 	{
 		rolename: 'technician',
 		alignment: 'mafia support',
-		abilities: ['You may use one of your devices at night.'],
+		abilities: ['You may use one of your three devices at night.'],
 		attributes: [
-			'You have three devices: Sabotage, Smoke Grenade, Tap.',
-			'Sabotage will affect certain roles\' abilities. You may not use Sabotage on the same player twice.',
+			'Sabotage will affect certain roles\' abilities. You may not Sabotage the same player twice.',
 			'Smoke Grenades take one night to build; they obsure information to their targets and visitors.',
-			'Tapping a player gives you all the notifications they get that night.',
+			'Tapping a player gives you all notifications they get that night.',
 		],
 		goal: mafiagoal,
 		color: mafiacolor,
@@ -836,7 +836,7 @@ var roles = [
 		abilities: ['You may accompany a Mafia member at night.'],
 		attributes: ['The Mafia member you visit will have their visit astral the night.',
 					 'You will receive all night feedback the Mafia member you accompany receives.',
-					 'You cannot be controlled.
+					 'You cannot be controlled.',
 					 'If there are no capable Mafia killing roles you will become a Mafioso.',
 		],
 		goal: mafiagoal,
@@ -927,7 +927,7 @@ var roles = [
 		custom: true,
 	},
 	{
-		rolename: 'harmony\'s angel',
+		rolename: "harmony's angel",
 		alignment: 'neutral benign',
 		abilities: ['Watch over a player each night, granting them Powerful defense.'],
 		attributes: [
@@ -936,7 +936,7 @@ var roles = [
 			'You may not protect yourself.',
 		],
 		goal: 'Save four people from attacks.',
-		color: '#0080FF',
+		color: '#CFD4B4',
 		custom: true,
 	},
 
@@ -1310,7 +1310,7 @@ var roles = [
 		abilities: ['You know everything.'],
 		attributes: ['You can do nothing.'],
 		goal: 'See how the game progresses.',
-		color: '#AFAFAF',
+		color: '#82c6fa',
 		custom: true,
 	},
 	{
@@ -1489,25 +1489,35 @@ module.exports = {
 			if (num == -1) {
 				return "Role '" + name + "' not found!";
 			}
-			var al = "<span class='aligntext' style='color:" + hilitecolor + "'><u>Alignment</u>: </span>" + module.exports.formatAlignment(roles[num].alignment);
+			var al = "<span class='aligntext' style='color:" + hilitecolor + "'><b>Alignment</b>: </span>" + module.exports.formatAlignment(roles[num].alignment);
 			var abi = "<div class='abilities' style='color:" + hilitecolor + ";'><b>Abilities: </b></div>" + getAbilities(num);
 			var att = "<div class='abilities' style='color:" + hilitecolor + ";'><b>Attributes: </b></div>" + getAttributes(num);
 			var goal = "<span class='goal'><div style='color:" + hilitecolor + "'><b>Goal</b>: </div>" + roles[num].goal + '</span>';
 			output = "<div class='rolecard'>" + format(name) + al + '<br>' + abi + '<br>' + att + '<br>' + goal + '</div>';
 			//Add invest and consig results if they are available
-			if (results.investResult) {
-				var container = '<div class="investresultcontainer">';
-				container = container + "<div class='investresult'>" + results.investResult + '</div>' + '</div>';
-				output += container;
-			}
-			if (results.sheriffResult) {
-				var container = '<div class="investresultcontainer">';
-				container = container + "<div class='sheriffresult'>" + results.sheriffResult + '</div>' + '</div>';
-				output += container;
-			}
+			//if (results.investResult) {
+				//var container = '<div class="investresultcontainer">';
+				//container = container + "<div class='investresult'>" + results.investResult + '</div>' + '</div>';
+				//output += container;
+			//}
+			//if (results.sheriffResult) {
+				//var container = '<div class="investresultcontainer">';
+				//container = container + "<div class='sheriffresult'>" + results.sheriffResult + '</div>' + '</div>';
+				//output += container;
+			//}
 			return output;
 		}
 		return 'You need to specify a role!<br>';
+	},
+	getRoleData: function (name) {
+		var num = getRoleNum(name.toLowerCase());
+		if (num == -1) {
+			// Default custom role
+			return {
+				rolename: name,
+			};
+		}
+		return roles[num];
 	},
 	formatAlignment: function (str) {
 		if (module.exports.hasRolecard(str)) {

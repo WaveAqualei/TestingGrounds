@@ -166,11 +166,19 @@ function mutemusic(phase)
 	}
 }
 
+$(function() {
+	$('#willcontent').change(function() {
+		$(this).data('dirty', true);
+	});
+});
 function closeWill()
 {
 	$('#will').hide()
-	var will = $('#willcontent').val()
-	socket.emit(Type.WILL,will)
+	if($('#willcontent').data('dirty')) {
+		var will = $('#willcontent').val()
+		socket.emit(Type.WILL,will)
+		$('#willcontent').removeData('dirty')
+	}
 }
 function closeNotes()
 {
@@ -255,22 +263,26 @@ function addMessage(msg, type)
 			$('#main').append('<li>'+msg+'</li>');
 		break;
 		case 'highlight':
-			var changes = ['maf','arso','jester','ww','town','sk','neut'];
-			for (i in changes)
-			{
-				var start = '['+changes[i]+']';
-				var end = '[/'+changes[i]+']';
-				var a = msg.indexOf(start);
-				var b = msg.indexOf(end);
-				while ( a!=-1 && b!=-1)
+			msg.msg = (function(msg) {
+				var changes = ['maf','cov','arso','jester','ww','town','sk','neut'];
+				for (i in changes)
 				{
+					var start = '['+changes[i]+']';
+					var end = '[/'+changes[i]+']';
 					var a = msg.indexOf(start);
 					var b = msg.indexOf(end);
-					msg = msg.replace(start,'<'+changes[i]+'>');
-					msg = msg.replace(end,'</'+changes[i]+'>');
+					while ( a!=-1 && b!=-1)
+					{
+						var a = msg.indexOf(start);
+						var b = msg.indexOf(end);
+						msg = msg.replace(start,'<'+changes[i]+'>');
+						msg = msg.replace(end,'</'+changes[i]+'>');
+					}
 				}
-			}
-			$('#main').append('<li class="highlight"><b>'+msg+'</b></li>');
+				return msg;
+			})(msg.msg);
+			msg.styling = msg.styling || 'highlight';
+			$('#main').append('<li class="'+msg.styling+'"><b>'+msg.msg+'</b></li>');
 		break;
 		case 'whisper':
 			if (!msg.msg)
@@ -502,7 +514,7 @@ function openModList(targ)
 						}
 					});
 				},
-				"Guardian Angel": function() {
+				"Guardian Angel (Voting Immunity)": function() {
 					socket.emit(Type.GUARDIAN_ANGEL, $(this.parentNode).attr('name'));
 				}
 			};
@@ -512,21 +524,26 @@ function openModList(targ)
 				   var name = $(this.parentNode).attr('name');
 				   socket.emit(Type.PRENOT,name,'RB');
 				},
+				'Witched':function()
+				{
+				   var name = $(this.parentNode).attr('name');
+				   socket.emit(Type.PRENOT,name,'WITCHED');
+				},
+				'Transported':function()
+				{
+				   var name = $(this.parentNode).attr('name');
+				   socket.emit(Type.PRENOT,name,'TRANSPORT');
+				},
 				'Attacked(Healed)':function()
 				{
 				   var name = $(this.parentNode).attr('name');
 				   socket.emit(Type.PRENOT,name,'HEAL');
 				},
-				'Attacked(Immune)':function()
-				{
-				   var name = $(this.parentNode).attr('name');
-				   socket.emit(Type.PRENOT,name,'IMMUNE');
+				'Attacked(Saved By BG)': function() {
+					socket.emit(Type.PRENOT,$(this.parentNode).attr('name'),'SAVED_BY_BG');
 				},
 				'Attacked(Protected)': function() {
 					socket.emit(Type.PRENOT,$(this.parentNode).attr('name'),'PROTECTED');
-				},
-				'Attacked(Saved By BG)': function() {
-					socket.emit(Type.PRENOT,$(this.parentNode).attr('name'),'SAVED_BY_BG');
 				},
 				'Attacked(Saved By Trap)': function() {
 					socket.emit(Type.PRENOT,$(this.parentNode).attr('name'),'SAVED_BY_TRAP');
@@ -537,32 +554,32 @@ function openModList(targ)
 				'Target attacked': function() {
 					socket.emit(Type.PRENOT,$(this.parentNode).attr('name'),'TARGET_ATTACKED');
 				},
-				'Doused':function()
+				'Attacked(Immune)':function()
 				{
 				   var name = $(this.parentNode).attr('name');
-				   socket.emit(Type.PRENOT,name,'DOUSE');
+				   socket.emit(Type.PRENOT,name,'IMMUNE');
 				},
 				'Target immune':function()
 				{
 				   var name = $(this.parentNode).attr('name');
 				   socket.emit(Type.PRENOT,name,'TARGETIMMUNE');
 				},
-				'Witched':function()
+				'Doused in gas':function()
 				{
 				   var name = $(this.parentNode).attr('name');
-				   socket.emit(Type.PRENOT,name,'WITCHED');
+				   socket.emit(Type.PRENOT,name,'DOUSE');
 				},
 				'Shot by Vet':function()
 				{
 				   var name = $(this.parentNode).attr('name');
 				   socket.emit(Type.PRENOT,name,'SHOTVET');
 				},
-				'Vet shot':function()
+				'Veteran Shot':function()
 				{
 				   var name = $(this.parentNode).attr('name');
 				   socket.emit(Type.PRENOT,name,'VETSHOT');
 				},
-				'Guardian Angel': function() {
+				'Guardian Angel Watching': function() {
 					socket.emit(Type.PRENOT,  $(this.parentNode).attr('name'), 'GUARDIAN_ANGEL');
 				},
 				'Poisoned(Curable)': function() {

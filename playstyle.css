@@ -2,7 +2,7 @@ html,body
 {
 	margin:0;
 	padding:0;
-    background-color: #FFFFFF;
+	background-color: #3B4545;
 	height:100%;
 	width:100%;
 	overflow:hidden;
@@ -26,7 +26,7 @@ header
 	list-style:none;
 	overflow-y:auto;
 	overflow-x:hidden;
-	background-color: #EBECF0;
+	background-color: #364040;
 }
 .moonimg
 {
@@ -47,44 +47,45 @@ header .moonimg
 .investresult, .sheriffresult
 {
 	position:relative;
-    width: 20em;
-    font-size: 0.9em;
-    padding: 0.5em;
-    padding-left:1em;
-    border-radius: 1em;
-    padding-right: 50px;
-    font-family: 'Open Sans', Arial, sans-serif;
-    background: #CFD7D7;
-    margin: 0.5em;
-    text-align:center;
+	width: 20em;
+	font-size: 0.9em;
+	padding: 0.5em;
+	padding-left:1em;
+	border-radius: 1em;
+	padding-right: 50px;
+	font-family: 'Open Sans', Helvetica, sans-serif;
+	background: #CFD7D7;
+	margin: 0.5em;
+	text-align:center;
 }
 .investresult:after
 {
 	position: absolute;
-    display: block;
-    content: '';
-    background: url(invest.png);
-    height: 50px;
-    width: 50px;
-    right: -10px;
-    top: 0px;
+	display: block;
+	content: '';
+	background: url(invest.png);
+	height: 50px;
+	width: 50px;
+	right: -10px;
+	top: 0px;
 }
 .sheriffresult:after
 {
 	position: absolute;
-    display: block;
-    content: '';
-    background: url(sheriff.png);
-    height: 50px;
-    width: 50px;
-    right: -10px;
-    top: -10px;
+	display: block;
+	content: '';
+	background: url(sheriff.png);
+	height: 50px;
+	width: 50px;
+	right: -10px;
+	top: -10px;
 }
 #main>li
 {
 	width:100%;
 	padding-left:5px;
-	/*color: white;*/
+	color:#FFFFFF;
+	font-family: 'SuperRareFont', Helvetica, sans-serif;
 }
 .rolecardcontainer
 {
@@ -111,7 +112,8 @@ header .moonimg
 	margin:0;
 	padding:0;
 	list-style:none;
-    overflow:auto;
+	color:white;
+	overflow:auto;
 }
 #automodsettings
 {
@@ -175,6 +177,7 @@ header .moonimg
 {
 	width:50%;
 	text-align:center;
+	background:black;
 }
 #rolelist li .bottom .myrole
 {
@@ -186,7 +189,7 @@ header .moonimg
 	margin-left:auto;
 	margin-right:auto;
 	min-height:100px;
-	border: 1px solid black;
+	border: 2px solid #265B5F;
 	display:block;
 	font-family: 'Open Sans', Arial, sans-serif;
 }
@@ -194,7 +197,7 @@ header .moonimg
 {
 	height:30px;
 	width:100%;
-	background: #151633;
+	background: #3b5b5f;
 	position: relative;
 	font-family:'Denk One', Arial, sans-serif;
 	color:white;
@@ -219,13 +222,13 @@ header .moonimg
 }
 .automodcontainer table
 {
-	border: 1px solid black;
+	border: 1px solid #265B5F;
 	display:block;
-    margin: 0;
-    margin-top: 10px;
-    margin-bottom: 10px;
-    margin-left: auto;
-    margin-right: auto;
+	margin: 0;
+	margin-top: 10px;
+	margin-bottom: 10px;
+	margin-left: auto;
+	margin-right: auto;
 }
 table tbody
 {
@@ -253,7 +256,7 @@ table tbody
 }
 .automodcontainer table tr:first-child
 {
-	border-bottom:1px solid black;
+	border-bottom:1px solid #265B5F;
 	display:block;
 }
 .automodcontainer table tr:first-child td
@@ -267,7 +270,7 @@ table tbody
 	padding-right:5px;
 	float:left;
 	height:100%;
-	border-bottom:1px solid #ADADAD;
+	border-bottom:1px solid #265B5F;
 }
 .automodcontainer table tr:last-child td
 {
@@ -275,7 +278,7 @@ table tbody
 }
 .automodcontainer table tr td:first-child
 {
-	border-right: 1px solid #ADADAD;
+	border-right: 1px solid #265B5F;
 }
 .automodcontainer table tr td:last-child
 {
@@ -283,7 +286,7 @@ table tbody
 	border-right:none;
 	overflow:auto;
 	width:unset;
-	border-left: 1px solid #ADADAD;
+	border-left: 1px solid #265B5F;
 }
 .automodbutton
 {
@@ -293,11 +296,11 @@ table tbody
 	text-align:center;
 	line-height:20px;
 	border: 1px solid #00043D;
-    background: #4B72C4;
-    cursor: pointer;
-    font-family: 'Open Sans', Arial, sans-serif;
-    font-size:15px;
-    color:#0D1771;
+	background: #4B72C4;
+	cursor: pointer;
+	font-family: 'Open Sans', Arial, sans-serif;
+	font-size:15px;
+	color:#0D1771;
 }
 .automodbutton:hover
 {
@@ -313,11 +316,11 @@ table tbody
 	width:30%;
 	height:22px;
 	line-height:22px;
-    /*color:white;*/
+	color:#FFFFFF;
 }
 .automodcontainer h2
 {
-    color:white;
+	color:white;
 }
 .messagetable tr td:first-child
 {
@@ -326,7 +329,7 @@ table tbody
 .messagetable tr td
 {
 	width:70%;
-    /*color:white;*/
+	/*color:white;*/
 }
 .messagetable tr
 {
@@ -368,10 +371,10 @@ header ul li
 	margin:0;
 	margin-left:-1px;
 	padding:0;
-    text-align: center;
-    display: block;
-    color: white;
-    height:100%;
+	text-align: center;
+	display: block;
+	color: white;
+	height:100%;
 	border-left:1px solid black;
 	position:relative;
 	width:10%;
@@ -398,22 +401,33 @@ header ul li span
 }
 .highlight
 {
-	background:#F6FF33;
-	/*background-color: rgba(207,47,0,0.7);
-	background-color: rgba(212,36,38,0.7);*/
+	background:#996829;
+}
+.modchat
+{
+	background:#3d0029;
+}
+.phasechange
+{
+	background:#000000;
+}
+.mayor_reveal
+{
+	background:#075700;
 }
 .rolecard
 {
-	background:url("http://i.imgur.com/SB1069d.jpg");
+	background: #1f1f1f;
 	background-size: 100% 100%;
-	height: 373px;
-    width: 267px;
-    text-shadow: 0px 4px 6px #191919;
-    color:white;
-    position:relative;
-    padding:20px;
-    padding-top:10px;
-    float:left;
+	height: 450px;
+	width: 300px;
+	text-shadow: 0px 4px 6px black;
+	color: white;
+	position: relative;
+	padding: 20px;
+	border: 5px solid #A78A52;
+	padding-top: 10px;
+	float: left;
 }
 .rolecard h2
 {
@@ -421,20 +435,20 @@ header ul li span
 }
 .rolecard .aligntext
 {
-    float: left;
+	float: unset;
 }
 .rolecard .abilities
 {
 	float: left;
-    width: 100%;
+	width: 100%;
 }
 .goal
 {
 	display: block;
-    color: white;
-    position: absolute;
-    left: 27px;
-    bottom: 20px;
+	color: white;
+	position: absolute;
+	left: auto;
+	bottom: 20px;
 }
 #adjustabledivider
 {
@@ -460,7 +474,7 @@ header ul li span
 	margin:0;
 	margin-left:-2px;
 	overflow:auto;
-	background-color: #EBECF0;
+	background-color: #3B4545;
 }
 #userlist>li
 {
@@ -478,52 +492,53 @@ header ul li span
 	font-weight:bold;
 	max-width:15%;
 	padding-left:5px;
-	/*color: white;*/
+	color:#f0ecf4;
 }
 .name
 {
 	float:left;
+	font-weight:bold;
 	overflow:hidden;
 	text-overflow:ellipsis;
 	white-space: nowrap;
 	padding-left: 5px;
-    margin-right: -5px;
-	/*color: white;*/
+	margin-right: -5px;
+	color:#FFFFFF;
 }
 .dev
 {
 	font-weight:bold;
-	color:#38832B;
+	color:#00a6a6;
 }
 .spec
 {
 	font-weight:bold;
-	color:#0099FF;
+	color:#B5A642;
 }
 #inputarea
 {
 	clear:both;
 	width:100%;
-	height:5%;
+	height:8%;
 	border-top:1px solid black;
-	background-color: #EBECF0;
+	background-color: #265B5F;
 }
 #c
 {
 	float:left;
-	width:80%;
+	width:82%;
 }
 .votinginterface
 {
-    float: right;
-    height: 100%;
-    width: 100px;
+	float: right;
+	height: 100%;
+	width: 100px;
 }
 .nightinterface
 {
-    float: right;
-    height: 100%;
-    width: 100px;
+	float: right;
+	height: 100%;
+	width: 100px;
 }
 .votebutton
 {
@@ -677,7 +692,7 @@ header ul li span
 {
 	float:left;
 	height:100%;
-	width:10%;
+	width:13%;
 	position:relative;
 }	
 #modnumbering input
@@ -688,6 +703,8 @@ header ul li span
 	transform:translate(0,-50%);
 	text-align:center;
 	width: 2.4em;
+	background: #3B4545;
+	color: white;
 }
 #modnumbering span
 {
@@ -705,7 +722,7 @@ header ul li span
 	text-align: center;
 	border: 1px solid black;
 	float: right;
-	background: #8B6914;
+	background: #3B4545;
 	color: white;
 	font-size: 10px;
 	padding-top: 2px;
@@ -716,7 +733,7 @@ header ul li span
 	cursor: default;
 }
 .notesbutton:hover {
-	background: #E1D45B;
+	background: #97b0b0;
 	color: black;
 }
 .willbutton
@@ -726,7 +743,7 @@ header ul li span
 	text-align:center;
 	border: 1px solid black;
 	float:right;
-	background: #8B6914;
+	background: #3B4545;
 	color: white;
 	font-size:10px;
 	padding-top:2px;
@@ -738,7 +755,7 @@ header ul li span
 }
 .willbutton:hover
 {
-	background:#E1D45B;
+	background:#97b0b0;
 	color:black;
 }
 .musicbutton
@@ -748,7 +765,7 @@ header ul li span
 	text-align:center;
 	border: 1px solid black;
 	float:right;
-	background: #8B6914;
+	background: #3B4545;
 	color: white;
 	font-size:10px;
 	padding-top:2px;
@@ -760,15 +777,15 @@ header ul li span
 }
 .musicbutton:hover
 {
-	background:#E1D45B;
+	background:#97b0b0;
 	color:black;
 }
 #rolelistbutton
 {
 	background-image: url('list.png');
 	background-size: 100% 100%;
-	height:30px;
-	width:27px;
+	height:35px;
+	width:32px;
 	float:left;
 }
 #rolelistbutton:hover, #automodsettingsbutton:hover
@@ -783,14 +800,14 @@ header ul li span
 {
 	background-image: url('settings.png');
 	background-size: 100% 100%;
-	height:30px;
-	width:27px;
+	height:35px;
+	width:32px;
 	float:left;
 }
 .editbutton
 {
-	height:10px;
-	width:10px;
+	height:17px;
+	width:17px;
 	margin-top:auto;
 	margin-bottom:auto;
 	background:url('edit.png');
@@ -802,52 +819,52 @@ header ul li span
 {
 	margin-left:auto;
 	margin-right:auto;
-	width:40%;
-	height:400px;
-	border: 2px solid black;
-	background: #D8DE73;
+	width:50%;
+	height:450px;
+	border: 3px solid black;
+	background: #996829;
+	color:black;
 	padding-left:10px;
 	padding-top:10px;
 	overflow:hidden;
 }
 #will, #modwill
 {
-	background:url("will.png");	
-	background-size:100% 100%;
-	display:none;
-	position:absolute;
-	left:45%;
-	top:10%;
-	right:20%;
-	bottom:10%;
+    background: url(will.png);
+    background-size: 100% 100%;
+    display: none;
+    position: absolute;
+    left: 45%;
+    top: 5%;
+    right: 23.75%;
+    bottom: 8%;
 }
 #will textarea, #modwill textarea
 {
-	background-color:transparent;
-	border-style:none;
-	border-color:Transparent;
-	font-size: 18px;
-	font-family: Helvetica;
-	outline:none;
-	overflow:hidden;
-	height:80%;
-	width:80%;
-	margin:8%;
-	margin-top:10%;
-	resize:none;
+    background-color: transparent;
+    border-style: none;
+    border-color: Transparent;
+    font-size: 18px;
+    font-family: Helvetica;
+    outline: none;
+    overflow: hidden;
+    height: 70%;
+    width: 85%;
+    margin: 7%;
+    margin-top: 21.5%;
+    resize: none;
 }
 #will div, #modwill div
 {
-	border:black 1px solid;
-	display:block;	
-	position:absolute;
-	right:6%;
-	top:1.5%;
-	left:89%;
-	bottom:95%;	
-	background:url("button.png");
-	background-size:100%,100%;
-	border:black 1px solid;
+    display: block;
+    position: absolute;
+    right: 6%;
+    top: 4.5%;
+    left: 86%;
+    bottom: 89.5%;
+    background: url(button.png);
+    background-size: cover;
+    border: black 1px solid;
 }
 #will div:hover, #modwill div:hover
 {
@@ -878,18 +895,18 @@ header ul li span
 }
 #notes textarea, #modnotes textarea 
 {
-	background-color: transparent;
-	border-style: none;
-	border-color: Transparent;
-	font-size: 18px;
-	font-family: Helvetica;
-	outline: none;
-	overflow: hidden;
-	height: 65%;
-	width: 80%;
-	margin: 8%;
-	margin-top: 10%;
-	resize: none;
+		background-color: transparent;
+		border-style: none;
+		border-color: Transparent;
+		font-size: 18px;
+		font-family: Helvetica;
+		outline: none;
+		overflow: hidden;
+		height: 80%;
+		width: 80%;
+		margin: 8%;
+		margin-top: 15%;
+		resize: none;
 }
 #notes div, #modnotes div 
 {
@@ -909,7 +926,9 @@ header ul li span
 }
 .deadplayer
 {
-	background:grey;
+	background:#000000;
+	font-weight:bold;
+	color:#707371;
 	
 }
 .deadplayer div
@@ -1040,7 +1059,7 @@ header ul li span
    background-size:100% 100%;
 }
 .mediumbutton:hover {
-   background: url('med.png'),#3A4518;
+   background: url('med.png'),#274C66;
    background-size:100% 100%;
 }
 .mediumbuttondown {
@@ -1113,8 +1132,9 @@ header ul li span
 {
 	position:absolute;
 	right:0;
-	background:white;
-	border:1px solid black;
+	background:#364040;
+	color: white;
+	border:1px solid white;
 	list-style:none;
 	padding:0;
 	z-index: 10;
@@ -1124,11 +1144,11 @@ header ul li span
 .morelistheading
 {
 	width:100%;
-	background:#989898;
+	background:#1f1f1f;
 }
 .morelistitem:hover
 {
-	background:#C4C4C4;
+	background:#8a8a8a;
 }
 .modwillbutton
 {
@@ -1137,7 +1157,7 @@ header ul li span
 	text-align:center;
 	cursor:default;
 	color:white;
-	background:#8B6914;	
+	background:#996829;	
 	font-size:10px;
 }
 .modwillbutton:hover
@@ -1151,7 +1171,7 @@ header ul li span
 }
 .setroles
 {
-	background: url('accept.png'), linear-gradient(#f9f9f9, #e9e9e9);
+	background: url('accept.png'), linear-gradient(#364040, #3B4545);
 	background-size: 100% 100%;
 	height:100%;
 	flex-grow:1;
@@ -1159,7 +1179,7 @@ header ul li span
 }
 .roll
 {
-	background: url('roll.png'), linear-gradient(#f9f9f9, #e9e9e9);
+	background: url('roll.png'), linear-gradient(#364040, #3B4545);
 	background-size: 100% 100%;
 	height:100%;
 	flex-grow:1;
@@ -1180,25 +1200,25 @@ header ul li span
 }
 .showroles, .showlist
 {
-	height:80%;
-	flex-grow:2;
-	text-align:center;
-	background:linear-gradient(#f9f9f9, #e9e9e9);
-	box-shadow:inset 0px 1px 0px 0px #ffffff;
-	margin-top:auto;
-	margin-bottom:auto;
-	vertical-align:middle;
-	cursor:pointer;
-	font-weight:bold;
-	color:#666666;
-	font-family:Arial;
-	font-size:15px;
-	border:1px solid #dcdcdc;
-	padding-top:6px;
+	height: 80%;
+	flex-grow: 2;
+	text-align: center;
+	background: linear-gradient(#364040, #3B4545);
+	box-shadow: inset 0px 1px 0px 0px black;
+	margin-top: auto;
+	margin-bottom: auto;
+	vertical-align: middle;
+	cursor: pointer;
+	font-weight: bold;
+	color: #FFFFFF;
+	font-family: Arial;
+	font-size: 15px;
+	border: 1px solid black;
+	padding-top: 6px;
 }
 .showroles:hover, .showlist:hover
 {
-	background:#f9f9f9;
+	background:black;
 }
 .showroles:active, .showlist:active
 {
@@ -1214,14 +1234,16 @@ header ul li span
 	height:50px;
 	border: 1px solid black;
 	border-top: none;
-	background:white;
+	background: linear-gradient(#364040, #3B4545);
 }
 .extracontrols .options
 {
 	height:100%;
 	float:left;
 	width:50%;
-	padding: 5px;
+	padding: 0px;
+	color: white;
+	background: linear-gradient(#364040, #3B4545);
 }
 .extracontrols .options .checkbox
 {
@@ -1237,17 +1259,15 @@ header ul li span
 	float: left;
 	height: 1.5em;
 	width: 6em;
-	background: linear-gradient(#f9f9f9, #e9e9e9);
+	background: black;
 	margin-top: 5px;
-    text-align: center;
-    box-shadow: inset 0px 1px 0px 0px #ffffff;
-    cursor: pointer;
-    font-weight: bold;
-    color: #666666;
-    font-family: Arial;
-    font-size: 15px;
-    border: 1px solid #dcdcdc;
-    position:relative;
+	text-align: center;
+	cursor: pointer;
+	font-weight: bold;
+	color: white;
+	font-family: Arial;
+	font-size: 16px;
+	position:relative;
 }
 #autoRolesButton:hover
 {
@@ -1328,7 +1348,7 @@ ww
 }
 jester
 {
-	color:#E542C7;
+	color:#ff91eb;
 }
 town
 {
@@ -1345,28 +1365,44 @@ neut
 /*----Chat messages----*/
 .mafia
 {
-	color:red;
+	color:#ff4747;
+	text-shadow: 0px 0px 10px black;
 }
 .coven 
 {
-	color: #BF40BF;
+	color: #ab5ffb;
+	text-shadow: 0px 0px 10px black;
+}
+.vamp
+{
+	color:#405243;
 }
 .linked
 {
-	color:green;
+	color:lawngreen;
 }
-.dead, .medium
+.dead
 {
-	color: grey;
-    text-shadow: 0px 0px 10px #6FADB1;
+	color: #c7c7c7;
+	text-shadow: 0px 0px 10px #4b7c80;
+}
+.medium
+{
+	color:#00c3ff;
 }
 .spectate
 {
-    color:#0099FF;
+	color:mediumaquamarine;
 }
-.jailor, .jailed
+.jailed
 {
-	color:#643E33;
+	color:antiquewhite;
+	text-shadow: 0px 0px 10px #c78800;
+}
+.jailor
+{
+	color:#c78800;
+	text-shadow: 0px 0px 10px black;
 }
 .jailing
 {
@@ -1375,15 +1411,11 @@ neut
 .moon
 {
 	background:#249AC7;
-	color:white;
-}
-.whisper
-{
-	color:#5D0034;
+	color:#ADD8E6;
 }
 .mod
 {
-	color:#5D0034;
+	color:#ff80c7;
 }
 .dying
 {
@@ -1397,15 +1429,15 @@ neut
 }
 .reviving
 {
-	background:#4ADF00;
+	background:#00992b;
 }
 .vote
 {
-	color:green;
+	color:#00de00;
 }
 .whisper
 {
-	color:#0047AB;
+	color:#80adff;
 }
 .guilty
 {
