@@ -576,7 +576,7 @@ io.on('connection', function (socket, req) {
 			var alts = [];
 			for (i in players) {
 				if (ip == players[i].ip) {
-					if(connecting_as_name == players[i].name && !players[i].s.connected) {
+					if(connecting_as_name == players[i].name && players[i].s.readyState != ws.OPEN) {
 						reconnecting = players[i];
 					} else {
 						alts.push(players[i].name);
@@ -1221,7 +1221,7 @@ function nameTaken(name, ip) {
 	for (i in players) {
 		if (name == players[i].name) {
 			match = true;
-			if(ip == players[i].ip && !players[i].s.connected) {
+			if(ip == players[i].ip && players[i].s.readyState != ws.OPEN) {
 				// Allow reconnecting
 				return false;
 			}
@@ -1317,7 +1317,7 @@ function setPhase(p) {
 				players[i].chats.linked = false;
 
 				//Now that the game is over, we can remove all disconnected players
-				if(!players[i].s.connected) {
+				if(players[i].s.readyState != ws.OPEN) {
 					sendPublicMessage(Type.LEAVE, players[i].name);
 					//Splice them from the numbers array.
 					playernums.splice(playernums.indexOf(i), 1);
@@ -1769,7 +1769,7 @@ function Player(socket, name, ip) {
 			} else {
 				if (mod == this.s.id) {
 					setTimeout(function () {
-						if(!(players[mod] && players[mod].s.connected)) {
+						if(!(players[mod] && players[mod].s.readyState == ws.OPEN)) {
 							sendPublicMessage(Type.SYSTEM, 'Game canceled because the mod has been disconnected for over a minute.');
 							setPhase(Phase.PREGAME);
 						}
