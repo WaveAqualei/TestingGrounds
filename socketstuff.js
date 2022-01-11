@@ -1217,14 +1217,20 @@ socket.on(Type.GETWILL,function(name,willcontent){
 		close.click(function()
 		{
 			var txt = $('#modwill textarea');
-			if(!txt.attr("readonly")) socket.emit(Type.WILL,txt.val(),name);
+			if(txt.data('dirty')) socket.emit(Type.WILL,txt.val(),name);
 			$(this.parentNode).remove();
 		});
 		var txt = $('<textarea id="willcontent"></textarea>');
 		txt.val(willcontent);
-		if(!mod) 
+		if(mod)
 		{
-			txt.attr("readonly", true);
+			txt.change(function() {
+				$(this).data('dirty', true);
+			});
+		}
+		else
+		{
+			txt.attr('readonly', true);
 		}
 		will.append(close);
 		will.append(txt);

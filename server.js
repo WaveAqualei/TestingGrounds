@@ -974,7 +974,11 @@ io.on('connection', function (socket) {
 					socket.emit(Type.SYSTEM, 'Can\t edit another player\'s will: you are not the mod.');
 				}
 			} else {
-				players[socket.id].will = will;
+				if(phase == Phase.MODTIME) {
+					socket.emit(Type.SYSTEM, 'Please don\'t edit your will during modtime.');
+				} else {
+					players[socket.id].will = will;
+				}
 			}
 		} else {
 			socket.emit(Type.SYSTEM, 'You sent a null will. Did you break something?');
