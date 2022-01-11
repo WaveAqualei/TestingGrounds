@@ -8,7 +8,7 @@ var neutcolor = '#bcbcbc';
 var anycolor = '#F5F5F5';
 var mystcolor = '#D7B4F3';
 var overcolor = '#15F4EE';
-var hilitecolor = 'orange';
+var hilitecolor = '#A78A52';
 //Generic goals
 var towngoal = 'Lynch every criminal and evildoer.';
 var mafiagoal = 'Kill anyone that will not submit to the Mafia.';
@@ -1489,6 +1489,7 @@ module.exports = {
 			if (num == -1) {
 				return "Role '" + name + "' not found!";
 			}
+			var al = "<span class='aligntext' style='color:" + hilitecolor + "'><b>Alignment</b>: </span>" + module.exports.formatAlignment(roles[num].alignment);
 			var abi = "<div class='abilities' style='color:" + hilitecolor + ";'><b>Abilities: </b></div>" + getAbilities(num);
 			var att = "<div class='abilities' style='color:" + hilitecolor + ";'><b>Attributes: </b></div>" + getAttributes(num);
 			var goal = "<span class='goal'><div style='color:" + hilitecolor + "'><b>Goal</b>: </div>" + roles[num].goal + '</span>';
