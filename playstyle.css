@@ -177,6 +177,7 @@ header .moonimg
 {
 	width:50%;
 	text-align:center;
+	background:black;
 }
 #rolelist li .bottom .myrole
 {
@@ -434,7 +435,7 @@ header ul li span
 }
 .rolecard .aligntext
 {
-	float: left;
+	float: unset;
 }
 .rolecard .abilities
 {
@@ -1058,7 +1059,7 @@ header ul li span
    background-size:100% 100%;
 }
 .mediumbutton:hover {
-   background: url('med.png'),#3A4518;
+   background: url('med.png'),#274C66;
    background-size:100% 100%;
 }
 .mediumbuttondown {
@@ -1131,8 +1132,9 @@ header ul li span
 {
 	position:absolute;
 	right:0;
-	background:white;
-	border:1px solid black;
+	background:#364040;
+	color: white;
+	border:1px solid white;
 	list-style:none;
 	padding:0;
 	z-index: 10;
@@ -1142,11 +1144,11 @@ header ul li span
 .morelistheading
 {
 	width:100%;
-	background:#989898;
+	background:#1f1f1f;
 }
 .morelistitem:hover
 {
-	background:#C4C4C4;
+	background:#8a8a8a;
 }
 .modwillbutton
 {
@@ -1155,7 +1157,7 @@ header ul li span
 	text-align:center;
 	cursor:default;
 	color:white;
-	background:#8B6914;	
+	background:#996829;	
 	font-size:10px;
 }
 .modwillbutton:hover
@@ -1232,14 +1234,14 @@ header ul li span
 	height:50px;
 	border: 1px solid black;
 	border-top: none;
-	background:white;
+	background: linear-gradient(#364040, #3B4545);
 }
 .extracontrols .options
 {
 	height:100%;
 	float:left;
 	width:50%;
-	padding: 5px;
+	padding: 0px;
 	color: white;
 	background: linear-gradient(#364040, #3B4545);
 }
@@ -1257,16 +1259,14 @@ header ul li span
 	float: left;
 	height: 1.5em;
 	width: 6em;
-	background: linear-gradient(#f9f9f9, #e9e9e9);
+	background: black;
 	margin-top: 5px;
 	text-align: center;
-	box-shadow: inset 0px 1px 0px 0px #ffffff;
 	cursor: pointer;
 	font-weight: bold;
-	color: #666666;
+	color: white;
 	font-family: Arial;
-	font-size: 15px;
-	border: 1px solid #dcdcdc;
+	font-size: 16px;
 	position:relative;
 }
 #autoRolesButton:hover
