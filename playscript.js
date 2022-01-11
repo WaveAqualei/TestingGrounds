@@ -1,5 +1,7 @@
 window.onbeforeunload = function(){
-  return 'If you are in a game and need to leave, please inform the mod before closing this page.';
+	if(socket.readyState == socket.OPEN) {
+		return 'If you are in a game and need to leave, please inform the mod before closing this page.';
+	}
 };
 mod = false;
 var current_rolelist = [
@@ -56,7 +58,7 @@ $(document).ready(function(){
 		if ($(e.target).is('li') || $(e.target).is('span'))
 		{
 			var phase = $('header ul li').index(this);
-			socket.emit(Type.SETPHASE,phase);
+			socket.sendMessage(Type.SETPHASE,phase);
 		}
 	});
 });
@@ -170,13 +172,13 @@ function closeWill()
 {
 	$('#will').hide()
 	var will = $('#willcontent').val()
-	socket.emit(Type.WILL,will)
+	socket.sendMessage(Type.WILL,will)
 }
 function closeNotes()
 {
 	$('#notes').hide()
 	var notes = $('#notescontent').val()
-	socket.emit(Type.NOTES,notes)
+	socket.sendMessage(Type.NOTES,notes)
 }
 function highlightTitle()
 {
@@ -213,7 +215,7 @@ function checkKey(e)
 	{
 		var msg = $('#c').val();
 		$('#c').val('');
-		socket.emit(Type.MSG,msg);
+		socket.sendMessage(Type.MSG,msg);
 	}	
 	//Limit length
 	if ($('#c').val().length >= 200)
@@ -454,22 +456,22 @@ function openModList(targ)
 				'Blackmail':function()
 				{
 					var name = $(this.parentNode).attr('name');
-					socket.emit(Type.TOGGLE,name,'blackmail');
+					socket.sendMessage(Type.TOGGLE,name,'blackmail');
 				},
 				'Link':function()
 				{
 					var name = $(this.parentNode).attr('name');
-					socket.emit(Type.TOGGLE,name,'linked');
+					socket.sendMessage(Type.TOGGLE,name,'linked');
 				},
 				'Douse': function () {
 					if ($(`#${name}-fire`).length) return;
 				    var name = $(this.parentNode).attr('name');
-				    socket.emit(Type.TOGGLE, name, 'douse');
+				    socket.sendMessage(Type.TOGGLE, name, 'douse');
 					$(`#p-${name}`).append(`<span class="emoji" id="${name}-fire">🔥</span>`);
 					$(`#${name}-fire`).click(() => {
 						if (mod) {
 							$(`#${name}-fire`).remove();
-							socket.emit(Type.REMOVE_EMOJI, `${name}-fire`);
+							socket.sendMessage(Type.REMOVE_EMOJI, `${name}-fire`);
 						}
 					});
 				},
@@ -480,7 +482,7 @@ function openModList(targ)
 					$(`#${name}-hex`).click(() => {
 						if (mod) {
 							$(`#${name}-hex`).remove();
-							socket.emit(Type.REMOVE_EMOJI, `${name}-hex`);
+							socket.sendMessage(Type.REMOVE_EMOJI, `${name}-hex`);
 						}
 					});
 				},
@@ -491,7 +493,7 @@ function openModList(targ)
 					$(`#${name}-infect`).click(() => {
 						if (mod) {
 							$(`#${name}-infect`).remove();
-							socket.emit(Type.REMOVE_EMOJI, `${name}-infect`);
+							socket.sendMessage(Type.REMOVE_EMOJI, `${name}-infect`);
 						}
 					});
 				},
@@ -502,81 +504,81 @@ function openModList(targ)
 					$(`#${name}-poison`).click(() => {
 						if (mod) {
 							$(`#${name}-poison`).remove();
-							socket.emit(Type.REMOVE_EMOJI, `${name}-poison`);
+							socket.sendMessage(Type.REMOVE_EMOJI, `${name}-poison`);
 						}
 					});
 				},
 				"Guardian Angel": function() {
-					socket.emit(Type.GUARDIAN_ANGEL, $(this.parentNode).attr('name'));
+					socket.sendMessage(Type.GUARDIAN_ANGEL, $(this.parentNode).attr('name'));
 				}
 			};
 			var notifications = {
 				'Roleblocked':function()
 				{
 				   var name = $(this.parentNode).attr('name');
-				   socket.emit(Type.PRENOT,name,'RB');
+				   socket.sendMessage(Type.PRENOT,name,'RB');
 				},
 				'Attacked(Healed)':function()
 				{
 				   var name = $(this.parentNode).attr('name');
-				   socket.emit(Type.PRENOT,name,'HEAL');
+				   socket.sendMessage(Type.PRENOT,name,'HEAL');
 				},
 				'Attacked(Immune)':function()
 				{
 				   var name = $(this.parentNode).attr('name');
-				   socket.emit(Type.PRENOT,name,'IMMUNE');
+				   socket.sendMessage(Type.PRENOT,name,'IMMUNE');
 				},
 				'Attacked(Protected)': function() {
-					socket.emit(Type.PRENOT,$(this.parentNode).attr('name'),'PROTECTED');
+					socket.sendMessage(Type.PRENOT,$(this.parentNode).attr('name'),'PROTECTED');
 				},
 				'Attacked(Saved By BG)': function() {
-					socket.emit(Type.PRENOT,$(this.parentNode).attr('name'),'SAVED_BY_BG');
+					socket.sendMessage(Type.PRENOT,$(this.parentNode).attr('name'),'SAVED_BY_BG');
 				},
 				'Attacked(Saved By Trap)': function() {
-					socket.emit(Type.PRENOT,$(this.parentNode).attr('name'),'SAVED_BY_TRAP');
+					socket.sendMessage(Type.PRENOT,$(this.parentNode).attr('name'),'SAVED_BY_TRAP');
 				},
 				'Attacked(Saved By GA)': function() {
-					socket.emit(Type.PRENOT,$(this.parentNode).attr('name'),'SAVED_BY_GA');
+					socket.sendMessage(Type.PRENOT,$(this.parentNode).attr('name'),'SAVED_BY_GA');
 				},
 				'Target attacked': function() {
-					socket.emit(Type.PRENOT,$(this.parentNode).attr('name'),'TARGET_ATTACKED');
+					socket.sendMessage(Type.PRENOT,$(this.parentNode).attr('name'),'TARGET_ATTACKED');
 				},
 				'Doused':function()
 				{
 				   var name = $(this.parentNode).attr('name');
-				   socket.emit(Type.PRENOT,name,'DOUSE');
+				   socket.sendMessage(Type.PRENOT,name,'DOUSE');
 				},
 				'Target immune':function()
 				{
 				   var name = $(this.parentNode).attr('name');
-				   socket.emit(Type.PRENOT,name,'TARGETIMMUNE');
+				   socket.sendMessage(Type.PRENOT,name,'TARGETIMMUNE');
 				},
 				'Witched':function()
 				{
 				   var name = $(this.parentNode).attr('name');
-				   socket.emit(Type.PRENOT,name,'WITCHED');
+				   socket.sendMessage(Type.PRENOT,name,'WITCHED');
 				},
 				'Shot by Vet':function()
 				{
 				   var name = $(this.parentNode).attr('name');
-				   socket.emit(Type.PRENOT,name,'SHOTVET');
+				   socket.sendMessage(Type.PRENOT,name,'SHOTVET');
 				},
 				'Vet shot':function()
 				{
 				   var name = $(this.parentNode).attr('name');
-				   socket.emit(Type.PRENOT,name,'VETSHOT');
+				   socket.sendMessage(Type.PRENOT,name,'VETSHOT');
 				},
 				'Guardian Angel': function() {
-					socket.emit(Type.PRENOT,  $(this.parentNode).attr('name'), 'GUARDIAN_ANGEL');
+					socket.sendMessage(Type.PRENOT,  $(this.parentNode).attr('name'), 'GUARDIAN_ANGEL');
 				},
 				'Poisoned(Curable)': function() {
-					socket.emit(Type.PRENOT,  $(this.parentNode).attr('name'), 'POISON_CURABLE');
+					socket.sendMessage(Type.PRENOT,  $(this.parentNode).attr('name'), 'POISON_CURABLE');
 				},
 				'Poisoned(Uncurable)': function() {
-					socket.emit(Type.PRENOT,  $(this.parentNode).attr('name'), 'POISON_UNCURABLE');
+					socket.sendMessage(Type.PRENOT,  $(this.parentNode).attr('name'), 'POISON_UNCURABLE');
 				},
 				'Medusa Stone': function() {
-					socket.emit(Type.PRENOT,  $(this.parentNode).attr('name'), 'MEDUSA_STONE');
+					socket.sendMessage(Type.PRENOT,  $(this.parentNode).attr('name'), 'MEDUSA_STONE');
 				}
 			};
 			var list = $('<ul id="morelist"></ul>');
@@ -632,7 +634,7 @@ function autoModSettings()
 			var li = $('<li><div><h3>'+i+'</h3><p>'+levels[i]+'</p></div></li>');
 			li.click(function(){
 				var index = $(this).parent().children().index($(this));
-				socket.emit(Type.AUTOLEVEL,index);
+				socket.sendMessage(Type.AUTOLEVEL,index);
 				$('#automodsettings').remove();	
 			});
 			ams.append(li);
@@ -658,17 +660,17 @@ function openRolelist()
 		roll.click(function()
 		{
 			var custom = $('#customRolesChk').is(':checked');
-			socket.emit(Type.ROLL,current_rolelist.slice(0,users.length-1), custom);
+			socket.sendMessage(Type.ROLL,current_rolelist.slice(0,users.length-1), custom);
 		});
 		var showList = $('<div class="showlist">Show List</div>');
 		showList.click(function()
 		{
-			socket.emit(Type.SHOWLIST,current_rolelist.slice(0,users.length-1));
+			socket.sendMessage(Type.SHOWLIST,current_rolelist.slice(0,users.length-1));
 		});
 		var showRoles = $('<div class="showroles">Show Roles</div>');
 		showRoles.click(function()
 		{
-			socket.emit(Type.SHOWALLROLES);
+			socket.sendMessage(Type.SHOWALLROLES);
 		});
 		var setRoles = $('<div class="setroles"></div>');
 		setRoles.click(function()
@@ -680,7 +682,7 @@ function openRolelist()
 				$($('.role')[i]).css('background','green');
 				$('.role')[i].old = rolelist_result[index];
 			}
-			socket.emit(Type.SETROLESBYLIST,rolelist_result,rolelist_names);
+			socket.sendMessage(Type.SETROLESBYLIST,rolelist_result,rolelist_names);
 		});
 		var controls = $('<li class="rolelistcontrols"></li>');
 		
@@ -752,7 +754,7 @@ function openUserWill(e)
 		li = $(li).parent();
 	}
 	var index = $('#userlist').children().index(li);
-	socket.emit(Type.GETWILL,index);
+	socket.sendMessage(Type.GETWILL,index);
 }
 function autoList()
 {
@@ -906,7 +908,7 @@ function chooseAutoButton(info, label)
 			func = function(){
 				var tr = $(this).parent().parent();
 				var to = $($(tr.children()[1]).children()[0]).html();
-				socket.emit(Type.MSG,to);
+				socket.sendMessage(Type.MSG,to);
 			};
 		break;
 		/*Actions*/
@@ -914,7 +916,7 @@ function chooseAutoButton(info, label)
 			func = function(){
 				var tr = $(this).parent().parent();
 				var to = $($(tr.children()[1]).children()[0]).html();
-				socket.emit(Type.TOGGLELIVING,to);
+				socket.sendMessage(Type.TOGGLELIVING,to);
 				//Stupid button swapping stuff that I have no idea why I thought was a good idea at the time.
 				var index = users.indexOf(to);
 				var buttons = $('.killbutton, .revivebutton');
@@ -936,7 +938,7 @@ function chooseAutoButton(info, label)
 	        func = function () {
 	            var tr = $(this).parent().parent();
 	            var to = $($(tr.children()[1]).children()[0]).html();
-	            socket.emit(Type.TOGGLE, to, 'douse');
+	            socket.sendMessage(Type.TOGGLE, to, 'douse');
 	        };
 	    break;
 	    case '<Set Role>':
@@ -944,7 +946,7 @@ function chooseAutoButton(info, label)
 				var tr = $(this).parent().parent();
 				var to = $($(tr.children()[1]).children()[0]).html();
 				var arr = to.split('/');
-				socket.emit(Type.SETROLE,arr[0],arr[1]);
+				socket.sendMessage(Type.SETROLE,arr[0],arr[1]);
 				//Change the input box
 				var index = users.indexOf(arr[0]);
 				var input = $('.role');
@@ -954,7 +956,7 @@ function chooseAutoButton(info, label)
 		case '<Disguise>':
 			func = function(){
 				var arr = info[1].split('/');
-				socket.emit(Type.MSG,'/disguise '+ arr[0] +' '+ arr[1]);
+				socket.sendMessage(Type.MSG,'/disguise '+ arr[0] +' '+ arr[1]);
 				//Swap all messages in the table.
 				var container = $('.automodcontainer');
 				container = container[container.length-1];
@@ -977,14 +979,14 @@ function chooseAutoButton(info, label)
 			func = function(){
 				var tr = $(this).parent().parent();
 				var to = $($(tr.children()[1]).children()[0]).html();
-				socket.emit(Type.TOGGLE,to,'blackmail');
+				socket.sendMessage(Type.TOGGLE,to,'blackmail');
 			};
 		break;
 		case '<Jail>':
 			func = function(){
 				var tr = $(this).parent().parent();
 				var to = $($(tr.children()[1]).children()[0]).html();
-				socket.emit(Type.TOGGLE,to,'jailed');
+				socket.sendMessage(Type.TOGGLE,to,'jailed');
 				var index = users.indexOf(to);
 				var buttons = $('.jailbutton, .releasebutton');
 				if ($(buttons[index]).hasClass('jailbutton'))
@@ -1005,14 +1007,14 @@ function chooseAutoButton(info, label)
 			func = function(){
 				var tr = $(this).parent().parent();
 				var to = $($(tr.children()[1]).children()[0]).html();
-				socket.emit(Type.TOGGLE,to,'linked');
+				socket.sendMessage(Type.TOGGLE,to,'linked');
 			};
 		break;
 		case '<Clean>':
 			func = function(){
 				var tr = $(this).parent().parent();
 				var to = $($(tr.children()[1]).children()[0]).html();
-				socket.emit(Type.MSG,'/clean '+to);
+				socket.sendMessage(Type.MSG,'/clean '+to);
 			};
 		break;
 		/*Default is to treat it as a name*/
@@ -1021,7 +1023,7 @@ function chooseAutoButton(info, label)
 				var tr = $(this).parent().parent();
 				var to = $($(tr.children()[0]).children()[0]).html();
 				var msg = $($(tr.children()[1]).html()).html();
-				socket.emit(Type.MSG,'/sys '+to+' '+msg);
+				socket.sendMessage(Type.MSG,'/sys '+to+' '+msg);
 			};
 		break;
 	}
@@ -1034,7 +1036,7 @@ function addModControls()
 	//Add numbering interface
 	var spn = $('<input type="number" min="1" max="99" value="'+daynumber+'"/>');
 	spn.change(function(){
-		socket.emit(Type.SETDAYNUMBER,$(this).val());
+		socket.sendMessage(Type.SETDAYNUMBER,$(this).val());
 	});
 	var lbl = $('<span>Day/Night:</span>');
 	$('#modnumbering').empty();
@@ -1052,7 +1054,7 @@ function addPauseButton(phase)
 		var pause = $('<div class="pausebutton"></div>');
 	}	
 	pause.click(function(){
-		socket.emit(Type.PAUSEPHASE);
+		socket.sendMessage(Type.PAUSEPHASE);
 		if ($(this).hasClass('playbutton'))
 		{
 			$(this).removeClass('playbutton');
