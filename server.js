@@ -586,21 +586,6 @@ io.on('connection', function (socket, req) {
 			//If reconnecting, give them their old slot back
 			if(reconnecting) {
 				//Rejoining after a dc
-				//Send the list of names in the game to the returning player.
-				var namelist = [];
-				//Send the roles of any dead players
-				for (i in playernums) {
-					var p = {};
-					p.name = players[playernums[i]].name;
-					if (!players[playernums[i]].alive) {
-						p.role = players[playernums[i]].role;
-						p.rolecolor = roles.getRoleData(players[playernums[i]].role).color;
-						p.haswill = !!players[playernums[i]].publicwill;
-					}
-					namelist.push(p);
-				}
-				socket.sendMessage(Type.PAUSEPHASE, timer.paused);
-				socket.sendMessage(Type.SETDAYNUMBER, gm.getDay());
 				//If the player is a mod who disconnected, set them as the mod.
 				if (reconnecting.s.id == mod) {
 					mod = socket.id;
@@ -615,13 +600,21 @@ io.on('connection', function (socket, req) {
 				//Reset ping.
 				players[socket.id].ping = 0;
 
+				socket.sendMessage(Type.ACCEPT);
+
+				if(!players[socket.id].visibly_disconnected) {
+					return;
+				}
+
+				socket.sendMessage(Type.PAUSEPHASE, timer.paused);
+				socket.sendMessage(Type.SETDAYNUMBER, gm.getDay());
 				socket.sendMessage(Type.ROOMLIST, namelist);
 
-				socket.sendMessage(Type.ACCEPT);
 				socket.sendMessage(Type.SYSTEM, 'You have reconnected.');
 				var name = players[socket.id].name;
 				//Inform everyone of the new arrival.
 				sendPublicMessage(Type.RECONNECT, name);
+				players[socket.id].visibly_disconnected = false;
 				//Tell the new arrival what phase it is.
 				socket.sendMessage(Type.SETPHASE, phase, true, timer.time);
 
@@ -1211,7 +1204,13 @@ io.on('connection', function (socket, req) {
 	});
 	addSocketListener('disconnect', function () {
 		if (players[socket.id]) {
-			players[socket.id].dc();
+			var player = players[socket.id];
+			setTimeout(function() {
+				if(player.s.readyState != ws.OPEN)
+				{
+					player.dc();
+				}
+			}, 100);
 		}
 	});
 });
@@ -1748,6 +1747,7 @@ function Player(socket, name, ip) {
 		},
 		dc: function () {
 			sendPublicMessage(Type.DISCONNECT, this.name);
+			this.visibly_disconnected = true;
 			var is_late_spectator = playernums.slice(playernums.indexOf(this.s.id)).every(function(id) {
 				//It's OK to renumber spectators
 				return players[id].spectate;

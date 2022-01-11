@@ -1478,7 +1478,12 @@ function kittyReconnect()
 {
 	if (!kicked)
 	{
-		if (connectAttempt <10 )
+		if (connectAttempt == 0)
+		{
+			connectSocket();
+			connectAttempt++;
+		}
+		else if (connectAttempt < 10)
 		{
 			if ($('.blocker').length == 0)
 			{
@@ -1492,25 +1497,16 @@ function kittyReconnect()
 				var notify = $('<div class="alert"></div>');
 				notify.append($('<h3>You have disconnected!</h3>'));
 				notify.append(kitteh);
-				notify.append($('<p id="try">Please wait while this dancing kitty reconnects you... <p id="count"></p></p>'));
+				notify.append($('<p id="try">Please wait while this dancing kitty reconnects you... <p id="count">'+connectAttempt+'/10</p></p>'));
 				blocker.append(notify);
 				$('body').append(blocker);
 			}
-			if (connectAttempt == 0)
+			setTimeout(function()
 			{
 				connectSocket();
 				connectAttempt++;
 				$('#count').html(connectAttempt+'/10');
-			}
-			else if (connectAttempt < 10)
-			{
-				setTimeout(function()
-				{
-					connectSocket();
-					connectAttempt++;
-					$('#count').html(connectAttempt+'/10');
-				},1000);
-			}
+			},1000);
 		}
 		else
 		{
