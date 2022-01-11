@@ -266,7 +266,8 @@ function addSocketListener(type, callback)
 var socket;
 function connectSocket()
 {
-	socket = new WebSocket('ws://'+window.location.host+'/');
+	var protocol = (window.location.protocol === 'https:') ? 'wss:' : 'ws:';
+	socket = new WebSocket(protocol+'//'+window.location.host+'/');
 	socket.addEventListener('open', function()
 	{
 		socket.sendMessage(Type.JOIN, player_name);
