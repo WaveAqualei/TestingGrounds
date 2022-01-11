@@ -166,11 +166,19 @@ function mutemusic(phase)
 	}
 }
 
+$(function() {
+	$('#willcontent').change(function() {
+		$(this).data('dirty', true);
+	});
+});
 function closeWill()
 {
 	$('#will').hide()
-	var will = $('#willcontent').val()
-	socket.emit(Type.WILL,will)
+	if($('#willcontent').data('dirty')) {
+		var will = $('#willcontent').val()
+		socket.emit(Type.WILL,will)
+		$('#willcontent').removeData('dirty')
+	}
 }
 function closeNotes()
 {
