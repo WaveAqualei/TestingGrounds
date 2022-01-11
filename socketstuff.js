@@ -955,6 +955,9 @@ socket.on(Type.PRENOT,function(notification)
 	  case 'GUARDIAN_ANGEL':
 		addMessage({msg: "The Guardian Angel was watching over you!", styling: 'reviving'}, 'prenot');
 		break;
+	  case 'TRANSPORT':
+		addMessage({msg: "You were transported to another location.", styling: 'dying'}, 'prenot');
+		break;
 	  case 'POISON_CURABLE':
 		addMessage({msg: "You were poisoned. You will die tomorrow unless you are cured!", styling: 'dying'}, 'prenot');
 		break;
