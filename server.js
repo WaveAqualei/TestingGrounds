@@ -793,7 +793,7 @@ io.on('connection', function (socket) {
 					players[mod].s.emit(Type.SYSTEM, name + ' was shot by a Veteran.');
 					break;
 				case 'VETSHOT':
-					players[mod].s.emit(Type.SYSTEM, name + ' attacked a visitor.');
+					players[mod].s.emit(Type.SYSTEM, name + ' shot one of their visitors.');
 					break;
 				case 'RB':
 					players[mod].s.emit(Type.SYSTEM, name + ' was roleblocked.');
@@ -821,6 +821,9 @@ io.on('connection', function (socket) {
 					break;
 				case 'MEDUSA_STONE':
 					players[mod].s.emit(Type.SYSTEM, name + ' stoned someone.');
+					break;
+				case 'TRANSPORT':
+					players[mod].s.emit(Type.SYSTEM, name + ' was transported.');
 					break;
 			}
 			player.s.emit(Type.PRENOT, prenot);
@@ -1096,7 +1099,7 @@ io.on('connection', function (socket) {
 								if (!players[socket.id].silenced) {
 									player.s.emit(
 										Type.SYSTEM,
-										'You are now the jailor. Use /jail [target] to jail. Use /execute, /exe or /x to execute your prisoner. Do not use this command on the first night.'
+										'You are now the jailor. Use /jail [target] to jail. Use /execute, /exe or /x to execute your prisoner.'
 									);
 								}
 								break;
@@ -1146,7 +1149,7 @@ io.on('connection', function (socket) {
 							if (player.mayor === undefined) {
 								player.mayor = false; //False, meaning not revealed.
 								if (!players[socket.id].silenced) {
-									player.s.emit(Type.SYSTEM, 'You are now the Mayor! Use /reveal to reveal yourself and get 3 votes.');
+									player.s.emit(Type.SYSTEM, 'You are now the Mayor. Use /reveal to reveal yourself and get 3 votes.');
 								}
 							} else {
 								player.mayor = undefined; //Undefined, meaning not mayor.
@@ -1564,7 +1567,7 @@ function Timer() {
 					break;
 				case Phase.FIRSTDAY:
 					//Change to modtime.
-					setPhase(Phase.MODTIME);
+					setPhase(Phase.NIGHT);
 					break;
 			}
 		},
