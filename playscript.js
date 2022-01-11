@@ -506,7 +506,7 @@ function openModList(targ)
 						}
 					});
 				},
-				"Guardian Angel": function() {
+				"Guardian Angel (Voting Immunity)": function() {
 					socket.emit(Type.GUARDIAN_ANGEL, $(this.parentNode).attr('name'));
 				}
 			};
@@ -571,7 +571,7 @@ function openModList(targ)
 				   var name = $(this.parentNode).attr('name');
 				   socket.emit(Type.PRENOT,name,'VETSHOT');
 				},
-				'Guardian Angel': function() {
+				'Guardian Angel Watching': function() {
 					socket.emit(Type.PRENOT,  $(this.parentNode).attr('name'), 'GUARDIAN_ANGEL');
 				},
 				'Poisoned(Curable)': function() {
