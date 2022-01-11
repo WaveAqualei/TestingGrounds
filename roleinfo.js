@@ -529,7 +529,7 @@ var roles = [
 	{
 		rolename: 'pestilence',
 		alignment: 'neutral chaos',
-		abilities: ["You may choose to Rampage at a player's house eacn night."],
+		abilities: ["You may choose to Rampage at a player's house each night."],
 		attributes: [
 			'You will attack anyone that visits you or your target.',
 			'You cannot be roleblocked or controlled.',
@@ -1489,7 +1489,6 @@ module.exports = {
 			if (num == -1) {
 				return "Role '" + name + "' not found!";
 			}
-			var al = "<span class='aligntext' style='color:" + hilitecolor + "'><u>Alignment</u>: </span>" + module.exports.formatAlignment(roles[num].alignment);
 			var abi = "<div class='abilities' style='color:" + hilitecolor + ";'><b>Abilities: </b></div>" + getAbilities(num);
 			var att = "<div class='abilities' style='color:" + hilitecolor + ";'><b>Attributes: </b></div>" + getAttributes(num);
 			var goal = "<span class='goal'><div style='color:" + hilitecolor + "'><b>Goal</b>: </div>" + roles[num].goal + '</span>';
