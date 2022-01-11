@@ -516,21 +516,26 @@ function openModList(targ)
 				   var name = $(this.parentNode).attr('name');
 				   socket.emit(Type.PRENOT,name,'RB');
 				},
+				'Witched':function()
+				{
+				   var name = $(this.parentNode).attr('name');
+				   socket.emit(Type.PRENOT,name,'WITCHED');
+				},
+				'Transported':function()
+				{
+				   var name = $(this.parentNode).attr('name');
+				   socket.emit(Type.PRENOT,name,'TRANSPORT');
+				},
 				'Attacked(Healed)':function()
 				{
 				   var name = $(this.parentNode).attr('name');
 				   socket.emit(Type.PRENOT,name,'HEAL');
 				},
-				'Attacked(Immune)':function()
-				{
-				   var name = $(this.parentNode).attr('name');
-				   socket.emit(Type.PRENOT,name,'IMMUNE');
+				'Attacked(Saved By BG)': function() {
+					socket.emit(Type.PRENOT,$(this.parentNode).attr('name'),'SAVED_BY_BG');
 				},
 				'Attacked(Protected)': function() {
 					socket.emit(Type.PRENOT,$(this.parentNode).attr('name'),'PROTECTED');
-				},
-				'Attacked(Saved By BG)': function() {
-					socket.emit(Type.PRENOT,$(this.parentNode).attr('name'),'SAVED_BY_BG');
 				},
 				'Attacked(Saved By Trap)': function() {
 					socket.emit(Type.PRENOT,$(this.parentNode).attr('name'),'SAVED_BY_TRAP');
@@ -541,27 +546,27 @@ function openModList(targ)
 				'Target attacked': function() {
 					socket.emit(Type.PRENOT,$(this.parentNode).attr('name'),'TARGET_ATTACKED');
 				},
-				'Doused':function()
+				'Attacked(Immune)':function()
 				{
 				   var name = $(this.parentNode).attr('name');
-				   socket.emit(Type.PRENOT,name,'DOUSE');
+				   socket.emit(Type.PRENOT,name,'IMMUNE');
 				},
 				'Target immune':function()
 				{
 				   var name = $(this.parentNode).attr('name');
 				   socket.emit(Type.PRENOT,name,'TARGETIMMUNE');
 				},
-				'Witched':function()
+				'Doused in gas':function()
 				{
 				   var name = $(this.parentNode).attr('name');
-				   socket.emit(Type.PRENOT,name,'WITCHED');
+				   socket.emit(Type.PRENOT,name,'DOUSE');
 				},
 				'Shot by Vet':function()
 				{
 				   var name = $(this.parentNode).attr('name');
 				   socket.emit(Type.PRENOT,name,'SHOTVET');
 				},
-				'Vet shot':function()
+				'Veteran Shot':function()
 				{
 				   var name = $(this.parentNode).attr('name');
 				   socket.emit(Type.PRENOT,name,'VETSHOT');
