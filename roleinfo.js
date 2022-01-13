@@ -223,6 +223,8 @@ var roles = [
 	{
 		rolename: 'mafioso',
 		alignment: 'mafia killing',
+		attack: 'basic',
+		defense 'none',
 		abilities: ["Carry out the Godfather's orders."],
 		attributes: ["You can attack if the Godfather doesn't give you orders.", 'If the Godfather dies you will become the next Godfather.', 'You can talk with the other Mafia at night.'],
 		goal: mafiagoal,
@@ -1489,6 +1491,8 @@ module.exports = {
 			if (num == -1) {
 				return "Role '" + name + "' not found!";
 			}
+			var att = "<span class='attack' style='color:" + hilitecolor + "'><b>Attack</b>: </span>" + module.exports.formatAlignment(roles[num].alignment);
+			var def = "<span class='defense' style='color:" + hilitecolor + "'><b>Defense</b>: </span>" + module.exports.formatAlignment(roles[num].alignment);
 			var al = "<span class='aligntext' style='color:" + hilitecolor + "'><b>Alignment</b>: </span>" + module.exports.formatAlignment(roles[num].alignment);
 			var abi = "<div class='abilities' style='color:" + hilitecolor + ";'><b>Abilities: </b></div>" + getAbilities(num);
 			var att = "<div class='abilities' style='color:" + hilitecolor + ";'><b>Attributes: </b></div>" + getAttributes(num);
