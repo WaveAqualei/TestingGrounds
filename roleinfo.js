@@ -1363,20 +1363,10 @@ function getAbilities(num) {
 	return str + '</div>';
 }
 function getAttack(num) {
-	var str = '<br><div>';
-	var arr = roles[num].attack;
-	for (var i = 0; i < arr.length; i++) {
-		str += "<span id='attack'>-" + arr[i] + '</span><br>';
-	}
-	return str + '</div>';
+    return roles[num].attack || 'none';
 }
 function getDefense(num) {
-	var str = '<br><div>';
-	var arr = roles[num].defense;
-	for (var i = 0; i < arr.length; i++) {
-		str += "<span id='defense'>-" + arr[i] + '</span><br>';
-	}
-	return str + '</div>';
+    return roles[num].defense || 'none';
 }
 function format(str) {
 	var color;
