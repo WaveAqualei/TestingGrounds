@@ -125,6 +125,7 @@ var roles = [
 	{
 		rolename: 'bodyguard',
 		alignment: 'town protective',
+		attack: 'Powerful',
 		abilities: ['Protect a player from direct attacks at night.'],
 		attributes: [
 			'If your target is directly attacked or is the victim of a harmful visit, you and the visitor will fight.',
@@ -137,6 +138,7 @@ var roles = [
 	{
 		rolename: 'crusader',
 		alignment: 'town protective',
+		attack: 'Basic',
 		abilities: ['Protect one person other than yourself during the night.'],
 		attributes: [
 			'Grant your target Powerful defense.',
@@ -150,6 +152,7 @@ var roles = [
 	{
 		rolename: 'trapper',
 		alignment: 'town protective',
+		attack: 'Powerful',
 		abilities: ["You may set up a Trap at another player's house."],
 		attributes: [
 			'Traps take one day to build.',
@@ -166,6 +169,7 @@ var roles = [
 	{
 		rolename: 'jailor',
 		alignment: 'town killing',
+		attack: 'Unstoppable',
 		abilities: ['You may choose one person during the day to jail for the night.'],
 		attributes: [
 			'You may anonymously talk with your prisoner.',
@@ -179,6 +183,7 @@ var roles = [
 	{
 		rolename: 'vampire hunter',
 		alignment: 'town killing',
+		attack: 'Basic',
 		abilities: ['Check for Vampires each night.'],
 		attributes: [
 			'If you visit a Vampire you will attack them.',
@@ -192,6 +197,7 @@ var roles = [
 	{
 		rolename: 'veteran',
 		alignment: 'town killing',
+		attack: 'Powerful',
 		abilities: ['Decide if you will go on alert.'],
 		attributes: [
 			'While on alert, you gain Basic Defense.',
@@ -205,6 +211,7 @@ var roles = [
 	{
 		rolename: 'vigilante',
 		alignment: 'town killing',
+		attack: 'Basic',
 		abilities: ['Choose to take justice into your own hands and shoot someone.'],
 		attributes: ['If you shoot another Town member you will commit suicide over the guilt.', 'You can only shoot your gun 3 times.'],
 		goal: towngoal,
@@ -215,6 +222,8 @@ var roles = [
 	{
 		rolename: 'godfather',
 		alignment: 'mafia killing',
+		attack: 'Basic',
+		defense: 'Basic',
 		abilities: ['You may choose to attack a player each night.'],
 		attributes: ['If there is a Mafioso they will attack the target instead of you.', 'You will appear to be innocent to the Sheriff.', 'You can talk with the other Mafia at night.'],
 		goal: mafiagoal,
@@ -223,8 +232,7 @@ var roles = [
 	{
 		rolename: 'mafioso',
 		alignment: 'mafia killing',
-		attack: 'basic',
-		defense: 'none',
+		attack: 'Basic',
 		abilities: ["Carry out the Godfather's orders."],
 		attributes: ["You can attack if the Godfather doesn't give you orders.", 'If the Godfather dies you will become the next Godfather.', 'You can talk with the other Mafia at night.'],
 		goal: mafiagoal,
@@ -233,6 +241,7 @@ var roles = [
 	{
 		rolename: 'ambusher',
 		alignment: 'mafia killing',
+		attack: 'Basic',
 		abilities: ['You may choose to lie in wait outside your targets house.'],
 		attributes: [
 			'You will attack one player who visits your target.',
@@ -339,6 +348,7 @@ var roles = [
 	{
 		rolename: 'coven leader',
 		alignment: 'coven evil',
+		attack: 'Basic',
 		abilities: ['You may choose to Control someone each night.'],
 		attributes: [
 			'Your victim will know they are being controlled.',
@@ -351,6 +361,7 @@ var roles = [
 	{
 		rolename: 'hex master',
 		alignment: 'coven evil',
+		attack: 'Basic',
 		abilities: ['You may choose to Hex a player each night.'],
 		attributes: [
 			'Players are not notified upon being hexed.',
@@ -364,6 +375,7 @@ var roles = [
 	{
 		rolename: 'medusa',
 		alignment: 'coven evil',
+		attack: 'Powerful',
 		abilities: ['You may choose to Stone Gaze all visitors at night.'],
 		attributes: ['You may choose to stone gaze thrice.', "Your victims's last wills and roles will not be revealed.", 'With the Necronomicon, you may visit players and turn them to stone.'],
 		goal: covengoal,
@@ -372,6 +384,7 @@ var roles = [
 	{
 		rolename: 'necromancer',
 		alignment: 'coven evil',
+		attack: 'Basic',
 		abilities: ['You may reanimate a dead player and use their ability on a player.'],
 		attributes: [
 			'Create zombies from dead players who use their abilities on your second target.',
@@ -384,6 +397,7 @@ var roles = [
 	{
 		rolename: 'poisoner',
 		alignment: 'coven evil',
+		attack: 'Basic',
 		abilities: ['You may choose to poison a player each night.'],
 		attributes: ['Your poisons take one day to take effect.', 'Poison can be removed by Heals.', 'With the Necronomicon, your poison can no longer be Healed.'],
 		goal: covengoal,
@@ -392,6 +406,7 @@ var roles = [
 	{
 		rolename: 'potion master',
 		alignment: 'coven evil',
+		attack: 'Basic',
 		abilities: ['You may choose to use a potion on a player each night.'],
 		attributes: ['You may choose to use a Heal, reveal, or attack potion on a player.', 'Each potion has a three day cooldown.', 'With the Necronomicon, your potions no longer have a cooldown.'],
 		goal: covengoal,
@@ -430,20 +445,22 @@ var roles = [
 
 	// NEUTRAL EVIL VANILLA
 	{
+		rolename: 'executioner',
+		alignment: 'neutral evil',
+		attack: 'None',
+		defense: 'Basic',
+		abilities: ['Trick the Town into lynching your target.'],
+		attributes: ['Your target can be any Townmember except a Jailor or Mayor.', 'If your target is killed at night you will become a Jester.'],
+		goal: 'Get your target lynched at any cost.',
+		color: '#CCCCCC',
+	},
+	{
 		rolename: 'jester',
 		alignment: 'neutral evil',
 		abilities: ['Trick the Town into voting against you.'],
 		attributes: ['If you are lynched you may kill one of your guilty or abstaining voters the following night.'],
 		goal: 'Get yourself lynched by any means necessary.',
 		color: '#e6b3d9',
-	},
-	{
-		rolename: 'executioner',
-		alignment: 'neutral evil',
-		abilities: ['Trick the Town into lynching your target.'],
-		attributes: ['Your target can be any Townmember except a Jailor or Mayor.', 'If your target is killed at night you will become a Jester.'],
-		goal: 'Get your target lynched at any cost.',
-		color: '#CCCCCC',
 	},
 	{
 		rolename: 'witch',
@@ -462,6 +479,8 @@ var roles = [
 	{
 		rolename: 'serial killer',
 		alignment: 'neutral killing',
+		attack: 'Basic',
+		defense: 'Basic',
 		abilities: ['You may choose to attack a player each night.'],
 		attributes: [
 			'If you are roleblocked you will attack the roleblocker in addition to your target (Escorts and Consorts only).',
@@ -474,6 +493,8 @@ var roles = [
 	{
 		rolename: 'arsonist',
 		alignment: 'neutral killing',
+		attack: 'Unstoppable',
+		defense: 'Basic',
 		abilities: ['You may Douse someone in gasoline or ignite Doused targets.'],
 		attributes: [
 			'Select yourself to ignite doused people dealing an Unstoppable attack.',
@@ -487,6 +508,8 @@ var roles = [
 	{
 		rolename: 'werewolf',
 		alignment: 'neutral killing',
+		attack: 'Powerful',
+		defense: 'Basic',
 		abilities: ['Transform into a Werewolf during the full moon.'],
 		attributes: ["You will Rampage at a player's house when you attack.", 'If you do not select a target you will stay home and Rampage at your home.'],
 		goal: 'Kill everyone who would oppose you.',
@@ -495,6 +518,8 @@ var roles = [
 	{
 		rolename: 'juggernaut',
 		alignment: 'neutral killing',
+		attack: 'Powerful',
+		defense: 'Basic',
 		abilities: ['You may choose to attack a player on Full-Moon nights.'],
 		attributes: [
 			'With each kill your powers grow.',
@@ -510,6 +535,7 @@ var roles = [
 	{
 		rolename: 'pirate',
 		alignment: 'neutral chaos',
+		attack: 'Powerful',
 		abilities: ['Choose a player to plunder each night.'],
 		attributes: ['When you plunder a player, you will duel the player for their valuables.', 'If the player defends against your attack, you get no loot.'],
 		goal: 'Successfully plunder two players.',
@@ -518,6 +544,8 @@ var roles = [
 	{
 		rolename: 'plaguebearer',
 		alignment: 'neutral chaos',
+		attack: 'None',
+		defense: 'Basic',
 		abilities: ['You may choose to infect a player with the Plague each night.'],
 		attributes: [
 			'Infected players spread the Plague on visiting or being visited.',
@@ -531,6 +559,8 @@ var roles = [
 	{
 		rolename: 'pestilence',
 		alignment: 'neutral chaos',
+		attack: 'Powerful',
+		defense: 'Invincible',
 		abilities: ["You may choose to Rampage at a player's house each night."],
 		attributes: [
 			'You will attack anyone that visits you or your target.',
@@ -545,6 +575,7 @@ var roles = [
 	{
 		rolename: 'vampire',
 		alignment: 'neutral chaos',
+		attack: 'Basic',
 		abilities: ['Convert others to Vampires at night.'],
 		attributes: [
 			'Vampires vote at night to bite a target.',
@@ -694,6 +725,7 @@ var roles = [
 	{
 		rolename: 'duelist',
 		alignment: 'town protective',
+		attack: 'Powerful',
 		abilities: ['Duel two people at night, or protect one person.'],
 		attributes: [
 			'Dueled players are added to the Duel list.',
@@ -799,6 +831,7 @@ var roles = [
 	{
 		rolename: 'hitman',
 		alignment: 'mafia killing',
+		attack: 'Basic',
 		abilities: ['You may attack someone on even-numbered nights.'],
 		attributes: [
 			'You will not know who the other Mafia are nor can you talk with them at night unless you are discovered.',
@@ -861,6 +894,7 @@ var roles = [
 	{
 		rolename: 'lapidarist',
 		alignment: 'coven evil',
+		attack: 'Basic',
 		abilities: ['You may crystallize someone at night, or spend a night to craft a crystal.'],
 		attributes: [
 			'You start with 2 Crystals.',
@@ -875,6 +909,7 @@ var roles = [
 	{
 		rolename: 'spellslinger',
 		alignment: 'coven evil',
+		attack: 'Basic',
 		abilities: ['Charm a player each night, forcing them to visit you that night.'],
 		attributes: [
 			'Players that visit you twice or that you charm twice are dealt a Basic attack to.',
@@ -888,6 +923,7 @@ var roles = [
 	{
 		rolename: 'ritualist',
 		alignment: 'coven evil',
+		attack: 'Basic',
 		abilities: ['You may curse two players every night.'],
 		attributes: [
 			'If a cursed player is lynched, you may deal a basic rampage attack against one player the following night.',
@@ -902,6 +938,7 @@ var roles = [
 	{
 		rolename: 'mystic',
 		alignment: 'coven evil',
+		attack: 'Powerful',
 		abilities: ['Place a Curse on a target during a Full Moon.'],
 		attributes: [
 			'Curses deal a Basic Attack to one visitor.',
@@ -1007,6 +1044,8 @@ var roles = [
 	{
 		rolename: 'naiad',
 		alignment: 'neutral killing',
+		attack: 'Powerful',
+		defense: 'Basic',
 		abilities: ['You may drown a player at night, dealing a Powerful attack to them.'],
 		attributes: [
 			'Their death will not be announced until their body is found by a visitor or they are voted up to the gallows.',
@@ -1035,6 +1074,8 @@ var roles = [
 	{
 		rolename: 'patient',
 		alignment: 'neutral killing',
+		attack: 'Powerful',
+		defense: 'Basic',
 		abilities: ['You may attack a player on every odd night.'],
 		attributes: [
 			'You will attack one random player that visits you at night.',
@@ -1051,6 +1092,8 @@ var roles = [
 	{
 		rolename: 'mortician',
 		alignment: 'neutral chaos',
+		attack: 'None',
+		defense: 'Basic',
 		abilities: ['You may mark two players every night for burial.'],
 		attributes: ['Marks last for two days.', 'If marked player is lynched and is a member of the Town, you will bury them and transform into Death, Horseman of the Apocalypse.'],
 		goal: 'Successfully bury one player and become Death.',
@@ -1060,6 +1103,8 @@ var roles = [
 	{
 		rolename: 'death',
 		alignment: 'neutral chaos',
+		attack: 'Powerful',
+		defense: 'Invincible',
 		abilities: ['You may kill players every night.'],
 		attributes: [
 			'On the night you transform, you will be able to kill one player.',
@@ -1073,6 +1118,8 @@ var roles = [
 	{
 		rolename: 'conqueror',
 		alignment: 'neutral chaos',
+		attack: 'Basic',
+		defense: 'Basic',
 		abilities: ['Each night, you may choose two players: one will be healed, one will be attacked.'],
 		attributes: ['You may not heal yourself.', 'You only win if every other faction is reduced to a single member. At least two other factions must survive.'],
 		goal: 'Successfully Conquer the Town.',
@@ -1082,6 +1129,8 @@ var roles = [
 	{
 		rolename: 'huntsman',
 		alignment: 'neutral chaos',
+		attack: 'Powerful',
+		defense: 'Basic',
 		abilities: ["Choose your prey during the day. Camp outside one player's house at night in an attempt to kill your prey."],
 		attributes: [
 			"You load your shotgun with bullets and camp outside another player's house; you will kill your prey if they visit that person.",
@@ -1111,6 +1160,7 @@ var roles = [
 	{
 		rolename: 'adze',
 		alignment: 'vampire killing',
+		attack: 'Basic',
 		abilities: ['You may choose a target to drain blood from at night.', 'You can mask your true identity upon killing.'],
 		attributes: ['Killing your target replaces your Investigator and Consigliere results with that of your drained target.', 'You can talk to the other Vampires at night.'],
 		goal: vampgoal,
@@ -1120,6 +1170,7 @@ var roles = [
 	{
 		rolename: 'bebarlang',
 		alignment: 'vampire killing',
+		attack: 'Basic',
 		abilities: ['You may choose a target to drain blood from at night.'],
 		attributes: ['You cannot go 2 nights without feasting, otherwise you die.', 'Your visits are Astral.', 'You can talk to the other Vampires at night.'],
 		goal: vampgoal,
@@ -1129,6 +1180,7 @@ var roles = [
 	{
 		rolename: 'lampir',
 		alignment: 'vampire killing',
+		attack: 'Basic',
 		abilities: ['You may choose a target to drain blood from at night.'],
 		attributes: ['If you are roleblocked you will attack your roleblocker instead of your original target. Their Last Will will be unreadable.',
 					 'You can talk to the other Vampires at night.'],
@@ -1139,6 +1191,7 @@ var roles = [
 	{
 		rolename: 'catacano',
 		alignment: 'vampire conversion',
+		attack: 'Basic',
 		abilities: ['You may infect a player at night.'],
 		attributes: [
 			'You may only infect someone on an Odd night.',
@@ -1153,6 +1206,7 @@ var roles = [
 	{
 		rolename: 'progeny',
 		alignment: 'vampire conversion',
+		attack: 'Basic',
 		abilities: ["Carry out the Catacano's orders."],
 		attributes: [
 			"The youngest Progeny will carry out the Catacano's order.",
@@ -1363,10 +1417,10 @@ function getAbilities(num) {
 	return str + '</div>';
 }
 function getAttack(num) {
-    return roles[num].attack || 'none';
+    return roles[num].attack || 'None';
 }
 function getDefense(num) {
-    return roles[num].defense || 'none';
+    return roles[num].defense || 'None';
 }
 function format(str) {
 	var color;
@@ -1503,7 +1557,7 @@ module.exports = {
 			var abi = "<div class='abilities' style='color:" + hilitecolor + ";'><b>Abilities: </b></div>" + getAbilities(num);
 			var att = "<div class='abilities' style='color:" + hilitecolor + ";'><b>Attributes: </b></div>" + getAttributes(num);
 			var goal = "<span class='goal'><div style='color:" + hilitecolor + "'><b>Goal</b>: </div>" + roles[num].goal + '</span>';
-			output = "<div class='rolecard'>" + format(name) + al + '<br>' + atk + def + '<br>' + abi + '<br>' + att + '<br>' + goal + '</div>';
+			output = "<div class='rolecard'>" + format(name) + al + '<br>' + atk + '<br>' + def + '<br>' + abi + att + '<br>' + goal + '</div>';
 			//Add invest and consig results if they are available
 			//if (results.investResult) {
 				//var container = '<div class="investresultcontainer">';
