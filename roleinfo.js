@@ -1513,7 +1513,7 @@ module.exports = {
 			var abi = "<div class='abilities' style='color:" + hilitecolor + ";'><b>Abilities: </b></div>" + getAbilities(num);
 			var att = "<div class='abilities' style='color:" + hilitecolor + ";'><b>Attributes: </b></div>" + getAttributes(num);
 			var goal = "<span class='goal'><div style='color:" + hilitecolor + "'><b>Goal</b>: </div>" + roles[num].goal + '</span>';
-			output = "<div class='rolecard'>" + format(name) + al + '<br>' + atk + def + '<br>' abi + '<br>' + att + '<br>' + goal + '</div>';
+			output = "<div class='rolecard'>" + format(name) + al + '<br>' + atk + def + '<br>' + '<br>' + abi + '<br>' + att + '<br>' + goal + '</div>';
 			//Add invest and consig results if they are available
 			//if (results.investResult) {
 				//var container = '<div class="investresultcontainer">';
