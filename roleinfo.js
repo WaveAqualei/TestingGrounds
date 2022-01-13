@@ -1491,13 +1491,13 @@ module.exports = {
 			if (num == -1) {
 				return "Role '" + name + "' not found!";
 			}
-			var att = "<span class='attack' style='color:" + hilitecolor + "'><b>Attack</b>: </span>" + module.exports.formatAlignment(roles[num].alignment);
-			var def = "<span class='defense' style='color:" + hilitecolor + "'><b>Defense</b>: </span>" + module.exports.formatAlignment(roles[num].alignment);
 			var al = "<span class='aligntext' style='color:" + hilitecolor + "'><b>Alignment</b>: </span>" + module.exports.formatAlignment(roles[num].alignment);
+			var atk = "<span class='attack' style='color:" + hilitecolor + "'><b>Attack</b>: </span>" + module.exports.formatAlignment(roles[num].alignment);
+			var def = "<span class='defense' style='color:" + hilitecolor + "'><b>Defense</b>: </span>" + module.exports.formatAlignment(roles[num].alignment);
 			var abi = "<div class='abilities' style='color:" + hilitecolor + ";'><b>Abilities: </b></div>" + getAbilities(num);
 			var att = "<div class='abilities' style='color:" + hilitecolor + ";'><b>Attributes: </b></div>" + getAttributes(num);
 			var goal = "<span class='goal'><div style='color:" + hilitecolor + "'><b>Goal</b>: </div>" + roles[num].goal + '</span>';
-			output = "<div class='rolecard'>" + format(name) + al + '<br>' + abi + '<br>' + att + '<br>' + goal + '</div>';
+			output = "<div class='rolecard'>" + format(name) + al + '<br>' + '<br>' + atk + def + '<br>' abi + '<br>' + att + '<br>' + goal + '</div>';
 			//Add invest and consig results if they are available
 			//if (results.investResult) {
 				//var container = '<div class="investresultcontainer">';
