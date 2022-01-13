@@ -744,7 +744,6 @@ io.on('connection', function (socket) {
 	});
 
 	socket.on(Type.MSG, function (msg) {
-		msg = sanitize(msg);
 		if (msg.length > 256) {
 			socket.emit(Type.SYSTEM, 'Your message was too long.');
 		} else if (msg.trim() == '') {
@@ -1899,7 +1898,7 @@ function Player(socket, name, ip) {
 					}
 					trialCheck(player);
 				} else {
-					socket.emit(Type.SYSTEM, '"' + name + '" is not a valid player.');
+					socket.emit(Type.SYSTEM, '"' + sanitize(name) + '" is not a valid player.');
 				}
 			}
 		},
@@ -1937,6 +1936,7 @@ function Player(socket, name, ip) {
 									var msg = c.slice();
 									msg.splice(0, 2);
 									msg = msg.join(' ');
+									msg = sanitize(msg);
 									this.whisper(msg, players[playernames[c[1]]]);
 								} else if (!isNaN(c[1])) {
 									//It's a number.
@@ -1947,12 +1947,13 @@ function Player(socket, name, ip) {
 										var msg = c.slice();
 										msg.splice(0, 2);
 										msg = msg.join(' ');
+										msg = sanitize(msg);
 										this.whisper(msg, target);
 									} else {
-										this.s.emit(Type.SYSTEM, 'Could not find player number ' + c[1] + '!');
+										this.s.emit(Type.SYSTEM, 'Could not find player number ' + sanitize(c[1]) + '!');
 									}
 								} else {
-									this.s.emit(Type.SYSTEM, "'" + c[1] + "' is not a valid player.");
+									this.s.emit(Type.SYSTEM, "'" + sanitize(c[1]) + "' is not a valid player.");
 								}
 							} else {
 								this.s.emit(Type.SYSTEM, "The syntax of this command is '/w name message'.");
@@ -2009,10 +2010,10 @@ function Player(socket, name, ip) {
 											if (target != -1) {
 												seance(this, target);
 											} else {
-												this.s.emit(Type.SYSTEM, 'Could not find player number ' + c[1] + '!');
+												this.s.emit(Type.SYSTEM, 'Could not find player number ' + sanitize(c[1]) + '!');
 											}
 										} else {
-											this.s.emit(Type.SYSTEM, c[1] + ' is not a valid player.');
+											this.s.emit(Type.SYSTEM, sanitize(c[1]) + ' is not a valid player.');
 										}
 									} else {
 										this.s.emit(Type.SYSTEM, 'You have 0 seances left.');
@@ -2036,9 +2037,9 @@ function Player(socket, name, ip) {
 							if (playernames[c[1]]) {
 								players[playernames[c[1]]].cleaned = !players[playernames[c[1]]].cleaned;
 								if (players[playernames[c[1]]].cleaned) {
-									this.s.emit(Type.SYSTEM, c[1] + "'s Last Will will no longer show upon death.");
+									this.s.emit(Type.SYSTEM, sanitize(c[1]) + "'s Last Will will no longer show upon death.");
 								} else {
-									this.s.emit(Type.SYSTEM, c[1] + "'s Last Will will show upon death.");
+									this.s.emit(Type.SYSTEM, sanitize(c[1]) + "'s Last Will will show upon death.");
 								}
 							} else if (!isNaN(c[1])) {
 								//Get the numbered player.
@@ -2051,10 +2052,10 @@ function Player(socket, name, ip) {
 										this.s.emit(Type.SYSTEM, target.name + "'s Last Will will show upon death.");
 									}
 								} else {
-									this.s.emit(Type.SYSTEM, 'Could not find player number ' + c[1] + '!');
+									this.s.emit(Type.SYSTEM, 'Could not find player number ' + sanitize(c[1]) + '!');
 								}
 							} else {
-								this.s.emit(Type.SYSTEM, c[1] + ' is not a valid player.');
+								this.s.emit(Type.SYSTEM, sanitize(c[1]) + ' is not a valid player.');
 							}
 						} else {
 							this.s.emit(Type.SYSTEM, 'The syntax of this command is /clean [name/number]');
@@ -2157,10 +2158,10 @@ function Player(socket, name, ip) {
 										this.s.emit(Type.SYSTEM, 'You are already the mod.');
 									}
 								} else {
-									this.s.emit(Type.SYSTEM, 'Could not find player number ' + c[1] + '!');
+									this.s.emit(Type.SYSTEM, 'Could not find player number ' + sanitize(c[1]) + '!');
 								}
 							} else {
-								this.s.emit(Type.SYSTEM, "'" + c[1] + "' is not a valid player.");
+								this.s.emit(Type.SYSTEM, "'" + sanitize(c[1]) + "' is not a valid player.");
 							}
 						}
 					} else {
@@ -2176,6 +2177,7 @@ function Player(socket, name, ip) {
 						var msg = c.slice();
 						msg.splice(0, 1);
 						msg = msg.join(' ');
+						msg = sanitize(msg);
 						players[mod].s.emit(Type.MOD, { from: this.name, msg: msg });
 						this.s.emit(Type.MOD, { to: 'Mod', msg: msg });
 					}
@@ -2187,9 +2189,9 @@ function Player(socket, name, ip) {
 						} else {
 							if (playernames[c[1]]) {
 								if (!players[playernames[c[1]]].silenced) {
-									this.s.emit(Type.SYSTEM, c[1] + ' is not silenced.');
+									this.s.emit(Type.SYSTEM, sanitize(c[1]) + ' is not silenced.');
 								} else {
-									io.emit(Type.HIGHLIGHT, c[1] + ' is now unsilenced.');
+									io.emit(Type.HIGHLIGHT, sanitize(c[1]) + ' is now unsilenced.');
 									players[playernames[c[1]]].silenced = undefined;
 								}
 							} else if (!isNaN(c[1])) {
@@ -2204,10 +2206,10 @@ function Player(socket, name, ip) {
 										target.silenced = undefined;
 									}
 								} else {
-									this.s.emit(Type.SYSTEM, 'Could not find player number ' + c[1] + '!');
+									this.s.emit(Type.SYSTEM, 'Could not find player number ' + sanitize(c[1]) + '!');
 								}
 							} else {
-								this.s.emit(Type.SYSTEM, 'Could not find player ' + c[1] + '!');
+								this.s.emit(Type.SYSTEM, 'Could not find player ' + sanitize(c[1]) + '!');
 							}
 						}
 					} else {
@@ -2227,10 +2229,10 @@ function Player(socket, name, ip) {
 									if (c[2]) {
 										players[playernames[c[1]]].silenced += '/' + c.slice(2, c.length).join(' ');
 									}
-									this.s.emit(Type.SYSTEM, 'You have silenced ' + c[1] + ' for the phase. You can use /unsilence to unsilence them early.');
+									this.s.emit(Type.SYSTEM, 'You have silenced ' + sanitize(c[1]) + ' for the phase. You can use /unsilence to unsilence them early.');
 									var msg = players[playernames[c[1]]].name + ' was silenced for this phase by ' + this.name + '.';
 									if (c[2]) {
-										msg += ' Reason: ' + c.slice(2, c.length).join(' ');
+										msg += ' Reason: ' + sanitize(c.slice(2, c.length).join(' '));
 									}
 									io.emit(Type.HIGHLIGHT, msg);
 								}
@@ -2249,15 +2251,15 @@ function Player(socket, name, ip) {
 										this.s.emit(Type.SYSTEM, 'You have silenced ' + target.name + ' for the phase. You can use /unsilence to unsilence them early.');
 										var msg = target.name + ' was silenced for the phase by ' + this.name + '.';
 										if (c[2]) {
-											msg += ' Reason: ' + c.slice(2, c.length).join(' ');
+											msg += ' Reason: ' + sanitize(c.slice(2, c.length).join(' '));
 										}
 										io.emit(Type.HIGHLIGHT, msg);
 									}
 								} else {
-									this.s.emit(Type.SYSTEM, 'Could not find player number ' + c[1] + '!');
+									this.s.emit(Type.SYSTEM, 'Could not find player number ' + sanitize(c[1]) + '!');
 								}
 							} else {
-								this.s.emit(Type.SYSTEM, 'Could not find player ' + c[1] + '!');
+								this.s.emit(Type.SYSTEM, 'Could not find player ' + sanitize(c[1]) + '!');
 							}
 						}
 					} else {
@@ -2316,7 +2318,7 @@ function Player(socket, name, ip) {
 									} else if (c[2] == 'innocent' || c[2] == 'inno' || c[2] == 'i') {
 										p.castVerdict(true, true);
 									} else {
-										this.s.emit(Type.SYSTEM, "'" + c[2] + "' is not a valid option.");
+										this.s.emit(Type.SYSTEM, "'" + sanitize(c[2]) + "' is not a valid option.");
 										error = true;
 									}
 								}
@@ -2334,7 +2336,7 @@ function Player(socket, name, ip) {
 					if (mod == this.s.id) {
 						if (c.length == 2) {
 							var error = false;
-							var one = c[1];
+							var one = sanitize(c[1]);
 							if (!isNaN(one)) {
 								p = getPlayerByNumber(one);
 								if (p == -1) {
@@ -2366,7 +2368,7 @@ function Player(socket, name, ip) {
 					if (mod == this.s.id) {
 						if (c.length == 2) {
 							var error = false;
-							var one = c[1];
+							var one = sanitize(c[1]);
 							if (!isNaN(one)) {
 								p = getPlayerByNumber(one);
 								if (p == -1) {
@@ -2402,7 +2404,7 @@ function Player(socket, name, ip) {
 					if (mod == this.s.id) {
 						if (c.length == 2) {
 							var error = false;
-							var one = c[1];
+							var one = sanitize(c[1]);
 							if (!isNaN(one)) {
 								p = getPlayerByNumber(one);
 								if (p == -1) {
@@ -2439,8 +2441,8 @@ function Player(socket, name, ip) {
 						if (phase == Phase.VOTING) {
 							if (c.length == 3) {
 								var error = false;
-								var one = c[1];
-								var two = c[2];
+								var one = sanitize(c[1]);
+								var two = sanitize(c[2]);
 								if (!isNaN(one)) {
 									p = getPlayerByNumber(one);
 									if (p == -1) {
@@ -2574,7 +2576,7 @@ function Player(socket, name, ip) {
 												break;
 											}
 										} else {
-											this.s.emit(Type.SYSTEM, 'Invalid player: ' + args[i]);
+											this.s.emit(Type.SYSTEM, 'Invalid player: ' + sanitize(args[i]));
 											error = true;
 											break;
 										}
@@ -2643,7 +2645,7 @@ function Player(socket, name, ip) {
 												break;
 											}
 										} else {
-											this.s.emit(Type.SYSTEM, 'Invalid player: ' + args[i]);
+											this.s.emit(Type.SYSTEM, 'Invalid player: ' + sanitize(args[i]));
 											error = true;
 											break;
 										}
@@ -2711,6 +2713,7 @@ function Player(socket, name, ip) {
 							var msg = c.slice();
 							msg.splice(0, 1);
 							msg = msg.join(' ');
+							msg = sanitize(msg);
 							io.emit(Type.ME, this.name, msg);
 						}
 					} else {
@@ -2722,7 +2725,7 @@ function Player(socket, name, ip) {
 						this.silencedError();
 					} else if (phase == Phase.PREGAME) {
 						if (c.length == 2) {
-							var str = c[1];
+							var str = sanitize(c[1]);
 							if (isNaN(str)) {
 								if (str.toLowerCase() == 'everyone') {
 									var p = { name: str + '!' };
@@ -2738,7 +2741,7 @@ function Player(socket, name, ip) {
 									io.emit(Type.SYSTEM, 'Is someone feeling lonely?');
 								}
 							} else {
-								this.s.emit(Type.SYSTEM, 'Invalid selection: ' + c[1]);
+								this.s.emit(Type.SYSTEM, 'Invalid selection: ' + str);
 							}
 						} else {
 							this.s.emit(Type.SYSTEM, 'The syntax of this command is /hug name.');
@@ -2781,7 +2784,7 @@ function Player(socket, name, ip) {
 							}
 							this.s.emit(Type.ROLECARD, roles.getRoleCard(rolename, results));
 						} else {
-							this.s.emit(Type.SYSTEM, "'" + rolename + "' could not be found.");
+							this.s.emit(Type.SYSTEM, "'" + sanitize(rolename) + "' could not be found.");
 						}
 					}
 					break;
@@ -2891,25 +2894,25 @@ function Player(socket, name, ip) {
 				case 'ban':
 					if (c.length > 2) {
 						if (this.dev) {
-							var first = c[1];
-							var reason = c[2];
+							var first = sanitize(c[1]);
+							var reason = sanitize(c.slice(2).join(' '));
 							if (!isNaN(first[0])) {
 								//Ip
 								//Check if the ip is formatted correctly.
 								if (/\d+\.\d+\.\d+\.\d+/.test(c[1])) {
-									ban(c[1], c.slice(2, c.length).join(' '), this.name);
-									this.s.emit(Type.SYSTEM, 'You banned the ip: ' + c[1] + '. Reason: ' + c.slice(2, c.length).join(' '));
+									ban(c[1], reason, this.name);
+									this.s.emit(Type.SYSTEM, 'You banned the ip: ' + first + '. Reason: ' + reason);
 								} else {
-									this.s.emit(Type.SYSTEM, 'The argument ' + c[1] + ' was not recognized as an ip.');
+									this.s.emit(Type.SYSTEM, 'The argument ' + first + ' was not recognized as an ip.');
 								}
 							} //name
 							else {
 								if (playernames[c[1]]) {
 									var ip = getPlayerByName(c[1]).ip;
-									kick(c[1], c.slice(2, c.length).join(' '), this.name);
-									ban(ip, c.slice(2, c.length).join(' '), this.name);
+									kick(c[1], reason, this.name);
+									ban(ip, reason, this.name);
 								} else {
-									this.s.emit(Type.SYSTEM, "The name '" + c[1] + "' could not be found.");
+									this.s.emit(Type.SYSTEM, "The name '" + first + "' could not be found.");
 								}
 							}
 						} else {
@@ -2922,12 +2925,13 @@ function Player(socket, name, ip) {
 				case 'kick':
 					if (c.length >= 2) {
 						if (this.dev) {
-							var name = c[1];
+							var name = sanitize(c[1]);
+							var reason = sanitize(c.slice(2).join(' '));
 							var tokick = getPlayerByName(name);
 							if (!isNaN(name)) {
 								this.s.emit(Type.SYSTEM, 'Please use the name of the player you wish to kick, not the number. This is to ensure no players are kicked accidentally.');
 							} else if (tokick) {
-								kick(name, c.slice(2, c.length).join(' '), this.name);
+								kick(name, reason, this.name);
 							} else {
 								this.s.emit(Type.SYSTEM, "'" + name + "' is not a valid player.");
 							}
@@ -2949,7 +2953,7 @@ function Player(socket, name, ip) {
 									player.s.emit(Type.SYSTEM, 'ALERT!');
 									this.s.emit(Type.SYSTEM, 'You sent an alert to ' + player.name + '.');
 								} else {
-									this.s.emit(Type.SYSTEM, "Cannot find player '" + c[1] + "'");
+									this.s.emit(Type.SYSTEM, "Cannot find player '" + sanitize(c[1]) + "'");
 								}
 							} else if (parseInt(c[1]) >= 0 && parseInt(c[1]) < Object.keys(players).length) {
 								//Number
@@ -2958,7 +2962,7 @@ function Player(socket, name, ip) {
 								player.s.emit(Type.SYSTEM, 'ALERT!');
 								this.s.emit(Type.SYSTEM, 'You sent an alert to ' + player.name + '.');
 							} else {
-								this.s.emit(Type.SYSTEM, 'Cannot find user number ' + c[1] + '.');
+								this.s.emit(Type.SYSTEM, 'Cannot find user number ' + sanitize(c[1]) + '.');
 							}
 						} else {
 							this.s.emit(Type.SYSTEM, 'You do not have the correct permissions to use this command.');
@@ -2986,6 +2990,7 @@ function Player(socket, name, ip) {
 								var msg = c.slice();
 								msg.splice(0, 2);
 								msg = msg.join(' ');
+								msg = sanitize(msg);
 								players[playernames[c[1]]].s.emit(Type.MOD, { from: 'Mod', msg: msg });
 								this.s.emit(Type.MOD, { to: c[1], msg: msg });
 							} else if (!isNaN(c[1])) {
@@ -2997,13 +3002,14 @@ function Player(socket, name, ip) {
 									var msg = c.slice();
 									msg.splice(0, 2);
 									msg = msg.join(' ');
+									msg = sanitize(msg);
 									target.s.emit(Type.MOD, { from: 'Mod', msg: msg });
 									this.s.emit(Type.MOD, { to: name, msg: msg });
 								} else {
 									this.s.emit(Type.SYSTEM, 'Could not find player number ' + c[1] + '!');
 								}
 							} else {
-								this.s.emit(Type.SYSTEM, "'" + c[1] + "' is not a valid player.");
+								this.s.emit(Type.SYSTEM, "'" + sanitize(c[1]) + "' is not a valid player.");
 							}
 						} else {
 							this.s.emit(Type.SYSTEM, "The syntax of this command is '/msg name message'.");
@@ -3021,6 +3027,7 @@ function Player(socket, name, ip) {
 								var msg = c.slice();
 								msg.splice(0, 2);
 								msg = msg.join(' ');
+								msg = sanitize(msg);
 								players[playernames[c[1]]].s.emit(Type.SYSTEM, msg);
 								this.s.emit(Type.SYSSENT, c[1], msg);
 							} else if (!isNaN(c[1])) {
@@ -3032,13 +3039,14 @@ function Player(socket, name, ip) {
 									var msg = c.slice();
 									msg.splice(0, 2);
 									msg = msg.join(' ');
+									msg = sanitize(msg);
 									target.s.emit(Type.SYSTEM, msg);
 									this.s.emit(Type.SYSSENT, c[1], msg);
 								} else {
-									this.s.emit(Type.SYSTEM, 'Could not find player number ' + c[1] + '!');
+									this.s.emit(Type.SYSTEM, 'Could not find player number ' + sanitize(c[1]) + '!');
 								}
 							} else {
-								socket.emit(Type.SYSTEM, "'" + c[1] + "' is not a valid player.");
+								socket.emit(Type.SYSTEM, "'" + sanitize(c[1]) + "' is not a valid player.");
 							}
 						} else {
 							socket.emit(Type.SYSTEM, "The syntax of this command is '/system name message'.");
@@ -3166,13 +3174,14 @@ function Player(socket, name, ip) {
 			if (this.silenced.indexOf('/') != -1) {
 				details = this.silenced.split('/');
 			}
-			var msg = 'You have been silenced by ' + details[0] + '.';
+			var msg = 'You have been silenced by ' + sanitize(details[0]) + '.';
 			if (details[1]) {
-				msg += ' Reason: ' + details[1];
+				msg += ' Reason: ' + sanitize(details[1]);
 			}
 			this.s.emit(Type.SYSTEM, msg);
 		},
 		message: function (msg) {
+			msg = sanitize(msg);
 			switch (phase) {
 				case Phase.PREGAME:
 					if (this.silenced) {
