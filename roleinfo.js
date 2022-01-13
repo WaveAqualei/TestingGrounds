@@ -1364,7 +1364,7 @@ function getAbilities(num) {
 }
 function getAttack(num) {
 	var str = '<br><div>';
-	var arr = roles[num].abilities;
+	var arr = roles[num].attack;
 	for (var i = 0; i < arr.length; i++) {
 		str += "<span id='attack'>-" + arr[i] + '</span><br>';
 	}
@@ -1372,7 +1372,7 @@ function getAttack(num) {
 }
 function getDefense(num) {
 	var str = '<br><div>';
-	var arr = roles[num].abilities;
+	var arr = roles[num].defense;
 	for (var i = 0; i < arr.length; i++) {
 		str += "<span id='defense'>-" + arr[i] + '</span><br>';
 	}
@@ -1513,7 +1513,7 @@ module.exports = {
 			var abi = "<div class='abilities' style='color:" + hilitecolor + ";'><b>Abilities: </b></div>" + getAbilities(num);
 			var att = "<div class='abilities' style='color:" + hilitecolor + ";'><b>Attributes: </b></div>" + getAttributes(num);
 			var goal = "<span class='goal'><div style='color:" + hilitecolor + "'><b>Goal</b>: </div>" + roles[num].goal + '</span>';
-			output = "<div class='rolecard'>" + format(name) + al + '<br>' + atk + def + '<br>' + '<br>' + abi + '<br>' + att + '<br>' + goal + '</div>';
+			output = "<div class='rolecard'>" + format(name) + al + '<br>' + atk + def + '<br>' + abi + '<br>' + att + '<br>' + goal + '</div>';
 			//Add invest and consig results if they are available
 			//if (results.investResult) {
 				//var container = '<div class="investresultcontainer">';
