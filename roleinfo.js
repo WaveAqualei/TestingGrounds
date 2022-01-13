@@ -1362,6 +1362,22 @@ function getAbilities(num) {
 	}
 	return str + '</div>';
 }
+function getAttack(num) {
+	var str = '<br><div>';
+	var arr = roles[num].abilities;
+	for (var i = 0; i < arr.length; i++) {
+		str += "<span id='attack'>-" + arr[i] + '</span><br>';
+	}
+	return str + '</div>';
+}
+function getDefense(num) {
+	var str = '<br><div>';
+	var arr = roles[num].abilities;
+	for (var i = 0; i < arr.length; i++) {
+		str += "<span id='defense'>-" + arr[i] + '</span><br>';
+	}
+	return str + '</div>';
+}
 function format(str) {
 	var color;
 	for (i = 0; i < roles.length; i++) {
@@ -1492,12 +1508,12 @@ module.exports = {
 				return "Role '" + name + "' not found!";
 			}
 			var al = "<span class='aligntext' style='color:" + hilitecolor + "'><b>Alignment</b>: </span>" + module.exports.formatAlignment(roles[num].alignment);
-			var atk = "<span class='attack' style='color:" + hilitecolor + "'><b>Attack</b>: </span>" + module.exports.formatAlignment(roles[num].alignment);
-			var def = "<span class='defense' style='color:" + hilitecolor + "'><b>Defense</b>: </span>" + module.exports.formatAlignment(roles[num].alignment);
+			var atk = "<span class='attack' style='color:" + hilitecolor + "'><b>Attack</b>: </span>" + getAttack(num);
+			var def = "<span class='defense' style='color:" + hilitecolor + "'><b>Defense</b>: </span>" + getDefense(num);
 			var abi = "<div class='abilities' style='color:" + hilitecolor + ";'><b>Abilities: </b></div>" + getAbilities(num);
 			var att = "<div class='abilities' style='color:" + hilitecolor + ";'><b>Attributes: </b></div>" + getAttributes(num);
 			var goal = "<span class='goal'><div style='color:" + hilitecolor + "'><b>Goal</b>: </div>" + roles[num].goal + '</span>';
-			output = "<div class='rolecard'>" + format(name) + al + '<br>' + '<br>' + atk + def + '<br>' abi + '<br>' + att + '<br>' + goal + '</div>';
+			output = "<div class='rolecard'>" + format(name) + al + '<br>' + atk + def + '<br>' abi + '<br>' + att + '<br>' + goal + '</div>';
 			//Add invest and consig results if they are available
 			//if (results.investResult) {
 				//var container = '<div class="investresultcontainer">';
