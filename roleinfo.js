@@ -224,7 +224,7 @@ var roles = [
 		rolename: 'mafioso',
 		alignment: 'mafia killing',
 		attack: 'basic',
-		defense 'none',
+		defense: 'none',
 		abilities: ["Carry out the Godfather's orders."],
 		attributes: ["You can attack if the Godfather doesn't give you orders.", 'If the Godfather dies you will become the next Godfather.', 'You can talk with the other Mafia at night.'],
 		goal: mafiagoal,
