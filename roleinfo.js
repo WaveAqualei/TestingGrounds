@@ -785,7 +785,7 @@ var roles = [
 		abilities: ['You may use one of your three devices at night.'],
 		attributes: [
 			'Sabotage will affect certain roles\' abilities. You may not Sabotage the same player twice.',
-			'Smoke Grenades take one night to build; they obsure information to their targets and visitors.',
+			'Gas Grenades take one night to build; they obscure information to their targets and visitors.',
 			'Tapping a player gives you all notifications they get that night.',
 		],
 		goal: mafiagoal,
@@ -1353,7 +1353,7 @@ var roles = [
 	},
 	{
 		rolename: 'afk',
-		alignment: 'neutral trueEvil',
+		alignment: 'neutral casual',
 		abilities: ['Die before the game has started.'],
 		attributes: ['You have lost automatically.'],
 		goal: 'None.',
@@ -1552,8 +1552,8 @@ module.exports = {
 				return "Role '" + name + "' not found!";
 			}
 			var al = "<span class='aligntext' style='color:" + hilitecolor + "'><b>Alignment</b>: </span>" + module.exports.formatAlignment(roles[num].alignment);
-			var atk = "<span class='attack' style='color:" + hilitecolor + "'><b>Attack</b>: </span>" + getAttack(num);
-			var def = "<span class='defense' style='color:" + hilitecolor + "'><b>Defense</b>: </span>" + getDefense(num);
+			var atk = "<span class='attack' style='color:" + randcolor + "'><b>Attack</b>: </span>" + getAttack(num);
+			var def = "<span class='defense' style='color:" + randcolor + "'><b>Defense</b>: </span>" + getDefense(num);
 			var abi = "<div class='abilities' style='color:" + hilitecolor + ";'><b>Abilities: </b></div>" + getAbilities(num);
 			var att = "<div class='abilities' style='color:" + hilitecolor + ";'><b>Attributes: </b></div>" + getAttributes(num);
 			var goal = "<span class='goal'><div style='color:" + hilitecolor + "'><b>Goal</b>: </div>" + roles[num].goal + '</span>';
