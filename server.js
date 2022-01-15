@@ -36,6 +36,7 @@ var commandList = {
 	},
 	mod: {
 		givemod: 'Pass the mod onto another person. Usage: /givemod name',
+		a: 'Send a public message to everyone (outside of Pregame). Usage: /a message',
 		disguise: 'Disguise one player as another. Usage: /disguise playerone playertwo',
 		random: 'Choose a random player. Usage: /random',
 		roll: 'Roll a dice. Usage /roll or /roll sides',
