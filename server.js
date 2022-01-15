@@ -2982,6 +2982,20 @@ function Player(socket, name, ip) {
 						this.s.emit(Type.LATENCIES, this.ping);
 					}
 					break;
+				case 'a':
+					if (mod == this.s.id) {
+						if (c.length > 1) {
+							var msg = c.slice(1);
+							msg = msg.join(' ');
+							msg = sanitize(msg);
+							io.emit(Type.HIGHLIGHT, msg, 'modchat');
+						} else {
+							this.s.emit(Type.SYSTEM, "The syntax of this command is '/a message'.");
+						}
+					} else {
+						this.s.emit(Type.SYSTEM, "Only the mod can use this command.");
+					}
+					break;
 				case 'msg':
 					if (mod == this.s.id) {
 						if (c.length > 2) {
@@ -3194,7 +3208,7 @@ function Player(socket, name, ip) {
 					if (this.silenced) {
 						this.silencedError();
 					} else if (mod == this.s.id) {
-						io.emit(Type.HIGHLIGHT, msg, 'modchat');
+						this.s.emit(Type.SYSTEM, 'Use /a if you want to send a public message as mod');
 					} else if (this.spectate) {
 						this.specMessage(msg, { spectate: true });
 					} else {
@@ -3208,7 +3222,7 @@ function Player(socket, name, ip) {
 					if (this.silenced) {
 						this.silencedError();
 					} else if (mod == this.s.id) {
-						io.emit(Type.HIGHLIGHT, msg, 'modchat');
+						this.s.emit(Type.SYSTEM, 'Use /a if you want to send a public message as mod');
 					} else if (this.spectate) {
 						this.specMessage(msg, { spectate: true });
 					} else if (this.alive) {
@@ -3226,7 +3240,7 @@ function Player(socket, name, ip) {
 					if (this.silenced) {
 						this.silencedError();
 					} else if (mod == this.s.id) {
-						io.emit(Type.HIGHLIGHT, msg, 'modchat');
+						this.s.emit(Type.SYSTEM, 'Use /a if you want to send a public message as mod');
 					} else if (this.spectate) {
 						this.specMessage(msg, { spectate: true });
 					} else if (this.alive) {
@@ -3248,7 +3262,7 @@ function Player(socket, name, ip) {
 						this.silencedError();
 					} else if (this.alive && !this.spectate) {
 						if (mod == this.s.id) {
-							io.emit(Type.HIGHLIGHT, msg, 'modchat');
+							this.s.emit(Type.SYSTEM, 'Use /a if you want to send a public message as mod');
 						} else if (this.chats.jailed) {
 							this.specMessage(msg, { jailor: true, jailed: true }, null, 'jailed');
 						} else if (this.chats.mafia || this.chats.coven || this.chats.jailor || this.chats.medium) {
@@ -3305,7 +3319,7 @@ function Player(socket, name, ip) {
 					if (this.silenced) {
 						this.silencedError();
 					} else if (mod == this.s.id) {
-						io.emit(Type.HIGHLIGHT, msg, 'modchat');
+						this.s.emit(Type.SYSTEM, 'Use /a if you want to send a public message as mod');
 					} else if (this.spectate) {
 						this.specMessage(msg, { spectate: true });
 					} else {
@@ -3316,7 +3330,7 @@ function Player(socket, name, ip) {
 					if (this.silenced) {
 						this.silencedError();
 					} else if (mod == this.s.id) {
-						io.emit(Type.HIGHLIGHT, msg, 'modchat');
+						this.s.emit(Type.SYSTEM, 'Use /a if you want to send a public message as mod');
 					} else if (this.spectate) {
 						this.specMessage(msg, { spectate: true });
 					} else if (!this.alive) {
