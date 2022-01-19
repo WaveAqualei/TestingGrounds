@@ -445,19 +445,35 @@ addSocketListener(Type.JOIN,function(name)
 		num='MOD';
 		//Player is first. They are mod.
 		mod=true;
-		//Add in a rolelist button
-		var rlbutton = $('<div id="rolelistbutton"></div>');
-		rlbutton.click(function()
+		//Add in a rolelist button if it is does not already exist
+		if ($('#rolelistbutton').length == 0)
 		{
-			openRolelist();
-		});
-		//Add in an automod settings button
-		var ambutton = $('<div id="automodsettingsbutton"></div>');
-		ambutton.click(function()
+			var rlbutton = $('<div id="rolelistbutton"></div>');
+			rlbutton.click(function()
+			{
+				openRolelist();
+			});
+			$('#inputarea').append(rlbutton);
+		}
+		//Add in an automod settings button if it doesn't exist
+		if ($('#automodsettingsbutton').length == 0)
 		{
-			autoModSettings();
-		});
+			var ambutton = $('<div id="automodsettingsbutton"></div>');
+			ambutton.click(function()
+			{
+				autoModSettings();
+			});
+			$('#inputarea').append(ambutton);
+		}
 		addModControls();
+	}
+	else
+	{
+		//Not first, so not mod.
+		mod=false;
+		//Delete the mod buttons in case this is a reconnect from previously being mod
+		$('#rolelistbutton').remove();
+		$('#automodsettingsbutton').remove();
 	}
 	//Top row, normal users.
 	var li = $('<li></li>');
@@ -469,8 +485,6 @@ addSocketListener(Type.JOIN,function(name)
 	//Bottom row
 	if (mod)
 	{
-		$('#inputarea').append(rlbutton);
-		$('#inputarea').append(ambutton);
 		//Addition to the top row
 		var kill = $('<div class="controlbutton killbutton"><span>Kill</span></div>');
 		kill.click(function()
