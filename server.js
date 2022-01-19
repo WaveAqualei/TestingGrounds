@@ -551,7 +551,7 @@ io.on('connection', function (socket, req) {
 	}
 
 	var ip = getIpReq(req);
-	addSocketListener(Type.JOIN, function(connecting_as_name) {
+	addSocketListener(Type.JOIN, function(connecting_as_name, simple_resume) {
 		var banned = false;
 		var reason = '';
 		for (i in banlist) {
@@ -602,7 +602,7 @@ io.on('connection', function (socket, req) {
 
 				socket.sendMessage(Type.ACCEPT);
 
-				if(!players[socket.id].visibly_disconnected) {
+				if(simple_resume && !players[socket.id].visibly_disconnected) {
 					return;
 				}
 

@@ -264,13 +264,13 @@ function addSocketListener(type, callback)
 	listeners[type] = callback;
 }
 var socket;
-function connectSocket()
+function connectSocket(reconnecting)
 {
 	var protocol = (window.location.protocol === 'https:') ? 'wss:' : 'ws:';
 	socket = new WebSocket(protocol+'//'+window.location.host+'/');
 	socket.addEventListener('open', function()
 	{
-		socket.sendMessage(Type.JOIN, player_name);
+		socket.sendMessage(Type.JOIN, player_name, reconnecting);
 	});
 	socket.addEventListener('close',function()
 	{
@@ -1480,7 +1480,7 @@ function kittyReconnect()
 	{
 		if (connectAttempt == 0)
 		{
-			connectSocket();
+			connectSocket(true);
 			connectAttempt++;
 		}
 		else if (connectAttempt < 10)
@@ -1503,7 +1503,7 @@ function kittyReconnect()
 			}
 			setTimeout(function()
 			{
-				connectSocket();
+				connectSocket(true);
 				connectAttempt++;
 				$('#count').html(connectAttempt+'/10');
 			},1000);
