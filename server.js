@@ -576,7 +576,7 @@ io.on('connection', function (socket, req) {
 			var alts = [];
 			for (i in players) {
 				if (ip == players[i].ip) {
-					if(connecting_as_name == players[i].name && players[i].s.readyState != ws.OPEN) {
+					if(connecting_as_name == players[i].name) {
 						reconnecting = players[i];
 					} else {
 						alts.push(players[i].name);
@@ -589,6 +589,12 @@ io.on('connection', function (socket, req) {
 				//If the player is a mod who disconnected, set them as the mod.
 				if (reconnecting.s.id == mod) {
 					mod = socket.id;
+				}
+				if (reconnecting.s.readyState == ws.OPEN) {
+					//The player might have duplicated the tab.  Disconnect the old one in a non-confusing way.
+					reconnecting.s.sendMessage(Type.SYSTEM, 'You have been disconnected because you connected again elsewhere.');
+					reconnecting.s.sendMessage(Type.KICK);
+					reconnecting.s.close();
 				}
 				//Welcome back!
 				delete players[reconnecting.s.id];
@@ -662,7 +668,7 @@ io.on('connection', function (socket, req) {
 				if(mod == socket.id) {
 					sendPlayerInfo();
 				}
-			} else if (!nameTaken(connecting_as_name, ip)) { //Second check for the name being taken
+			} else if (!nameTaken(connecting_as_name)) { //Second check for the name being taken
 				if (connecting_as_name) {
 					socket.sendMessage(Type.PAUSEPHASE, timer.paused);
 					socket.sendMessage(Type.SETDAYNUMBER, gm.getDay());
