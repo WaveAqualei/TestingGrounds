@@ -467,14 +467,6 @@ addSocketListener(Type.JOIN,function(name)
 		}
 		addModControls();
 	}
-	else
-	{
-		//Not first, so not mod.
-		mod=false;
-		//Delete the mod buttons in case this is a reconnect from previously being mod
-		$('#rolelistbutton').remove();
-		$('#automodsettingsbutton').remove();
-	}
 	//Top row, normal users.
 	var li = $('<li></li>');
 	var info = $(`<div class="info" id="p-${name}"></div>`);
