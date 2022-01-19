@@ -716,12 +716,13 @@ socket.on(Type.TOGGLELIVING,function(p)
 	if (!mod)
 	{
 		var index = users.indexOf(p.name);
-		var li = $('#userlist').children()[index];
+		var li = $($('#userlist').children()[index]);
 		index = index==0?'MOD':index;
 		if (p.role)
 		{
 			var role_safe = sanitize(p.role);
-			li.outerHTML = `<li class="deadplayer"><div class="info" id="p-${p.name}"><span class="num">${index}</span><span class="name">${p.name}</span></div><div><span style="color: ${p.rolecolor}">${role_safe}</span></div></li>`;
+			li.addClass('deadplayer');
+			li.append(`<div class="roledisplay"><span style="color: ${p.rolecolor}">${role_safe}</span></div>`);
 			if(p.haswill) {
 				$(`#p-${p.name}`).append(`<span class="emoji" id="${p.name}-will">📜</span>`);
 				$(`#${p.name}-will`).click(() => {
@@ -731,7 +732,9 @@ socket.on(Type.TOGGLELIVING,function(p)
 		}
 		else
 		{
-			li.outerHTML = `<li><div class="info" id="p-${p.name}"><span class="num">${index}</span><span class="name">${p.name}</span></div></li>`;
+			li.removeClass('deadplayer');
+			li.find('.roledisplay').remove();
+			li.find(`#${p.name}-will`).remove();
 		}
 	}
 });
