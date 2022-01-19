@@ -619,7 +619,7 @@ addSocketListener(Type.SETMOD,function(val)
 		mod = true;
 		modInterface();
 	}
-	else if (mod)
+	else if (mod && !val)
 	{
 		$('.pausebutton, .playbutton').remove();
 		$('#modnumbering').empty();

@@ -602,6 +602,11 @@ io.on('connection', function (socket, req) {
 
 				socket.sendMessage(Type.ACCEPT);
 
+				if(mod == socket.id) {
+					socket.sendMessage(Type.SETMOD, true);
+				} else {
+					socket.sendMessage(Type.SETMOD, false);
+				}
 				if(simple_resume && !players[socket.id].visibly_disconnected) {
 					return;
 				}
@@ -656,7 +661,6 @@ io.on('connection', function (socket, req) {
 
 				//If the mod is reconnecting, send the role data for all players
 				if(mod == socket.id) {
-					socket.sendMessage(Type.SETMOD, true);
 					sendPlayerInfo();
 				}
 			} else if (!nameTaken(connecting_as_name, ip)) { //Second check for the name being taken
