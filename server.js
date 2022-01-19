@@ -541,7 +541,7 @@ io.on('connection', function (socket, req) {
 		if(type !== Type.JOIN && !players[socket.id]) {
 			return;
 		}
-		if(type && listeners[type]) {
+		if(listeners[type]) {
 			listeners[type].apply(socket, args);
 		}
 	});
