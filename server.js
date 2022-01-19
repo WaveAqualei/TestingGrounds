@@ -659,7 +659,7 @@ io.on('connection', function (socket, req) {
 					socket.sendMessage(Type.SETMOD, true);
 					sendPlayerInfo();
 				}
-			} else if (!nameTaken(connecting_as_name)) { //Second check for the name being taken
+			} else if (!nameTaken(connecting_as_name, ip)) { //Second check for the name being taken
 				if (connecting_as_name) {
 					socket.sendMessage(Type.PAUSEPHASE, timer.paused);
 					socket.sendMessage(Type.SETDAYNUMBER, gm.getDay());
@@ -1202,7 +1202,7 @@ io.on('connection', function (socket, req) {
 	addSocketListener(Type.PONG, function () {
 		players[socket.id].ping = players[socket.id].pingTime;
 	});
-	addSocketListener('disconnect', function () {
+	socket.addEventListener('close',function() {
 		if (players[socket.id]) {
 			var player = players[socket.id];
 			setTimeout(function() {
