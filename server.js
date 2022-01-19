@@ -649,6 +649,7 @@ io.on('connection', function (socket) {
 				var p = {};
 				p.name = players[playernums[i]].name;
 				p.spectate = players[playernums[i]].spectate;
+				p.dev = players[playernums[i]].dev;
 				if (!players[playernums[i]].alive) {
 					p.role = players[playernums[i]].role;
 					p.rolecolor = roles.getRoleData(players[playernums[i]].role).color;
@@ -682,6 +683,7 @@ io.on('connection', function (socket) {
 					var p = {};
 					p.name = players[playernums[i]].name;
 					p.spectate = players[playernums[i]].spectate;
+					p.dev = players[playernums[i]].dev;
 					if (!players[playernums[i]].alive) {
 						p.role = players[playernums[i]].role;
 						p.rolecolor = roles.getRoleData(players[playernums[i]].role).color;
@@ -1321,6 +1323,7 @@ function setPhase(p) {
 			var p = {};
 			p.name = players[id].name;
 			p.spectate = players[id].spectate;
+			p.dev = players[id].dev;
 			if (!players[id].alive) {
 				p.role = players[id].role;
 				p.rolecolor = roles.getRoleData(players[id].role).color;

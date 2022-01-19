@@ -2,7 +2,6 @@
 connection = false;
 //Players on list
 var users = [];
-var devs = [];
 //Mod
 var mod = false;
 var paused = false;
@@ -123,7 +122,7 @@ function modInterface()
 	{
 		var li = $("<li></li>");
 		var num = (x==0)?'MOD':x;
-		if (devs.indexOf(users[x]) != -1)
+		if ($($('#userlist li')[x]).find('.dev').length)
 		{
 			var name = '<span class="name dev">'+users[x]+'</span>';
 		}
@@ -133,7 +132,7 @@ function modInterface()
 		}
 		var info = $(`<div class="info" id="p-${users[x]}"><span class="num">${num}</span>${name}</div>`);
 		$('#userlist li')[x].innerHTML='';
-		$('#userlist li')[x].className='';
+		$($('#userlist li')[x]).removeClass('deadplayer');
 		//Add in a rolelist button if it is does not already exist
 		if ($('#rolelistbutton').length == 0)
 		{
@@ -598,7 +597,7 @@ socket.on(Type.SETMOD,function(val)
 			var num = i==0?'MOD':i;
 			if ($(buttons[i]).hasClass('killbutton'))
 			{
-				if (devs.indexOf(users[i]) != -1)
+				if ($($('#userlist li')[i]).find('.dev').length)
 				{
 					var name ='<span class="name dev">'+users[i]+'</span>';
 				}
@@ -651,19 +650,11 @@ socket.on(Type.ROOMLIST,function(list)
 		for (i in list)
 		{
 			var num = (i==0)?'MOD':i; //Num is MOD if i is 0, otherwise num is equal to i.
-			if (devs.indexOf(list[i].name) != -1)
-			{
-				var name = '<span class="name dev">'+list[i].name+'</span>';
-			}
-			else
-			{
-				var name = '<span class="name">'+list[i].name+'</span>';
-			}
 			if (list[i].role)
 			{
 				//Player is dead.
 				var role_safe = sanitize(list[i].role);
-				$('#userlist').append(`<li class="deadplayer"><div class="info" id="p-${list[i].name}"><span class="num">${num}</span>${name}</div><div><span style="color: ${list[i].rolecolor}">${role_safe}</span></div></li>`);
+				$('#userlist').append(`<li class="deadplayer"><div class="info" id="p-${list[i].name}"><span class="num">${num}</span><span class="name">${list[i].name}</span></div><div><span style="color: ${list[i].rolecolor}">${role_safe}</span></div></li>`);
 				if(list[i].haswill) {
 					$(`#p-${list[i].name}`).append(`<span class="emoji" id="${list[i].name}-will">📜</span>`);
 					$(`#${list[i].name}-will`).click((e) => {
@@ -673,11 +664,15 @@ socket.on(Type.ROOMLIST,function(list)
 			}
 			else
 			{
-				$('#userlist').append(`<li><div class="info" id="p-${list[i].name}"><span class="num">${num}</span>${name}</div></li>`);
+				$('#userlist').append(`<li><div class="info" id="p-${list[i].name}"><span class="num">${num}</span><span class="name">${list[i].name}</span></div></li>`);
 			}
 			if(list[i].spectate)
 			{
 				$($('#userlist').children()[i]).addClass('spectator');
+			}
+			if(list[i].dev)
+			{
+				$($('#userlist').children()[i]).find('.name').addClass('dev');
 			}
 
 			users.push(list[i].name);
@@ -703,6 +698,10 @@ socket.on(Type.ROOMLIST,function(list)
 			if(list[i].spectate)
 			{
 				$($('#userlist').children()[i]).addClass('spectator');
+			}
+			if(list[i].dev)
+			{
+				$($('#userlist').children()[i]).find('.name').addClass('dev');
 			}
 		}
 		for(i in user_names)
@@ -1152,7 +1151,6 @@ socket.on(Type.SETDEV,function(name)
 {
 	var index = users.indexOf(name);
 	$($('.name')[index]).addClass('dev');
-	devs.push(name);
 });
 socket.on(Type.SETSPEC, function (name) {
 	var index = users.indexOf(name);
