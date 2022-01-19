@@ -2,8 +2,8 @@ var http = require('http');
 var url = require('url');
 var fs = require('fs');
 var roles = require('./roleinfo');
-var Server = require('socket.io');
-var io = new Server(http, { pingInterval: 5000, pingTimeout: 10000 });
+var ws = require('ws');
+var crypto = require('crypto');
 var verified = []; //List of ips that are verified to use the MCP.
 var createdList = [];
 var gm = require('./gm.js');
@@ -154,12 +154,6 @@ var testTime = new Date();
 loadDate();
 //Banlist
 var banlist = [];
-//Start the timer.
-var timer = Timer();
-timer.tick();
-timer.ping();
-//Let the pinging begin
-ping();
 var server = http.createServer(function (req, res) {
 	var path = url.parse(req.url).pathname;
 	//Routing
@@ -298,49 +292,24 @@ var server = http.createServer(function (req, res) {
 			res.end();
 			break;
 		case '/play':
-			if (req.method == 'POST') {
-				var playername;
-				req.on('data', function (name) {
-					playername = name.toString();
-					playername = playername.substring(5, playername.length); //Drop the preceding 'name='
-				});
-
-				req.on('end', function () {
-					if (Object.keys(players).length <= 36) {
-						//Check if the name is taken before serving the page.
-						if (!nameTaken(playername, getIpReq(req))) {
-							if (nameCheck(playername)) {
-								var ip = getIpReq(req);
-								joining[ip] = playername;
-								//Serve the page.
-								fs.readFile(__dirname + path + '.html', function (error, data) {
-									if (error) {
-										res.writeHead(404);
-										res.write("<h1>Oops! This page doesn't seem to exist! 404</h1>");
-										res.end();
-									} else {
-										res.writeHead(200, { 'Content-Type': 'text/html' });
-										res.write(data, 'utf8');
-										res.end();
-									}
-								});
-							} else {
-								res.write('Invalid name!');
-								res.end();
-							}
-						} else {
-							res.write('Sorry, that name was taken!');
-							res.end();
-						}
-					} else {
-						res.write('Sorry, the server is currently full. Please try again later~');
-						res.end();
-					}
-				});
-			} else {
+			var name = url.parse(req.url, true).query.name;
+			if(!name) {
 				res.writeHead(302, { Location: '/' }); //Send em home
 				res.end();
+				break;
 			}
+			//Serve the page.
+			fs.readFile(__dirname + path + '.html', function (error, data) {
+				if (error) {
+					res.writeHead(404);
+					res.write("<h1>Oops! This page doesn't seem to exist! 404</h1>");
+					res.end();
+				} else {
+					res.writeHead(200, { 'Content-Type': 'text/html' });
+					res.write(data, 'utf8');
+					res.end();
+				}
+			});
 			break;
 		case '/time':
 			//Calculate time until the test.
@@ -544,139 +513,138 @@ server.listen(port, function () {
 var players = [];
 //To store the order of players.
 var playernums = [];
-//List of ip's waiting to join.
-var joining = [];
 //List of names with their socket.id's. Needed to provide quick access to the player objects.
 var playernames = [];
 
-io.listen(server);
-io.on('connection', function (socket) {
-	var ip = getIp(socket);
-	var banned = false;
-	var reason = '';
-	for (i in banlist) {
-		if (banlist[i].ip == ip) {
-			banned = true;
-			reason = banlist[i].reason;
-		}
+var io = new ws.WebSocketServer({ server: server });
+//Start the timer.
+var timer = Timer();
+timer.tick();
+timer.ping();
+//Let the pinging begin
+ping();
+
+function sendPublicMessage() {
+	for(var i in players) {
+		players[i].s.sendMessage.apply(players[i].s, arguments);
 	}
-	if (banned) {
-		socket.sendMessage(
-			Type.SYSTEM,
-			'This ip is banned. Reason: ' +
-				reason +
-				'.<br>If you believe this to be in error, contact <a href="http://www.blankmediagames.com/phpbb/memberlist.php?mode=viewprofile&u=1270513">Ralozey</a> at the Town of Salem forums.'
-		);
-		socket.sendMessage(Type.KICK);
-		console.log('Connection attempt from banned ip: ' + ip);
-		socket.disconnect();
-	} else {
-		//Check if the person is reconnecting or an alt.
-		var reconnecting = null;
-		var alts = [];
-		for (i in players) {
-			if (ip == players[i].ip) {
-				if(joining[ip] == players[i].name && !players[i].s.connected) {
-					reconnecting = players[i];
-				} else {
-					alts.push(players[i].name);
-				}
+}
+io.on('connection', function (socket, req) {
+	socket.id = crypto.randomBytes(16).toString("hex");
+
+	var listeners = {};
+	function addSocketListener(type, callback) {
+		listeners[type] = callback;
+	}
+	socket.addEventListener('message', function(event) {
+		var [type, ...args] = JSON.parse(event.data);
+		if(type !== Type.JOIN && !players[socket.id]) {
+			return;
+		}
+		if(type && listeners[type]) {
+			listeners[type].apply(socket, args);
+		}
+	});
+	socket.sendMessage = function() {
+		this.send(JSON.stringify(Array.prototype.slice.call(arguments)));
+	}
+
+	var ip = getIpReq(req);
+	addSocketListener(Type.JOIN, function(connecting_as_name, simple_resume) {
+		var banned = false;
+		var reason = '';
+		for (i in banlist) {
+			if (banlist[i].ip == ip) {
+				banned = true;
+				reason = banlist[i].reason;
 			}
 		}
-		//If reconnecting, give them their old slot back
-		if(reconnecting) {
-			//Rejoining after a dc
-			//Send the list of names in the game to the returning player.
-			var namelist = [];
-			//Send the roles of any dead players
-			for (i in playernums) {
-				var p = {};
-				p.name = players[playernums[i]].name;
-				if (!players[playernums[i]].alive) {
-					p.role = players[playernums[i]].role;
-					p.rolecolor = roles.getRoleData(players[playernums[i]].role).color;
-					p.haswill = !!players[playernums[i]].publicwill;
-				}
-				namelist.push(p);
-			}
-			socket.sendMessage(Type.PAUSEPHASE, timer.paused);
-			socket.sendMessage(Type.SETDAYNUMBER, gm.getDay());
-			//If the player is a mod who disconnected, set them as the mod.
-			if (reconnecting.s.id == mod) {
-				mod = socket.id;
-			}
-			//Welcome back!
-			delete players[reconnecting.s.id];
-			players[socket.id] = reconnecting;
-			playernums[playernums.indexOf(reconnecting.s.id)] = socket.id;
-			playernames[players[socket.id].name] = socket.id;
-			//Replace the old socket.
-			players[socket.id].s = socket;
-			//Reset ping.
-			players[socket.id].ping = 0;
-
-			socket.sendMessage(Type.ROOMLIST, namelist);
-
-			socket.sendMessage(Type.ACCEPT);
-			socket.sendMessage(Type.SYSTEM, 'You have reconnected.');
-			var name = players[socket.id].name;
-			//Inform everyone of the new arrival.
-			sendPublicMessage(Type.RECONNECT, name);
-			//Tell the new arrival what phase it is.
-			socket.sendMessage(Type.SETPHASE, phase, true, timer.time);
-
-			if (players[mod] && mod != socket.id) {
-				var send = {};
-
-				for (i in players[socket.id].chats) {
-					if (players[socket.id].chats[i]) {
-						send[i] = players[socket.id].chats[i];
+		if (banned) {
+			socket.sendMessage(
+				Type.SYSTEM,
+				'This ip is banned. Reason: ' +
+					reason +
+					'.<br>If you believe this to be in error, contact <a href="http://www.blankmediagames.com/phpbb/memberlist.php?mode=viewprofile&u=1270513">Ralozey</a> at the Town of Salem forums.'
+			);
+			socket.sendMessage(Type.KICK);
+			console.log('Connection attempt from banned ip: ' + ip);
+			socket.close();
+		} else {
+			//Check if the person is reconnecting or an alt.
+			var reconnecting = null;
+			var alts = [];
+			for (i in players) {
+				if (ip == players[i].ip) {
+					if(connecting_as_name == players[i].name) {
+						reconnecting = players[i];
+					} else {
+						alts.push(players[i].name);
 					}
 				}
-				//Exceptions
-				send.name = players[socket.id].name;
-				send.alive = players[socket.id].alive;
-				send.blackmailer = players[socket.id].hearwhispers;
-				send.mayor = players[socket.id].mayor !== undefined;
-				send.role = players[socket.id].role;
-
-				players[mod].s.sendMessage(Type.ROLEUPDATE, send);
 			}
-			//Resend the list.
-			var namelist = [];
-			//Send the roles of any dead players
-			for (i in playernums) {
-				var p = {};
-				p.name = players[playernums[i]].name;
-				p.spectate = players[playernums[i]].spectate;
-				p.dev = players[playernums[i]].dev;
-				if (!players[playernums[i]].alive) {
-					p.role = players[playernums[i]].role;
-					p.rolecolor = roles.getRoleData(players[playernums[i]].role).color;
-					p.haswill = !!players[playernums[i]].publicwill;
-				}
-				namelist.push(p);
-			}
-			socket.sendMessage(Type.ROOMLIST, namelist);
-			//Set the rejoining player's will.
-			socket.sendMessage(Type.GETWILL, undefined, players[socket.id].will);
-			//Set the rejoining player's notes.
-			socket.sendMessage(Type.GETNOTES, undefined, players[socket.id].notes);
-
-			//If the mod is reconnecting, send the role data for all players
-			if(mod == socket.id) {
-				socket.sendMessage(Type.SETMOD, true);
-				sendPlayerInfo();
-			}
-		} else if (!nameTaken(joining[ip])) { //Second check for the name being taken
-			if (joining[ip]) {
-				socket.sendMessage(Type.PAUSEPHASE, timer.paused);
-				socket.sendMessage(Type.SETDAYNUMBER, gm.getDay());
-				//If the player is first, set them as the mod.
-				if (Object.keys(players).length == 0) {
+			//If reconnecting, give them their old slot back
+			if(reconnecting) {
+				//Rejoining after a dc
+				//If the player is a mod who disconnected, set them as the mod.
+				if (reconnecting.s.id == mod) {
 					mod = socket.id;
 				}
-				//Send the list of names in the game to the new arrival
+				if (reconnecting.s.readyState == ws.OPEN) {
+					//The player might have duplicated the tab.  Disconnect the old one in a non-confusing way.
+					reconnecting.s.sendMessage(Type.SYSTEM, 'You have been disconnected because you connected again elsewhere.');
+					reconnecting.s.sendMessage(Type.KICK);
+					reconnecting.s.close();
+				}
+				//Welcome back!
+				delete players[reconnecting.s.id];
+				players[socket.id] = reconnecting;
+				playernums[playernums.indexOf(reconnecting.s.id)] = socket.id;
+				playernames[players[socket.id].name] = socket.id;
+				//Replace the old socket.
+				players[socket.id].s = socket;
+				//Reset ping.
+				players[socket.id].ping = 0;
+
+				socket.sendMessage(Type.ACCEPT);
+
+				if(mod == socket.id) {
+					socket.sendMessage(Type.SETMOD, true);
+				} else {
+					socket.sendMessage(Type.SETMOD, false);
+				}
+				if(simple_resume && !players[socket.id].visibly_disconnected) {
+					return;
+				}
+
+				socket.sendMessage(Type.PAUSEPHASE, timer.paused);
+				socket.sendMessage(Type.SETDAYNUMBER, gm.getDay());
+
+				socket.sendMessage(Type.SYSTEM, 'You have reconnected.');
+				var name = players[socket.id].name;
+				//Inform everyone of the new arrival.
+				sendPublicMessage(Type.RECONNECT, name);
+				players[socket.id].visibly_disconnected = false;
+				//Tell the new arrival what phase it is.
+				socket.sendMessage(Type.SETPHASE, phase, true, timer.time);
+
+				if (players[mod] && mod != socket.id) {
+					var send = {};
+
+					for (i in players[socket.id].chats) {
+						if (players[socket.id].chats[i]) {
+							send[i] = players[socket.id].chats[i];
+						}
+					}
+					//Exceptions
+					send.name = players[socket.id].name;
+					send.alive = players[socket.id].alive;
+					send.blackmailer = players[socket.id].hearwhispers;
+					send.mayor = players[socket.id].mayor !== undefined;
+					send.role = players[socket.id].role;
+
+					players[mod].s.sendMessage(Type.ROLEUPDATE, send);
+				}
+				//Resend the list.
 				var namelist = [];
 				//Send the roles of any dead players
 				for (i in playernums) {
@@ -692,45 +660,74 @@ io.on('connection', function (socket) {
 					namelist.push(p);
 				}
 				socket.sendMessage(Type.ROOMLIST, namelist);
-				var name = joining[ip];
-				delete joining[ip];
-				players[socket.id] = Player(socket, name, ip);
-				//Inform everyone of the new arrival.
-				sendPublicMessage(Type.JOIN, name);
-				if (phase != 0) {
+				//Set the rejoining player's will.
+				socket.sendMessage(Type.GETWILL, undefined, players[socket.id].will);
+				//Set the rejoining player's notes.
+				socket.sendMessage(Type.GETNOTES, undefined, players[socket.id].notes);
+
+				//If the mod is reconnecting, send the role data for all players
+				if(mod == socket.id) {
+					sendPlayerInfo();
+				}
+			} else if (!nameTaken(connecting_as_name)) { //Second check for the name being taken
+				if (connecting_as_name) {
+					socket.sendMessage(Type.PAUSEPHASE, timer.paused);
+					socket.sendMessage(Type.SETDAYNUMBER, gm.getDay());
+					//If the player is first, set them as the mod.
+					if (Object.keys(players).length == 0) {
+						mod = socket.id;
+					}
+					//Send the list of names in the game to the new arrival
+					var namelist = [];
+					//Send the roles of any dead players
+					for (i in playernums) {
+						var p = {};
+						p.name = players[playernums[i]].name;
+						p.spectate = players[playernums[i]].spectate;
+						p.dev = players[playernums[i]].dev;
+						if (!players[playernums[i]].alive) {
+							p.role = players[playernums[i]].role;
+							p.rolecolor = roles.getRoleData(players[playernums[i]].role).color;
+							p.haswill = !!players[playernums[i]].publicwill;
+						}
+						namelist.push(p);
+					}
+					socket.sendMessage(Type.ROOMLIST, namelist);
+					socket.sendMessage(Type.ACCEPT);
+					players[socket.id] = Player(socket, connecting_as_name, ip);
+					//Inform everyone of the new arrival.
+					sendPublicMessage(Type.JOIN, connecting_as_name);
+					if (phase != 0) {
+						for (i in players) {
+							if (connecting_as_name == players[i].name) {
+								players[i].spectate = true;
+								players[i].setRole('Spectator');
+							}
+						}
+						sendPublicMessage(Type.SETSPEC, connecting_as_name);
+					}
+					if (alts.length > 0) {
+						//Inform everyone of the alt.
+						sendPublicMessage(Type.HIGHLIGHT, 'Please be aware that ' + connecting_as_name + ' is an alt of ' + gm.grammarList(alts) + '.');
+					}
+					//Tell the new arrival what phase it is.
+					socket.sendMessage(Type.SETPHASE, phase, true, timer.time);
+					//Inform the new arrival of any devs and spectators present.
 					for (i in players) {
-						if (name == players[i].name) {
-							players[i].spectate = true;
-							players[i].setRole('Spectator');
+						if (players[i].spectate) {
+							socket.sendMessage(Type.SETSPEC, players[i].name);
+						}
+						if (players[i].dev) {
+							socket.sendMessage(Type.SETDEV, players[i].name);
 						}
 					}
-					sendPublicMessage(Type.SETSPEC, name);
 				}
-				if (alts.length > 0) {
-					//Inform everyone of the alt.
-					sendPublicMessage(Type.HIGHLIGHT, 'Please be aware that ' + name + ' is an alt of ' + gm.grammarList(alts) + '.');
-				}
-				//Tell the new arrival what phase it is.
-				socket.sendMessage(Type.SETPHASE, phase, true, timer.time);
-				//Inform the new arrival of any devs and spectators present.
-				for (i in players) {
-					if (players[i].spectate) {
-						socket.sendMessage(Type.SETSPEC, players[i].name);
-					}
-					if (players[i].dev) {
-						socket.sendMessage(Type.SETDEV, players[i].name);
-					}
-				}
+			} else {
+				socket.sendMessage(Type.DENY, 'Sorry, this name is taken.');
+				socket.close();
 			}
-			/*else //Disabled because it stops the index from connecting.
-			{
-				socket.disconnect();
-			}*/
-		} else {
-			socket.sendMessage(Type.DENY, 'Sorry, this name is taken.');
-			socket.disconnect();
 		}
-	}
+	});
 	addSocketListener(Type.AUTOLEVEL, function (lvl) {
 		if (socket.id == mod) {
 			autoLevel = lvl;
@@ -1223,9 +1220,15 @@ io.on('connection', function (socket) {
 	addSocketListener(Type.PONG, function () {
 		players[socket.id].ping = players[socket.id].pingTime;
 	});
-	addSocketListener('disconnect', function () {
+	socket.addEventListener('close',function() {
 		if (players[socket.id]) {
-			players[socket.id].dc();
+			var player = players[socket.id];
+			setTimeout(function() {
+				if(player.s.readyState != ws.OPEN)
+				{
+					player.dc();
+				}
+			}, 100);
 		}
 	});
 });
@@ -1235,7 +1238,7 @@ function nameTaken(name, ip) {
 	for (i in players) {
 		if (name == players[i].name) {
 			match = true;
-			if(ip == players[i].ip && !players[i].s.connected) {
+			if(ip == players[i].ip && players[i].s.readyState != ws.OPEN) {
 				// Allow reconnecting
 				return false;
 			}
@@ -1352,7 +1355,7 @@ function setPhase(p) {
 				players[i].chats.linked = false;
 
 				//Now that the game is over, we can remove all disconnected players
-				if(!players[i].s.connected) {
+				if(players[i].s.readyState != ws.OPEN) {
 					sendPublicMessage(Type.LEAVE, players[i].name);
 					//Splice them from the numbers array.
 					playernums.splice(playernums.indexOf(i), 1);
@@ -1476,9 +1479,6 @@ function setPhase(p) {
 	}
 }
 //--IP functions
-function getIp(socket) {
-	return socket.handshake.headers['x-forwarded-for'] || socket.handshake.address.address || '127.0.0.1';
-}
 function getIpReq(req) {
 	var ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress || req.socket?.remoteAddress || req.connection.socket?.remoteAddress;
 	if(!ip || ip.trim() == '::1') return '127.0.0.1';
@@ -1691,7 +1691,7 @@ function checkPing() {
 	for (i in players) {
 		if (players[i].ping == -1) {
 			//Player did not reply after 10 seconds. Disconnected.
-			players[i].s.disconnect();
+			players[i].s.close();
 		}
 	}
 	setTimeout(ping, 0);
@@ -1786,6 +1786,7 @@ function Player(socket, name, ip) {
 		},
 		dc: function () {
 			sendPublicMessage(Type.DISCONNECT, this.name);
+			this.visibly_disconnected = true;
 			var is_late_spectator = playernums.slice(playernums.indexOf(this.s.id)).every(function(id) {
 				//It's OK to renumber spectators
 				return players[id].spectate;
@@ -1807,7 +1808,7 @@ function Player(socket, name, ip) {
 			} else {
 				if (mod == this.s.id) {
 					setTimeout(function () {
-						if(!(players[mod] && players[mod].s.connected)) {
+						if(!(players[mod] && players[mod].s.readyState == ws.OPEN)) {
 							sendPublicMessage(Type.SYSTEM, 'Game canceled because the mod has been disconnected for over a minute.');
 							setPhase(Phase.PREGAME);
 						}
@@ -3411,7 +3412,7 @@ function kick(name, reason, kicker) {
 		sendPublicMessage(Type.HIGHLIGHT, tokick.name + ' has been kicked by ' + kicker + '!');
 	}
 	tokick.s.sendMessage(Type.KICK);
-	tokick.s.disconnect();
+	tokick.s.close();
 }
 function ban(ip, reason, banner) {
 	console.log(ip + ' successfully banned by ' + banner + '. Reason: ' + reason);

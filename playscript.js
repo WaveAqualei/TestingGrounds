@@ -1,5 +1,7 @@
 window.onbeforeunload = function(){
-  return 'If you are in a game and need to leave, please inform the mod before closing this page.';
+	if(socket.readyState == socket.OPEN) {
+		return 'If you are in a game and need to leave, please inform the mod before closing this page.';
+	}
 };
 mod = false;
 var current_rolelist = [

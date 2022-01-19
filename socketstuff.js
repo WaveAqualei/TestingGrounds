@@ -254,7 +254,40 @@ function modInterface()
 	}
 	$('.name').addClass('shorten');
 }
-var socket= io.connect({'pingInterval': 45000});
+var urlParams = new URLSearchParams(window.location.search);
+var player_name = urlParams.get("name");
+if(!player_name) window.location = '/';
+var listeners = {};
+function addSocketListener(type, callback)
+{
+	listeners[type] = callback;
+}
+var socket;
+function connectSocket(reconnecting)
+{
+	var protocol = (window.location.protocol === 'https:') ? 'wss:' : 'ws:';
+	socket = new WebSocket(protocol+'//'+window.location.host+'/');
+	socket.addEventListener('open', function()
+	{
+		socket.sendMessage(Type.JOIN, player_name, reconnecting);
+	});
+	socket.addEventListener('close',function()
+	{
+		kittyReconnect();
+	});
+	socket.addEventListener('message', function(event)
+	{
+		var [type, ...args] = JSON.parse(event.data);
+		if(listeners[type]) {
+			listeners[type].apply(socket, args);
+		}
+	});
+	socket.sendMessage = function()
+	{
+		this.send(JSON.stringify(Array.prototype.slice.call(arguments)));
+	}
+}
+connectSocket();
 addSocketListener(Type.MSG,function(name,msg)
 {
 	if (msg.styling)
@@ -411,18 +444,26 @@ addSocketListener(Type.JOIN,function(name)
 		num='MOD';
 		//Player is first. They are mod.
 		mod=true;
-		//Add in a rolelist button
-		var rlbutton = $('<div id="rolelistbutton"></div>');
-		rlbutton.click(function()
+		//Add in a rolelist button if it is does not already exist
+		if ($('#rolelistbutton').length == 0)
 		{
-			openRolelist();
-		});
-		//Add in an automod settings button
-		var ambutton = $('<div id="automodsettingsbutton"></div>');
-		ambutton.click(function()
+			var rlbutton = $('<div id="rolelistbutton"></div>');
+			rlbutton.click(function()
+			{
+				openRolelist();
+			});
+			$('#inputarea').append(rlbutton);
+		}
+		//Add in an automod settings button if it doesn't exist
+		if ($('#automodsettingsbutton').length == 0)
 		{
-			autoModSettings();
-		});
+			var ambutton = $('<div id="automodsettingsbutton"></div>');
+			ambutton.click(function()
+			{
+				autoModSettings();
+			});
+			$('#inputarea').append(ambutton);
+		}
 		addModControls();
 	}
 	//Top row, normal users.
@@ -435,8 +476,6 @@ addSocketListener(Type.JOIN,function(name)
 	//Bottom row
 	if (mod)
 	{
-		$('#inputarea').append(rlbutton);
-		$('#inputarea').append(ambutton);
 		//Addition to the top row
 		var kill = $('<div class="controlbutton killbutton"><span>Kill</span></div>');
 		kill.click(function()
@@ -585,7 +624,7 @@ addSocketListener(Type.SETMOD,function(val)
 		mod = true;
 		modInterface();
 	}
-	else if (mod)
+	else if (mod && !val)
 	{
 		$('.pausebutton, .playbutton').remove();
 		$('#modnumbering').empty();
@@ -1293,9 +1332,6 @@ addSocketListener(Type.GETNOTES, function (name, notescontent) {
 		$('#notescontent').val(notescontent);
 	}
 });
-addSocketListener('connect_error', function (err) {
-	//$('#try').html('<p>Our dancing kitty has failed to reconnect you. No milk for him tonight. Please rejoin.</p>');
-});
 addSocketListener(Type.ACCEPT,function()
 {
 	connectAttempt = 0;
@@ -1481,11 +1517,16 @@ addSocketListener(Type.SHOWALLROLES,function(list)
 {
 	addMessage(list,'allroles');
 });
-addSocketListener('disconnect',function()
+function kittyReconnect()
 {
 	if (!kicked)
 	{
-		if (connectAttempt <10 )
+		if (connectAttempt == 0)
+		{
+			connectSocket(true);
+			connectAttempt++;
+		}
+		else if (connectAttempt < 10)
 		{
 			if ($('.blocker').length == 0)
 			{
@@ -1499,29 +1540,20 @@ addSocketListener('disconnect',function()
 				var notify = $('<div class="alert"></div>');
 				notify.append($('<h3>You have disconnected!</h3>'));
 				notify.append(kitteh);
-				notify.append($('<p id="try">Please wait while this dancing kitty reconnects you... <p id="count"></p></p>'));
+				notify.append($('<p id="try">Please wait while this dancing kitty reconnects you... <p id="count">'+connectAttempt+'/10</p></p>'));
 				blocker.append(notify);
 				$('body').append(blocker);
 			}
-			if (connectAttempt == 0)
+			setTimeout(function()
 			{
-				socket.connect();
+				connectSocket(true);
 				connectAttempt++;
 				$('#count').html(connectAttempt+'/10');
-			}
-			else if (connectAttempt < 10)
-			{
-				setTimeout(function()
-				{
-					socket.connect();
-					connectAttempt++;
-					$('#count').html(connectAttempt+'/10');
-				},1000);
-			}
+			},1000);
 		}
 		else
 		{
 			$('#try').html('<p>Our dancing kitty has failed to reconnect you. No milk for him tonight. Please rejoin.</p>');
 		}
 	}
-});
+}
