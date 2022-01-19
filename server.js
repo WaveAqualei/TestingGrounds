@@ -650,6 +650,7 @@ io.on('connection', function (socket) {
 			for (i in playernums) {
 				var p = {};
 				p.name = players[playernums[i]].name;
+				p.spectate = players[playernums[i]].spectate;
 				if (!players[playernums[i]].alive) {
 					p.role = players[playernums[i]].role;
 					p.rolecolor = roles.getRoleData(players[playernums[i]].role).color;
@@ -682,6 +683,7 @@ io.on('connection', function (socket) {
 				for (i in playernums) {
 					var p = {};
 					p.name = players[playernums[i]].name;
+					p.spectate = players[playernums[i]].spectate;
 					if (!players[playernums[i]].alive) {
 						p.role = players[playernums[i]].role;
 						p.rolecolor = roles.getRoleData(players[playernums[i]].role).color;
@@ -1309,6 +1311,26 @@ function setPhase(p) {
 				players[i].seancing = undefined;
 			}
 		}
+	} else if(phase == Phase.PREGAME && p != Phase.PREGAME) {
+		//Game start!
+		//Send all spectators to the end of the list
+		var notspec = playernums.filter(i=>!players[i].spectate);
+		var spec = playernums.filter(i=>players[i].spectate);
+		playernums = notspec.concat(spec);
+
+		//Resend the list.
+		var namelist = playernums.map(function(id) {
+			var p = {};
+			p.name = players[id].name;
+			p.spectate = players[id].spectate;
+			if (!players[id].alive) {
+				p.role = players[id].role;
+				p.rolecolor = roles.getRoleData(players[id].role).color;
+				p.haswill = !!players[id].publicwill;
+			}
+			return p;
+		});
+		io.emit(Type.ROOMLIST, namelist);
 	}
 	phase = p;
 	timer.setPhase(p);

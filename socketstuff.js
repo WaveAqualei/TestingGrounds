@@ -675,13 +675,36 @@ socket.on(Type.ROOMLIST,function(list)
 			{
 				$('#userlist').append(`<li><div class="info" id="p-${list[i].name}"><span class="num">${num}</span>${name}</div></li>`);
 			}
+			if(list[i].spectate)
+			{
+				$($('#userlist').children()[i]).addClass('spectator');
+			}
 
 			users.push(list[i].name);
 		}
 	}
-	if (mod)
+	else
 	{
-		$('.name').addClass('shorten');
+		var user_names = {};
+		$('#userlist').children().each((i,el)=>user_names[users[i]] = el);
+		users = [];
+		$('#userlist').empty();
+		for(i in list)
+		{
+			if(user_names[list[i].name])
+			{
+				$('#userlist').append(user_names[list[i].name]);
+				users.push(list[i].name);
+			}
+			else
+			{
+				listeners[Type.JOIN](list[i].name);
+			}
+			if(list[i].spectate)
+			{
+				$($('#userlist').children()[i]).addClass('spectator');
+			}
+		}
 	}
 });
 socket.on(Type.TOGGLELIVING,function(p)
@@ -1126,11 +1149,11 @@ socket.on(Type.SETDEV,function(name)
 });
 socket.on(Type.SETSPEC, function (name) {
 	var index = users.indexOf(name);
-	$($('.name')[index]).addClass('spec');
+	$($('#userlist').children()[index]).addClass('spectator');
 });
 socket.on(Type.REMSPEC, function (name) {
 	var index = users.indexOf(name);
-	$($('.name')[index]).removeClass('spec');
+	$($('#userlist').children()[index]).removeClass('spectator');
 });
 socket.on(Type.ROLECARD,function(card)
 {
