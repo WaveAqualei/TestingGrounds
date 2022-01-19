@@ -548,8 +548,6 @@ var playernums = [];
 var joining = [];
 //List of names with their socket.id's. Needed to provide quick access to the player objects.
 var playernames = [];
-//Array to hold the info of players that have dc'd. Maximum of 20 players and players are removed after 5 minutes.
-var dcd = [];
 
 io.listen(server);
 io.on('connection', function (socket) {
