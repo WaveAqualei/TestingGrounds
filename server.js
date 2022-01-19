@@ -613,7 +613,6 @@ io.on('connection', function (socket, req) {
 
 				socket.sendMessage(Type.PAUSEPHASE, timer.paused);
 				socket.sendMessage(Type.SETDAYNUMBER, gm.getDay());
-				socket.sendMessage(Type.ROOMLIST, namelist);
 
 				socket.sendMessage(Type.SYSTEM, 'You have reconnected.');
 				var name = players[socket.id].name;
