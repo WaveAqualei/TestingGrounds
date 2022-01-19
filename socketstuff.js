@@ -688,12 +688,12 @@ socket.on(Type.ROOMLIST,function(list)
 		var user_names = {};
 		$('#userlist').children().each((i,el)=>user_names[users[i]] = el);
 		users = [];
-		$('#userlist').empty();
 		for(i in list)
 		{
 			if(user_names[list[i].name])
 			{
 				$('#userlist').append(user_names[list[i].name]);
+				delete user_names[list[i].name];
 				users.push(list[i].name);
 			}
 			else
@@ -704,6 +704,10 @@ socket.on(Type.ROOMLIST,function(list)
 			{
 				$($('#userlist').children()[i]).addClass('spectator');
 			}
+		}
+		for(i in user_names)
+		{
+			$(user_names[i]).remove();
 		}
 	}
 });
