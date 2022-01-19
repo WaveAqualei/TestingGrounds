@@ -279,7 +279,7 @@ function connectSocket(reconnecting)
 	socket.addEventListener('message', function(event)
 	{
 		var [type, ...args] = JSON.parse(event.data);
-		if(type && listeners[type]) {
+		if(listeners[type]) {
 			listeners[type].apply(socket, args);
 		}
 	});
