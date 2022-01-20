@@ -510,11 +510,6 @@ header ul li span
 	font-weight:bold;
 	color:#00a6a6;
 }
-.spec
-{
-	font-weight:bold;
-	color:#B5A642;
-}
 #inputarea
 {
 	clear:both;
@@ -935,6 +930,21 @@ header ul li span
 {
 	width:100%;
 	height:50%;
+}
+.spectator
+{
+	background:#cccccc;
+	opacity: 0.5;
+}
+.spectator .name
+{
+	font-weight:bold;
+	color:#B5A642;
+}
+.spectator .name.dev
+{
+	font-weight:bold;
+	color:#00a6a6;
 }
 .blocker
 {
