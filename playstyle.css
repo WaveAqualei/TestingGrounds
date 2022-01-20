@@ -492,7 +492,7 @@ header ul li span
 	font-weight:bold;
 	max-width:15%;
 	padding-left:5px;
-	color:#f0ecf4;
+	color: tan;
 }
 .name
 {
@@ -921,9 +921,11 @@ header ul li span
 }
 .deadplayer
 {
-	background:#000000;
+	background:#400000;
 	font-weight:bold;
-	color:#707371;
+	color: floralwhite;
+	text-shadow: 3px 3px 3px black;
+	opacity: 0.77;
 	
 }
 .deadplayer div
@@ -933,18 +935,17 @@ header ul li span
 }
 .spectator
 {
-	background:#cccccc;
-	opacity: 0.5;
+	background: slategray;
 }
 .spectator .name
 {
 	font-weight:bold;
-	color:#B5A642;
+	color: tan;
 }
 .spectator .name.dev
 {
 	font-weight:bold;
-	color:#00a6a6;
+	color: silver;
 }
 .blocker
 {
