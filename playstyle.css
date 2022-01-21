@@ -1446,19 +1446,19 @@ header ul li span
 /*----Announcement tags----*/
 maf
 {
-	color:red;
+	color:#be0000;
 }
 cov 
 {
-	color:#9E2C9E;
+	color:#ab5ffb;
 }
 arso
 {
-	color:#E88718;
+	color:#d57615;
 }
 ww
 {
-	color:#855217;
+	color:#94703d;
 }
 jester
 {
@@ -1466,15 +1466,15 @@ jester
 }
 town
 {
-	color:#4CC327;
+	color:#B0FF39;
 }
 sk
 {
-	color:#10188C;
+	color:#4a6efb;
 }
 neut
 {
-	color:grey;
+	color:#bcbcbc;
 }
 /*----Chat messages----*/
 .mafia
