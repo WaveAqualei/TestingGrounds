@@ -849,7 +849,7 @@ header ul li span
     margin-top: 21.5%;
     resize: none;
 }
-#will div, #modwill div
+#closewill
 {
     display: block;
     position: absolute;
@@ -860,6 +860,17 @@ header ul li span
     background: url(button.png);
     background-size: cover;
     border: black 1px solid;
+}
+#postwill
+{
+    display: block;
+    position: absolute;
+    right: 6%;
+    top: 89.5%;
+    left: 86%;
+    bottom: 4.5%;
+    background: url(list.png);
+    background-size: cover;
 }
 #will div:hover, #modwill div:hover
 {

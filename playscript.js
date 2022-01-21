@@ -182,6 +182,11 @@ function closeWill()
 		$('#willcontent').removeData('dirty')
 	}
 }
+function postWill()
+{
+	var will = $('#willcontent').val()
+	socket.sendMessage(Type.MSG,will)
+}
 function closeNotes()
 {
 	$('#notes').hide()
