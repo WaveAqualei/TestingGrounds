@@ -3024,6 +3024,7 @@ function Player(socket, name, ip) {
 					}
 					break;
 				case 'd':
+				case 'death':
 					if (mod == this.s.id) {
 						if (c.length > 1) {
 							var msg = c.slice(1);
