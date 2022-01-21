@@ -3145,10 +3145,10 @@ function Player(socket, name, ip) {
 						} else {
 							this.s.sendMessage(Type.SYSTEM, "The syntax of this command is '/d role.");
 							this.s.sendMessage(Type.SYSTEM, "Use a custom role or use one of the presets we have below:");
-							this.s.sendMessage(Type.LINKED, "Town: Vigi, Guilt, Vet, Jailor, VH, BG, Guard, Crus, Trap");
-							this.s.sendMessage(Type.MAFIA, "Mafia: GF, Maf, Amb");
-							this.s.sendMessage(Type.COVEN, "Coven: CL, Dusa, Necro, PM, HM, Poisoner");
-							this.s.sendMessage(Type.DEAD, "Other: SK, WW, Arso, Jugg, Jest, Vamp, Pirate, Pest, Suicide, Heart");
+							this.s.sendMessage(Type.SYSTEM, "<span class=\"linked\">Town: Vigi, Guilt, Vet, Jailor, VH, BG, Guard, Crus, Trap</span>");
+							this.s.sendMessage(Type.SYSTEM, "<span class=\"mafia\">Mafia: GF, Maf, Amb</span>");
+							this.s.sendMessage(Type.SYSTEM, "<span class=\"coven\">Coven: CL, Dusa, Necro, PM, HM, Poisoner</span>");
+							this.s.sendMessage(Type.SYSTEM, "<span class=\"jailed\">Other: SK, WW, Arso, Jugg, Jest, Vamp, Pirate, Pest, Suicide, Heart</span>");
 						}
 					} else {
 						this.s.sendMessage(Type.SYSTEM, "Only the mod can use this command.");
