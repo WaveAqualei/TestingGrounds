@@ -408,6 +408,7 @@ var server = http.createServer(function (req, res) {
 		case '/back2.png':
 		case '/back3.png':
 		case '/lastwillbutton.png':
+		case '/paste.png':
 		case '/notesbutton.png':
 		case '/notesclose.png':
 		case '/music.png':
