@@ -37,6 +37,7 @@ var commandList = {
 	mod: {
 		givemod: 'Pass the mod onto another person. Usage: /givemod name',
 		a: 'Send a public message to everyone (outside of Pregame). Usage: /a message',
+		d: 'Send a public death message to everyone (outside of Pregame). Example: /d WW - Usage: /d message',
 		disguise: 'Disguise one player as another. Usage: /disguise playerone playertwo',
 		random: 'Choose a random player. Usage: /random',
 		roll: 'Roll a dice. Usage /roll or /roll sides',
@@ -3017,6 +3018,40 @@ function Player(socket, name, ip) {
 							sendPublicMessage(Type.HIGHLIGHT, msg, 'modchat');
 						} else {
 							this.s.sendMessage(Type.SYSTEM, "The syntax of this command is '/a message'.");
+						}
+					} else {
+						this.s.sendMessage(Type.SYSTEM, "Only the mod can use this command.");
+					}
+					break;
+				case 'd':
+					if (mod == this.s.id) {
+						if (c.length > 1) {
+							switch(c[1]) {
+								case 'suicide'
+									sendPublicMessage(Type.HIGHLIGHT, "They apparently committed suicide.", 'suicide');
+									break;
+								case 'vigi':
+									sendPublicMessage(Type.HIGHLIGHT, "They were shot by a Vigilante.", 'townkill');
+									break;
+								case 'vet':
+									sendPublicMessage(Type.HIGHLIGHT, "They were shot by the Veteran they visited.", 'townkill');
+									break;
+								case 'jailor':
+									sendPublicMessage(Type.HIGHLIGHT, "They were executed by the Jailor.", 'townkill');
+									break;
+								case 'vh':
+									sendPublicMessage(Type.HIGHLIGHT, "They were staked by a Vampire Hunter.", 'townkill');
+									break;
+								case 'guard':
+									sendPublicMessage(Type.HIGHLIGHT, "They died guarding someone.", 'townkill');
+									break;
+								case 'bg':
+									sendPublicMessage(Type.HIGHLIGHT, "They were killed by a Bodyguard.", 'townkill');
+									break;
+								default:
+									sendPublicMessage(Type.HIGHLIGHT, "They were killed by a "+msg+".", 'modchat');
+						} else {
+							this.s.sendMessage(Type.SYSTEM, "The syntax of this command is '/d role.");
 						}
 					} else {
 						this.s.sendMessage(Type.SYSTEM, "Only the mod can use this command.");
