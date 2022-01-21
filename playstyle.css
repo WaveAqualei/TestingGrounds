@@ -407,6 +407,78 @@ header ul li span
 {
 	background:#3d0029;
 }
+.suicide
+{
+	background:#cccccc;
+	color: black;
+	font-weight: bold;
+}
+.townkill
+{
+	background:#bf0039;
+	color: black;
+	font-weight: bold;
+}
+.mafiakill
+{
+	background:#be0000;
+	color: white;
+	font-weight: bold;
+}
+.covenkill
+{
+	background:#ab5ffb;
+	color: white;
+	font-weight: bold;
+}
+.skkill
+{
+	background:#4a6efb;
+	color: black;
+	font-weight: bold;
+}
+.wwkill
+{
+	background:#94703d;
+	color: white;
+	font-weight: bold;
+}
+.arsokill
+{
+	background:#d57615;
+	color: black;
+	font-weight: bold;
+}
+.juggkill
+{
+	background:#8c2b55;
+	color: white;
+	font-weight: bold;
+}
+.jestkill
+{
+	background:#e6b3d9;
+	color: black;
+	font-weight: bold;
+}
+.vampkill
+{
+	background: #7f896a;
+	color: white;
+	font-weight: bold;
+}
+.piratekill
+{
+	background:#e2c24c;
+	color: black;
+	font-weight: bold;
+}
+.pestkill
+{
+	background:#424242;
+	color: white;
+	font-weight: bold;
+}
 .phasechange
 {
 	background:#000000;
