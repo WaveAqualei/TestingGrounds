@@ -839,14 +839,14 @@ header ul li span
     background-color: transparent;
     border-style: none;
     border-color: Transparent;
-    font-size: 18px;
+    font-size: 17.5px;
     font-family: Helvetica;
     outline: none;
-    overflow: hidden;
+    overflow: auto;
     height: 70%;
     width: 85%;
     margin: 7%;
-    margin-top: 21.5%;
+    margin-top: 24%;
     resize: none;
 }
 #closewill
@@ -866,11 +866,12 @@ header ul li span
     display: block;
     position: absolute;
     right: 6%;
-    top: 89.5%;
+    top: 88%;
     left: 86%;
-    bottom: 4.5%;
-    background: url(list.png);
+    bottom: 6%;
+    background: url(paste.png);
     background-size: cover;
+    border: solid 1px black;
 }
 #will div:hover, #modwill div:hover
 {
@@ -894,9 +895,9 @@ header ul li span
 	background-size: 100% 100%;
 	display: none;
 	position: absolute;
-	left: 45%;
+	left: 42%;
 	top: 10%;
-	right: 20%;
+	right: 25%;
 	bottom: 10%;
 }
 #notes textarea, #modnotes textarea 
@@ -924,6 +925,18 @@ header ul li span
 	width: 48px;
 	background: url("notesclose.png");
 	background-size: 100%,100%;
+}
+#postnotes
+{
+    display: block;
+    position: absolute;
+    right: 6%;
+    top: 88%;
+    left: 86%;
+    bottom: 6%;
+    background: url(paste.png);
+    background-size: cover;
+    border: solid 1px black;
 }
 #notes div:hover, #modnotes div:hover 
 {
