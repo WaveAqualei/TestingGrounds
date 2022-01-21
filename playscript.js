@@ -193,6 +193,11 @@ function closeNotes()
 	var notes = $('#notescontent').val()
 	socket.sendMessage(Type.NOTES,notes)
 }
+function postNotes()
+{
+	var notes = $('#notescontent').val()
+	socket.sendMessage(Type.MSG,notes)
+}
 function highlightTitle()
 {
 	var arr=["!-Testing Grounds-!","Testing Grounds","!-Testing Grounds-!","Testing Grounds"];
