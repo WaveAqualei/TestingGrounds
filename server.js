@@ -566,7 +566,7 @@ io.on('connection', function (socket, req) {
 				Type.SYSTEM,
 				'This ip is banned. Reason: ' +
 					reason +
-					'.<br>If you believe this to be in error, contact <a href="http://www.blankmediagames.com/phpbb/memberlist.php?mode=viewprofile&u=1270513">Ralozey</a> at the Town of Salem forums.'
+					'.<br>If you believe this to be in error, bring it up on the <a href="https://discord.gg/EVS55Zb">Testing Grounds Discord Server</a>.'
 			);
 			socket.sendMessage(Type.KICK);
 			console.log('Connection attempt from banned ip: ' + ip);
@@ -3548,5 +3548,9 @@ function kick(name, reason, kicker) {
 	tokick.s.close();
 }
 function ban(ip, reason, banner) {
-	console.log(ip + ' successfully banned by ' + banner + '. Reason: ' + reason);
+	banlist.push({
+		ip: ip,
+		reason: reason,
+	});
+	sendPublicMessage(Type.HIGHLIGHT, banner + ' banned an IP address. Reason: ' + reason);
 }
