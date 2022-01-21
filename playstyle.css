@@ -413,6 +413,12 @@ header ul li span
 	color: black;
 	font-weight: bold;
 }
+.heart
+{
+	background:#bf0039;
+	color: black;
+	font-weight: bold;
+}
 .townkill
 {
 	background:#b0ff39;
@@ -434,7 +440,7 @@ header ul li span
 .skkill
 {
 	background:#4a6efb;
-	color: black;
+	color: white;
 	font-weight: bold;
 }
 .wwkill
@@ -458,13 +464,13 @@ header ul li span
 .jestkill
 {
 	background:#e6b3d9;
-	color: black;
+	color: white;
 	font-weight: bold;
 }
 .vampkill
 {
 	background: #7f896a;
-	color: white;
+	color: black;
 	font-weight: bold;
 }
 .piratekill
@@ -476,7 +482,8 @@ header ul li span
 .pestkill
 {
 	background:#424242;
-	color: white;
+	color: black;
+	text-shadow: 0px 0px 5px green;
 	font-weight: bold;
 }
 .phasechange
