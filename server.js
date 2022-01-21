@@ -3030,82 +3030,108 @@ function Player(socket, name, ip) {
 							msg = msg.join(' ');
 							switch(msg.toLowerCase()) {
 								case 'suicide':
+								case 'sui':
 									sendPublicMessage(Type.HIGHLIGHT, "They apparently committed suicide.", 'suicide');
 									break;
 								case 'vigi':
+								case 'vigilante':
 									sendPublicMessage(Type.HIGHLIGHT, "They were shot by a Vigilante.", 'townkill');
 									break;
 								case 'guilt':
 									sendPublicMessage(Type.HIGHLIGHT, "They died from guilt.", 'townkill');
 									break;
 								case 'vet':
+								case 'veteran':
 									sendPublicMessage(Type.HIGHLIGHT, "They were shot by the Veteran they visited.", 'townkill');
 									break;
 								case 'jailor':
+								case 'jail':
 									sendPublicMessage(Type.HIGHLIGHT, "They were executed by the Jailor.", 'townkill');
 									break;
 								case 'vh':
+								case 'vampire hunter':
 									sendPublicMessage(Type.HIGHLIGHT, "They were staked by a Vampire Hunter.", 'townkill');
 									break;
 								case 'guard':
 									sendPublicMessage(Type.HIGHLIGHT, "They died guarding someone.", 'townkill');
 									break;
 								case 'bg':
+								case 'bodyguard':
 									sendPublicMessage(Type.HIGHLIGHT, "They were killed by a Bodyguard.", 'townkill');
 									break;
 								case 'crus':
+								case 'crusader':
 									sendPublicMessage(Type.HIGHLIGHT, "They were killed by a Crusader.", 'townkill');
 									break;
 								case 'trap':
+								case 'trapper':
 									sendPublicMessage(Type.HIGHLIGHT, "They were killed by a Trapper.", 'townkill');
 									break;
 								case 'gf':
+								case 'godfather':
+								case 'maf':
+								case 'mafioso':
 								case 'mafia':
-									sendPublicMessage(Type.HIGHLIGHT, "They were killed by a member of the mafia.", 'mafiakill');
+									sendPublicMessage(Type.HIGHLIGHT, "They were killed by a member of the Mafia.", 'mafiakill');
 									break;
 								case 'amb':
+								case 'ambusher':
 									sendPublicMessage(Type.HIGHLIGHT, "They were killed by an Ambusher.", 'mafiakill');
 									break;
 								case 'cl':
+								case 'coven leader':
 									sendPublicMessage(Type.HIGHLIGHT, "They were drained by the Coven Leader.", 'covenkill');
 									break;
 								case 'dusa':
+								case 'medusa':
 									sendPublicMessage(Type.HIGHLIGHT, "They were turned to stone by Medusa.", 'covenkill');
 									break;
 								case 'pm':
+								case 'pmer':
+								case 'potion master':
 									sendPublicMessage(Type.HIGHLIGHT, "They were killed by the Potion Master.", 'covenkill');
 									break;
 								case 'hm':
+								case 'hmer':
+								case 'hex master':
 									sendPublicMessage(Type.HIGHLIGHT, "They were hexed by a Hex Master.", 'covenkill');
 									break;
 								case 'necro':
+								case 'necromancer':
 									sendPublicMessage(Type.HIGHLIGHT, "They were killed by the Necromancer's Ghoul.", 'covenkill');
 									break;
 								case 'poisoner':
 									sendPublicMessage(Type.HIGHLIGHT, "They were poisoned by a Poisoner.", 'covenkill');
 									break;
 								case 'sk':
+								case 'serial killer':
 									sendPublicMessage(Type.HIGHLIGHT, "They were stabbed by a Serial Killer.", 'skkill');
 									break;
 								case 'ww':
+								case 'werewolf':
 									sendPublicMessage(Type.HIGHLIGHT, "They were mauled by a Werewolf.", 'skkill');
 									break;
 								case 'arso':
+								case 'arsonist':
 									sendPublicMessage(Type.HIGHLIGHT, "They were incinerated by an Arsonist.", 'arsokill');
 									break;
 								case 'jugg':
+								case 'juggernaut':
 									sendPublicMessage(Type.HIGHLIGHT, "They were assaulted by a Juggernaut.", 'juggkill');
 									break;
 								case 'jest':
+								case 'jester':
 									sendPublicMessage(Type.HIGHLIGHT, "They died from guilt over lynching the Jester.", 'jestkill');
 									break;
 								case 'vamp':
+								case 'vampire':
 									sendPublicMessage(Type.HIGHLIGHT, "They were bitten by a Vampire.", 'vampkill');
 									break;
 								case 'pirate':
 									sendPublicMessage(Type.HIGHLIGHT, "They were plundered by the Pirate.", 'piratekill');
 									break;
 								case 'pest':
+								case 'pestilence':
 									sendPublicMessage(Type.HIGHLIGHT, "They were obliterated by Pestilence, Horseman of the Apocalypse.", 'pestkill');
 									break;
 								default:
