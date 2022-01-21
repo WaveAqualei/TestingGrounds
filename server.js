@@ -3027,11 +3027,15 @@ function Player(socket, name, ip) {
 					if (mod == this.s.id) {
 						if (c.length > 1) {
 							var msg = c.slice(1);
-							msg = msg.join(' ');
+							msg = msg.join(' ').trim();
 							switch(msg.toLowerCase()) {
 								case 'suicide':
 								case 'sui':
 									sendPublicMessage(Type.HIGHLIGHT, "They apparently committed suicide.", 'suicide');
+									break;
+								case 'heart':
+								case 'broken heart':
+									sendPublicMessage(Type.HIGHLIGHT, "They died of a broken heart.", 'heart');
 									break;
 								case 'vigi':
 								case 'vigilante':
@@ -3109,7 +3113,7 @@ function Player(socket, name, ip) {
 									break;
 								case 'ww':
 								case 'werewolf':
-									sendPublicMessage(Type.HIGHLIGHT, "They were mauled by a Werewolf.", 'skkill');
+									sendPublicMessage(Type.HIGHLIGHT, "They were mauled by a Werewolf.", 'wwkill');
 									break;
 								case 'arso':
 								case 'arsonist':
@@ -3139,6 +3143,11 @@ function Player(socket, name, ip) {
 							}
 						} else {
 							this.s.sendMessage(Type.SYSTEM, "The syntax of this command is '/d role.");
+							this.s.sendMessage(Type.SYSTEM, "Use a custom role or use one of the presets we have below:");
+							this.s.sendMessage(Type.STSTEM, "Town: Vigi, Guilt, Vet, Jailor, VH, BG, Guard, Crus, Trap", 'linked');
+							this.s.sendMessage(Type.STSTEM, "Mafia: GF, Maf, Amb", 'mafia');
+							this.s.sendMessage(Type.STSTEM, "Coven: CL, Dusa, Necro, PM, HM, Poisoner", 'coven');
+							this.s.sendMessage(Type.STSTEM, "Other: SK, WW, Arso, Jugg, Jest, Vamp, Pirate, Pest, Suicide, Heart", 'dead');
 						}
 					} else {
 						this.s.sendMessage(Type.SYSTEM, "Only the mod can use this command.");
