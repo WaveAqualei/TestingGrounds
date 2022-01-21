@@ -3026,7 +3026,7 @@ function Player(socket, name, ip) {
 				case 'd':
 					if (mod == this.s.id) {
 						if (c.length > 1) {
-							sanitize(c[1]) {
+							switch(c[1]) {
 								case 'suicide'
 									sendPublicMessage(Type.HIGHLIGHT, "They apparently committed suicide.", 'suicide');
 									break;
@@ -3048,8 +3048,11 @@ function Player(socket, name, ip) {
 								case 'bg':
 									sendPublicMessage(Type.HIGHLIGHT, "They were killed by a Bodyguard.", 'townkill');
 									break;
+								case 'crus':
+									sendPublicMessage(Type.HIGHLIGHT, "They were killed by a Crusader.", 'townkill');
+									break;
 								default:
-									sendPublicMessage(Type.HIGHLIGHT, "They were killed by a "+msg+".", 'modchat');
+									sendPublicMessage(Type.HIGHLIGHT, "They were killed by a "+sanitize(c[1])+".", 'modchat');
 						} else {
 							this.s.sendMessage(Type.SYSTEM, "The syntax of this command is '/d role.");
 						}
