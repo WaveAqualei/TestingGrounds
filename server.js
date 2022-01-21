@@ -3051,8 +3051,12 @@ function Player(socket, name, ip) {
 								case 'crus':
 									sendPublicMessage(Type.HIGHLIGHT, "They were killed by a Crusader.", 'townkill');
 									break;
+								case 'trap':
+									sendPublicMessage(Type.HIGHLIGHT, "They were killed by a Trapper.", 'townkill');
+									break;
 								default:
 									sendPublicMessage(Type.HIGHLIGHT, "They were killed by a "+sanitize(c[1])+".", 'modchat');
+							}
 						} else {
 							this.s.sendMessage(Type.SYSTEM, "The syntax of this command is '/d role.");
 						}
