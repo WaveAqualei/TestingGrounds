@@ -3026,12 +3026,17 @@ function Player(socket, name, ip) {
 				case 'd':
 					if (mod == this.s.id) {
 						if (c.length > 1) {
-							switch(c[1]) {
+							var msg = c.slice(1);
+							msg = msg.join(' ');
+							switch(msg.toLowerCase()) {
 								case 'suicide':
 									sendPublicMessage(Type.HIGHLIGHT, "They apparently committed suicide.", 'suicide');
 									break;
 								case 'vigi':
 									sendPublicMessage(Type.HIGHLIGHT, "They were shot by a Vigilante.", 'townkill');
+									break;
+								case 'guilt':
+									sendPublicMessage(Type.HIGHLIGHT, "They died from guilt.", 'townkill');
 									break;
 								case 'vet':
 									sendPublicMessage(Type.HIGHLIGHT, "They were shot by the Veteran they visited.", 'townkill');
@@ -3054,8 +3059,57 @@ function Player(socket, name, ip) {
 								case 'trap':
 									sendPublicMessage(Type.HIGHLIGHT, "They were killed by a Trapper.", 'townkill');
 									break;
+								case 'gf':
+								case 'mafia':
+									sendPublicMessage(Type.HIGHLIGHT, "They were killed by a member of the mafia.", 'mafiakill');
+									break;
+								case 'amb':
+									sendPublicMessage(Type.HIGHLIGHT, "They were killed by an Ambusher.", 'mafiakill');
+									break;
+								case 'cl':
+									sendPublicMessage(Type.HIGHLIGHT, "They were drained by the Coven Leader.", 'covenkill');
+									break;
+								case 'dusa':
+									sendPublicMessage(Type.HIGHLIGHT, "They were turned to stone by Medusa.", 'covenkill');
+									break;
+								case 'pm':
+									sendPublicMessage(Type.HIGHLIGHT, "They were killed by the Potion Master.", 'covenkill');
+									break;
+								case 'hm':
+									sendPublicMessage(Type.HIGHLIGHT, "They were hexed by a Hex Master.", 'covenkill');
+									break;
+								case 'necro':
+									sendPublicMessage(Type.HIGHLIGHT, "They were killed by the Necromancer's Ghoul.", 'covenkill');
+									break;
+								case 'poisoner':
+									sendPublicMessage(Type.HIGHLIGHT, "They were poisoned by a Poisoner.", 'covenkill');
+									break;
+								case 'sk':
+									sendPublicMessage(Type.HIGHLIGHT, "They were stabbed by a Serial Killer.", 'skkill');
+									break;
+								case 'ww':
+									sendPublicMessage(Type.HIGHLIGHT, "They were mauled by a Werewolf.", 'skkill');
+									break;
+								case 'arso':
+									sendPublicMessage(Type.HIGHLIGHT, "They were incinerated by an Arsonist.", 'arsokill');
+									break;
+								case 'jugg':
+									sendPublicMessage(Type.HIGHLIGHT, "They were assaulted by a Juggernaut.", 'juggkill');
+									break;
+								case 'jest':
+									sendPublicMessage(Type.HIGHLIGHT, "They died from guilt over lynching the Jester.", 'jestkill');
+									break;
+								case 'vamp':
+									sendPublicMessage(Type.HIGHLIGHT, "They were bitten by a Vampire.", 'vampkill');
+									break;
+								case 'pirate':
+									sendPublicMessage(Type.HIGHLIGHT, "They were plundered by the Pirate.", 'piratekill');
+									break;
+								case 'pest':
+									sendPublicMessage(Type.HIGHLIGHT, "They were obliterated by Pestilence, Horseman of the Apocalypse.", 'pestkill');
+									break;
 								default:
-									sendPublicMessage(Type.HIGHLIGHT, "They were killed by a "+sanitize(c[1])+".", 'modchat');
+									sendPublicMessage(Type.HIGHLIGHT, "They were killed by a "+sanitize(msg)+".", 'modchat');
 							}
 						} else {
 							this.s.sendMessage(Type.SYSTEM, "The syntax of this command is '/d role.");
