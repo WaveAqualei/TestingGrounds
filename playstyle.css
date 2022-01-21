@@ -915,7 +915,7 @@ header ul li span
 		margin-top: 15%;
 		resize: none;
 }
-#notes div, #modnotes div 
+#closenotes
 {
 	display: block;
 	position: absolute;
