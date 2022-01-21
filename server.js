@@ -3026,7 +3026,7 @@ function Player(socket, name, ip) {
 				case 'd':
 					if (mod == this.s.id) {
 						if (c.length > 1) {
-							switch(c[1]) {
+							sanitize(c[1]) {
 								case 'suicide'
 									sendPublicMessage(Type.HIGHLIGHT, "They apparently committed suicide.", 'suicide');
 									break;
