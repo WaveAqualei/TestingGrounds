@@ -1080,9 +1080,9 @@ var roles = [
 		attributes: [
 			'You will attack one random player that visits you every night.',
 			'If you do not choose to devour you will attack someone at random.',
-			'All of your victims will have their role and last will unreadable upon death. However, your visiting victims will have their subalignment shown upon death.',
+			'All of your victims will have their role and last will unreadable upon death. Those you attack directly will be cleaned, and those who die from visiting you will only have their subalignment shown.',
 		],
-		goal: 'Live to see everyone electrocuted.',
+		goal: 'Devour all who occupy the town.',
 		color: '#808000',
 		custom: true,
 	},
