@@ -1163,9 +1163,9 @@ addSocketListener(Type.ROLEUPDATE,function(send){
 	var index = users.indexOf(send.name);
 	for (i in send)
 	{
-		if ($('.'+i+'button')[index] && send[i])
+		if (send[i])
 		{
-			$('.controlbutton.more')[index].addClass(i+'buttondown');
+			$($('.controlbutton.more')[index]).addClass(i+'buttondown');
 		}
 	}
 	if (send.role)
@@ -1198,10 +1198,9 @@ addSocketListener(Type.MASSROLEUPDATE,function(people){
 			var index = users.indexOf(send.name);
 			for (i in send)
 			{
-				if ($('.'+i+'button')[index] && send[i])
+				if (send[i])
 				{
-					var button = $($('.'+i+'button')[index]);
-					button.addClass(i+'buttondown');
+					$($('.controlbutton.more')[index]).addClass(i+'buttondown');
 				}
 			}
 			if (send.role)
