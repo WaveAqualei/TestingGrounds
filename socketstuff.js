@@ -195,13 +195,13 @@ function modInterface()
 		var more = $('<div class="controlbutton more"></div>');
 		var arrow = $('<span class="downarrow"></span>');
 		more.append(arrow);
-		more.click(function()
+		more.click(function(e)
 		{
-			openModList(this);
+			openModList(e.target);
 		});
-		will.click(function()
+		will.click(function(e)
 		{
-			openUserWill(this);
+			openUserWill(e.target);
 		});
 
 		info.append(more);
