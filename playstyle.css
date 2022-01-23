@@ -1104,6 +1104,20 @@ header ul li span
 	transform:translate(-50%,-50%);
 }
 /*----Buttons----*/
+.attributebutton
+{
+	background: linear-gradient(#497cef, #4a6efb);
+	width: 20%;
+	float:right;
+	text-align:center;
+	cursor:default;
+	color: floralwhite;
+}
+.attributebutton:hover
+{
+	background: #2a4edb;
+	color: floralwhite;
+}
 .mafiabutton {
    background: url('maf.png'), linear-gradient(#c40e0e, #d66565);
    background-size: 100% 100%
