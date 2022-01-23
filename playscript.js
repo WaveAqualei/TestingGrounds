@@ -532,6 +532,27 @@ function openModList(targ)
 					socket.sendMessage(Type.GUARDIAN_ANGEL, $(this.parentNode).attr('name'));
 				}
 			};
+			Object.entries({
+				mafia: 'Is Mafia',
+				jailor: 'Is Jailor',
+				blackmailer: 'Is Blackmailer',
+				medium: 'Is Medium',
+				mayor: 'Is Mayor',
+				coven: 'Is Coven',
+			}).map(function([chat, text]) {
+				actions[text] = function() {
+					var name = $(this).closest(".info").find(".name").html();
+					if ($(this).hasClass(chat+'buttondown'))
+					{
+						$(this).removeClass(chat+'buttondown');
+					}
+					else
+					{
+						$(this).addClass(chat+'buttondown');
+					}
+					socket.sendMessage(Type.TOGGLE,name,chat);
+				};
+			});
 			var notifications = {
 				'Roleblocked':function()
 				{
