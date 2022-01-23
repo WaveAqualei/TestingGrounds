@@ -531,29 +531,6 @@ addSocketListener(Type.JOIN,function(name)
 			}
 		});
 		modcontrols.append(rolechanger);
-
-		var buttons = ['mafia','jailor','blackmailer','medium','mayor','coven'];
-		for (i in buttons)
-		{
-			var formatted = buttons[i][0].toUpperCase()+buttons[i].substring(1,buttons[i].length);
-			var button = $('<div title="'+formatted+'" class="controlbutton '+buttons[i]+'button">');
-			button.attr('type',buttons[i]);
-			button.click(function()
-			{
-				var name = $($(this).parent().parent().children()[0]).children()[1].innerHTML;
-				var chat = $(this).attr('type');
-				if ($(this).hasClass(chat+'buttondown'))
-				{
-					$(this).removeClass(chat+'buttondown');
-				}
-				else
-				{
-					$(this).addClass(chat+'buttondown');
-				}
-				socket.sendMessage(Type.TOGGLE,name,chat);
-			});
-			modcontrols.append(button);
-		}
 	}
 	li.append(info);
 	if (mod) {
