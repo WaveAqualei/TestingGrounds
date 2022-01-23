@@ -633,6 +633,14 @@ function openModList(targ)
 			var name = users[index];
 			list.attr('name',name);
 			list.css('top',$(targ).height());
+			//Attributes
+			list.append($('<li class="morelistheading">Attributes</li>'));
+			for (i in attributes)
+			{
+				var tmp = $('<li class="morelistitem">'+i+'</li>');
+				tmp.click(actions[i]);
+				list.append(tmp);
+			}
 			//Actions
 			list.append($('<li class="morelistheading">Actions</li>'));
 			for (i in actions)
@@ -641,7 +649,7 @@ function openModList(targ)
 				tmp.click(actions[i]);
 				list.append(tmp);
 			}
-			//Prenots
+			//Notifications
 			list.append($('<li class="morelistheading">Notifications</li>'));
 			for (i in notifications)
 			{
