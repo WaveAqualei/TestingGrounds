@@ -1419,6 +1419,9 @@ function setPhase(p) {
 					if ((players[j].chats.coven && !players[j].chats.jailed && players[i].chats.coven) || players[j].spectate) {
 						players[j].s.sendMessage(Type.SYSTEM, players[i].name + ' was hauled off to jail.');
 					}
+					if ((players[j].chats.vamp && !players[j].chats.jailed && players[i].chats.vamp) || players[j].spectate) {
+						players[j].s.sendMessage(Type.SYSTEM, players[i].name + ' was hauled off to jail.');
+					}
 				}
 			}
 			//Target info, else if because you do not recieve it if you are jailed.
@@ -1467,6 +1470,18 @@ function setPhase(p) {
 		for (i in players) {
 			if (players[i].chats.coven && !players[i].spectate) {
 				covmembers = covmembers + ' ' + players[i].name + '(' + sanitize(players[i].role) + ')';
+			}
+		}
+		for (i in players) {
+			if (players[i].chats.coven && !players[i].spectate) {
+				players[i].s.sendMessage(Type.SYSTEM, covmembers);
+			}
+		}
+		var vampmembers;
+		vampmembers = 'Your fellow Vampires are:';
+		for (i in players) {
+			if (players[i].chats.vamp && !players[i].spectate) {
+				vampmembers = vampmembers + ' ' + players[i].name + '(' + sanitize(players[i].role) + ')';
 			}
 		}
 		for (i in players) {
@@ -3333,6 +3348,12 @@ function Player(socket, name, ip) {
 						players[i].s.sendMessage(Type.TARGET, this.name, this.role, gm.grammarList(targets));
 					}
 				}
+			} else if (this.chats.vamp) {
+				for (i in players) {
+					if (players[i].chats.vamp || players[i].s.id == mod || players[i].spectate) {
+						players[i].s.sendMessage(Type.TARGET, this.name, this.role, gm.grammarList(targets));
+					}
+				}
 			} else {
 				players[mod].s.sendMessage(Type.TARGET, this.name, this.role, gm.grammarList(targets));
 				for (i in players) {
@@ -3427,7 +3448,7 @@ function Player(socket, name, ip) {
 							this.s.sendMessage(Type.SYSTEM, 'Use /a if you want to send a public message as mod');
 						} else if (this.chats.jailed) {
 							this.specMessage(msg, { jailor: true, jailed: true }, null, 'jailed');
-						} else if (this.chats.mafia || this.chats.coven || this.chats.jailor || this.chats.medium) {
+						} else if (this.chats.mafia || this.chats.coven || this.chats.vamp || this.chats.linked || this.chats.jailor || this.chats.medium) {
 							var sendTo = {};
 							if(this.chats.mafia) sendTo.mafia = true;
 							if(this.chats.coven) sendTo.coven = true;
