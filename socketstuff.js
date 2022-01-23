@@ -288,20 +288,14 @@ addSocketListener(Type.HELP,function(commands)
 		"Be patient as Modtime can last for a while, depending on the player number and roles in play.",
 	];
 	var tldrchanges = [
-		"Transporters are not silent",
-		"Disguisers display their own last will on their first disguise and the last will of their previous victim on subsequent disguises.",
-		"Blackmailer can read whispers.",
-		"<a target='_blank' href='http://www.blankmediagames.com/phpbb/viewtopic.php?f=27&t=23473'>Orangeandblack5's Investigation results 1.6</a> are used.",
-		"The Godfather can have the Mafioso perform the night kill.",
-		"The Spy cannot read the Mafia chat.",
+		"None at the moment lol.",
 	];
 	var controls = $("<div class='helppanel shrink aChanges' id='helpListPanel'></div>");
 	var controldetails = [
 		'You can kill or jail a player using the bigger buttons.',
 		'Assign a player a role manually using the textbox under their name.',
-		'The smaller buttons on the bottom right allow you to give a player a modifier, allowing them to do something special. The modifiers are:<br>   <img src="maf.png" class="icon">Mafia, <img src="jailor.png" class="icon">Jailor, <img src="blackmailer.png" class="icon">Reading Whispers, <img src="med.png" class="icon">Medium, <img src="mayor.png" class="icon">Mayor.',
 		'You have access to a player\'s will using the W button. Use this to forge or clean a will.',
-		'The white button labelled with a V allows you to send preset messages to a player.'
+		'The white button labelled with a V allows you to send preset messages to a player. You can also access the modifiers and actions here.'
 	];
 	for (i in controldetails)
 	{
