@@ -470,28 +470,14 @@ function openModList(targ)
 		$('#morelist').remove();
 		if (!alreadyOpen)
 		{
-			var attributes = {};
-			Object.entries({
+			var attributes = {
 				mafia: 'Mafia Chat',
 				coven: 'Coven Chat',
 				jailor: 'Jailor',
 				mayor: 'Mayor',
 				blackmailer: 'Read Whispers',
 				medium: 'Hear Dead',
-			}).map(function([chat, text]) {
-				attributes[text] = function() {
-					var name = $(this).closest(".info").find(".name").html();
-					if ($(this).hasClass(chat+'buttondown'))
-					{
-						$(this).removeClass(chat+'buttondown');
-					}
-					else
-					{
-						$(this).addClass(chat+'buttondown');
-					}
-					socket.sendMessage(Type.TOGGLE,name,chat);
-				};
-			});
+			};
 			var actions = {
 				'Blackmail':function()
 				{
@@ -635,12 +621,24 @@ function openModList(targ)
 			list.css('top',$(targ).height());
 			//Attributes
 			list.append($('<li class="morelistheading">Attributes</li>'));
-			for (i in attributes)
-			{
+			Object.entries(attributes).map(function([chat, i]) {
 				var tmp = $('<li class="morelistitem">'+i+'</li>');
-				tmp.click(attributes[i]);
+				tmp.addClass(chat+'button');
+				tmp.click(function() {
+					var name = $(this).closest(".info").find(".name").html();
+					var controlbutton = $(this).closest('.controlbutton.more');
+					if (controlbutton.hasClass(chat+'buttondown'))
+					{
+						controlbutton.removeClass(chat+'buttondown');
+					}
+					else
+					{
+						controlbutton.addClass(chat+'buttondown');
+					}
+					socket.sendMessage(Type.TOGGLE,name,chat);
+				});
 				list.append(tmp);
-			}
+			});
 			//Actions
 			list.append($('<li class="morelistheading">Actions</li>'));
 			for (i in actions)

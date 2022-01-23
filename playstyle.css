@@ -1148,7 +1148,7 @@ header ul li span
    background: url('maf.png'), #b51a1a;
    background-size:100% 100%;
 }
-.mafiabuttondown {
+.mafiabuttondown .mafiabutton {
 	background: url('maf.png'), #FF7F7F;
 	background-size:100% 100%;
 }
@@ -1160,7 +1160,7 @@ header ul li span
 	background: url('cov.png'), #651FFF;
 	background-size: 100% 100%
 }
-.covenbuttondown {
+.covenbuttondown .covenbutton {
 	background: url('cov.png'), #D499ED;
 	background-size: 100% 100%
 }
@@ -1173,7 +1173,7 @@ header ul li span
    background: url('jailor.png'), #505050;
    background-size:100% 100%;
  }
-.jailorbuttondown {
+.jailorbuttondown .jailorbutton {
    background: url('jailor.png'), #DEDEDE;
    background-size:100% 100%;
 }
@@ -1186,7 +1186,7 @@ header ul li span
    background:url('blackmailer.png'),#A48111;
    background-size:100% 100%;
 }
-.blackmailerbuttondown {
+.blackmailerbuttondown .blackmailerbutton {
    background:url('blackmailer.png'), yellow;
    background-size:100% 100%;
 }
@@ -1199,7 +1199,7 @@ header ul li span
    background: url('mayor.png'), #1B693A;
    background-size:100% 100%;
 }
-.mayorbuttondown {
+.mayorbuttondown .mayorbutton {
    background: url('mayor.png'), lime;
    background-size:100% 100%;
 }
@@ -1212,7 +1212,7 @@ header ul li span
    background: url('med.png'),#274C66;
    background-size:100% 100%;
 }
-.mediumbuttondown {
+.mediumbuttondown .mediumbutton {
    background: url('med.png'), cyan;
    background-size:100% 100%;
 }

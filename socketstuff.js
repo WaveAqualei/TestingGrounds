@@ -1171,8 +1171,7 @@ addSocketListener(Type.ROLEUPDATE,function(send){
 	{
 		if ($('.'+i+'button')[index] && send[i])
 		{
-			var button = $($('.'+i+'button')[index]);
-			button.addClass(i+'buttondown');
+			$('.controlbutton.more')[index].addClass(i+'buttondown');
 		}
 	}
 	if (send.role)
