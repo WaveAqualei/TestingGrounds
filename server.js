@@ -1786,7 +1786,7 @@ function Player(socket, name, ip) {
 			dead: false,
 			mafia: false,
 			coven: false,
-			vamp: false
+			vamp: false,
 			jailor: false,
 			jailed: false,
 			medium: false,
