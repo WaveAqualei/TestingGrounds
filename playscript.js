@@ -473,6 +473,7 @@ function openModList(targ)
 			var attributes = {
 				mafia: 'Mafia Chat',
 				coven: 'Coven Chat',
+				vamp: 'Vampire Chat',
 				jailor: 'Jailor',
 				mayor: 'Mayor',
 				blackmailer: 'Read Whispers',
