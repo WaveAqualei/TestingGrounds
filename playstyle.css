@@ -1141,79 +1141,76 @@ header ul li span
 	background:#8a8a8a;
 }
 .mafiabutton {
-   background: url('maf.png'), linear-gradient(#c40e0e, #d66565);
+   background: #364040;
    background-size: 100% 100%
 }
 .mafiabutton:hover {
-   background: url('maf.png'), #b51a1a;
+   background: #b51a1a;
    background-size:100% 100%;
 }
 .mafiabuttondown .mafiabutton {
-	background: url('maf.png'), #FF7F7F;
+	background: red;
 	background-size:100% 100%;
 }
 .covenbutton {
-	background: url('cov.png'), linear-gradient(#871F78, #6C1960);
+	background: #364040;
 	background-size: 100% 100%
 }
 .covenbutton:hover {
-	background: url('cov.png'), #651FFF;
+	background: #651FFF;
 	background-size: 100% 100%
 }
 .covenbuttondown .covenbutton {
-	background: url('cov.png'), #D499ED;
+	background: mediumpurple;
 	background-size: 100% 100%
 }
 .jailorbutton {
-   background: #919191;
-   background: url('jailor.png'), linear-gradient(#303030,#919191);
+   background: #364040;
    background-size:100% 100%;
  }
 .jailorbutton:hover {
-   background: url('jailor.png'), #505050;
+   background: #505050;
    background-size:100% 100%;
  }
 .jailorbuttondown .jailorbutton {
-   background: url('jailor.png'), #DEDEDE;
+   background: lightgray;
    background-size:100% 100%;
+   color: black;
 }
 .blackmailerbutton {
-   background: #65a9d7;
-   background: url('blackmailer.png'), linear-gradient(#FFB404, #DC9202);
+   background: #364040;
    background-size:100% 100%;
   }
 .blackmailerbutton:hover {
-   background:url('blackmailer.png'),#A48111;
+   background:#A48111;
    background-size:100% 100%;
 }
 .blackmailerbuttondown .blackmailerbutton {
-   background:url('blackmailer.png'), yellow;
+   background: goldenrod;
    background-size:100% 100%;
 }
 .mayorbutton {
-   background: #1ccf00;
-   background: url('mayor.png'), linear-gradient(#087700, #419B33);
+   background: #364040;
    background-size:100% 100%;
  }
 .mayorbutton:hover {
-   background: url('mayor.png'), #1B693A;
+   background: #1B693A;
    background-size:100% 100%;
 }
 .mayorbuttondown .mayorbutton {
-   background: url('mayor.png'), lime;
+   background: lime;
    background-size:100% 100%;
 }
 .mediumbutton {
-   background: #7a941e;
-   background: url('med.png'), linear-gradient(#3A92CD, #306284);
+   background: #364040;
    background-size:100% 100%;
 }
 .mediumbutton:hover {
-   background: url('med.png'),#274C66;
+   background:#274C66;
    background-size:100% 100%;
 }
 .mediumbuttondown .mediumbutton {
-   background: url('med.png'), cyan;
+   background:cyan;
    background-size:100% 100%;
 }
 .killbutton
@@ -1242,7 +1239,7 @@ header ul li span
 }
 .jailbutton
 {
-	background: linear-gradient(#021E3E, #424242);
+	background: linear-gradient(navy, darkslategray);
 	width: 20%;
 	float:right;
 	text-align:center;
@@ -1260,7 +1257,7 @@ header ul li span
 	float:right;
 	text-align:center;
 	cursor:default;
-	color:black;
+	color:navy;
 }
 .releasebutton:hover
 {
