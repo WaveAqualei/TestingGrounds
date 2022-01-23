@@ -471,7 +471,7 @@ function openModList(targ)
 		if (!alreadyOpen)
 		{
 			var attributes = {};
-				Object.entries({
+			Object.entries({
 				mafia: 'Mafia Chat',
 				coven: 'Coven Chat',
 				jailor: 'Jailor',
@@ -638,7 +638,7 @@ function openModList(targ)
 			for (i in attributes)
 			{
 				var tmp = $('<li class="morelistitem">'+i+'</li>');
-				tmp.click(actions[i]);
+				tmp.click(attributes[i]);
 				list.append(tmp);
 			}
 			//Actions
