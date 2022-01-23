@@ -470,6 +470,8 @@ function openModList(targ)
 		$('#morelist').remove();
 		if (!alreadyOpen)
 		{
+			var attributes = {
+			};
 			var actions = {
 				'Blackmail':function()
 				{
@@ -526,7 +528,7 @@ function openModList(targ)
 						}
 					});
 				},
-				"Guardian Angel (Voting Immunity)": function() {
+				"GA (Voting Immunity)": function() {
 					socket.sendMessage(Type.GUARDIAN_ANGEL, $(this.parentNode).attr('name'));
 				}
 			};
@@ -591,7 +593,7 @@ function openModList(targ)
 				   var name = $(this.parentNode).attr('name');
 				   socket.sendMessage(Type.PRENOT,name,'VETSHOT');
 				},
-				'Guardian Angel Watching': function() {
+				'GA Watching': function() {
 					socket.sendMessage(Type.PRENOT,  $(this.parentNode).attr('name'), 'GUARDIAN_ANGEL');
 				},
 				'Poisoned(Curable)': function() {
@@ -822,10 +824,11 @@ function resizeDivider(e)
 function formatAlignment(str)
 {                       
 	//colors
-	var towncolor="#19FF19";
-	var mafiacolor="red";
+	var towncolor="#b0ff39";
+	var mafiacolor="#be0000";
+	var covencolor="#ab5ffb";
 	var randcolor="#42C0FB";
-	var neutcolor='lightgrey';
+	var neutcolor='#cccccc';
 	var hilitecolor="orange";
 	str=str.replace(/[Tt]own/,"<span style='color:"+towncolor+"'>Town</span>");
 	str=str.replace(/[Ii]nvestigative/,"<span style='color:"+randcolor+"'>Investigative</span>");
@@ -837,7 +840,10 @@ function formatAlignment(str)
 	str=str.replace(/[Kk]illing/,"<span style='color:"+randcolor+"'>Killing</span>");
 	str=str.replace(/[Mm]afia/,"<span style='color:"+mafiacolor+"'>Mafia</span>");
 	str=str.replace(/[Dd]eception/,"<span style='color:"+randcolor+"'>Deception</span>");
+	str=str.replace(/[Hh]ead/,"<span style='color:"+randcolor+"'>Head</span>");
+	str=str.replace(/[Cc]oven/,"<span style='color:"+covencolor+"'>Coven</span>");
 	str=str.replace(/[Ee]vil/,"<span style='color:"+randcolor+"'>Evil</span>");
+	str=str.replace(/[Cc]haos/,"<span style='color:"+randcolor+"'>Chaos</span>");
 	str=str.replace(/[Bb]enign/,"<span style='color:"+randcolor+"'>Benign</span>");
 	str=str.replace(/[Nn]eutral/,"<span style='color:"+neutcolor+"'>Neutral</span>");
 	str = str.replace(/[Aa]ny/, "<span style='color:white'>Any</span>");
