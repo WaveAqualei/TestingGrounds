@@ -470,7 +470,7 @@ function openModList(targ)
 		$('#morelist').remove();
 		if (!alreadyOpen)
 		{
-			var attributes = {
+			var attributes = {};
 				Object.entries({
 				mafia: 'Mafia Chat',
 				coven: 'Coven Chat',
@@ -479,7 +479,7 @@ function openModList(targ)
 				blackmailer: 'Read Whispers',
 				medium: 'Hear Dead',
 			}).map(function([chat, text]) {
-				actions[text] = function() {
+				attributes[text] = function() {
 					var name = $(this).closest(".info").find(".name").html();
 					if ($(this).hasClass(chat+'buttondown'))
 					{
