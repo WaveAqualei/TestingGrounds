@@ -1485,7 +1485,7 @@ function setPhase(p) {
 			}
 		}
 		for (i in players) {
-			if (players[i].chats.coven && !players[i].spectate) {
+			if (players[i].chats.vamp && !players[i].spectate) {
 				players[i].s.sendMessage(Type.SYSTEM, covmembers);
 			}
 		}
@@ -1786,6 +1786,7 @@ function Player(socket, name, ip) {
 			dead: false,
 			mafia: false,
 			coven: false,
+			vamp: false
 			jailor: false,
 			jailed: false,
 			medium: false,
@@ -3452,6 +3453,7 @@ function Player(socket, name, ip) {
 							var sendTo = {};
 							if(this.chats.mafia) sendTo.mafia = true;
 							if(this.chats.coven) sendTo.coven = true;
+							if(this.chats.vamp) sendTo.vamp = true;
 							if(Object.keys(sendTo).length) {
 								this.specMessage(msg, sendTo);
 							}
