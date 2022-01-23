@@ -1172,7 +1172,7 @@ header ul li span
 	background: #505050;
 	background-size: 100% 100%;
 }
-vampbuttondown .vampbutton {
+.vampbuttondown .vampbutton {
 	background: #6c7d47;
 	background-size: 100% 100%;
 }
@@ -1534,7 +1534,8 @@ neut
 }
 .vamp
 {
-	color:#405243;
+	color: #99b068;
+	text-shadow: 0px 0px 10px black;
 }
 .linked
 {
