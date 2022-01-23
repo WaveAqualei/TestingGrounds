@@ -1178,7 +1178,7 @@ addSocketListener(Type.ROLEUPDATE,function(send){
 	if (send.role)
 	{
 		$($('.role')[index]).val(send.role);
-		$('.role')[index].style.background = 'green';
+		$('.role')[index].style.background = 'teal';
 	}
 	if (!send.alive)
 	{
