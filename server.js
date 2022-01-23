@@ -1486,7 +1486,7 @@ function setPhase(p) {
 		}
 		for (i in players) {
 			if (players[i].chats.vamp && !players[i].spectate) {
-				players[i].s.sendMessage(Type.SYSTEM, covmembers);
+				players[i].s.sendMessage(Type.SYSTEM, vampmembers);
 			}
 		}
 	}
