@@ -571,6 +571,10 @@ io.on('connection', function (socket, req) {
 			socket.sendMessage(Type.KICK);
 			console.log('Connection attempt from banned ip: ' + ip);
 			socket.close();
+		} else if (!nameCheck(connecting_as_name)) {
+			socket.sendMessage(Type.SYSTEM, 'Invalid name!');
+			socket.sendMessage(Type.KICK);
+			socket.close();
 		} else {
 			//Check if the person is reconnecting or an alt.
 			var reconnecting = null;
