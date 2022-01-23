@@ -971,7 +971,7 @@ var roles = [
 		abilities: ['Watch over a player each night, granting them Powerful defense.'],
 		attributes: [
 			'When you protect a player they cannot be voted up the next day.',
-			'You may protect two more times after you die.',
+			'You may protect when dead, however you have a one day cooldown.',
 			'You may not protect yourself.',
 		],
 		goal: 'Save four people from attacks.',
