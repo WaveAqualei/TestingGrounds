@@ -1118,6 +1118,28 @@ header ul li span
 	background: #2a4edb;
 	color: floralwhite;
 }
+#attributelist
+{
+	position:absolute;
+	right:0;
+	background:#364040;
+	color: white;
+	border:1px solid white;
+	list-style:none;
+	padding:0;
+	z-index: 10;
+	margin:0;
+	padding:0;
+}
+.attributelistheading
+{
+	width:100%;
+	background:#1f1f1f;
+}
+.attributelistitem:hover
+{
+	background:#8a8a8a;
+}
 .mafiabutton {
    background: url('maf.png'), linear-gradient(#c40e0e, #d66565);
    background-size: 100% 100%
