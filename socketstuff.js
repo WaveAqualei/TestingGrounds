@@ -219,7 +219,7 @@ function modInterface()
 					var index = $('.role').index($(this));
 					var name = $('.name')[index].innerHTML;
 					socket.sendMessage(Type.SETROLE,name,this.value);
-					this.style.background='green';
+					this.style.background='teal';
 				}
 				else
 				{
@@ -510,7 +510,7 @@ addSocketListener(Type.JOIN,function(name)
 					var index = $('.role').index($(this));
 					var name = $('.name')[index].innerHTML;
 					socket.sendMessage(Type.SETROLE,name,this.value);
-					this.style.background='green';
+					this.style.background='teal';
 					this.old = this.value;
 				}
 		});
@@ -521,7 +521,7 @@ addSocketListener(Type.JOIN,function(name)
 			}
 			else
 			{
-				this.style.background='green';
+				this.style.background='teal';
 			}
 		});
 		modcontrols.append(rolechanger);
@@ -1153,7 +1153,7 @@ addSocketListener(Type.REMSPEC, function (name) {
 addSocketListener(Type.ROLECARD,function(card)
 {
 	addMessage(card,'rolecard');
-	var li = $(``#p-${player_name}``).closest('li');
+	var li = $(`#p-${player_name}`).closest('li');
 	li.find('.roledisplay').remove();
 	li.append(`<div class="roledisplay"><span style="color: ${p.rolecolor}">${role_safe}</span></div>`);
 });
@@ -1211,7 +1211,7 @@ addSocketListener(Type.MASSROLEUPDATE,function(people){
 			if (send.role)
 			{
 				$($('.role')[index]).val(send.role);
-				$('.role')[index].style.background = 'green';
+				$('.role')[index].style.background = 'teal';
 			}
 			if (!send.alive)
 			{
