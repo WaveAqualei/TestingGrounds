@@ -1805,6 +1805,10 @@ function Player(socket, name, ip) {
 			} else {
 				this.s.sendMessage(Type.SYSTEM, 'Your role is ' + sanitize(role));
 			}
+			this.s.sendMessage(Type.SETROLE, {
+				role: this.role,
+				rolecolor: roles.getRoleData(this.role).color,
+			});
 		},
 		dc: function () {
 			sendPublicMessage(Type.DISCONNECT, this.name);
