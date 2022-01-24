@@ -1198,7 +1198,7 @@ header ul li span
    background-size:100% 100%;
 }
 .blackmailerbuttondown .blackmailerbutton {
-   background: goldenrod;
+   background: #dbcc93;
    background-size:100% 100%;
 }
 .mayorbutton {
@@ -1212,6 +1212,7 @@ header ul li span
 .mayorbuttondown .mayorbutton {
    background: lime;
    background-size:100% 100%;
+   color: black;
 }
 .mediumbutton {
    background: #364040;
@@ -1224,6 +1225,19 @@ header ul li span
 .mediumbuttondown .mediumbutton {
    background:cyan;
    background-size:100% 100%;
+   text: black;
+}
+.piratebutton {
+   background:#364040;
+   background-size: 100% 100;
+}
+.piratebutton:hover {
+   background: #505050;
+   background-size: 100% 100%;
+}
+.piratebuttondown .piratebutton {
+   background: darkgoldenrod;
+   background-size: 100% 100%;
 }
 .killbutton
 {
@@ -1275,6 +1289,32 @@ header ul li span
 {
 	background:#CACACA;
 }
+.duelbutton
+{
+	background: linear-gradient(darkgoldenrod, #e2c24c);
+	width: 20%;
+	float:right;
+	text-align:center;
+	cursor:default;
+	color: black;
+}
+.duelbutton:hover
+{
+	background: #805b00;
+}
+.letgobutton
+{
+	background: linear-gradient(#13ACBF, #05C3DD);
+	width: 20%;
+	float:right;
+	text-align:center;
+	cursor:default;
+	color: floralwhite;
+}
+.letgobutton:hover
+{
+	background: #067280;
+	color: floralwhite;
 .more
 {
 	width: 10%;
