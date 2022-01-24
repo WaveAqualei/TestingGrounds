@@ -476,7 +476,6 @@ function openModList(targ)
 				vamp: 'Vampire Chat',
 				jailor: 'Jailor',
 				mayor: 'Mayor',
-				pirate: 'Pirate',
 				blackmailer: 'Read Whispers',
 				medium: 'Hear Dead',
 			};
