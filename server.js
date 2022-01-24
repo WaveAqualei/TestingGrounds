@@ -33,6 +33,7 @@ var commandList = {
 		execute: 'Choose to execute the person you have jailed. Usage /execute, then /execute again to cancel.',
 		seance: 'Choose a player to talk to at night. You may only use this once during the day.',
 		jail: 'Choose to jail a player. Usage: /jail [target] during the day.',
+		duel: 'Choose to duel a player. Usage: /duel [target] during the day.',
 	},
 	mod: {
 		givemod: 'Pass the mod onto another person. Usage: /givemod name',
@@ -1108,7 +1109,7 @@ io.on('connection', function (socket, req) {
 								if (!players[socket.id].silenced) {
 									player.s.sendMessage(
 										Type.SYSTEM,
-										'You are now the jailor. Use /jail [target] to jail. Use /execute, /exe or /x to execute your prisoner.'
+										'You are now the Jailor. Use /jail [target] to jail. Use /execute, /exe or /x to execute your prisoner.'
 									);
 								}
 								break;
@@ -1131,7 +1132,7 @@ io.on('connection', function (socket, req) {
 							case 'jailor':
 								player.jailorcom = false;
 								if (!players[socket.id].silenced) {
-									player.s.sendMessage(Type.SYSTEM, 'You are no longer the jailor.');
+									player.s.sendMessage(Type.SYSTEM, 'You are no longer the j=Jailor.');
 								}
 								break;
 							case 'jailed':
