@@ -1132,7 +1132,7 @@ io.on('connection', function (socket, req) {
 							case 'jailor':
 								player.jailorcom = false;
 								if (!players[socket.id].silenced) {
-									player.s.sendMessage(Type.SYSTEM, 'You are no longer the j=Jailor.');
+									player.s.sendMessage(Type.SYSTEM, 'You are no longer the Jailor.');
 								}
 								break;
 							case 'jailed':
