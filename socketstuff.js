@@ -568,10 +568,13 @@ addSocketListener(Type.RECONNECT,function(name)
 });
 addSocketListener(Type.SETROLE,function(role)
 {
-	var li = $(`#p-${player_name}`).closest('li');
-	li.find('.roledisplay').remove();
-	var role_safe = sanitize(role.role);
-	li.append(`<div class="roledisplay"><span style="color: ${role.rolecolor}">${role_safe}</span></div>`);
+	if(!mod)
+	{
+		var li = $(`#p-${player_name}`).closest('li');
+		li.find('.roledisplay').remove();
+		var role_safe = sanitize(role.role);
+		li.append(`<div class="roledisplay"><span style="color: ${role.rolecolor}">${role_safe}</span></div>`);
+	}
 });
 addSocketListener(Type.SETMOD,function(val)
 {
