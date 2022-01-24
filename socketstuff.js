@@ -720,7 +720,9 @@ addSocketListener(Type.TOGGLELIVING,function(p)
 		else
 		{
 			li.removeClass('deadplayer');
-			li.find('.roledisplay').remove();
+			if(p.name != player_name) {
+				li.find('.roledisplay').remove();
+			}
 			li.find(`#${p.name}-will`).remove();
 		}
 	}
@@ -1151,6 +1153,9 @@ addSocketListener(Type.REMSPEC, function (name) {
 addSocketListener(Type.ROLECARD,function(card)
 {
 	addMessage(card,'rolecard');
+	var li = $(``#p-${player_name}``).closest('li');
+	li.find('.roledisplay').remove();
+	li.append(`<div class="roledisplay"><span style="color: ${p.rolecolor}">${role_safe}</span></div>`);
 });
 addSocketListener(Type.WILL,function(will)
 {
