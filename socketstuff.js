@@ -1053,6 +1053,15 @@ addSocketListener(Type.PRENOT,function(notification)
 	  case 'JAILING':
 		 addMessage({msg:'You dragged your target to jail!',styling:'reviving'},'prenot');
 	  break;
+	  case 'DUELED':
+         	 addMessage({msg:'You have been dueled by a Pirate! Choose your defense: Sidestep, Chainmail, Backpedal.',styling:'dying'},'prenot');
+          break;
+          case 'DUELING':
+         	 addMessage({msg:'Choose yer attack: Scimitar, Rapier, Pistol.',styling:'reviving'},'prenot');
+          break;
+          case 'DUELSTATS':
+          	 addMessage({msg:'Scimitar beats Sidestep, Rapier beats Chainmail, Pistol beats Backpedal.',styling:'piratekill'},'prenot');
+          break;
 	  case 'LINKED':
 		 addMessage({msg:'You have been linked!',styling:'reviving'},'prenot');
 	  break;
