@@ -566,6 +566,13 @@ addSocketListener(Type.RECONNECT,function(name)
 	addMessage(name +' has reconnected.','system');
 	$(`#${name}-disconnected`).remove();
 });
+addSocketListener(Type.SETROLE,function(role)
+{
+	var li = $(`#p-${player_name}`).closest('li');
+	li.find('.roledisplay').remove();
+	var role_safe = sanitize(role.name);
+	li.append(`<div class="roledisplay"><span style="color: ${role.rolecolor}">${role_safe}</span></div>`);
+});
 addSocketListener(Type.SETMOD,function(val)
 {
 	if (val && !mod)
@@ -1008,7 +1015,7 @@ addSocketListener(Type.PRENOT,function(notification)
 		 addMessage({msg:'Someone threatened to reveal your secrets. You are blackmailed!',styling:'dying'},'prenot');
 	  break;
 	  case 'DOUSE':
-		 addMessage({msg:'You were doused!',styling:'dying'},'prenot');
+		 addMessage({msg:'You were doused in gas!',styling:'dying'},'prenot');
 	  break;
 	  case 'TARGETIMMUNE':
 		 addMessage({msg:'Your target\'s defense was too strong to kill.',styling:'dying'},'prenot');
@@ -1041,7 +1048,7 @@ addSocketListener(Type.PRENOT,function(notification)
 		 addMessage({msg:'You were hauled off to jail!',styling:'dying'},'prenot');
 	  break;
 	  case 'JAILING':
-		 addMessage({msg:'You hauled your target off to jail!',styling:'reviving'},'prenot');
+		 addMessage({msg:'You dragged your target to jail!',styling:'reviving'},'prenot');
 	  break;
 	  case 'LINKED':
 		 addMessage({msg:'You have been linked!',styling:'reviving'},'prenot');
@@ -1153,9 +1160,6 @@ addSocketListener(Type.REMSPEC, function (name) {
 addSocketListener(Type.ROLECARD,function(card)
 {
 	addMessage(card,'rolecard');
-	var li = $(`#p-${player_name}`).closest('li');
-	li.find('.roledisplay').remove();
-	li.append(`<div class="roledisplay"><span style="color: ${p.rolecolor}">${role_safe}</span></div>`);
 });
 addSocketListener(Type.WILL,function(will)
 {
