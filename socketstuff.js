@@ -191,24 +191,6 @@ function modInterface()
 				$(this).html('<span>Jail</span>');
 			}
 		});
-		var duel= $('<div class="controlbutton duelbutton"><span>Duel</span></div>');
-		duel.click(function()
-		{
-			var index = $('.duelbutton, .letgobutton').index($(this))
-			socket.sendMessage(Type.TOGGLE,users[index],'dueled');
-			if ($(this).hasClass('duelbutton'))
-			{
-				$(this).removeClass('duelbutton');
-				$(this).addClass('letgobutton');
-				$(this).html('<span>Let Go</span>');
-			}
-			else
-			{
-				$(this).removeClass('letgobutton');
-				$(this).addClass('duelbutton');
-				$(this).html('<span>Duel</span>');
-			}
-		});
 		var will = $('<div class="controlbutton modwillbutton"><span>W</span></div>');
 		var more = $('<div class="controlbutton more"></div>');
 		var arrow = $('<span class="downarrow"></span>');
@@ -224,7 +206,6 @@ function modInterface()
 
 		info.append(more);
 		info.append(will);
-		info.append(duel);
 		info.append(jail);
 		info.append(kill);
 
@@ -245,6 +226,27 @@ function modInterface()
 					this.style.background='white';
 				}
 		});
+		var duel= $('<div class="controlbutton duelbutton"><span>Duel</span></div>');
+		duel.click(function()
+		{
+			var index = $('.duelbutton, .letgobutton').index($(this))
+			socket.sendMessage(Type.TOGGLE,users[index],'dueled');
+			if ($(this).hasClass('duelbutton'))
+			{
+				$(this).removeClass('duelbutton');
+				$(this).addClass('letgobutton');
+				$(this).html('<span>Let Go</span>');
+			}
+			else
+			{
+				$(this).removeClass('letgobutton');
+				$(this).addClass('duelbutton');
+				$(this).html('<span>Duel</span>');
+			}
+		});
+		
+		info.append(duel);
+		
 		modcontrols.append(rolechanger);
 		$($('#userlist li')[x]).append(info);
 		$($('#userlist li')[x]).append(modcontrols);
@@ -505,24 +507,6 @@ addSocketListener(Type.JOIN,function(name)
 				$(this).html('<span>Jail</span>');
 			}
 		});
-		var duel= $('<div class="controlbutton duelbutton"><span>Duel</span></div>');
-		duel.click(function()
-		{
-			var index = $('.duelbutton, .letgobutton').index($(this))
-			socket.sendMessage(Type.TOGGLE,users[index],'dueled');
-			if ($(this).hasClass('duelbutton'))
-			{
-				$(this).removeClass('duelbutton');
-				$(this).addClass('letgobutton');
-				$(this).html('<span>Let Go</span>');
-			}
-			else
-			{
-				$(this).removeClass('letgobutton');
-				$(this).addClass('duelbutton');
-				$(this).html('<span>Duel</span>');
-			}
-		});
 		var will = $('<div class="controlbutton modwillbutton"><span>W</span></div>');
 		var more = $('<div class="controlbutton more"><span class="downarrow"></span></div>');
 		more.click(function(e)
@@ -535,7 +519,6 @@ addSocketListener(Type.JOIN,function(name)
 		});
 		info.append(more);
 		info.append(will);
-		info.append(duel);
 		info.append(jail);
 		info.append(kill);
 		//Adding bottom row
@@ -562,6 +545,27 @@ addSocketListener(Type.JOIN,function(name)
 				this.style.background='teal';
 			}
 		});
+		var duel= $('<div class="controlbutton duelbutton"><span>Duel</span></div>');
+		duel.click(function()
+		{
+			var index = $('.duelbutton, .letgobutton').index($(this))
+			socket.sendMessage(Type.TOGGLE,users[index],'dueled');
+			if ($(this).hasClass('duelbutton'))
+			{
+				$(this).removeClass('duelbutton');
+				$(this).addClass('letgobutton');
+				$(this).html('<span>Let Go</span>');
+			}
+			else
+			{
+				$(this).removeClass('letgobutton');
+				$(this).addClass('duelbutton');
+				$(this).html('<span>Duel</span>');
+			}
+		});
+		
+		info.append(duel);
+		
 		modcontrols.append(rolechanger);
 	}
 	li.append(info);
