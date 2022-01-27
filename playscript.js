@@ -1060,6 +1060,27 @@ function chooseAutoButton(info, label)
 				}
 			};
 		break;
+		case '<Duel>':
+			func = function(){
+				var tr = $(this).parent().parent();
+				var to = $($(tr.children()[1]).children()[0]).html();
+				socket.sendMessage(Type.TOGGLE,to,'dueled');
+				var index = users.indexOf(to);
+				var buttons = $('.duelbutton, .letgobutton');
+				if ($(buttons[index]).hasClass('duelbutton'))
+				{
+					$(buttons[index]).removeClass('duelbutton');
+					$(buttons[index]).addClass('letgobutton');
+					$(buttons[index]).html('<span>Let Go</span>');
+				}
+				else
+				{
+					$(buttons[index]).removeClass('letgobutton');
+					$(buttons[index]).addClass('duelbutton');
+					$(buttons[index]).html('<span>Duel</span>');
+				}
+			};
+		break;
 		case '<Linked>':
 			func = function(){
 				var tr = $(this).parent().parent();
