@@ -192,7 +192,7 @@ function modInterface()
 			}
 		});
 		var duel= $('<div class="controlbutton duelbutton"><span>Duel</span></div>');
-		jail.click(function()
+		duel.click(function()
 		{
 			var index = $('.duelbutton, .letgobutton').index($(this))
 			socket.sendMessage(Type.TOGGLE,users[index],'dueled');
@@ -506,7 +506,7 @@ addSocketListener(Type.JOIN,function(name)
 			}
 		});
 		var duel= $('<div class="controlbutton duelbutton"><span>Duel</span></div>');
-		jail.click(function()
+		duel.click(function()
 		{
 			var index = $('.duelbutton, .letgobutton').index($(this))
 			socket.sendMessage(Type.TOGGLE,users[index],'dueled');
