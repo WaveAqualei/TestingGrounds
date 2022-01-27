@@ -226,6 +226,9 @@ function modInterface()
 					this.style.background='white';
 				}
 		});
+		modcontrols.append(rolechanger);
+		$($('#userlist li')[x]).append(info);
+		$($('#userlist li')[x]).append(modcontrols);
 		var duel= $('<div class="controlbutton duelbutton"><span>Duel</span></div>');
 		duel.click(function()
 		{
@@ -246,10 +249,6 @@ function modInterface()
 		});
 		
 		info.append(duel);
-		
-		modcontrols.append(rolechanger);
-		$($('#userlist li')[x]).append(info);
-		$($('#userlist li')[x]).append(modcontrols);
 	}
 	$('.name').addClass('shorten');
 }
@@ -545,6 +544,7 @@ addSocketListener(Type.JOIN,function(name)
 				this.style.background='teal';
 			}
 		});
+		modcontrols.append(rolechanger);
 		var duel= $('<div class="controlbutton duelbutton"><span>Duel</span></div>');
 		duel.click(function()
 		{
@@ -565,8 +565,6 @@ addSocketListener(Type.JOIN,function(name)
 		});
 		
 		info.append(duel);
-		
-		modcontrols.append(rolechanger);
 	}
 	li.append(info);
 	if (mod) {
