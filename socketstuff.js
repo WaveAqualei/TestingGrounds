@@ -191,6 +191,24 @@ function modInterface()
 				$(this).html('<span>Jail</span>');
 			}
 		});
+		var duel= $('<div class="controlbutton duelbutton"><span>Duel</span></div>');
+		jail.click(function()
+		{
+			var index = $('.duelbutton, .letgobutton').index($(this))
+			socket.sendMessage(Type.TOGGLE,users[index],'dueled');
+			if ($(this).hasClass('duelbutton'))
+			{
+				$(this).removeClass('duelbutton');
+				$(this).addClass('letgobutton');
+				$(this).html('<span>Let Go</span>');
+			}
+			else
+			{
+				$(this).removeClass('letgobutton');
+				$(this).addClass('duelbutton');
+				$(this).html('<span>Duel</span>');
+			}
+		});
 		var will = $('<div class="controlbutton modwillbutton"><span>W</span></div>');
 		var more = $('<div class="controlbutton more"></div>');
 		var arrow = $('<span class="downarrow"></span>');
@@ -206,6 +224,7 @@ function modInterface()
 
 		info.append(more);
 		info.append(will);
+		info.append(duel);
 		info.append(jail);
 		info.append(kill);
 
@@ -486,6 +505,24 @@ addSocketListener(Type.JOIN,function(name)
 				$(this).html('<span>Jail</span>');
 			}
 		});
+		var duel= $('<div class="controlbutton duelbutton"><span>Duel</span></div>');
+		jail.click(function()
+		{
+			var index = $('.duelbutton, .letgobutton').index($(this))
+			socket.sendMessage(Type.TOGGLE,users[index],'dueled');
+			if ($(this).hasClass('duelbutton'))
+			{
+				$(this).removeClass('duelbutton');
+				$(this).addClass('letgobutton');
+				$(this).html('<span>Let Go</span>');
+			}
+			else
+			{
+				$(this).removeClass('letgobutton');
+				$(this).addClass('duelbutton');
+				$(this).html('<span>Duel</span>');
+			}
+		});
 		var will = $('<div class="controlbutton modwillbutton"><span>W</span></div>');
 		var more = $('<div class="controlbutton more"><span class="downarrow"></span></div>');
 		more.click(function(e)
@@ -498,6 +535,7 @@ addSocketListener(Type.JOIN,function(name)
 		});
 		info.append(more);
 		info.append(will);
+		info.append(duel);
 		info.append(jail);
 		info.append(kill);
 		//Adding bottom row
@@ -1208,6 +1246,13 @@ addSocketListener(Type.ROLEUPDATE,function(send){
 		button.addClass('releasebutton');
 		button.html('<span>Release</span>');
 	}
+	if (send.dueled)
+	{
+		var button = $($('.duelbutton')[index]);
+		button.removeClass('duelbutton');
+		button.addClass('letgobutton');
+		button.html('<span>Let Go</span>');
+	}
 });
 addSocketListener(Type.MASSROLEUPDATE,function(people){
 	if (mod)
@@ -1242,6 +1287,13 @@ addSocketListener(Type.MASSROLEUPDATE,function(people){
 				button.addClass('releasebutton');
 				button.removeClass('jailbutton');
 				button.html('<span>Release</span>');
+			}
+			if (send.dueled)
+			{
+				var button = $($('.duelbutton')[index]);
+				button.addClass('letgobutton');
+				button.removeClass('duelbutton');
+				button.html('<span>Let Go</span>');
 			}
 		}
 	}
