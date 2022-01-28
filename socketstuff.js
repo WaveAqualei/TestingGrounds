@@ -226,7 +226,7 @@ function modInterface()
 					this.style.background='white';
 				}
 		});
-		var duel= $('<div class="controlbutton duelbutton"><span>Duel</span></div>');
+		var duel= $('<div class="modcontrols duelbutton"><span>Duel</span></div>');
 		duel.click(function()
 		{
 			var index = $('.duelbutton, .letgobutton').index($(this))
@@ -544,7 +544,7 @@ addSocketListener(Type.JOIN,function(name)
 				this.style.background='teal';
 			}
 		});
-		var duel= $('<div class="controlbutton duelbutton"><span>Duel</span></div>');
+		var duel= $('<div class="modcontrols duelbutton"><span>Duel</span></div>');
 		duel.click(function()
 		{
 			var index = $('.duelbutton, .letgobutton').index($(this))
