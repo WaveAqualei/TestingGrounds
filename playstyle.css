@@ -2,7 +2,7 @@ html,body
 {
 	margin:0;
 	padding:0;
-	background-color: #3B4545;
+	background-color: #37393f;
 	height:100%;
 	width:100%;
 	overflow:hidden;
@@ -779,7 +779,7 @@ header ul li span
 	transform:translate(0,-50%);
 	text-align:center;
 	width: 2.4em;
-	background: #3B4545;
+	background: #37393f;
 	color: white;
 }
 #modnumbering span
