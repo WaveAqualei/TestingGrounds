@@ -1310,11 +1310,13 @@ header ul li span
 	text-align:center;
 	cursor:default;
 	color: floralwhite;
+	white-space: nowrap;
 }
 .letgobutton:hover
 {
 	background: #067280;
 	color: floralwhite;
+	white-space: nowrap;
 }
 .more
 {
