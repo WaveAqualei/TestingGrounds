@@ -1289,11 +1289,6 @@ function setPhase(p) {
 			var results = gm.evaluate(players, playernames, playernums, mod, roles, autoLevel, phase);
 			if (autoLevel == 3) {
 				for (i in results.targets) {
-					var type = results.actions[i][0];
-					if (type[0] == '<') {
-						type = type.substring(1, type.length - 1);
-					}
-					var label = results.actions[i][0].substring(1, results.actions[i][0].length - 1);
 					if (results.targets[i][1]) {
 						players[mod].s.sendMessage(
 							Type.SYSTEM,
