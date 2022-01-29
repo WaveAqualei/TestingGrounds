@@ -248,7 +248,7 @@ function modInterface()
 			}
 		});
 		
-		info.append(duel);
+		modcontrols.append(duel);
 	}
 	$('.name').addClass('shorten');
 }
@@ -564,7 +564,7 @@ addSocketListener(Type.JOIN,function(name)
 			}
 		});
 		
-		info.append(duel);
+		modcontrols.append(duel);
 	}
 	li.append(info);
 	if (mod) {
