@@ -877,7 +877,7 @@ module.exports = {
 				{
 					p2 = 0;
 				}
-				return (p2 > p1);
+				return (p2 - p1);
 			});
 			/*if (rainnumber == 1 && fromphase == 4 || fromphase == 7)
 			{
