@@ -227,8 +227,6 @@ function modInterface()
 				}
 		});
 		modcontrols.append(rolechanger);
-		$($('#userlist li')[x]).append(info);
-		$($('#userlist li')[x]).append(modcontrols);
 		var duel= $('<div class="modcontrols duelbutton"><span>Duel</span></div>');
 		duel.click(function()
 		{
@@ -249,6 +247,8 @@ function modInterface()
 		});
 		
 		modcontrols.append(duel);
+		$($('#userlist li')[x]).append(info);
+		$($('#userlist li')[x]).append(modcontrols);
 	}
 	$('.name').addClass('shorten');
 }
