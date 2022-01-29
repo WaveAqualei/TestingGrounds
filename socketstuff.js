@@ -227,7 +227,7 @@ function modInterface()
 				}
 		});
 		modcontrols.append(rolechanger);
-		var duel= $('<div class="modcontrols duelbutton"><span>Duel</span></div>');
+		var duel= $('<div class="controlbutton duelbutton"><span>Duel</span></div>');
 		duel.click(function()
 		{
 			var index = $('.duelbutton, .letgobutton').index($(this))
