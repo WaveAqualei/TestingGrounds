@@ -1295,8 +1295,7 @@ header ul li span
 {
 	background: linear-gradient(darkgoldenrod, #e2c24c);
 	width: 20%;
-	height: 100%;
-	float:right;
+	float:left;
 	text-align:center;
 	cursor:default;
 	color: black;
@@ -1307,10 +1306,9 @@ header ul li span
 }
 .letgobutton
 {
-	background: linear-gradient(#13ACBF, #05C3DD);
+	background: linear-gradient(#0d8e9e, #05C3DD);
 	width: 20%;
-	height: 100%;
-	float:right;
+	float:left;
 	text-align:center;
 	cursor:default;
 	color: floralwhite;
