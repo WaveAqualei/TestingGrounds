@@ -964,7 +964,7 @@ function chooseAutoButton(info, label)
 			func = function(){
 				var tr = $(this).parent().parent();
 				var to = $($(tr.children()[1]).children()[0]).html();
-				socket.sendMessage(Type.MSG,to);
+				socket.sendMessage(Type.MSG,'/a '+to);
 			};
 		break;
 		/*Actions*/
