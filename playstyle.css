@@ -658,7 +658,7 @@ header ul li span
 }
 .votebutton:hover
 {
-	background:#A39827;
+	background:cornflowerblue;
 }
 .nightbutton:hover
 {
@@ -673,7 +673,7 @@ header ul li span
 	border-radius:8px;
 	float:left;
 	text-align:center;
-	background:white;
+	background:tan;
 }
 .modcontrols, .info
 {
