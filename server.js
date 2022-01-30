@@ -479,6 +479,7 @@ var server = http.createServer(function (req, res) {
 		case '/Searching.mp3':
 		case '/ShockAndAwe.mp3':
 		case '/Skyworld.mp3':
+		case '/Spinwheel.m4a':
 		case '/StarlitSky.mp3':
 		case '/Suspicion.mp3':
 		case '/Touchstone.mp3':
