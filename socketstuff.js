@@ -14,15 +14,15 @@ var kicked = false;
 var hey = new Audio('ping.wav');
 //Halloween
 //var hey = new Audio('Giratina.wav');
-var mpregame = new Audio('KakarikoNight.mp3');
-var whoami = new Audio('Spinwheel.m4a');
-var mmodtime = new Audio('Touchstone.mp3');
+var mpregame = new Audio('StarlitSky.mp3');
+var whoami = new Audio('GardenGridlock.mp3');
+var mmodtime = new Audio('Spinwheel.m4a');
 //Halloween
 //var mmodtime = new Audio('Bewitching.mp3');
 var mdaytime = new Audio('Skyworld.mp3');
 var mvoting = new Audio('Suspicion.mp3');
 var mtrial = new Audio('Innocence.mp3');
-var mnight = new Audio('MountHylia.mp3');
+var mnight = new Audio('KakarikoNight.mp3');
 var musicon = 1;
 mpregame.loop = true;
 whoami.loop = true;
