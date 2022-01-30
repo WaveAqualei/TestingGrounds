@@ -256,7 +256,7 @@ function processMessage(msg, type)
 					case 1: case 3: message += '<li>'+i+' voted <span class="inno">innocent</span>.</li>'; break;
 				}
 			}
-			return output;
+			return message;
 		break;
 		case 'will':
 			if (msg == '')
@@ -282,7 +282,7 @@ function processMessage(msg, type)
 			{
 				message += '<li class="displaylistitem">'+msg[i]+'</li>';
 			}
-			return '<li><ul class="displaylist"></ul></li>';
+			return '<li><ul class="displaylist">'+message+'</ul></li>';
 		break;
 		default:
 			return '<li>Bad message type: '+type+'</li>';
