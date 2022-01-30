@@ -110,7 +110,7 @@ var server = http.createServer(function (req, res) {
 			if(filename) {
 				storage.load(filename).then(function(data) {
 					res.writeHead(200);
-					res.write('<!DOCTYPE html><html><head><link href="playstyle.css" rel="stylesheet" type="text/css" /></head><body id="main">');
+					res.write('<!DOCTYPE html><html><head><meta charset="utf-8" /><link href="playstyle.css" rel="stylesheet" type="text/css" /></head><body id="main">');
 					res.write(data);
 					res.write('</body></html>');
 					res.end();
