@@ -590,6 +590,7 @@ addSocketListener(Type.ROOMLIST,function(list)
 		{
 			if(user_names[list[i].name])
 			{
+				$(user_names[list[i].name]).find('.num').text(+i || 'MOD');
 				$('#userlist').append(user_names[list[i].name]);
 				delete user_names[list[i].name];
 				users.push(list[i].name);
