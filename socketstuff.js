@@ -14,8 +14,8 @@ var kicked = false;
 var hey = new Audio('ping.wav');
 //Halloween
 //var hey = new Audio('Giratina.wav');
-var mpregame = new Audio('CosmicCove.mp3');
-var whoami = new Audio('KakarikoSaved.mp3');
+var mpregame = new Audio('KakarikoNight.mp3');
+var whoami = new Audio('Spinwheel.m4a');
 var mmodtime = new Audio('Touchstone.mp3');
 //Halloween
 //var mmodtime = new Audio('Bewitching.mp3');
