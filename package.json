@@ -6,6 +6,7 @@
     },
     "description": "Web chat client for the TestingGrounds",
     "dependencies": {
+		"@aws-sdk/client-s3": "^3.32.0",
         "request": "^2.79.0",
         "ws": "^8.4.0"
     }

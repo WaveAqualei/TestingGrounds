@@ -27,10 +27,6 @@ var musicon = 1;
 mpregame.loop = true;
 whoami.loop = true;
 mmodtime.loop = true;
-function sanitize(msg)
-{
-	return $("<span>").text(msg).html()
-}
 function clearAllInfo()
 {
 	var all = $('.controlbutton');

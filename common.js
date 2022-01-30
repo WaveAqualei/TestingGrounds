@@ -78,6 +78,22 @@ var Phase = {
 	FIRSTDAY: 9,
 };
 
+if(typeof jQuery !== 'undefined') {
+	function sanitize(msg) {
+		return $("<span>").text(msg).html()
+	}
+} else {
+	function sanitize(msg) {
+		msg = msg.replace(/&/g, '&amp'); //This needs to be replaced first, in order to not mess up the other codes.
+		msg = msg.replace(/</g, '&lt;');
+		msg = msg.replace(/>/g, '&gt;');
+		msg = msg.replace(/\"/g, '&quot;');
+		msg = msg.replace(/\'/g, '&#39;');
+		msg = msg.replace(/:/g, '&#58;');
+		return msg;
+	}
+}
+
 function processMessage(msg, type)
 {
 	switch (type)
@@ -506,6 +522,7 @@ if(typeof module !== 'undefined') {
 	module.exports = {
 		Type: Type,
 		Phase: Phase,
+		sanitize: sanitize,
 		msgToHTML: msgToHTML,
 	};
 }

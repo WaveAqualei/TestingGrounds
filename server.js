@@ -4,6 +4,7 @@ var fs = require('fs');
 var roles = require('./roleinfo');
 var ws = require('ws');
 var crypto = require('crypto');
+var storage = require('./storage.js');
 var verified = []; //List of ips that are verified to use the MCP.
 var createdList = [];
 var gm = require('./gm.js');
@@ -66,6 +67,7 @@ var commandList = {
 var {
 	Type,
 	Phase,
+	sanitize,
 	msgToHTML,
 } = require('./common.js');
 //Game variables
@@ -101,6 +103,34 @@ var server = http.createServer(function (req, res) {
 			} else {
 				res.write('<h1>Server is busy loading... Please wait a few minutes then refresh the page.</h1>');
 				res.end();
+			}
+			break;
+		case '/gamelogs':
+			var filename = url.parse(req.url, true).query.filename;
+			if(filename) {
+				storage.load(filename).then(function(data) {
+					res.writeHead(200);
+					res.write('<!DOCTYPE html><html><head><link href="playstyle.css" rel="stylesheet" type="text/css" /></head><body id="main">');
+					res.write(data);
+					res.write('</body></html>');
+					res.end();
+				}, function() {
+					res.writeHead(404);
+					res.write("<h1>Oops! This page doesn't seem to exist! 404</h1>");
+					res.end();
+				});
+			} else {
+				storage.list().then(function(data) {
+					res.writeHead(200);
+					data.map(function(filename) {
+						res.write('<a href="/gamelogs?filename='+filename+'">'+filename+'</a><br>');
+					});
+					res.end();
+				}, function(e) {
+					res.writeHead(500);
+					res.write('Failed to load list of gamelogs: '+e.message);
+					res.end();
+				})
 			}
 			break;
 		case '/MCP':
@@ -444,6 +474,8 @@ var players = [];
 var playernums = [];
 //List of names with their socket.id's. Needed to provide quick access to the player objects.
 var playernames = [];
+//Record of what happened in the game for future reference
+var gamelog = [];
 
 var io = new ws.WebSocketServer({ server: server });
 //Start the timer.
@@ -453,7 +485,18 @@ timer.ping();
 //Let the pinging begin
 ping();
 
+function addLogMessage() {
+	if(phase <= Phase.ROLES) {
+		return;
+	}
+	var [type, ...args] = arguments;
+	var html = msgToHTML(type, args);
+	if(html) {
+		gamelog.push(html);
+	}
+}
 function sendPublicMessage() {
+	addLogMessage.apply(this, arguments);
 	for(var i in players) {
 		players[i].s.sendMessage.apply(players[i].s, arguments);
 	}
@@ -693,71 +736,74 @@ io.on('connection', function (socket, req) {
 	addSocketListener(Type.PRENOT, function (name, prenot) {
 		if (socket.id == mod) {
 			var player = getPlayerByName(name);
+			var modmessage = '';
 			switch (prenot) {
 				case 'HEAL':
-					players[mod].s.sendMessage(Type.SYSTEM, name + ' was attacked and healed.');
+					modmessage = name + ' was attacked and healed.';
 					break;
 				case 'SAVED_BY_BG':
-					players[mod].s.sendMessage(Type.SYSTEM, name + ' was attacked and saved by a Bodyguard.');
+					modmessage = name + ' was attacked and saved by a Bodyguard.';
 					break;
 				case 'PROTECTED':
-					players[mod].s.sendMessage(Type.SYSTEM, name + ' was attacked and protected.');
+					modmessage = name + ' was attacked and protected.';
 					break;
 				case 'SAVED_BY_TRAP':
-					players[mod].s.sendMessage(Type.SYSTEM, name + ' was attacked and saved by a trap.');
+					modmessage = name + ' was attacked and saved by a trap.';
 					break;
 				case 'DEAD':
-					players[mod].s.sendMessage(Type.SYSTEM, name + ' was killed.');
+					modmessage = name + ' was killed.';
 					break;
 				case 'DOUSE':
-					players[mod].s.sendMessage(Type.SYSTEM, name + ' was doused.');
+					modmessage = name + ' was doused.';
 					break;
 				case 'BLACKMAIL':
-					players[mod].s.sendMessage(Type.SYSTEM, name + ' was blackmailed.');
+					modmessage = name + ' was blackmailed.';
 					break;
 				case 'TARGETIMMUNE':
-					players[mod].s.sendMessage(Type.SYSTEM, name + ' attacked someone with too strong of a defense.');
+					modmessage = name + ' attacked someone with too strong of a defense.';
 					break;
 				case 'IMMUNE':
-					players[mod].s.sendMessage(Type.SYSTEM, name + ' was attacked but immune.');
+					modmessage = name + ' was attacked but immune.';
 					break;
 				case 'SHOTVET':
-					players[mod].s.sendMessage(Type.SYSTEM, name + ' was shot by a Veteran.');
+					modmessage = name + ' was shot by a Veteran.';
 					break;
 				case 'VETSHOT':
-					players[mod].s.sendMessage(Type.SYSTEM, name + ' shot one of their visitors.');
+					modmessage = name + ' shot one of their visitors.';
 					break;
 				case 'RB':
-					players[mod].s.sendMessage(Type.SYSTEM, name + ' was roleblocked.');
+					modmessage = name + ' was roleblocked.';
 					break;
 				case 'WITCHED':
-					players[mod].s.sendMessage(Type.SYSTEM, name + ' was controlled.');
+					modmessage = name + ' was controlled.';
 					break;
 				case 'REVIVE':
-					players[mod].s.sendMessage(Type.SYSTEM, name + ' was revived.');
+					modmessage = name + ' was revived.';
 					break;
 				case 'JAILED':
-					players[mod].s.sendMessage(Type.SYSTEM, name + ' was hauled off to jail.');
+					modmessage = name + ' was hauled off to jail.';
 					break;
 				case 'GUARDIAN_ANGEL':
-					players[mod].s.sendMessage(Type.SYSTEM, name + ' was watched by their Guardian Angel.');
+					modmessage = name + ' was watched by their Guardian Angel.';
 					break;
 				case 'SAVED_BY_GA':
-					players[mod].s.sendMessage(Type.SYSTEM, name + ' was attacked but their Guardian Angel saved them.');
+					modmessage = name + ' was attacked but their Guardian Angel saved them.';
 					break;
 				case 'POISON_CURABLE':
-					players[mod].s.sendMessage(Type.SYSTEM, name + ' was poisoned. They will die unless they are cured.');
+					modmessage = name + ' was poisoned. They will die unless they are cured.';
 					break;
 				case 'POISON_UNCURABLE':
-					players[mod].s.sendMessage(Type.SYSTEM, name + ' was poisoned.');
+					modmessage = name + ' was poisoned.';
 					break;
 				case 'MEDUSA_STONE':
-					players[mod].s.sendMessage(Type.SYSTEM, name + ' stoned someone.');
+					modmessage = name + ' stoned someone.';
 					break;
 				case 'TRANSPORT':
-					players[mod].s.sendMessage(Type.SYSTEM, name + ' was transported.');
+					modmessage = name + ' was transported.';
 					break;
 			}
+			addLogMessage(Type.SYSTEM, modmessage);
+			players[mod].s.sendMessage(Type.SYSTEM, modmessage);
 			player.s.sendMessage(Type.PRENOT, prenot);
 		} else {
 			socket.sendMessage(Type.SYSTEM, 'Only the mod can do that.');
@@ -847,8 +893,7 @@ io.on('connection', function (socket, req) {
 	addSocketListener(Type.SHOWLIST, function (list) {
 		if (socket.id == mod) {
 			for (i in list) {
-				list[i] = sanitize(list[i]);
-				list[i] = roles.formatAlignment(list[i]);
+				list[i] = roles.formatAlignment(sanitize(list[i]));
 			}
 			if (!players[socket.id].silenced) {
 				sendPublicMessage(Type.SHOWLIST, list);
@@ -1032,12 +1077,8 @@ io.on('connection', function (socket, req) {
 						switch (chat) {
 							case 'jailor':
 								player.jailorcom = true;
-								if (!players[socket.id].silenced) {
-									player.s.sendMessage(
-										Type.SYSTEM,
-										'You are now the jailor. Use /jail [target] to jail. Use /execute, /exe or /x to execute your prisoner.'
-									);
-								}
+								addLogMessage(Type.SYSTEM, player.name+' is now the jailor.');
+								notify = 'You are now the jailor. Use /jail [target] to jail. Use /execute, /exe or /x to execute your prisoner.';
 								break;
 							case 'jailed':
 								notify = undefined;
@@ -1046,10 +1087,12 @@ io.on('connection', function (socket, req) {
 								players[mod].s.sendMessage(Type.SYSTEM, player.name + ' is now linked.');
 								break;
 							case 'medium':
+								addLogMessage(Type.SYSTEM, player.name+' can now hear the dead at night.');
 								notify = 'You can now hear the dead at night.';
 								player.canSeance = true;
 								break;
 							default:
+								addLogMessage(Type.SYSTEM, player.name+' can now talk in the ' + chat + ' chat.');
 								notify = 'You can now talk in the ' + chat + ' chat.';
 								break;
 						}
@@ -1057,9 +1100,8 @@ io.on('connection', function (socket, req) {
 						switch (chat) {
 							case 'jailor':
 								player.jailorcom = false;
-								if (!players[socket.id].silenced) {
-									player.s.sendMessage(Type.SYSTEM, 'You are no longer the jailor.');
-								}
+								addLogMessage(Type.SYSTEM, player.name+' is no longer the jailor.');
+								notify = 'You are no longer the jailor.';
 								break;
 							case 'jailed':
 								notify = undefined;
@@ -1068,10 +1110,12 @@ io.on('connection', function (socket, req) {
 								players[mod].s.sendMessage(Type.SYSTEM, player.name + ' is no longer linked.');
 								break;
 							case 'medium':
+								addLogMessage(Type.SYSTEM, player.name+' can no longer hear the dead at night.');
 								notify = 'You can no longer hear the dead at night.';
 								player.canSeance = false;
 								break;
 							default:
+								addLogMessage(Type.SYSTEM, player.name+' can no longer talk in the ' + chat + ' chat.');
 								notify = 'You can no longer talk in the ' + chat + ' chat.';
 								break;
 						}
@@ -1084,11 +1128,13 @@ io.on('connection', function (socket, req) {
 						case 'mayor':
 							if (player.mayor === undefined) {
 								player.mayor = false; //False, meaning not revealed.
+								addLogMessage(Type.SYSTEM, player.name+' is now the Mayor.');
 								if (!players[socket.id].silenced) {
 									player.s.sendMessage(Type.SYSTEM, 'You are now the Mayor. Use /reveal to reveal yourself and get 3 votes.');
 								}
 							} else {
 								player.mayor = undefined; //Undefined, meaning not mayor.
+								addLogMessage(Type.SYSTEM, player.name+' is no longer the Mayor.');
 								if (!players[socket.id].silenced) {
 									player.s.sendMessage(Type.SYSTEM, 'You are no longer the Mayor.');
 								}
@@ -1099,8 +1145,10 @@ io.on('connection', function (socket, req) {
 							player.hearwhispers = !player.hearwhispers;
 							if (!players[socket.id].silenced) {
 								if (player.hearwhispers) {
+									addLogMessage(Type.SYSTEM, player.name+' can now hear whispers.');
 									player.s.sendMessage(Type.SYSTEM, 'You can now hear whispers.');
 								} else {
+									addLogMessage(Type.SYSTEM, player.name+' can no longer hear whispers.');
 									player.s.sendMessage(Type.SYSTEM, 'You can no longer hear whispers.');
 								}
 							}
@@ -1110,9 +1158,11 @@ io.on('connection', function (socket, req) {
 							if (!players[socket.id].silenced) {
 								if (player.blackmailed) {
 									player.s.sendMessage(Type.PRENOT, 'BLACKMAIL');
+									addLogMessage(Type.SYSTEM, player.name + ' is now blackmailed.');
 									players[mod].s.sendMessage(Type.SYSTEM, player.name + ' is now blackmailed.');
 								} else {
 									player.s.sendMessage(Type.SYSTEM, 'You are no longer blackmailed.');
+									addLogMessage(Type.SYSTEM, player.name + ' is no longer blackmailed.');
 									players[mod].s.sendMessage(Type.SYSTEM, player.name + ' is no longer blackmailed.');
 								}
 							}
@@ -1121,8 +1171,10 @@ io.on('connection', function (socket, req) {
 							player.doused = !player.doused;
 							if (!players[socket.id].silenced) {
 								if (player.doused) {
+									addLogMessage(Type.SYSTEM, player.name + ' is now doused.');
 									players[mod].s.sendMessage(Type.SYSTEM, player.name + ' is now doused.');
 								} else {
+									addLogMessage(Type.SYSTEM, player.name + ' is no longer doused.');
 									players[mod].s.sendMessage(Type.SYSTEM, player.name + ' is no longer doused.');
 								}
 							}
@@ -1181,15 +1233,6 @@ function nameTaken(name, ip) {
 }
 function nameCheck(name) {
 	return name && typeof name == 'string' && name.length != 0 && name.length <= 20 && /[a-z]/i.test(name) && /^[a-z0-9-_]+$/i.test(name);
-}
-function sanitize(msg) {
-	msg = msg.replace(/&/g, '&amp'); //This needs to be replaced first, in order to not mess up the other codes.
-	msg = msg.replace(/</g, '&lt;');
-	msg = msg.replace(/>/g, '&gt;');
-	msg = msg.replace(/\"/g, '&quot;');
-	msg = msg.replace(/\'/g, '&#39;');
-	msg = msg.replace(/:/g, '&#58;');
-	return msg;
 }
 //Getting players
 function getPlayerByName(name) {
@@ -1301,6 +1344,32 @@ function setPhase(p) {
 			}
 		}
 		rainnumber = 0;
+		if(gamelog.length) {
+			//Record the game history for future referencefs.
+			var filename = 'Game_'+new Date().toISOString().replace(/T/,' ').replace(/:|\.\d*Z/g,'')+'.html';
+			var data = gamelog.join('');
+			storage.store(filename, data).then(function(data) {
+				console.log(data);
+				sendPublicMessage(Type.SYSTEM, 'Game log stored as <a href="gamelogs?filename='+filename+'" target="_blank">'+filename+'</a>');
+			}, function(e) {
+				sendPublicMessage(Type.SYSTEM, 'Failed to store game log: '+sanitize(e.message));
+			});
+			gamelog = [];
+		}
+	} else if(phase != Phase.ROLES && gamelog.length == 0) {
+		//Leave a record of what players are in the game
+		if (createdList && createdList.length != 0) {
+			addLogMessage(Type.SHOWLIST, createdList.map(function(roleslot) {
+				return roles.formatAlignment(sanitize(roleslot));
+			}));
+		}
+		var list = [];
+		playernums.map(function(i) {
+			if (players[i].s.id != mod) {
+				list.push({ name: players[i].name, role: roles.formatAlignment(players[i].role) });
+			}
+		});
+		addLogMessage(Type.SHOWALLROLES, list);
 	}
 	if (p == Phase.NIGHT) {
 		//Reset cleaning.
@@ -1325,9 +1394,11 @@ function setPhase(p) {
 			}
 			//Jailed player
 			if (players[i].chats.linked) {
+				addLogMessage(Type.SYSTEM, players[i].name + ' has been linked!');
 				players[i].s.sendMessage(Type.PRENOT, 'LINKED');
 			}
 			if (players[i].chats.jailed) {
+				addLogMessage(Type.SYSTEM, players[i].name + ' was hauled off to jail.');
 				players[i].s.sendMessage(Type.PRENOT, 'JAILED');
 				//inform the jailor of their success.
 				for (j in players) {
@@ -1356,6 +1427,7 @@ function setPhase(p) {
 			if (players[i].seancing) {
 				players[i].s.sendMessage(Type.SYSTEM, 'You have opened a communication with the living!');
 				players[i].seance = true;
+				addLogMessage(Type.SYSTEM, players[i].name + ' is now talking to ' + players[i].seancing.name);
 				players[mod].s.sendMessage(Type.SYSTEM, players[i].name + ' is now talking to ' + players[i].seancing.name);
 				players[i].seancing.s.sendMessage(Type.SYSTEM, 'A medium is talking to you!');
 				players[i].canSeance = true;
@@ -1727,6 +1799,7 @@ function Player(socket, name, ip) {
 			} else {
 				this.s.sendMessage(Type.SYSTEM, 'Your role is ' + sanitize(role));
 			}
+			addLogMessage(Type.SYSTEM, this.name+'&#39;s role is now ' + sanitize(role));
 			this.s.sendMessage(Type.SETROLE, {
 				role: this.role,
 				rolecolor: roles.getRoleData(this.role).color,
@@ -1954,6 +2027,7 @@ function Player(socket, name, ip) {
 													medium.s.sendMessage(Type.SYSTEM, 'You cancel your seance.');
 													medium.seancing.beingSeanced = undefined;
 													medium.seancing = undefined;
+													addLogMessage(Type.SYSTEM, medium.name + ' cancels their seance.');
 													players[mod].s.sendMessage(Type.SYSTEM, medium.name + ' cancels their seance.');
 												} else {
 													medium.s.sendMessage(Type.SYSTEM, 'You are not targetting anyone.');
@@ -1962,11 +2036,13 @@ function Player(socket, name, ip) {
 												medium.s.sendMessage(Type.SYSTEM, 'You cancel your seance.');
 												medium.seancing.beingSeanced = undefined;
 												medium.seancing = undefined;
+												addLogMessage(Type.SYSTEM, medium.name + ' cancels their seance.');
 												players[mod].s.sendMessage(Type.SYSTEM, medium.name + ' cancels their seance.');
 											} else {
 												medium.s.sendMessage(Type.SYSTEM, 'You are now seancing ' + target.name + '.');
 												medium.seancing = target;
 												medium.seancing.beingSeanced = medium;
+												addLogMessage(Type.SYSTEM, medium.name + ' is now seancing ' + target.name + '.');
 												players[mod].s.sendMessage(Type.SYSTEM, medium.name + ' is now seancing ' + target.name + '.');
 												for (i in players) {
 													if (players[i].spectate) {
@@ -2055,6 +2131,7 @@ function Player(socket, name, ip) {
 								second = getPlayerByNumber(c[2]);
 							}
 							if (first && second && first != -1 && second != -1) {
+								addLogMessage(Type.SYSTEM, first.name + ' disguised as ' + second.name + '.');
 								socket.sendMessage(Type.SYSTEM, first.name + ' disguised as ' + second.name + '.');
 								first.s.sendMessage(Type.HIGHLIGHT, 'You successfully disguised!');
 								second.s.sendMessage(Type.HIGHLIGHT, 'A disguiser stole your identity!');
@@ -2151,6 +2228,7 @@ function Player(socket, name, ip) {
 						msg.splice(0, 1);
 						msg = msg.join(' ');
 						msg = sanitize(msg);
+						addLogMessage(Type.MOD, { from: this.name, msg: msg });
 						players[mod].s.sendMessage(Type.MOD, { from: this.name, msg: msg });
 						this.s.sendMessage(Type.MOD, { to: 'Mod', msg: msg });
 					}
@@ -2247,6 +2325,7 @@ function Player(socket, name, ip) {
 							var length = Object.keys(players).length - 1; //Minus mod
 							if (length > 0) {
 								var randomNumber = Math.floor(Math.random() * length) + 1;
+								addLogMessage(Type.SYSTEM, 'Random player: ' + getPlayerByNumber(randomNumber).name);
 								this.s.sendMessage(Type.SYSTEM, 'Random player: ' + getPlayerByNumber(randomNumber).name);
 							} else {
 								this.s.sendMessage(Type.SYSTEM, 'Not enough players to use this command.');
@@ -2263,6 +2342,7 @@ function Player(socket, name, ip) {
 						} else {
 							var sides = c[1] ? c[1] : 6; //Specified value or 6.
 							var randomNumber = Math.floor(Math.random() * sides) + 1;
+							addLogMessage(Type.SYSTEM, 'Dice roll (' + sides + ' sides): ' + randomNumber);
 							this.s.sendMessage(Type.SYSTEM, 'Dice roll (' + sides + ' sides): ' + randomNumber);
 						}
 					} else {
@@ -2400,6 +2480,7 @@ function Player(socket, name, ip) {
 							if (!error) {
 								players[playernames[one]].s.sendMessage(Type.SYSTEM, 'Your vote has been unlocked.');
 								players[playernames[one]].votelock = false;
+								addLogMessage(Type.SYSTEM, one + "'s vote is now unlocked.");
 								this.s.sendMessage(Type.SYSTEM, one + "'s vote is now unlocked.");
 							}
 						} else {
@@ -2453,6 +2534,7 @@ function Player(socket, name, ip) {
 								}
 								if (!error) {
 									players[playernames[one]].s.sendMessage(Type.SYSTEM, 'The mod has forced you to vote for ' + two + '.');
+									addLogMessage(Type.SYSTEM, 'The mod has forced '+one+' to vote for ' + two + '.');
 									players[playernames[one]].vote(two, true);
 								}
 							} else {
@@ -2658,6 +2740,7 @@ function Player(socket, name, ip) {
 									found = players[i].name;
 									players[i].s.sendMessage(Type.SYSTEM, msg);
 									socket.sendMessage(Type.SYSTEM, jmsg);
+									addLogMessage(Type.SYSTEM, this.executing ? this.name + ' has changed their mind.' : this.name + ' has decided to execute ' + players[i].name + '.');
 									players[mod].s.sendMessage(Type.SYSTEM, this.executing ? this.name + ' has changed their mind.' : this.name + ' has decided to execute ' + players[i].name + '.');
 								}
 							}
@@ -2814,6 +2897,7 @@ function Player(socket, name, ip) {
 								sendPublicMessage(Type.SETSPEC, players[playernames[c[1]]].name);
 								this.s.sendMessage(Type.SYSTEM, c[1] + ' has been set to spectate.');
 								players[playernames[c[1]]].s.sendMessage(Type.SYSTEM, 'You are now spectating.');
+								addLogMessage(Type.SYSTEM, c[1] + ' has been set to spectate by ' + this.name);
 								if (!mod == this.s.id) {
 									players[mod].s.sendMessage(Type.SYSTEM, c[1] + ' has been set to spectate by ' + this.name);
 								}
@@ -2823,6 +2907,7 @@ function Player(socket, name, ip) {
 								sendPublicMessage(Type.REMSPEC, players[playernames[c[1]]].name);
 								this.s.sendMessage(Type.SYSTEM, c[1] + ' is no longer set to spectate.');
 								players[playernames[c[1]]].s.sendMessage(Type.SYSTEM, 'You are no longer spectating.');
+								addLogMessage(Type.SYSTEM, c[1] + ' is no longer set to spectate by ' + this.name);
 								if (!mod == this.s.id) {
 									players[mod].s.sendMessage(Type.SYSTEM, c[1] + ' is no longer set to spectate by ' + this.name);
 								}
@@ -2839,6 +2924,7 @@ function Player(socket, name, ip) {
 									sendPublicMessage(Type.SETSPEC, target.name);
 									this.s.sendMessage(Type.SYSTEM, name + ' has been set to spectate.');
 									target.s.sendMessage(Type.SYSTEM, 'You are now spectating.');
+									addLogMessage(Type.SYSTEM, name + ' has been set to spectate by ' + this.name);
 									if (mod != this.s.id) {
 										players[mod].s.sendMessage(Type.SYSTEM, name + ' has been set to spectate by ' + this.name);
 									}
@@ -2848,6 +2934,7 @@ function Player(socket, name, ip) {
 									sendPublicMessage(Type.REMSPEC, target.name);
 									this.s.sendMessage(Type.SYSTEM, name + ' is no longer set to spectate.');
 									target.s.sendMessage(Type.SYSTEM, 'You are no longer spectating.');
+									addLogMessage(Type.SYSTEM, name + ' is no longer set to spectate by ' + this.name);
 									if (mod != this.s.id) {
 										players[mod].s.sendMessage(Type.SYSTEM, name + ' is no longer set to spectate by ' + this.name);
 									}
@@ -3110,6 +3197,7 @@ function Player(socket, name, ip) {
 								msg = msg.join(' ');
 								msg = sanitize(msg);
 								players[playernames[c[1]]].s.sendMessage(Type.MOD, { from: 'Mod', msg: msg });
+								addLogMessage(Type.MOD, { to: c[1], msg: msg });
 								this.s.sendMessage(Type.MOD, { to: c[1], msg: msg });
 							} else if (!isNaN(c[1])) {
 								//It's a number.
@@ -3122,6 +3210,7 @@ function Player(socket, name, ip) {
 									msg = msg.join(' ');
 									msg = sanitize(msg);
 									target.s.sendMessage(Type.MOD, { from: 'Mod', msg: msg });
+									addLogMessage(Type.MOD, { to: name, msg: msg });
 									this.s.sendMessage(Type.MOD, { to: name, msg: msg });
 								} else {
 									this.s.sendMessage(Type.SYSTEM, 'Could not find player number ' + c[1] + '!');
@@ -3208,8 +3297,7 @@ function Player(socket, name, ip) {
 					var sendArr = [];
 					if (createdList && createdList.length != 0) {
 						for (i in createdList) {
-							sendArr[i] = sanitize(createdList[i]);
-							sendArr[i] = roles.formatAlignment(createdList[i]);
+							sendArr[i] = roles.formatAlignment(sanitize(createdList[i]));
 						}
 						this.s.sendMessage(Type.SHOWLIST, sendArr);
 					} else {
@@ -3242,21 +3330,14 @@ function Player(socket, name, ip) {
 				to.s.sendMessage(Type.WHISPER, { from: this.name, msg: msg });
 				this.s.sendMessage(Type.WHISPER, { to: to.name, msg: msg });
 				if (phase != Phase.PREGAME) {
+					addLogMessage(Type.WHISPER, { from: this.name, to: to.name, msg: msg });
 					players[mod].s.sendMessage(Type.WHISPER, { from: this.name, to: to.name, msg: msg });
 					for (i in players) {
-						if (players[i].spectate) {
+						if (players[i].spectate || players[i].hearwhispers) {
 							players[i].s.sendMessage(Type.WHISPER, { from: this.name, to: to.name, msg: msg });
 						}
 					}
-				}
-				for (i in players) {
-					if (players[i].hearwhispers && phase != Phase.PREGAME) {
-						players[i].s.sendMessage(Type.WHISPER, { from: this.name, to: to.name, msg: msg });
-					}
-				}
-				//Public whispering message
-				if (phase != Phase.PREGAME) {
-					//Ingame whisper, not a pregame whisper.
+					//Public whispering message
 					sendPublicMessage(Type.WHISPER, { from: this.name, to: to.name });
 				}
 			}
@@ -3291,6 +3372,7 @@ function Player(socket, name, ip) {
 				this.s.sendMessage(Type.TARGET, 'You', undefined, gm.grammarList(targets));
 			}
 			//Log the night action for review at the end of the night.
+			addLogMessage(Type.TARGET, this.name, this.role, gm.grammarList(targets));
 			gm.log(this.name, targets);
 		},
 		silencedError: function () {
@@ -3400,6 +3482,7 @@ function Player(socket, name, ip) {
 							this.beingSeanced.s.sendMessage(Type.MSG, this.name, msg);
 							//Echo the message back to the medium.
 							this.s.sendMessage(Type.MSG, this.name, msg);
+							addLogMessage(Type.MSG, this.name, msg);
 							players[mod].s.sendMessage(Type.MSG, this.name, msg);
 							for (i in players) {
 								if (players[i].spectate) {
@@ -3415,6 +3498,7 @@ function Player(socket, name, ip) {
 							this.seancing.s.sendMessage(Type.MSG, 'Medium', { msg: msg, styling: 'dead' });
 							//Echo the message back to the medium.
 							this.s.sendMessage(Type.MSG, 'Medium', { msg: msg, styling: 'dead' });
+							addLogMessage(Type.MSG, 'Medium(' + this.name + ')', { msg: msg, styling: 'dead' });
 							players[mod].s.sendMessage(Type.MSG, 'Medium(' + this.name + ')', { msg: msg, styling: 'dead' });
 							for (i in players) {
 								if (players[i].spectate) {
@@ -3464,6 +3548,7 @@ function Player(socket, name, ip) {
 			specname, //Display a message only to players able to see certain chats.
 			primary	// Color the message as being from this chat even for people who can't see that chat
 		) {
+			addLogMessage(Type.MSG, specname ? specname + '(' + this.name + ')' : this.name, { styling: primary || Object.keys(types)[0], msg: msg });
 			for (i in players) {
 				if (i == mod || players[i].spectate) {
 					//Mod can view all chats.
