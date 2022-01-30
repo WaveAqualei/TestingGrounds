@@ -62,8 +62,12 @@ var commandList = {
 		hug: 'Send a hug to a person. Only usable during Pregame.',
 	},
 };
-//Enums
-var {Type: Type, Phase: Phase} = require('./enums.js');
+//Enums and other code shared between client and server
+var {
+	Type,
+	Phase,
+	msgToHTML,
+} = require('./common.js');
 //Game variables
 var autoLevel = 1;
 var phase = Phase.PREGAME;
@@ -270,7 +274,7 @@ var server = http.createServer(function (req, res) {
 			}
 			res.end();
 			break;
-		case '/enums.js':
+		case '/common.js':
 		case '/socketstuff.js':
 		case '/script.js':
 		case '/playscript.js':
