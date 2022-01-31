@@ -478,7 +478,6 @@ var server = http.createServer(function (req, res) {
 		case '/Searching.mp3':
 		case '/ShockAndAwe.mp3':
 		case '/Skyworld.mp3':
-		case '/Spinwheel.m4a':
 		case '/StarlitSky.mp3':
 		case '/Suspicion.mp3':
 		case '/Touchstone.mp3':
@@ -493,7 +492,20 @@ var server = http.createServer(function (req, res) {
 					res.write("<h1>Oops! This page doesn't seem to exist! 404</h1>");
 					res.end();
 				} else {
-					res.writeHead(200, { 'Content-Type': 'audio/mpeg', 'audio/m4a' });
+					res.writeHead(200, { 'Content-Type': 'audio/mpeg' });
+					res.write(data, 'utf8');
+					res.end();
+				}
+			});
+			break;
+		case '/Spinwheel.m4a':
+			fs.readFile(__dirname + '/sounds/' + path, function (error, data) {
+				if (error) {
+					res.writeHead(404);
+					res.write("<h1>Oops! This page doesn't seem to exist! 404</h1>");
+					res.end();
+				} else {
+					res.writeHead(200, { 'Content-Type': 'audio/m4a' });
 					res.write(data, 'utf8');
 					res.end();
 				}
