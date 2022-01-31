@@ -449,7 +449,20 @@ var server = http.createServer(function (req, res) {
 					res.write("<h1>Oops! This page doesn't seem to exist! 404</h1>");
 					res.end();
 				} else {
-					res.writeHead(200, { 'Content-Type': 'text/mp3' });
+					res.writeHead(200, { 'Content-Type': 'audio/mpeg' });
+					res.write(data, 'utf8');
+					res.end();
+				}
+			});
+			break;
+		case '/Spinwheel.m4a':
+			fs.readFile(__dirname + '/sounds/' + path, function (error, data) {
+				if (error) {
+					res.writeHead(404);
+					res.write("<h1>Oops! This page doesn't seem to exist! 404</h1>");
+					res.end();
+				} else {
+					res.writeHead(200, { 'Content-Type': 'audio/m4a' });
 					res.write(data, 'utf8');
 					res.end();
 				}
@@ -595,7 +608,7 @@ io.on('connection', function (socket, req) {
 				socket.sendMessage(Type.PAUSEPHASE, timer.paused);
 				socket.sendMessage(Type.SETDAYNUMBER, gm.getDay());
 
-				socket.sendMessage(Type.SYSTEM, 'You have reconnected.');
+				socket.sendMessage(Type.SYSTEM, 'You have reconnected. Welcome back!');
 				var name = players[socket.id].name;
 				//Inform everyone of the new arrival.
 				sendPublicMessage(Type.RECONNECT, name);

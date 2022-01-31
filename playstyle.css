@@ -388,8 +388,8 @@ header ul li:last-child
 }
 .current
 {
-	color:black;
-	background:#EBD33F;
+	color:floralwhite;
+	background:#003030;
 }
 header ul li span
 {
@@ -657,7 +657,7 @@ header ul li span
 }
 .votebutton:hover
 {
-	background:#A39827;
+	background:cornflowerblue;
 }
 .nightbutton:hover
 {
@@ -672,7 +672,7 @@ header ul li span
 	border-radius:8px;
 	float:left;
 	text-align:center;
-	background:white;
+	background:tan;
 }
 .modcontrols, .info
 {
