@@ -227,26 +227,26 @@ function modInterface()
 				}
 		});
 		modcontrols.append(rolechanger);
-		var duel= $('<div class="controlbutton duelbutton"><span>Duel</span></div>');
-		duel.click(function()
-		{
-			var index = $('.duelbutton, .letgobutton').index($(this))
-			socket.sendMessage(Type.TOGGLE,users[index],'dueled');
-			if ($(this).hasClass('duelbutton'))
-			{
-				$(this).removeClass('duelbutton');
-				$(this).addClass('letgobutton');
-				$(this).html('<span>Let Go</span>');
-			}
-			else
-			{
-				$(this).removeClass('letgobutton');
-				$(this).addClass('duelbutton');
-				$(this).html('<span>Duel</span>');
-			}
-		});
+		//var duel= $('<div class="controlbutton duelbutton"><span>Duel</span></div>');
+		//duel.click(function()
+		//{
+			//var index = $('.duelbutton, .letgobutton').index($(this))
+			//socket.sendMessage(Type.TOGGLE,users[index],'dueled');
+			//if ($(this).hasClass('duelbutton'))
+			//{
+				//$(this).removeClass('duelbutton');
+				//$(this).addClass('letgobutton');
+				//$(this).html('<span>Let Go</span>');
+			//}
+			//else
+			//{
+				//$(this).removeClass('letgobutton');
+				//$(this).addClass('duelbutton');
+				//$(this).html('<span>Duel</span>');
+			//}
+		//});
 		
-		modcontrols.append(duel);
+		//modcontrols.append(duel);
 		$($('#userlist li')[x]).append(info);
 		$($('#userlist li')[x]).append(modcontrols);
 	}
@@ -545,26 +545,26 @@ addSocketListener(Type.JOIN,function(name)
 			}
 		});
 		modcontrols.append(rolechanger);
-		var duel= $('<div class="controlbutton duelbutton"><span>Duel</span></div>');
-		duel.click(function()
-		{
-			var index = $('.duelbutton, .letgobutton').index($(this))
-			socket.sendMessage(Type.TOGGLE,users[index],'dueled');
-			if ($(this).hasClass('duelbutton'))
-			{
-				$(this).removeClass('duelbutton');
-				$(this).addClass('letgobutton');
-				$(this).html('<span>Let Go</span>');
-			}
-			else
-			{
-				$(this).removeClass('letgobutton');
-				$(this).addClass('duelbutton');
-				$(this).html('<span>Duel</span>');
-			}
-		});
+		//var duel= $('<div class="controlbutton duelbutton"><span>Duel</span></div>');
+		//duel.click(function()
+		//{
+			//var index = $('.duelbutton, .letgobutton').index($(this))
+			//socket.sendMessage(Type.TOGGLE,users[index],'dueled');
+			//if ($(this).hasClass('duelbutton'))
+			//{
+				//$(this).removeClass('duelbutton');
+				//$(this).addClass('letgobutton');
+				//$(this).html('<span>Let Go</span>');
+			//}
+			//else
+			//{
+				//$(this).removeClass('letgobutton');
+				//$(this).addClass('duelbutton');
+				//$(this).html('<span>Duel</span>');
+			//}
+		//});
 		
-		modcontrols.append(duel);
+		//modcontrols.append(duel);
 	}
 	li.append(info);
 	if (mod) {
