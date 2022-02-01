@@ -758,8 +758,10 @@ var roles = [
 		alignment: 'mafia deception',
 		abilities: ['Choose one person at night to frame and a second person for them to be associated with.'],
 		attributes: [
-			'If your target is investigated they will appear suspicious.',
-			'Frames only last the night you frame your target.',
+
+			'You may choose the role you want your selected target to appear as. Your target is seen as suspicious, and has the role list you selected when investigated.',
+			'You will passively frame any visitors to you; they will appear suspicious to Sheriffs and Framer/Vampire/Jester to Investigators.',
+			'Regular frames last until checked by a TI, whereas passive frames last for one night.',
 			'If there are no kill capable Mafia roles left you will become a Mafioso.',
 		],
 		goal: mafiagoal,
@@ -774,6 +776,21 @@ var roles = [
 			'You may select which Mafia ability you wish to make your trainee hold onto.',
 			'Trained players will become untrained after you use them.',
 			'When you select a trainee, you may select a second target for them to use their ability on.',
+		],
+		goal: mafiagoal,
+		color: mafiacolor,
+		custom: true,
+	},
+	{
+		rolename: 'chauffeur',
+		alignment: 'mafia deception',
+		abilities: ['Choose a player to chauffeur to their chosen visit at night.'],
+		attributes: [
+			'Chauffeuring a player will block their investigative results and identity from being revealed.',
+			'Chauffeuring a Townie will change your Investigative results to theirs for the night.',
+			'Chauffeuring a player will make them roleblock and control immune for the night. If they are directly attacked you will die instead.',
+			'You can target Mafia members.
+			'You cannot target the same player twice in a row.',
 		],
 		goal: mafiagoal,
 		color: mafiacolor,
@@ -827,6 +844,19 @@ var roles = [
 		goal: mafiagoal,
 		color: mafiacolor,
 		custom: true,
+	},
+	{
+		rolename: 'framer',
+		alignment: 'mafia deception',
+		abilities: ['Choose someone to frame at night.'],
+		attributes: [
+			'If your target is interrogated they will appear suspicious.',
+			'If your target is investigated they will appear as a Framer.',
+			'If there are no kill capable Mafia roles left you will become a Mafioso.',
+			'You can talk with the other Mafia at night.',
+		],
+		goal: mafiagoal,
+		color: mafiacolor,
 	},
 	{
 		rolename: 'hitman',
@@ -1136,7 +1166,7 @@ var roles = [
 			'If you choose to stay at home and your prey visits you, you will shoot them.',
 			'If you are attacked you will attack your attacker, but stay at home instead.',
 		],
-		goal: 'Successfully kill two of your prey.',
+		goal: 'Successfully kill one of your prey while they are visiting someone.',
 		color: '#521421',
 		custom: true,
 	},
