@@ -361,7 +361,7 @@ header ul
 	margin:0;
 	padding:0;
 	height:100%;
-	width:80%;
+	width:72%;
 	float:left;
 }
 header ul li
@@ -786,7 +786,7 @@ header ul li span
 	top:50%;
 	right:65%;
 	transform:translate(0,-50%);
-	font-size: 0.8em;
+	font-size: 0.82em;
 	font-family: 'Open Sans', Arial, sans-serif;
 	color:white;
 }
