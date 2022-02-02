@@ -789,7 +789,7 @@ var roles = [
 			'Chauffeuring a player will block their investigative results and identity from being revealed.',
 			'Chauffeuring a Townie will change your Investigative results to theirs for the night.',
 			'Chauffeuring a player will make them roleblock and control immune for the night. If they are directly attacked you will die instead.',
-			'You can target Mafia members.
+			'You can target Mafia members.',
 			'You cannot target the same player twice in a row.',
 		],
 		goal: mafiagoal,
