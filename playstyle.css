@@ -557,13 +557,13 @@ header ul li span
 }
 #userlist>li
 {
-	height:2.5em;
+	height:3em;
 	width:100%;
-	border-bottom:1px solid black;
+	border-bottom:2px solid black;
 }
 #userlist>li:first-child
 {
-	border-bottom:2px solid black;
+	border-bottom:4px solid black;
 }
 .num
 {
