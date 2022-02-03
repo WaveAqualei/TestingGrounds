@@ -1457,7 +1457,7 @@ function setPhase(p) {
 			sendPublicMessage(Type.HIGHLIGHT, 'Cast your votes now.');
 		} else {
 			players[mod].s.sendMessage(Type.SYSTEM, 'No player is currently on trial. Phase is being set back to voting.');
-			p = Phase.VOTING;
+			phase = p = Phase.VOTING;
 			sendPublicMessage(Type.SETPHASE, Phase.VOTING, false, timer.time);
 		}
 	}
