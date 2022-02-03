@@ -1357,7 +1357,6 @@ function setPhase(p) {
 				sendPlayerInfo();
 			}
 		}
-		rainnumber = 0;
 		if(gamelog.length) {
 			//Record the game history for future referencefs.
 			var filename = 'Game_'+new Date().toISOString().replace(/T/,' ').replace(/:|\.\d*Z/g,'')+'.html';
