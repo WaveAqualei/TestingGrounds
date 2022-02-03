@@ -619,7 +619,7 @@ header ul li span
 	width:70%;
 	height:100%;
 	float:left;
-	background: linear-gradient(#A39827, #FCE400);
+	background: linear-gradient(teal, mediumaquamarine);
 	border-radius:8px;
 	font-family: 'Slabo 27px', serif;
 	cursor:default;
