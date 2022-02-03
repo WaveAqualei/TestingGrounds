@@ -412,6 +412,7 @@ var server = http.createServer(function (req, res) {
 			});
 			break;
 		case '/Aquabatics.mp3':
+		case '/AutumnMountain.mp3':
 		case '/Bewitching.mp3':
 		case '/CalmBeforeTheStorm.mp3':
 		case '/CareFree.mp3':
