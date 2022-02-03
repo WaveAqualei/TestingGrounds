@@ -579,6 +579,10 @@ io.on('connection', function (socket, req) {
 				if (reconnecting.s.id == mod) {
 					mod = socket.id;
 				}
+				//If the player was on trial, update the ontrial variable
+				if (reconnecting.s.id == ontrial) {
+					ontrial = socket.id;
+				}
 				if (reconnecting.s.readyState == ws.OPEN) {
 					//The player might have duplicated the tab.  Disconnect the old one in a non-confusing way.
 					reconnecting.s.sendMessage(Type.SYSTEM, 'You have been disconnected because you connected again elsewhere.');
@@ -1357,6 +1361,7 @@ function setPhase(p) {
 				sendPlayerInfo();
 			}
 		}
+		ontrial = undefined;
 		if(gamelog.length) {
 			//Record the game history for future referencefs.
 			var filename = 'Game_'+new Date().toISOString().replace(/T/,' ').replace(/:|\.\d*Z/g,'')+'.html';
@@ -1838,6 +1843,9 @@ function Player(socket, name, ip) {
 						players[mod].s.sendMessage(Type.SETMOD, true);
 						sendPlayerInfo();
 					}
+				}
+				if (ontrial == this.s.id) {
+					ontrial = undefined;
 				}
 			} else {
 				if (mod == this.s.id) {
@@ -3549,7 +3557,7 @@ function Player(socket, name, ip) {
 						} else {
 							sendPublicMessage(Type.MSG, this.name, msg);
 						}
-					} else {
+					} else if (ontrial) {
 						this.s.sendMessage(Type.SYSTEM, 'Please do not talk during ' + players[ontrial].name + "'s last words.");
 					}
 					break;
