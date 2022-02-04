@@ -28,6 +28,7 @@ var commandList = {
 		ping: 'Show your ping. Usage: /ping',
 		afk: 'Go afk. Only usable in pregame. Usage: /afk',
 		back: 'Return. Usage /back, after using /afk',
+		music: 'Tells you what music each phase is set to. Usage: /music',
 	},
 	roles: {
 		reveal: 'Reveal yourself as the Mayor, if you have that role. Usage: /reveal, during the day.',
@@ -1985,6 +1986,15 @@ function Player(socket, name, ip) {
 					list.fun = clone(commandList.fun);
 					this.s.sendMessage(Type.HELP, list);
 					break;
+				case 'music':
+					this.s.sendMessage(Type.SYSTEM, "Use a custom role or use one of the presets we have below:");
+					this.s.sendMessage(Type.SYSTEM, "<span class=\"coven\">Pregame:</span> <a href="https://youtu.be/dA6Fs_7MHj0">A Starlit Sky (Mario Party 9)</a>");
+					this.s.sendMessage(Type.SYSTEM, "<span class=\"jailor\">Roles:</span> <a href="https://youtu.be/-rlytf-yEcE">Garden Gridlock (Wii Party)</a>");
+					this.s.sendMessage(Type.SYSTEM, "<span class=\"mod\">Modtime:</span> <a href="https://youtu.be/25R6GDrVedw">Spinwheel Library (Captain Toad: Treasure Tracker)</a>");
+					this.s.sendMessage(Type.SYSTEM, "<span class=\"linked\">Day:</span> <a href="https://youtu.be/dA6Fs_7MHj0">Autumn Mountain (Paper Mario: Origami King)</a>");
+					this.s.sendMessage(Type.SYSTEM, "<span class=\"jailed\">Voting:</span> <a href="https://youtu.be/ifEInAAbzS8">Suspicion (Town of Salem)</a>");
+					this.s.sendMessage(Type.SYSTEM, "<span class=\"dev\">Trial:</span> <a href="https://youtu.be/XD2eVXqY4D4">Innocence (Town of Salem)</a>");
+					this.s.sendMessage(Type.SYSTEM, "<span class=\"medium\">Night:</span> <a href="https://youtu.be/EjohktZdWi0">Noatun, Ruins of Chaos (Bayonetta 2)</a>");
 				case 'whisper':
 				case 'w':
 					if (this.silenced) {
@@ -2182,6 +2192,7 @@ function Player(socket, name, ip) {
 					}
 					break;
 				case 'givemod':
+				case 'gm':
 					if (mod == this.s.id || this.dev) {
 						if (c.length < 2) {
 							this.s.sendMessage(Type.SYSTEM, "The syntax of this command is '/givemod player'.");
@@ -2339,6 +2350,7 @@ function Player(socket, name, ip) {
 					}
 					break;
 				case 'random':
+				case 'r':
 					if (mod == this.s.id) {
 						if (c.length != 1) {
 							this.s.sendMessage(Type.SYSTEM, "The syntax of this command is '/random'.");
@@ -2407,6 +2419,7 @@ function Player(socket, name, ip) {
 					}
 					break;
 				case 'settrial':
+				case 'st':
 					if (mod == this.s.id) {
 						if (c.length == 2) {
 							var error = false;
@@ -2512,6 +2525,7 @@ function Player(socket, name, ip) {
 					}
 					break;
 				case 'forcevote':
+				case 'fv':
 					if (mod == this.s.id) {
 						if (phase == Phase.VOTING) {
 							if (c.length == 3) {
@@ -2569,6 +2583,7 @@ function Player(socket, name, ip) {
 					}
 					break;
 				case 'vote':
+				case 'v':
 					if (c.length == 2) {
 						if (isNaN(c[1])) {
 							this.vote(c[1]);
