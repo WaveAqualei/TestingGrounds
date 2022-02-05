@@ -600,7 +600,12 @@ header ul li span
 #c
 {
 	float:left;
-	width:82%;
+	height:40%;
+	width:85%;
+	background:#202020;
+	color:antiquewhite;
+	font-size:15px;
+	text-shadow:0px 1px 10px black;
 }
 .votinginterface
 {
@@ -617,7 +622,7 @@ header ul li span
 .votebutton
 {
 	width:70%;
-	height:100%;
+	height:110%;
 	float:left;
 	background: linear-gradient(teal, mediumaquamarine);
 	border-radius:8px;
@@ -666,7 +671,7 @@ header ul li span
 .votecount
 {
 	width:30%;
-	height:100%;
+	height:110%;
 	border:1px solid black;
 	margin:-1px;
 	border-radius:8px;
