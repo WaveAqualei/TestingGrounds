@@ -697,6 +697,11 @@ a:hover
 {
 	color:midnightblue;
 }
+a:visited
+{
+	color:cadetblue;
+	text-shadow: 1px 1px 10px black;
+}
 #clock
 {
 	position:absolute;
