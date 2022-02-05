@@ -1210,6 +1210,7 @@ a:visited
 .mayorbuttondown .mayorbutton {
    background: lime;
    background-size:100% 100%;
+   color:black;
 }
 .mediumbutton {
    background: #364040;
@@ -1222,6 +1223,7 @@ a:visited
 .mediumbuttondown .mediumbutton {
    background:cyan;
    background-size:100% 100%;
+   color:black;
 }
 .killbutton
 {
