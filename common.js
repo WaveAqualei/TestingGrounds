@@ -517,6 +517,34 @@ addMessageHandler(Type.SHOWALLROLES,function(list)
 {
 	return processMessage(list,'allroles');
 });
+addMessageHandler(Type.SUGGESTIONS,function(results){
+	if(typeof jQuery !== 'undefined') {
+		//Skip this; socketstuff.js has its own (more complex) handler.
+		return '';
+	}
+	//Target list
+	var rows = [];
+	rows.push(['<b>Name</b>','<b>Role</b>','<b>Target</b>']); //Header
+	for (i in results.targets)
+	{
+		var data = [];
+		data.push('<span class="playername">'+i+'</span>'); //Name
+		data.push(results.targets[i][0]); //Role
+		if (results.targets[i][1] && results.targets[i][1].length != 0)
+		{
+			data.push(results.targets[i][1].join(' and ')); //Target
+		}
+		else
+		{
+			data.push('No Action');
+		}
+		rows.push(data);
+		data = [];
+	}
+	var table = '<table class="actiontable">'+rows.map(data=>'<tr>'+data.map(a=>'<td>'+a+'</td>').join('')+'</tr>').join('')+'</table>';
+	var container = '<div class="automodcontainer"><header><p>Automod</p></header>'+table+'</div>';
+	return container;
+});
 
 if(typeof module !== 'undefined') {
 	module.exports = {

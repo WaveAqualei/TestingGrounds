@@ -1276,6 +1276,7 @@ function setPhase(p) {
 		if (autoLevel > 0) {
 			//Evaluate night actions.
 			var results = gm.evaluate(players, playernames, playernums, mod, roles, autoLevel, phase);
+			addLogMessage(Type.SUGGESTIONS, results);
 			if (autoLevel == 3) {
 				for (i in results.targets) {
 					if (results.targets[i][1]) {
