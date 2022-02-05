@@ -1092,7 +1092,7 @@ addSocketListener(Type.ROLL,function(result,names)
 addSocketListener(Type.SUGGESTIONS,function(results){
 	//Check if scrolled to bottom.
 	var atBottom = ( 10 +$('#main').scrollTop() + $('#main').prop('offsetHeight') >= $('#main').prop('scrollHeight'));
-	var container = $('<div class="automodcontainer"><header><p>Automod</p></header</div>');
+	var container = $('<div class="automodcontainer"><header><p>Automod</p></header></div>');
 	//Target list
 	var table = createTable('actiontable');
 	table.addRow(['<b>Name</b>','<b>Role</b>','<b>Target</b>'],true); //Header

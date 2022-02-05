@@ -190,7 +190,6 @@ header .moonimg
 	margin-right:auto;
 	min-height:100px;
 	border: 2px solid #265B5F;
-	display:block;
 	font-family: 'Open Sans', Arial, sans-serif;
 }
 .automodcontainer header
@@ -223,16 +222,11 @@ header .moonimg
 .automodcontainer table
 {
 	border: 1px solid #265B5F;
-	display:block;
 	margin: 0;
 	margin-top: 10px;
 	margin-bottom: 10px;
 	margin-left: auto;
 	margin-right: auto;
-}
-table tbody
-{
-	display:block;
 }
 .unauto
 {
@@ -246,10 +240,6 @@ table tbody
 {
 	border:3px solid #B133E0;
 }
-.automodcontainer table tr
-{
-	display:block;
-}
 .actiontable, .messagetable
 {
 	width: 80%;
@@ -257,19 +247,11 @@ table tbody
 .automodcontainer table tr:first-child
 {
 	border-bottom:1px solid #265B5F;
-	display:block;
-}
-.automodcontainer table tr:first-child td
-{
-	border-bottom:none;
 }
 .automodcontainer table tr td
 {
-	display:block;
 	padding-left:5px;
 	padding-right:5px;
-	float:left;
-	height:100%;
 	border-bottom:1px solid #265B5F;
 }
 .automodcontainer table tr:last-child td
@@ -282,10 +264,8 @@ table tbody
 }
 .automodcontainer table tr td:last-child
 {
-	float:none;
 	border-right:none;
 	overflow:auto;
-	width:unset;
 	border-left: 1px solid #265B5F;
 }
 .automodbutton
