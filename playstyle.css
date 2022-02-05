@@ -684,6 +684,14 @@ header ul li span
 {
 	height:100%;
 }
+a
+{
+	color:cadetblue;
+}
+a:hover
+{
+	color:midnightblue;
+}
 #clock
 {
 	position:absolute;
