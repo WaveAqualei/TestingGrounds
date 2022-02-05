@@ -1100,7 +1100,7 @@ addSocketListener(Type.SUGGESTIONS,function(results){
 	{
 		var data = [];
 		data.push('<span class="playername">'+i+'</span>'); //Name
-		data.push(results.targets[i][0]); //Role
+		data.push(sanitize(results.targets[i][0])); //Role
 		if (results.targets[i][1] && results.targets[i][1].length != 0)
 		{
 			data.push(results.targets[i][1].join(' and ')); //Target
