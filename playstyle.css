@@ -710,7 +710,7 @@ a:hover
 	border-bottom-left-radius: 200px;
 	border-bottom-right-radius: 200px;
 	font-size: 1.5em;
-	background: #EBD33F;
+	background: indianred;
 	z-index:100;
 	cursor: default;
 }
@@ -736,13 +736,13 @@ a:hover
 	content:'';
 	height:70%;
 	width:15%;
-	border-right: 3px solid #B4A861;
-	border-left: 3px solid #B4A861;
+	border-right: 3px solid darkolivegreen;
+	border-left: 3px solid darkolivegreen;
 }
 .pausebutton:hover:after
 {
-	border-right: 3px solid yellow;
-	border-left: 3px solid yellow;
+	border-right: 3px solid mediumseagreen;
+	border-left: 3px solid mediumseagreen;
 }
 .playbutton:after
 {
@@ -754,13 +754,13 @@ a:hover
 	content:'';
 	height:0;
 	width:0;
-	border-left: 8px solid green;
+	border-left: 8px solid darkred;
 	border-top: 5px solid transparent;
 	border-bottom: 5px solid transparent;
 }
 .playbutton:hover:after
 {
-	border-left: 8px solid lime;
+	border-left: 8px solid red;
 }
 #clock span
 {
