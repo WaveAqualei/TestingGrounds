@@ -1987,7 +1987,7 @@ function Player(socket, name, ip) {
 					this.s.sendMessage(Type.HELP, list);
 					break;
 				case 'music':
-					this.s.sendMessage(Type.SYSTEM, "Use a custom role or use one of the presets we have below:");
+					this.s.sendMessage(Type.SYSTEM, "Here's our current music! It's recommended you right click the desired link and copy it, as clicking on it regularly will take you out of the client.");
 					this.s.sendMessage(Type.SYSTEM, "<span class=\"coven\">Pregame:</span> <a href=\"https://youtu.be/dA6Fs_7MHj0\">A Starlit Sky (Mario Party 9)</a>");
 					this.s.sendMessage(Type.SYSTEM, "<span class=\"jailor\">Roles:</span> <a href=\"https://youtu.be/-rlytf-yEcE\">Garden Gridlock (Wii Party)</a>");
 					this.s.sendMessage(Type.SYSTEM, "<span class=\"mod\">Modtime:</span> <a href=\"https://youtu.be/25R6GDrVedw\">Spinwheel Library (Captain Toad: Treasure Tracker)</a>");
