@@ -1995,6 +1995,7 @@ function Player(socket, name, ip) {
 					this.s.sendMessage(Type.SYSTEM, "<span class=\"jailed\">Voting:</span> <a href="https://youtu.be/ifEInAAbzS8">Suspicion (Town of Salem)</a>");
 					this.s.sendMessage(Type.SYSTEM, "<span class=\"dev\">Trial:</span> <a href="https://youtu.be/XD2eVXqY4D4">Innocence (Town of Salem)</a>");
 					this.s.sendMessage(Type.SYSTEM, "<span class=\"medium\">Night:</span> <a href="https://youtu.be/EjohktZdWi0">Noatun, Ruins of Chaos (Bayonetta 2)</a>");
+					break;
 				case 'whisper':
 				case 'w':
 					if (this.silenced) {
