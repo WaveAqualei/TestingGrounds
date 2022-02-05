@@ -1607,6 +1607,20 @@ neut
 {
 	background:#BDBDBD;
 }
+.entangled
+{
+	color:green;
+	text-shadow: 0px 0px 10px #001702;
+}
+.wisteria
+{
+	color:#eba8ff;
+	text-shadow: 0px 0px 10px #6e225c;
+}
+.entangling
+{
+	background:#ba99ba;
+}
 .moon
 {
 	background:#249AC7;
