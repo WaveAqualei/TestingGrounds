@@ -1327,6 +1327,24 @@ function setPhase(p) {
 		});
 		sendPublicMessage(Type.ROOMLIST, namelist);
 	}
+	if(phase == Phase.ROLES && p > Phase.ROLES) {
+		//Leave a record of what players are in the game
+		if (createdList && createdList.length != 0) {
+			addLogMessage(Type.SHOWLIST, createdList.map(function(roleslot) {
+				return roles.formatAlignment(sanitize(roleslot));
+			}));
+		}
+		var list = [];
+		playernums.map(function(i) {
+			if (players[i].s.id != mod) {
+				list.push({ name: players[i].name, role: roles.formatAlignment(players[i].role) });
+			}
+		});
+		var html = msgToHTML(Type.SHOWALLROLES, [list]);
+		if(html) {
+			gamelog.push(html);
+		}
+	}
 	phase = p;
 	timer.setPhase(p);
 	sendPublicMessage(Type.SETPHASE, phase, false, timer.time);
@@ -1376,20 +1394,6 @@ function setPhase(p) {
 			});
 			gamelog = [];
 		}
-	} else if(phase != Phase.ROLES && gamelog.length == 0) {
-		//Leave a record of what players are in the game
-		if (createdList && createdList.length != 0) {
-			addLogMessage(Type.SHOWLIST, createdList.map(function(roleslot) {
-				return roles.formatAlignment(sanitize(roleslot));
-			}));
-		}
-		var list = [];
-		playernums.map(function(i) {
-			if (players[i].s.id != mod) {
-				list.push({ name: players[i].name, role: roles.formatAlignment(players[i].role) });
-			}
-		});
-		addLogMessage(Type.SHOWALLROLES, list);
 	}
 	if (p == Phase.NIGHT) {
 		//Reset cleaning.
