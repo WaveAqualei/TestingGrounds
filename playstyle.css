@@ -1292,10 +1292,10 @@ a:visited
 {
 	background: linear-gradient(#93E9BE, #20b2aa);
 	width: 20%;
-	float:right;
+	float:left;
 	text-align:center;
 	cursor:default;
-	color:#CCCCCC;
+	color:black;
 }
 .entanglebutton:hover
 {
@@ -1305,10 +1305,10 @@ a:visited
 {
 	background: linear-gradient(#3EB489, #00FFCD);
 	width: 20%;
-	float:right;
+	float:left;
 	text-align:center;
 	cursor:default;
-	color:navy;
+	color:midnightblue;
 }
 .disentanglebutton:hover
 {
