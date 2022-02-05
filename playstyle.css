@@ -1187,6 +1187,19 @@ a:visited
    background-size:100% 100%;
    color: black;
 }
+.wisteriabutton {
+   background: #364040;
+   background-size:100% 100%;
+ }
+.wisteriabutton:hover {
+   background: #505050;
+   background-size:100% 100%;
+ }
+.wisteriabuttondown .wisteriabutton {
+   background: #e9aff0;
+   background-size:100% 100%;
+   color: black;
+}
 .blackmailerbutton {
    background: #364040;
    background-size:100% 100%;
@@ -1274,6 +1287,32 @@ a:visited
 .releasebutton:hover
 {
 	background:#CACACA;
+}
+.entanglebutton
+{
+	background: linear-gradient(#93E9BE, #20b2aa);
+	width: 20%;
+	float:right;
+	text-align:center;
+	cursor:default;
+	color:#CCCCCC;
+}
+.entanglebutton:hover
+{
+	background: #0B504F;
+}
+.disentanglebutton
+{
+	background: linear-gradient(#3EB489, #00FFCD);
+	width: 20%;
+	float:right;
+	text-align:center;
+	cursor:default;
+	color:navy;
+}
+.disentanglebutton:hover
+{
+	background:#77DD77;
 }
 .more
 {
