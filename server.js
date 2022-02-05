@@ -777,7 +777,7 @@ io.on('connection', function (socket, req) {
 				case 'DEAD':
 					modmessage = name + ' was killed.';
 					break;
-				case 'TARGETATTACKED':
+				case 'TARGET_ATTACKED':
 					modmessage = name + '\'s target was attacked.';
 					break;
 				case 'DOUSE':
