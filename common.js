@@ -191,11 +191,11 @@ function processMessage(msg, type)
 			{
 				if (msg.role)
 				{
-					var str = msg.name+'('+msg.role+') cancels their targetting.';
+					var str = msg.name+'('+msg.role+') has changed their mind.';
 				}
 				else
 				{
-					var str = 'You cancel your targetting.';
+					var str = 'You have changed your mind.';
 				}
 			}
 			return '<li><span class="mod">'+str+'</span></li>';
@@ -265,7 +265,7 @@ function processMessage(msg, type)
 			}
 			else
 			{
-				return '<li class="highlight"><span>Their last will reads:</span></li><li><div class="will">'+msg+'</div></li>';
+				return '<li class="highlight"><span>We found a Will next to their body.</span></li><li><div class="will">'+msg+'</div></li>';
 			}
 		break;
 		case 'allroles':
