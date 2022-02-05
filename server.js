@@ -123,8 +123,8 @@ var server = http.createServer(function (req, res) {
 			} else {
 				storage.list().then(function(data) {
 					res.writeHead(200);
-					data.map(function(filename) {
-						res.write('<a href="/gamelogs?filename='+filename+'">'+filename+'</a><br>');
+					data.map(function({ Key: filename, Size: filesize }) {
+						res.write('<a href="/gamelogs?filename='+filename+'">'+filename+'</a> ('+filesize+' bytes)<br>');
 					});
 					res.end();
 				}, function(e) {

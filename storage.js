@@ -15,7 +15,7 @@ module.exports = {
 		return s3Client.send(new ListObjectsV2Command({
 			Bucket: process.env.S3_BUCKET_NAME,
 		})).then(function(data) {
-			return data.Contents.map(file=>file.Key);
+			return data.Contents;
 		});
 	},
 	load: function(filename) {
