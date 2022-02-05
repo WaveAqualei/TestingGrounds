@@ -744,7 +744,7 @@ io.on('connection', function (socket, req) {
 	});
 
 	addSocketListener(Type.MSG, function (msg) {
-		if (msg.length > 256) {
+		if (msg.length > 400) {
 			socket.sendMessage(Type.SYSTEM, 'Your message was too long.');
 		} else if (msg.trim() == '') {
 			socket.sendMessage(Type.SYSTEM, 'Cannot send an empty message.');
@@ -859,8 +859,8 @@ io.on('connection', function (socket, req) {
 	});
 	addSocketListener(Type.SETROLE, function (name, role) {
 		if (socket.id == mod) {
-			if (role.length > 32) {
-				socket.sendMessage(Type.SYSTEM, 'Role name cannot be more than 32 characters.');
+			if (role.length > 48) {
+				socket.sendMessage(Type.SYSTEM, 'Role name cannot be more than 48 characters.');
 			} else {
 				var p = getPlayerByName(name);
 				if (p) {
@@ -877,8 +877,8 @@ io.on('connection', function (socket, req) {
 		if (socket.id == mod) {
 			prev_rolled = roles;
 			for (i in names) {
-				if (roles[i].length > 32) {
-					socket.sendMessage(Type.SYSTEM, 'Invalid rolelist! Role name cannot be more than 32 characters: ' + roles[i]);
+				if (roles[i].length > 48) {
+					socket.sendMessage(Type.SYSTEM, 'Invalid rolelist! Role name cannot be more than 48 characters: ' + roles[i]);
 					break;
 				}
 				var p = getPlayerByName(names[i]);
@@ -978,11 +978,11 @@ io.on('connection', function (socket, req) {
 						socket.sendMessage(Type.SYSTEM, 'Invalid player name:' + name);
 					}
 				} else {
-					socket.sendMessage(Type.SYSTEM, 'Can\t edit another player\'s will: you are not the mod.');
+					socket.sendMessage(Type.SYSTEM, 'Can\t edit another player\'s will; you are not the mod.');
 				}
 			} else {
 				if(phase == Phase.MODTIME) {
-					socket.sendMessage(Type.SYSTEM, 'Please don\'t edit your will during modtime.');
+					socket.sendMessage(Type.SYSTEM, 'Your changes didn\'t save since it\'s Modtime. Try again during another phase.');
 				} else {
 					players[socket.id].will = will;
 				}
@@ -1015,7 +1015,7 @@ io.on('connection', function (socket, req) {
 				player.chats.dead = !player.chats.dead;
 				if (player.alive) {
 					if (!players[socket.id].silenced) {
-						sendPublicMessage(Type.HIGHLIGHT, name + ' has been revived!', 'reviving');
+						sendPublicMessage(Type.HIGHLIGHT, name + ' has revived!', 'reviving');
 						player.s.sendMessage(Type.PRENOT, 'REVIVE');
 					}
 					delete player.publicwill;
@@ -1023,7 +1023,6 @@ io.on('connection', function (socket, req) {
 				} else {
 					if (!players[socket.id].silenced) {
 						sendPublicMessage(Type.HIGHLIGHT, name + ' has died!', 'dying');
-						sendPublicMessage(Type.HIGHLIGHT, 'Their role was ' + sanitize(player.role));
 						var show = sanitize(player.will);
 						show = show.replace(/(\n)/g, '<br />');
 						if (!player.cleaned) {
@@ -1032,6 +1031,7 @@ io.on('connection', function (socket, req) {
 						} else {
 							sendPublicMessage(Type.HIGHLIGHT, 'We could not find a last will.');
 						}
+						sendPublicMessage(Type.HIGHLIGHT, name + '\'s role was ' + sanitize(player.role));
 						player.s.sendMessage(Type.PRENOT, 'DEAD');
 					}
 					sendPublicMessage(Type.TOGGLELIVING, {
@@ -1105,7 +1105,7 @@ io.on('connection', function (socket, req) {
 							case 'jailor':
 								player.jailorcom = true;
 								addLogMessage(Type.SYSTEM, player.name+' is now the jailor.');
-								notify = 'You are now the jailor. Use /jail [target] to jail. Use /execute, /exe or /x to execute your prisoner.';
+								notify = 'You are now the Jailor. Use /jail [target] to jail. Use /execute, /exe or /x to execute your prisoner.';
 								break;
 							case 'jailed':
 								notify = undefined;
@@ -1128,7 +1128,7 @@ io.on('connection', function (socket, req) {
 							case 'jailor':
 								player.jailorcom = false;
 								addLogMessage(Type.SYSTEM, player.name+' is no longer the jailor.');
-								notify = 'You are no longer the jailor.';
+								notify = 'You are no longer the Jailor.';
 								break;
 							case 'jailed':
 								notify = undefined;
@@ -1404,6 +1404,42 @@ function setPhase(p) {
 		}
 	}
 	if (p == Phase.NIGHT) {
+		var mafmembers;
+		mafmembers = 'Your fellow Mafia members are:';
+		for (i in players) {
+			if (players[i].chats.mafia && !players[i].spectate) {
+				mafmembers = mafmembers + ' ' + players[i].name + ' (' + sanitize(players[i].role) + ')';
+			}
+		}
+		for (i in players) {
+			if (players[i].chats.mafia && !players[i].spectate) {
+				players[i].s.sendMessage(Type.SYSTEM, mafmembers);
+			}
+		}
+		var covmembers;
+		covmembers = 'Your fellow Coven members are:';
+		for (i in players) {
+			if (players[i].chats.coven && !players[i].spectate) {
+				covmembers = covmembers + ' ' + players[i].name + '(' + sanitize(players[i].role) + ')';
+			}
+		}
+		for (i in players) {
+			if (players[i].chats.coven && !players[i].spectate) {
+				players[i].s.sendMessage(Type.SYSTEM, covmembers);
+			}
+		}
+		var vampmembers;
+		vampmembers = 'Your fellow Vampires are:';
+		for (i in players) {
+			if (players[i].chats.vamp && !players[i].spectate) {
+				vampmembers = vampmembers + ' ' + players[i].name + '(' + sanitize(players[i].role) + ')';
+			}
+		}
+		for (i in players) {
+			if (players[i].chats.vamp && !players[i].spectate) {
+				players[i].s.sendMessage(Type.SYSTEM, vampmembers);
+			}
+		}
 		//Reset cleaning.
 		//Special beginning of night messages.
 		for (i in players) {
@@ -1520,7 +1556,7 @@ function setPhase(p) {
 		for (i in players) {
 			players[i].confirm = false;
 			if (i != mod) {
-				players[i].s.sendMessage(Type.SYSTEM, 'Please type /confirm if you have received a role and are ready to play.');
+				players[i].s.sendMessage(Type.SYSTEM, 'If you have received a role and are ready to play, type /confirm');
 			}
 		}
 	}
@@ -1594,10 +1630,10 @@ function Timer() {
 			60, //Day		60
 			30, //Voting
 			20, //Trial
-			20, //Verdict
-			10, //Last words
-			60, //Night		60
-			30, //Day 1		30
+			25, //Verdict
+			15, //Last words
+			70, //Night		70
+			20, //Day 1		20
 		],
 		tock: function () {
 			switch (phase) {
@@ -1719,10 +1755,10 @@ function showConfirms() {
 	}
 	var total = Object.keys(players).length - 1;
 	if (c < total) {
-		sendPublicMessage(Type.SYSTEM, c + '/' + total + ' players confirmed.');
+		sendPublicMessage(Type.MOD, c + '/' + total + ' players confirmed.');
 		sendPublicMessage(Type.SYSTEM, 'Unconfirmed: ' + unconfirmed.join(', '));
 	} else {
-		sendPublicMessage(Type.SYSTEM, 'All players confirmed.');
+		sendPublicMessage(Type.MOD, 'All players confirmed.');
 	}
 }
 //Pinging functions
@@ -1786,8 +1822,8 @@ function Player(socket, name, ip) {
 		name: name,
 		dev: false,
 		ip: ip,
-		will: '',
-		notes: '',
+		will: 'Enter your Last Will here...',
+		notes: 'Add Note...',
 		ping: 0,
 		pingTime: 0,
 		fault: 0,
@@ -1828,6 +1864,7 @@ function Player(socket, name, ip) {
 			} else if (roles.hasRolecard(role)) {
 				var rolecard = roles.getRoleCard(role, {});
 				this.s.sendMessage(Type.ROLECARD, rolecard);
+				this.s.sendMessage(Type.SYSTEM, 'Your role is ' + sanitize(role));
 			} else {
 				this.s.sendMessage(Type.SYSTEM, 'Your role is ' + sanitize(role));
 			}
@@ -2060,7 +2097,7 @@ function Player(socket, name, ip) {
 					} else if (this.chats.medium) {
 						if (this.canSeance) {
 							if (!this.alive) {
-								if ((phase >= Phase.DAY && phase <= Phase.LASTWORDS) || phase == Phase.FIRSTDAY) {
+								if ((phase >= Phase.DAY && phase <= Phase.LASTWORDS) || phase == Phase.FIRSTDAY || phase == Phase.MODTIME) {
 									if (this.seance === undefined) {
 										var seance = function (medium, target) {
 											if (target.name == medium.name) {
@@ -2133,7 +2170,7 @@ function Player(socket, name, ip) {
 								if (players[playernames[c[1]]].cleaned) {
 									this.s.sendMessage(Type.SYSTEM, sanitize(c[1]) + "'s Last Will will no longer show upon death.");
 								} else {
-									this.s.sendMessage(Type.SYSTEM, sanitize(c[1]) + "'s Last Will will show upon death.");
+									this.s.sendMessage(Type.SYSTEM, sanitize(c[1]) + "'s Last Will will now show upon death.");
 								}
 							} else if (!isNaN(c[1])) {
 								//Get the numbered player.
@@ -2143,7 +2180,7 @@ function Player(socket, name, ip) {
 									if (target.cleaned) {
 										this.s.sendMessage(Type.SYSTEM, target.name + "'s Last Will will no longer show upon death.");
 									} else {
-										this.s.sendMessage(Type.SYSTEM, target.name + "'s Last Will will show upon death.");
+										this.s.sendMessage(Type.SYSTEM, target.name + "'s Last Will will now show upon death.");
 									}
 								} else {
 									this.s.sendMessage(Type.SYSTEM, 'Could not find player number ' + sanitize(c[1]) + '!');
@@ -3626,7 +3663,7 @@ function clone(obj) {
 }
 function kick(name, reason, kicker) {
 	var tokick = getPlayerByName(name);
-	tokick.s.sendMessage(Type.SYSTEM, 'You have been kicked from the game!');
+	tokick.s.sendMessage(Type.SYSTEM, 'You have been kicked from the game! Please watch your behavior, as that was most likely the reason you were kicked. You can rejoin by refreshing the page.');
 	if (reason) {
 		sendPublicMessage(Type.HIGHLIGHT, tokick.name + ' has been kicked by ' + kicker + '! Reason: ' + reason);
 	} else {
