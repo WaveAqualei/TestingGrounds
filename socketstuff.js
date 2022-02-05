@@ -160,6 +160,26 @@ function modInterface()
 				}
 		});
 		modcontrols.append(rolechanger);
+		var entangle= $('<div class="controlbutton entanglebutton"><span>Entangle</span></div>');
+		entangle.click(function()
+		{
+			var index = $('.entanglebutton, .disentanglebutton').index($(this))
+			socket.sendMessage(Type.TOGGLE,users[index],'entangled');
+			if ($(this).hasClass('entanglebutton'))
+			{
+				$(this).removeClass('entanglebutton');
+				$(this).addClass('disentanglebutton');
+				$(this).html('<span>Disentangle</span>');
+			}
+			else
+			{
+				$(this).removeClass('disentanglebutton');
+				$(this).addClass('entanglebutton');
+				$(this).html('<span>Entangle</span>');
+			}
+		});
+		
+		modcontrols.append(entangle);
 		$($('#userlist li')[x]).append(info);
 		$($('#userlist li')[x]).append(modcontrols);
 	}
@@ -440,6 +460,26 @@ addSocketListener(Type.JOIN,function(name)
 			}
 		});
 		modcontrols.append(rolechanger);
+		var entangle= $('<div class="controlbutton entanglebutton"><span>Entangle</span></div>');
+		entangle.click(function()
+		{
+			var index = $('.entanglebutton, .disentanglebutton').index($(this))
+			socket.sendMessage(Type.TOGGLE,users[index],'entangled');
+			if ($(this).hasClass('entanglebutton'))
+			{
+				$(this).removeClass('entanglebutton');
+				$(this).addClass('disentanglebutton');
+				$(this).html('<span>Disentangle</span>');
+			}
+			else
+			{
+				$(this).removeClass('disentanglebutton');
+				$(this).addClass('entanglebutton');
+				$(this).html('<span>Entangle</span>');
+			}
+		});
+		
+		modcontrols.append(entangle);
 	}
 	li.append(info);
 	if (mod) {
@@ -974,6 +1014,13 @@ addSocketListener(Type.ROLEUPDATE,function(send){
 		button.addClass('releasebutton');
 		button.html('<span>Release</span>');
 	}
+	if (send.entangled)
+	{
+		var button = $($('.entanglebutton')[index]);
+		button.removeClass('entanglebutton');
+		button.addClass('disentanglebutton');
+		button.html('<span>Disentangle</span>');
+	}
 });
 addSocketListener(Type.MASSROLEUPDATE,function(people){
 	if (mod)
@@ -1008,6 +1055,13 @@ addSocketListener(Type.MASSROLEUPDATE,function(people){
 				button.addClass('releasebutton');
 				button.removeClass('jailbutton');
 				button.html('<span>Release</span>');
+			}
+			if (send.entangled)
+			{
+				var button = $($('.entanglebutton')[index]);
+				button.addClass('disentanglebutton');
+				button.removeClass('entanglebutton');
+				button.html('<span>Disentangle</span>');
 			}
 		}
 	}
