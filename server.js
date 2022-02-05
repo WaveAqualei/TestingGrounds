@@ -9,6 +9,7 @@ var verified = []; //List of ips that are verified to use the MCP.
 var createdList = [];
 var gm = require('./gm.js');
 var jailorcom = false;
+var wisteriacom = false;
 var request = require('request');
 // Set the headers
 var headers = {
@@ -810,6 +811,9 @@ io.on('connection', function (socket, req) {
 				case 'JAILED':
 					modmessage = name + ' was hauled off to jail.';
 					break;
+				case 'ENTANGLED':
+					modmessage = name + ' was captured in the Garden.';
+					break;
 				case 'GUARDIAN_ANGEL':
 					modmessage = name + ' was watched by their Guardian Angel.';
 					break;
@@ -1110,6 +1114,14 @@ io.on('connection', function (socket, req) {
 							case 'jailed':
 								notify = undefined;
 								break; //No message
+							case 'wisteria':
+								player.wisteriacom = true;
+								addLogMessage(Type.SYSTEM, player.name+' is now the Wisteria.');
+								notify = 'You are now Wisteria. Use /entangle [target] to capture. Use /execute, /exe or /x to execute your prisoner.';
+								break;
+							case 'entangled':
+								notify = undefined;
+								break; //No message
 							case 'linked':
 								players[mod].s.sendMessage(Type.SYSTEM, player.name + ' is now linked.');
 								break;
@@ -1131,6 +1143,14 @@ io.on('connection', function (socket, req) {
 								notify = 'You are no longer the Jailor.';
 								break;
 							case 'jailed':
+								notify = undefined;
+								break; //No message
+							case 'wisteria':
+								player.wisteriacom = false;
+								addLogMessage(Type.SYSTEM, player.name+' is no longer Wisteria.');
+								notify = 'You are no longer Wisteria.';
+								break;
+							case 'entangled':
 								notify = undefined;
 								break; //No message
 							case 'linked':
@@ -1491,6 +1511,37 @@ function setPhase(p) {
 					players[i].s.sendMessage(Type.SYSTEM, 'Use "/target name" or "/t name" to send in your night action.');
 				}
 			}
+			//Entangled player
+			if (players[i].chats.linked) {
+				addLogMessage(Type.SYSTEM, players[i].name + ' has been linked!');
+				players[i].s.sendMessage(Type.PRENOT, 'LINKED');
+			}
+			if (players[i].chats.entangled) {
+				addLogMessage(Type.SYSTEM, players[i].name + ' was captured in the Garden.');
+				players[i].s.sendMessage(Type.PRENOT, 'ENTANGLED');
+				//inform the Wisteria of their success.
+				for (j in players) {
+					if (players[j].chats.wisteria) {
+						players[j].s.sendMessage(Type.PRENOT, 'ENTANGLING');
+						players[j].executing = false;
+					}
+					if ((players[j].chats.mafia && !players[j].chats.entangled && players[i].chats.mafia) || players[j].spectate) {
+						players[j].s.sendMessage(Type.SYSTEM, players[i].name + ' was captured in the Garden.');
+					}
+					if ((players[j].chats.coven && !players[j].chats.entangled && players[i].chats.coven) || players[j].spectate) {
+						players[j].s.sendMessage(Type.SYSTEM, players[i].name + ' was captured in the Garden.');
+					}
+					if ((players[j].chats.vamp && !players[j].chats.entangled && players[i].chats.vamp) || players[j].spectate) {
+						players[j].s.sendMessage(Type.SYSTEM, players[i].name + ' was captured in the Garden.');
+					}
+				}
+			}
+			//Target info, else if because you do not recieve it if you are entangled.
+			else if (i != mod && players[i].alive) {
+				if (!players[i].spectate) {
+					players[i].s.sendMessage(Type.SYSTEM, 'Use "/target name" or "/t name" to send in your night action.');
+				}
+			}
 			//Medium messages.
 			if (players[i].seancing) {
 				players[i].s.sendMessage(Type.SYSTEM, 'You have opened a communication with the living!');
@@ -1805,6 +1856,7 @@ function sendPlayerInfo() {
 		send.blackmailer = players[j].hearwhispers;
 		send.mayor = players[j].mayor !== undefined;
 		send.jailor = players[j].jailor !== undefined;
+		send.wisteria = players[j].wisteria !== undefined;
 		send.role = players[j].role;
 
 		final.push(send);
@@ -1833,6 +1885,7 @@ function Player(socket, name, ip) {
 		votelock: false,
 		mayor: undefined,
 		jailorcom: false,
+		wisteriacom: false,
 		spectate: false,
 		afk: undefined,
 		seance: undefined,
@@ -1851,6 +1904,8 @@ function Player(socket, name, ip) {
 			vamp: false,
 			jailor: false,
 			jailed: false,
+			wisteria: false,
+			entangled: false,
 			medium: false,
 			linked: false,
 			spectate: false,
@@ -2737,6 +2792,65 @@ function Player(socket, name, ip) {
 						this.s.sendMessage(Type.SYSTEM, 'You can only jail during the day.');
 					}
 					break;
+				case 'entangle':
+				case 'ent':
+					if (mod == this.s.id) {
+						this.s.sendMessage(Type.SYSTEM, 'The mod cannot use this command.');
+					} else if (this.wisteriacom === false) {
+						this.s.sendMessage(Type.SYSTEM, 'Only Wisteria can detain people.');
+					} else if (!this.alive) {
+						this.s.sendMessage(Type.SYSTEM, 'You must be alive to entangle.');
+					} else if ((phase >= Phase.DAY && phase <= Phase.LASTWORDS) || phase == Phase.FIRSTDAY) {
+						var args = c.slice(1, c.length);
+						var targets = [];
+						var error = false;
+						if (args.length == 0 || args[0] == '0') {
+							var actions = gm.getActions(this.name);
+							if (actions && actions.length > 0) {
+								//This is a cancel
+							} else {
+								error = true;
+								this.s.sendMessage(Type.SYSTEM, 'You are not targetting anyone.');
+							}
+						} else {
+							//Check if the targetting is valid
+							var vt = gm.validTarget(args, this.role.toLowerCase(), players, playernames, playernums, this, phase);
+							if (vt == 'notfound' || vt == 'ok' || free) {
+								for (i in args) {
+									if (args[i] != '') {
+										if (isNaN(args[i])) {
+											var p = getPlayerByName(args[i]);
+										} else {
+											var p = getPlayerByNumber(parseInt(args[i]));
+										}
+										if (p && p != -1) {
+											if (p.s.id != mod) {
+												targets.push(p.name);
+											} else {
+												this.s.sendMessage(Type.SYSTEM, 'You cannot entangle the mod.');
+												error = true;
+												break;
+											}
+										} else {
+											this.s.sendMessage(Type.SYSTEM, 'Invalid player: ' + sanitize(args[i]));
+											error = true;
+											break;
+										}
+									}
+								}
+							} else {
+								error = true;
+								var message = vt;
+								this.s.sendMessage(Type.SYSTEM, message);
+							}
+						}
+						if (!error) {
+							this.target(targets);
+						}
+					} else {
+						this.s.sendMessage(Type.SYSTEM, 'You can only entangle during the day.');
+					}
+					break;
 				case 't':
 				case 'target':
 				case 'freetarget':
@@ -2751,6 +2865,8 @@ function Player(socket, name, ip) {
 						this.s.sendMessage(Type.SYSTEM, 'You are not allowed to take influence in the game.');
 					} else if (this.chats.jailed) {
 						this.s.sendMessage(Type.SYSTEM, 'You cannot use this command while jailed.');
+					} else if (this.chats.entangled) {
+						this.s.sendMessage(Type.SYSTEM, 'You cannot use this command while entangled.');
 					} else if (!this.alive) {
 						this.s.sendMessage(Type.SYSTEM, 'You cannot use this while dead.');
 					} else if (phase != Phase.NIGHT) {
@@ -3544,7 +3660,9 @@ function Player(socket, name, ip) {
 							this.s.sendMessage(Type.SYSTEM, 'Use /a if you want to send a public message as mod');
 						} else if (this.chats.jailed) {
 							this.specMessage(msg, { jailor: true, jailed: true }, null, 'jailed');
-						} else if (this.chats.mafia || this.chats.coven || this.chats.vamp || this.chats.linked || this.chats.jailor || this.chats.medium) {
+						} else if (this.chats.entangled) {
+							this.specMessage(msg, { wisteria: true, entangled: true }, null, 'entangled');
+						} else if (this.chats.mafia || this.chats.coven || this.chats.vamp || this.chats.linked || this.chats.jailor || this.chats.wisteria || this.chats.medium) {
 							var sendTo = {};
 							if(this.chats.mafia) sendTo.mafia = true;
 							if(this.chats.coven) sendTo.coven = true;
@@ -3555,6 +3673,9 @@ function Player(socket, name, ip) {
 
 							if (this.chats.jailor) {
 								this.specMessage(msg, { jailor: true, jailed: true }, 'Jailor', 'jailor');
+							}
+							if (this.chats.wisteria) {
+								this.specMessage(msg, { wisteria: true, entangled: true }, 'Wisteria', 'wisteria');
 							}
 							if (this.chats.medium) {
 								this.specMessage(msg, { dead: true }, 'Medium', 'medium');
