@@ -274,6 +274,7 @@ function openModList(targ)
 				coven: 'Coven Chat',
 				vamp: 'Vampire Chat',
 				jailor: 'Jailor',
+				wisteria: 'Wisteria',
 				mayor: 'Mayor',
 				blackmailer: 'Read Whispers',
 				medium: 'Hear Dead',
@@ -855,6 +856,27 @@ function chooseAutoButton(info, label)
 					$(buttons[index]).removeClass('releasebutton');
 					$(buttons[index]).addClass('jailbutton');
 					$(buttons[index]).html('<span>Jail</span>');
+				}
+			};
+		break;
+		case '<Entangle>':
+			func = function(){
+				var tr = $(this).parent().parent();
+				var to = $($(tr.children()[1]).children()[0]).html();
+				socket.sendMessage(Type.TOGGLE,to,'entangled');
+				var index = users.indexOf(to);
+				var buttons = $('.entanglebutton, .disentanglebutton');
+				if ($(buttons[index]).hasClass('entanglebutton'))
+				{
+					$(buttons[index]).removeClass('entanglebutton');
+					$(buttons[index]).addClass('disentanglebutton');
+					$(buttons[index]).html('<span>Disentangle</span>');
+				}
+				else
+				{
+					$(buttons[index]).removeClass('disentanglebutton');
+					$(buttons[index]).addClass('entanglebutton');
+					$(buttons[index]).html('<span>Entangle</span>');
 				}
 			};
 		break;
