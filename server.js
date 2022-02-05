@@ -692,6 +692,11 @@ io.on('connection', function (socket, req) {
 					players[socket.id] = Player(socket, connecting_as_name, ip);
 					//Inform everyone of the new arrival.
 					sendPublicMessage(Type.JOIN, connecting_as_name);
+					if(mod == socket.id) {
+						socket.sendMessage(Type.SETMOD, true);
+					} else {
+						socket.sendMessage(Type.SETMOD, false);
+					}
 					if (phase != 0) {
 						for (i in players) {
 							if (connecting_as_name == players[i].name) {
