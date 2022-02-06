@@ -625,6 +625,7 @@ addSocketListener(Type.TOGGLELIVING,function(p)
 		{
 			var role_safe = sanitize(p.role);
 			li.addClass('deadplayer');
+			li.find('.roledisplay').remove();
 			li.append(`<div class="roledisplay"><span style="color: ${p.rolecolor}">${role_safe}</span></div>`);
 			if(p.haswill) {
 				$(`#p-${p.name}`).append(`<span class="emoji" id="${p.name}-will">📜</span>`);
