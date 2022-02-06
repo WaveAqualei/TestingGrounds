@@ -532,7 +532,7 @@ addMessageHandler(Type.SUGGESTIONS,function(results){
 		data.push(sanitize(results.targets[i][0])); //Role
 		if (results.targets[i][1] && results.targets[i][1].length != 0)
 		{
-			data.push(results.targets[i][1].join(' and ')); //Target
+			data.push(results.targets[i][1].join(', ')); //Target
 		}
 		else
 		{
