@@ -1461,7 +1461,7 @@ function setPhase(p) {
 			if (n == 2 || n >= 4) {
 				players[i].s.sendMessage(Type.SYSTEM, 'There is a full moon out tonight.', { styling: 'fullmoon' });
 			}
-			if (n == 2 || n >= 4 && players[i].role.toLowerCase() == 'werewolf') {
+			if ((n == 2 || n >= 4) && players[i].role.toLowerCase() == 'werewolf') {
 				//Even number, full moon
 				if (players[i] == players[mod]) {
 				} else {
