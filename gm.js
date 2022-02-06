@@ -65,6 +65,7 @@ var autoRoles =
 		attributes: {
 			RB:attributes.RB,
 			RBIMMUNE:attributes.RBIMMUNE},
+			DEADTARGET:attributes.DEADTARGET},
 		grouping: 'D',
 		intgrouping: 'G',
 		consiggrouping:'Escort',
@@ -220,6 +221,7 @@ var autoRoles =
 		attributes:  {
 			RB:attributes.RB,
 			RBIMMUNE:attributes.RBIMMUNE},
+			DEADTARGET:attributes.DEADTARGET},
 		grouping: 'D',
 		intgrouping: 'I',
 		consiggrouping:'Consort',
@@ -255,6 +257,7 @@ var autoRoles =
 	'forger': {
 		attributes:  {
 			FORGE:attributes.FORGE},
+			DEADTARGET:attributes.DEADTARGET},
 		grouping: 'F',
 		intgrouping: 'D',
 		consiggrouping:'Forger',
@@ -287,6 +290,7 @@ var autoRoles =
 			MAUL:attributes.MAUL,
 			SELF:attributes.SELF,
 			IMMUNE:attributes.IMMUNE,
+			DEADTARGET:attributes.DEADTARGET},
 			FULLMOONSHERIFFRESULT:attributes.FULLMOONSHERIFFRESULT,
 			MUSTVISITEVEN:attributes.MUSTVISITEVEN,
 			RBHOME:attributes.RBHOME},
@@ -351,138 +355,11 @@ var autoRoles =
 		alignment:'neutral'
 	},
 	//Custom Roles
-	'rain dancer': {
-		attributes:  {
-			RAINDANCE:attributes.RAINDANCE,
-			SELF:attributes.SELF,
-			NINJA:attributes.NINJA,
-			NOVISIT:attributes.NOVISIT
-		},
-		grouping: 'M',
-		intgrouping: 'G',
-		consiggrouping:'Rain Dancer',
-		alignment:'town'
-	},
-	'nightmarer': {
-		attributes:  {
-			MULTI:attributes.MULTI,
-			FORCEDMULTI:attributes.FORCEDMULTI
-		},
-		grouping: 'B',
-		intgrouping: 'G',
-		consiggrouping:'Nightmarer',
-		alignment:'mafia'
-	},
-	'watcher': {
-		attributes:  {
-			WATCH:attributes.WATCH
-		},
-		grouping: 'H',
-		intgrouping: 'J',
-		consiggrouping:'Watcher',
-		alignment:'mafia'
-	},
-	'electrician': {
-		attributes:  {
-		IMMUNE:attributes.IMMUNE
-		},
-		grouping: 'F',
-		intgrouping: 'F',
-		consiggrouping:'Electrician',
-		alignment:'elec'
-	},
-	'shadowalker': {
-		attributes:  {
-		IMMUNE:attributes.IMMUNE
-		},
-		grouping: 'B',
-		intgrouping: 'G',
-		consiggrouping:'Shadowalker',
-		alignment:'sw'
-	},
-	'stalker': {
-		attributes:  {
-			SELF:attributes.SELF
-		},
-		grouping: 'D',
-		intgrouping: 'F',
-		consiggrouping:'Stalker',
-		alignment:'neutral'
-	},
-	'drug dealer': {
-		attributes:  {},
-		grouping: 'A',
-		intgrouping: 'I',
-		consiggrouping:'Drug Dealer',
-		alignment:'mafia'
-	},
-	'lost spirit': {
-		attributes:  {},
-		grouping: 'B',
-		intgrouping: 'H',
-		consiggrouping:'Lost Spirit',
-		alignment:'neutral'
-	},
-	'scientist': {
-		attributes:  {},
-		grouping: 'G',
-		intgrouping: 'B',
-		consiggrouping:'Scientist',
-		alignment:'town'
-	},
 	'tracker': {
 		attributes:  {},
 		grouping: 'B',
 		intgrouping: 'C',
 		consiggrouping:'Tracker',
-		alignment:'town'
-	},
-	'ghost': {
-		attributes:  {
-			RB:attributes.RB,
-			RBIMMUNE:attributes.RBIMMUNE
-		},
-		grouping: 'D',
-		intgrouping: 'H',
-		consiggrouping:'Ghost',
-		alignment:'town'
-	},
-	'paradoxist': {
-		attributes:  {
-			RBIMMUNE:attributes.RBIMMUNE
-		},
-		grouping: 'H',
-		intgrouping: 'K',
-		consiggrouping:'Paradoxist',
-		alignment:'neutral'
-	},
-	'undertaker': {
-		attributes:  {},
-		grouping: 'G',
-		intgrouping: 'E',
-		consiggrouping:'Undertaker',
-		alignment:'neutral'
-	},
-	'psychic': {
-		attributes:  {
-			MULTI:attributes.MULTI,
-			FORCEDMULTI:attributes.MULTI,
-			SELF:attributes.SELF
-		},
-		grouping: 'H',
-		intgrouping: 'I',
-		consiggrouping:'Psychic',
-		alignment:'town'
-	},
-	'interviewer': {
-	    attributes: {
-		    INTERVIEW:attributes.INTERVIEW,
-		    MULTI: attributes.MULTI,
-		    FORCEDMULTI: attributes.MULTI
-		},
-		grouping: 'I',
-		intgrouping: 'D',
-		consiggrouping:'Interviewer',
 		alignment:'town'
 	},
 	'musician': {
@@ -493,87 +370,6 @@ var autoRoles =
 		intgrouping: 'F',
 		consiggrouping:'Musician',
 		alignment:'mafia'
-	},
-	'milkman': {
-	    attributes: {},
-		grouping: 'K',
-		intgrouping: 'E',
-		consiggrouping:'Milkman',
-		alignment:'town'
-	},
-	'slaughterer': {
-		attributes: {
-			IMMUNE:attributes.IMMUNE,
-			RBIMMUNE:attributes.RBIMMUNE
-		},
-		grouping: 'E',
-		intgrouping: 'H',
-		consiggrouping:'Slaughterer',
-		alignment:'slaug',
-	}, 
-	'warlock': {
-	   	attributes: {
-		    MULTI: attributes.MULTI,
-		    FORCEDMULTI: attributes.MULTI
-		},
-		grouping: 'I',
-		intgrouping: 'E',
-		consiggrouping:'Warlock',
-		alignment:'neutral'
-	},
-	'fisherman': {
-	   	attributes: {},
-		grouping: 'G',
-		intgrouping: 'K',
-		consiggrouping:'Fisherman',
-		alignment:'town'
-	},
-	'butcher': {
-	    attributes: {
-		   	MULTI:attributes.MULTI,
-			IMMUNE:attributes.IMMUNE
-	    },
-		grouping: 'K',
-		intgrouping: 'J',
-		consiggrouping:'Butcher',
-		alignment:'butcher'
-	},
-	'incarcerator': {
-	    attributes: {
-	    },
-		grouping: 'E',
-		intgrouping: 'F',
-		consiggrouping:'Incarcerator',
-		alignment:'town'
-	},
-	'firebrand': {
-		attributes:  {
-			DOUSE:attributes.DOUSE,
-			IGNITE:attributes.IGNITE,
-			SELF:attributes.SELF
-	},
-		grouping: 'F',
-		intgrouping: 'D',
-		consiggrouping:'Firebrand',
-		alignment:'town'
-	},
-	'malpractitioner': {
-	    attributes: {
-	    },
-		grouping: 'E',
-		intgrouping: 'K',
-		consiggrouping:'Malpractitioner',
-		alignment:'mafia'
-	},
-	'gossiper': {
-	   	attributes: {
-		    MULTI: attributes.MULTI,
-		    FORCEDMULTI: attributes.MULTI
-		},
-		grouping: 'J',
-		intgrouping: 'G',
-		consiggrouping:'Gossiper',
-		alignment:'neutral'
 	},
 };
 
@@ -652,7 +448,7 @@ var sheriffResults = {
 	'mafia':'Your target is suspicious!',
 	'coven':'Your target is suspicious!',
 	'gf':'You could not find evidence of wrongdoing. Your target seems innocent.',
-	'ww': 'Your target is a Werewolf!',
+	'ww': 'Your target is suspicious!',
 	'sk':'Your target is suspicious!',
 	'arsonist':'You could not find evidence of wrongdoing. Your target seems innocent.',
 	'neutral':'You could not find evidence of wrongdoing. Your target seems innocent.',
@@ -1328,8 +1124,8 @@ module.exports = {
 									            //Immune or a survivor that sent in an action.
 									            attackSuccess = false;
 									            //Inform the person they were attacked, inform the attacker their target was immune.
-									            addSuggestedMessage('You were attacked, but you are immune at night!', t[0]);
-									            addSuggestedMessage('Your target was immune to your attack!', num);
+									            addSuggestedMessage('Someone attacked you but your defense was too strong!', t[0]);
+									            addSuggestedMessage('Your target\'s defense was too strong to kill.', num);
 									        }
 									    }
 									    else if (autoRoles[role] && autoRoles[role].attributes.ALERT) //Vet alert.
@@ -1609,7 +1405,7 @@ module.exports = {
 									                        success = false;
 									                        //Successful heal!
 									                        addSuggestedMessage('You were attacked but someone nursed you back to health!', visitors[j]);
-									                        addSuggestedMessage('Your target was attacked last night.', vVisitors[k]);
+									                        addSuggestedMessage('Your target was attacked!', vVisitors[k]);
 									                    }
 									                }
 									            }
