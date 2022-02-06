@@ -528,9 +528,13 @@ io.on('connection', function (socket, req) {
 		if(type !== Type.JOIN && !players[socket.id]) {
 			return;
 		}
-		if(listeners[type]) {
+		if(listeners[type]) { try {
 			listeners[type].apply(socket, args);
-		}
+		} catch(err) {
+			console.error(err);
+			addLogMessage(Type.SYSTEM, sanitize(err.stack).replace(/\n/g, '<br>'));
+			players[mod].s.sendMessage(Type.SYSTEM, 'That command caused an error: '+err);
+		} }
 	});
 	socket.sendMessage = function() {
 		this.send(JSON.stringify(Array.prototype.slice.call(arguments)));
@@ -1281,7 +1285,7 @@ function getPlayerByNumber(num) {
 //--Phase change
 function setPhase(p) {
 	if (phase >= Phase.DAY && phase <= Phase.FIRSTDAY && p <= Phase.MODTIME) {
-		if (autoLevel > 0) {
+		if (autoLevel > 0) { try {
 			//Evaluate night actions.
 			var results = gm.evaluate(players, playernames, playernums, mod, roles, autoLevel, phase);
 			addLogMessage(Type.SUGGESTIONS, results);
@@ -1306,7 +1310,11 @@ function setPhase(p) {
 				players[mod].s.sendMessage(Type.SUGGESTIONS, results);
 			}
 			gm.clear();
-		}
+		} catch(err) {
+			console.error(err);
+			addLogMessage(Type.SYSTEM, sanitize(err.stack).replace(/\n/g, '<br>'));
+			players[mod].s.sendMessage(Type.SYSTEM, 'Error generating automod table: '+err);
+		} }
 		for (i in players) {
 			if (players[i].seancing) {
 				players[i].seancing.beingSeanced = undefined;
