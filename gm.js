@@ -10,13 +10,13 @@ var attributes = {
 	 HEAL:'Heal your target.',
 	 NOHEAL:'Cannot be healed after revealing.',
 	 RB:'Roleblock your target.',
-	 INVESTIGATE:'View the target\'s investigative results. Affected by Framer.',
+	 INVESTIGATE:'View the target\'s investigator results. Affected by Framer, Arsonist, Disguiser, and Hex Master.',
 	 JAIL:'Jail the target.',
 	 EXECUTE:'Execute the jailed target.',
 	 WATCH:'See all visitors to the target.',
 	 MAFVISIT:'See who the Mafia visited.',
 	 REVIVE:'Revive the target.',
-	 CHECK:'View the target\'s alignment. Affected by Framer.',
+	 INTERROGATE:'View the target\'s sheriff results. Affected by Framer, Disguiser, and Hex Master.',
 	 DETECTIONIMMUNE:'Appears as Not Suspious to the Sheriff.',
 	 TRANSPORT:'Swap all targets on your two targets.',
 	 ALERT:'Kill anyone that targets you.',
@@ -110,7 +110,7 @@ var autoRoles =
 	},
 	'sheriff': {
 		attributes: {
-			CHECK:attributes.CHECK},
+			INTERROGATE:attributes.INTERROGATE},
 		grouping: 'C',
 		intgrouping: 'A',
 		consiggrouping:'Sheriff',
@@ -150,6 +150,8 @@ var autoRoles =
 	},
 	'retributionist': {
 		attributes:  {
+			RBIMMUNE:attributes.RBIMMUNE,
+			CONTROLIMMUNE:attributes.CONTROLIMMUNE,
 			REVIVE:attributes.REVIVE,
 			DEADTARGET:attributes.DEADTARGET,
 			NOLIVINGTARGET:attributes.NOLIVINGTARGET},
@@ -315,7 +317,7 @@ var autoRoles =
 	'witch': {
 		attributes:  {
 			CONTROL:attributes.CONTROL,
-			CONTROLIMMUNE:attributes.CONTROLIMMUNE,
+			RBIMMUNE:attributes.RBIMMUNE,
 			MULTI:attributes.MULTI,
 			FORCEDMULTI:attributes.MULTI
 		},
@@ -648,6 +650,7 @@ var consigResults = {
 var sheriffResults = {
 	'town':'You could not find evidence of wrongdoing. Your target seems innocent.',
 	'mafia':'Your target is suspicious!',
+	'coven':'Your target is suspicious!',
 	'gf':'You could not find evidence of wrongdoing. Your target seems innocent.',
 	'ww': 'Your target is a Werewolf!',
 	'sk':'Your target is suspicious!',
@@ -1358,7 +1361,7 @@ module.exports = {
 									        addSuggestedAction('Kill', t[0]);
 									    }
 									}
-									else if (roleAttributes.CHECK) {
+									else if (roleAttributes.INTERROGATE) {
 									    var t = targets[num][1];
 									    var name = t[0];
 									    var role = getRole(targets[name]);
