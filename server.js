@@ -1763,10 +1763,10 @@ function showConfirms() {
 	}
 	var total = Object.keys(players).length - 1;
 	if (c < total) {
-		sendPublicMessage(Type.MOD, c + '/' + total + ' players confirmed.');
+		sendPublicMessage(Type.HIGHLIGHT, c + '/' + total + ' players confirmed.', 'mod');
 		sendPublicMessage(Type.SYSTEM, 'Unconfirmed: ' + unconfirmed.join(', '));
 	} else {
-		sendPublicMessage(Type.MOD, 'All players confirmed.');
+		sendPublicMessage(Type.HIGHLIGHT, 'All players confirmed.', 'mod');
 	}
 }
 //Pinging functions
