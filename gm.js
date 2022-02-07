@@ -192,6 +192,12 @@ var autoRoles =
 		consiggrouping:'Mafioso',
 		alignment:'mafia'
 	},
+	'ambusher': {
+		attributes:  {},
+		grouping: 'A',
+		consiggrouping:'Ambusher',
+		alignment:'mafia'
+	},
 	'consigliere': {
 		attributes:  {
 			CONSIG:attributes.CONSIG},
@@ -208,12 +214,18 @@ var autoRoles =
 		alignment:'mafia',
 		priority:2
 	},
+	'hypnotist': {
+		attributes:  {},
+		grouping: 'H',
+		consiggrouping:'Hypnotist',
+		alignment:'mafia'
+	},
 	'disguiser': {
 		attributes:  {
 			DISGUISE:attributes.DISGUISE,
 			SWAPWILL:attributes.SWAPWILL
 			},
-		grouping: 'I',,
+		grouping: 'I',
 		consiggrouping:'Disguiser',
 		alignment:'mafia'
 	},
