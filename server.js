@@ -1321,7 +1321,6 @@ function setPhase(p) {
 		} }
 		for (i in players) {
 			if (players[i].seancing) {
-				players[i].seancing.beingSeanced = undefined;
 				players[i].seancing = undefined;
 			}
 		}
@@ -2196,7 +2195,6 @@ function Player(socket, name, ip) {
 											} else if (mod == target.s.id) {
 												if (medium.seancing) {
 													medium.s.sendMessage(Type.SYSTEM, 'You cancel your seance.');
-													medium.seancing.beingSeanced = undefined;
 													medium.seancing = undefined;
 													addLogMessage(Type.SYSTEM, medium.name + ' cancels their seance.');
 													players[mod].s.sendMessage(Type.SYSTEM, medium.name + ' cancels their seance.');
@@ -2205,14 +2203,12 @@ function Player(socket, name, ip) {
 												}
 											} else if (medium.seancing && medium.seancing == target) {
 												medium.s.sendMessage(Type.SYSTEM, 'You cancel your seance.');
-												medium.seancing.beingSeanced = undefined;
 												medium.seancing = undefined;
 												addLogMessage(Type.SYSTEM, medium.name + ' cancels their seance.');
 												players[mod].s.sendMessage(Type.SYSTEM, medium.name + ' cancels their seance.');
 											} else {
 												medium.s.sendMessage(Type.SYSTEM, 'You are now seancing ' + target.name + '.');
 												medium.seancing = target;
-												medium.seancing.beingSeanced = medium;
 												addLogMessage(Type.SYSTEM, medium.name + ' is now seancing ' + target.name + '.');
 												players[mod].s.sendMessage(Type.SYSTEM, medium.name + ' is now seancing ' + target.name + '.');
 												for (i in players) {
@@ -3655,9 +3651,10 @@ function Player(socket, name, ip) {
 						if (this.chats.linked) {
 							this.specMessage(msg, { linked: true });
 						}
-						if (this.beingSeanced) {
-							this.beingSeanced.s.sendMessage(Type.MSG, this.name, msg);
-							//Echo the message back to the medium.
+						var beingSeanced = playernums.map(i=>players[i]).filter(p=>p.seancing === this);
+						if (beingSeanced.length) {
+							beingSeanced.map(p=>p.s.sendMessage(Type.MSG, this.name, msg));
+							//Echo the message back to the player.
 							this.s.sendMessage(Type.MSG, this.name, msg);
 							addLogMessage(Type.MSG, this.name, msg);
 							players[mod].s.sendMessage(Type.MSG, this.name, msg);
