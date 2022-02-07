@@ -65,7 +65,7 @@ var autoRoles =
 		attributes: {
 			RB:attributes.RB,
 			RBIMMUNE:attributes.RBIMMUNE},
-		grouping: 'D',
+		grouping: 'H',
 		intgrouping: 'G',
 		consiggrouping:'Escort',
 		alignment:'town',
@@ -80,7 +80,7 @@ var autoRoles =
 			CONTROLIMMUNE:attributes.CONTROLIMMUNE,
 			PRIO1:attributes.PRIO1, 
 			SELF:attributes.SELF},
-		grouping: 'K',
+		grouping: 'H',
 		intgrouping: 'C',
 		consiggrouping:'Transporter',
 		alignment:'town',
@@ -95,7 +95,7 @@ var autoRoles =
 			NINJA:attributes.NINJA,
 			NOVISIT:attributes.NOVISIT
 			},
-		grouping: 'M',
+		grouping: 'A',
 		intgrouping: 'E',
 		consiggrouping:'Veteran',
 		alignment:'town'
@@ -103,7 +103,7 @@ var autoRoles =
 	'vigilante': {
 		attributes: {
 			VIGKILL:attributes.VIGKILL},
-		grouping: 'I',
+		grouping: 'A',
 		intgrouping: 'F',
 		consiggrouping:'Vigilante',
 		alignment:'town'
@@ -111,7 +111,7 @@ var autoRoles =
 	'sheriff': {
 		attributes: {
 			INTERROGATE:attributes.INTERROGATE},
-		grouping: 'C',
+		grouping: 'E',
 		intgrouping: 'A',
 		consiggrouping:'Sheriff',
 		alignment:'town'
@@ -128,7 +128,7 @@ var autoRoles =
 		attributes:  {
 			WATCH:attributes.WATCH
 		},
-		grouping: 'H',
+		grouping: 'G',
 		intgrouping: 'D',
 		consiggrouping:'Lookout',
 		alignment:'town'
@@ -143,7 +143,7 @@ var autoRoles =
 	},
 	'medium': {
 		attributes:  {},
-		grouping: 'L',
+		grouping: 'B',
 		intgrouping: 'B',
 		consiggrouping:'Medium',
 		alignment:'town'
@@ -155,7 +155,7 @@ var autoRoles =
 			REVIVE:attributes.REVIVE,
 			DEADTARGET:attributes.DEADTARGET,
 			NOLIVINGTARGET:attributes.NOLIVINGTARGET},
-		grouping: 'L',
+		grouping: 'B',
 		intgrouping: 'H',
 		consiggrouping:'Retributionist',
 		alignment:'town'
@@ -164,7 +164,7 @@ var autoRoles =
 		attributes:  {
 			HEAL:attributes.HEAL,
 			SELF:attributes.SELF},
-		grouping: 'A',
+		grouping: 'I',
 		intgrouping: 'A',
 		consiggrouping:'Doctor',
 		alignment:'town',
@@ -175,7 +175,7 @@ var autoRoles =
 			VEST:attributes.VEST,
 			BG:attributes.BG,
 			SELF:attributes.SELF},
-		grouping: 'F',
+		grouping: 'K',
 		intgrouping: 'B',
 		consiggrouping:'Bodyguard',
 		alignment:'town',
@@ -185,7 +185,7 @@ var autoRoles =
 		attributes:  {
 			JAIL:attributes.JAIL,
 			EXECUTE:attributes.EXECUTE},
-		grouping: 'C',
+		grouping: 'D',
 		intgrouping: 'J',
 		consiggrouping:'Jailor',
 		alignment:'town'
@@ -194,7 +194,7 @@ var autoRoles =
 		attributes:  {
 			MAFKILL:attributes.MAFKILL,
 			IMMUNE:attributes.IMMUNE},
-		grouping: 'C',
+		grouping: 'K',
 		intgrouping: 'B',
 		consiggrouping:'Godfather',
 		alignment:'gf'
@@ -203,7 +203,7 @@ var autoRoles =
 		attributes:  {
 			MAFKILL:attributes.MAFKILL,
 			DEADTARGET:attributes.DEADTARGET},
-		grouping: 'I',
+		grouping: 'A',
 		intgrouping: 'H',
 		consiggrouping:'Mafioso',
 		alignment:'mafia'
@@ -220,7 +220,7 @@ var autoRoles =
 		attributes:  {
 			RB:attributes.RB,
 			RBIMMUNE:attributes.RBIMMUNE},
-		grouping: 'D',
+		grouping: 'H',
 		intgrouping: 'I',
 		consiggrouping:'Consort',
 		alignment:'mafia',
@@ -231,7 +231,7 @@ var autoRoles =
 			DISGUISE:attributes.DISGUISE,
 			SWAPWILL:attributes.SWAPWILL
 			},
-		grouping: 'L',
+		grouping: 'I',
 		intgrouping: 'E',
 		consiggrouping:'Disguiser',
 		alignment:'mafia'
@@ -239,7 +239,7 @@ var autoRoles =
 	'framer': {
 		attributes:  {
 			FRAME:attributes.FRAME},
-		grouping: 'N',
+		grouping: 'F',
 		intgrouping: 'C',
 		consiggrouping:'Framer',
 		alignment:'mafia'
@@ -247,15 +247,15 @@ var autoRoles =
 	'janitor': {
 		attributes:  {
 			CLEAN:attributes.CLEAN},
-		grouping: 'G',
-		intgrouping: 'J',
+		grouping: 'B',
+		intgrouping: 'B',
 		consiggrouping:'Janitor',
 		alignment:'mafia'
 	},
 	'forger': {
 		attributes:  {
 			FORGE:attributes.FORGE},
-		grouping: 'F',
+		grouping: 'G',
 		intgrouping: 'D',
 		consiggrouping:'Forger',
 		alignment:'mafia'
@@ -265,7 +265,7 @@ var autoRoles =
 			SKKILL:attributes.SKKILL,
 			RBATTACK:attributes.RBATTACK,
 			IMMUNE:attributes.IMMUNE},
-		grouping: 'A',
+		grouping: 'I',
 		intgrouping: 'K',
 		consiggrouping:'Serial Killer',
 		alignment:'sk'
@@ -277,7 +277,7 @@ var autoRoles =
 			SELF: attributes.SELF,
 			MUSTVISIT: attributes.MUSTVISIT,
 			IMMUNE:attributes.IMMUNE},
-		grouping: 'N',
+		grouping: 'K',
 		intgrouping: 'D',
 		consiggrouping:'Arsonist',
 		alignment:'arsonist'
@@ -290,7 +290,7 @@ var autoRoles =
 			FULLMOONSHERIFFRESULT:attributes.FULLMOONSHERIFFRESULT,
 			MUSTVISITEVEN:attributes.MUSTVISITEVEN,
 			RBHOME:attributes.RBHOME},
-		grouping: 'M',
+		grouping: 'E',
 		intgrouping: 'I',
 		consiggrouping:'Werewolf',
 		alignment:'ww'
@@ -299,7 +299,7 @@ var autoRoles =
 		attributes:  {
 			HAUNT:attributes.HAUNT
 		},
-		grouping: 'L',
+		grouping: 'F',
 		intgrouping: 'J',
 		consiggrouping:'Jester',
 		alignment:'neutral'
@@ -309,7 +309,7 @@ var autoRoles =
 			IMMUNE:attributes.IMMUNE
 			// TARGET:attributes.TARGET
 		},
-		grouping: 'C',
+		grouping: 'E',
 		intgrouping: 'A',
 		consiggrouping:'Executioner',
 		alignment:'neutral'
@@ -321,7 +321,7 @@ var autoRoles =
 			MULTI:attributes.MULTI,
 			FORCEDMULTI:attributes.MULTI
 		},
-		grouping: 'E',
+		grouping: 'G',
 		intgrouping: 'I',
 		consiggrouping:'Witch',
 		alignment:'neutral',
@@ -334,7 +334,7 @@ var autoRoles =
 			NINJA:attributes.NINJA,
 			NOVISIT:attributes.NOVISIT
 		},
-		grouping: 'K',
+		grouping: 'C',
 		intgrouping: 'B',
 		consiggrouping:'Survivor',
 		alignment:'neutral'
@@ -345,7 +345,7 @@ var autoRoles =
 			DEADTARGET:attributes.DEADTARGET,
 			NOLIVINGTARGET:attributes.NOLIVINGTARGET
 		},
-		grouping: 'A',
+		grouping: 'C',
 		intgrouping: 'C',
 		consiggrouping:'Amnesiac',
 		alignment:'neutral'
@@ -353,7 +353,7 @@ var autoRoles =
 	//Custom Roles
 	'tracker': {
 		attributes:  {},
-		grouping: 'B',
+		grouping: 'J',
 		intgrouping: 'C',
 		consiggrouping:'Tracker',
 		alignment:'town'
@@ -362,7 +362,7 @@ var autoRoles =
 	    attributes: {
 	      		SELF:attributes.SELF
 	    },
-		grouping: 'M',
+		grouping: 'E',
 		intgrouping: 'F',
 		consiggrouping:'Musician',
 		alignment:'mafia'
@@ -370,21 +370,29 @@ var autoRoles =
 };
 
 var investGrouping = {
-	'A':'Your target reeks of chemicals and death.',
-	'B':'Your target shadows people inquisitively.',
-	'C':'Your target seeks justice in every conflict.',
-	'D':'Your target frequents the shady districts.',
-	'E':'Your target embraces their torturous tendencies.',
-	'F':'Your target washes their stained clothes often.',
-	'G':'Your target catches onto dirty mischief.',
-	'H':'Your target eyes in the shadows for visitations.',
-	'I':'Your target searches for untrustworthy civilians.',
-	'J':'Your target possesses sensitive information to reveal.',
-	'K':'Your target delivers service to those in need.',
-	'L':'Your target isolates themselves for sanity.',
-	'M':'Your target lures people out where vulnerable.',
-	'N':'Your target burns for mischief.',
+	'A':'Your target could be a',
+	'B':'Your target could be a',
+	'C':'Your target could be a',
+	'D':'Your target could be a',
+	'E':'Your target could be a',
+	'F':'Your target could be a',
+	'G':'Your target could be a',
+	'H':'Your target could be an',
+	'I':'Your target could be a',
+	'J':'Your target could be an',
+	'K':'Your target could be a',
 };
+//A - Vigilante, Veteran, Mafioso, Pirate, or Ambusher.
+//B - Medium, Janitor, Retributionist, Necromancer, or Trapper.
+//C - Survivor, Vampire Hunter, Amnesiac, Medusa, or Psychic.
+//D - Spy, Blackmailer, Jailor, or Guardian Angel.
+//E - Sheriff, Executioner, Werewolf, or Poisoner.
+//F - Framer, Vampire, Jester, or Hex Master.
+//G - Lookout, Forger, Juggernaut, or Coven Leader.
+//H - Escort, Transporter, Consort, or Hypnotist.
+//I - Doctor, Disguiser, Serial Killer, or Potion Master.
+//J - Investigator, Consigliere, Mayor, Tracker, or Plaguebearer.
+//K - Bodyguard, Godfather, Arsonist, or Crusader.
 
 var consigResults = {
 	'Bodyguard':'Your target is a trained protector. They must be a Bodyguard.',
@@ -1251,7 +1259,6 @@ module.exports = {
 									            str += 'They must be a ' + possibleRoles[0] + '.';
 									        }
 									        else {
-									            str += 'They could be a ';
 									            str += possibleRoles.slice(0, possibleRoles.length - 1).join(', ') + ' or ' + possibleRoles[possibleRoles.length - 1] + '.';
 									        }
 									        addSuggestedMessage(str, num);
