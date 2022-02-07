@@ -1121,6 +1121,7 @@ io.on('connection', function (socket, req) {
 								addLogMessage(Type.SYSTEM, player.name+' can now hear the dead at night.');
 								notify = 'You can now hear the dead at night.';
 								player.canSeance = true;
+								player.seance = undefined;
 								break;
 							default:
 								addLogMessage(Type.SYSTEM, player.name+' can now talk in the ' + chat + ' chat.');
@@ -1316,7 +1317,7 @@ function setPhase(p) {
 			players[mod].s.sendMessage(Type.SYSTEM, 'Error generating automod table: '+err);
 		} }
 		for (i in players) {
-			if (players[i].seancing) {
+			if (players[i].seancing && players[i].seance) {
 				players[i].seancing = undefined;
 			}
 		}
@@ -1505,7 +1506,6 @@ function setPhase(p) {
 				addLogMessage(Type.SYSTEM, players[i].name + ' is now talking to ' + players[i].seancing.name);
 				players[mod].s.sendMessage(Type.SYSTEM, players[i].name + ' is now talking to ' + players[i].seancing.name);
 				players[i].seancing.s.sendMessage(Type.SYSTEM, 'A medium is talking to you!');
-				players[i].canSeance = true;
 			}
 		}
 	}
