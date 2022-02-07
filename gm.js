@@ -66,7 +66,6 @@ var autoRoles =
 			RB:attributes.RB,
 			RBIMMUNE:attributes.RBIMMUNE},
 		grouping: 'H',
-		intgrouping: 'G',
 		consiggrouping:'Escort',
 		alignment:'town',
 		priority: 2
@@ -81,10 +80,16 @@ var autoRoles =
 			PRIO1:attributes.PRIO1, 
 			SELF:attributes.SELF},
 		grouping: 'H',
-		intgrouping: 'C',
 		consiggrouping:'Transporter',
 		alignment:'town',
 		priority: 4
+	},
+	'vigilante': {
+		attributes: {
+			VIGKILL:attributes.VIGKILL},
+		grouping: 'A',
+		consiggrouping:'Vigilante',
+		alignment:'town'
 	},
 	'veteran': {
 		attributes: {
@@ -96,23 +101,13 @@ var autoRoles =
 			NOVISIT:attributes.NOVISIT
 			},
 		grouping: 'A',
-		intgrouping: 'E',
 		consiggrouping:'Veteran',
-		alignment:'town'
-	},
-	'vigilante': {
-		attributes: {
-			VIGKILL:attributes.VIGKILL},
-		grouping: 'A',
-		intgrouping: 'F',
-		consiggrouping:'Vigilante',
 		alignment:'town'
 	},
 	'sheriff': {
 		attributes: {
 			INTERROGATE:attributes.INTERROGATE},
 		grouping: 'E',
-		intgrouping: 'A',
 		consiggrouping:'Sheriff',
 		alignment:'town'
 	},
@@ -120,7 +115,6 @@ var autoRoles =
 		attributes:  {
 			INVESTIGATE:attributes.INVESTIGATE},
 		grouping: 'J',
-		intgrouping: 'C',
 		consiggrouping:'Investigator',
 		alignment:'town'
 	},
@@ -129,7 +123,6 @@ var autoRoles =
 			WATCH:attributes.WATCH
 		},
 		grouping: 'G',
-		intgrouping: 'D',
 		consiggrouping:'Lookout',
 		alignment:'town'
 	},
@@ -137,14 +130,12 @@ var autoRoles =
 		attributes:  {
 			NOHEAL:attributes.NOHEAL},
 		grouping: 'J',
-		intgrouping: 'A',
 		consiggrouping:'Mayor',
 		alignment:'town'
 	},
 	'medium': {
 		attributes:  {},
 		grouping: 'B',
-		intgrouping: 'B',
 		consiggrouping:'Medium',
 		alignment:'town'
 	},
@@ -156,7 +147,6 @@ var autoRoles =
 			DEADTARGET:attributes.DEADTARGET,
 			NOLIVINGTARGET:attributes.NOLIVINGTARGET},
 		grouping: 'B',
-		intgrouping: 'H',
 		consiggrouping:'Retributionist',
 		alignment:'town'
 	},
@@ -165,7 +155,6 @@ var autoRoles =
 			HEAL:attributes.HEAL,
 			SELF:attributes.SELF},
 		grouping: 'I',
-		intgrouping: 'A',
 		consiggrouping:'Doctor',
 		alignment:'town',
 		priority: 1
@@ -176,7 +165,6 @@ var autoRoles =
 			BG:attributes.BG,
 			SELF:attributes.SELF},
 		grouping: 'K',
-		intgrouping: 'B',
 		consiggrouping:'Bodyguard',
 		alignment:'town',
 		priority: 1
@@ -186,7 +174,6 @@ var autoRoles =
 			JAIL:attributes.JAIL,
 			EXECUTE:attributes.EXECUTE},
 		grouping: 'D',
-		intgrouping: 'J',
 		consiggrouping:'Jailor',
 		alignment:'town'
 	},
@@ -195,7 +182,6 @@ var autoRoles =
 			MAFKILL:attributes.MAFKILL,
 			IMMUNE:attributes.IMMUNE},
 		grouping: 'K',
-		intgrouping: 'B',
 		consiggrouping:'Godfather',
 		alignment:'gf'
 	},
@@ -204,7 +190,6 @@ var autoRoles =
 			MAFKILL:attributes.MAFKILL,
 			DEADTARGET:attributes.DEADTARGET},
 		grouping: 'A',
-		intgrouping: 'H',
 		consiggrouping:'Mafioso',
 		alignment:'mafia'
 	},
@@ -212,7 +197,6 @@ var autoRoles =
 		attributes:  {
 			CONSIG:attributes.CONSIG},
 		grouping: 'J',
-		intgrouping: 'K',
 		consiggrouping:'Consigliere',
 		alignment:'mafia'
 	},
@@ -221,7 +205,6 @@ var autoRoles =
 			RB:attributes.RB,
 			RBIMMUNE:attributes.RBIMMUNE},
 		grouping: 'H',
-		intgrouping: 'I',
 		consiggrouping:'Consort',
 		alignment:'mafia',
 		priority:2
@@ -231,8 +214,7 @@ var autoRoles =
 			DISGUISE:attributes.DISGUISE,
 			SWAPWILL:attributes.SWAPWILL
 			},
-		grouping: 'I',
-		intgrouping: 'E',
+		grouping: 'I',,
 		consiggrouping:'Disguiser',
 		alignment:'mafia'
 	},
@@ -240,7 +222,6 @@ var autoRoles =
 		attributes:  {
 			FRAME:attributes.FRAME},
 		grouping: 'F',
-		intgrouping: 'C',
 		consiggrouping:'Framer',
 		alignment:'mafia'
 	},
@@ -248,7 +229,6 @@ var autoRoles =
 		attributes:  {
 			CLEAN:attributes.CLEAN},
 		grouping: 'B',
-		intgrouping: 'B',
 		consiggrouping:'Janitor',
 		alignment:'mafia'
 	},
@@ -256,7 +236,6 @@ var autoRoles =
 		attributes:  {
 			FORGE:attributes.FORGE},
 		grouping: 'G',
-		intgrouping: 'D',
 		consiggrouping:'Forger',
 		alignment:'mafia'
 	},
@@ -266,7 +245,6 @@ var autoRoles =
 			RBATTACK:attributes.RBATTACK,
 			IMMUNE:attributes.IMMUNE},
 		grouping: 'I',
-		intgrouping: 'K',
 		consiggrouping:'Serial Killer',
 		alignment:'sk'
 	},
@@ -278,7 +256,6 @@ var autoRoles =
 			MUSTVISIT: attributes.MUSTVISIT,
 			IMMUNE:attributes.IMMUNE},
 		grouping: 'K',
-		intgrouping: 'D',
 		consiggrouping:'Arsonist',
 		alignment:'arsonist'
 	},
@@ -291,7 +268,6 @@ var autoRoles =
 			MUSTVISITEVEN:attributes.MUSTVISITEVEN,
 			RBHOME:attributes.RBHOME},
 		grouping: 'E',
-		intgrouping: 'I',
 		consiggrouping:'Werewolf',
 		alignment:'ww'
 	},
@@ -300,7 +276,6 @@ var autoRoles =
 			HAUNT:attributes.HAUNT
 		},
 		grouping: 'F',
-		intgrouping: 'J',
 		consiggrouping:'Jester',
 		alignment:'neutral'
 	},	
@@ -310,7 +285,6 @@ var autoRoles =
 			// TARGET:attributes.TARGET
 		},
 		grouping: 'E',
-		intgrouping: 'A',
 		consiggrouping:'Executioner',
 		alignment:'neutral'
 	},
@@ -322,7 +296,6 @@ var autoRoles =
 			FORCEDMULTI:attributes.MULTI
 		},
 		grouping: 'G',
-		intgrouping: 'I',
 		consiggrouping:'Witch',
 		alignment:'neutral',
 		priority:3
@@ -335,7 +308,6 @@ var autoRoles =
 			NOVISIT:attributes.NOVISIT
 		},
 		grouping: 'C',
-		intgrouping: 'B',
 		consiggrouping:'Survivor',
 		alignment:'neutral'
 	},
@@ -346,7 +318,6 @@ var autoRoles =
 			NOLIVINGTARGET:attributes.NOLIVINGTARGET
 		},
 		grouping: 'C',
-		intgrouping: 'C',
 		consiggrouping:'Amnesiac',
 		alignment:'neutral'
 	},
@@ -354,7 +325,6 @@ var autoRoles =
 	'tracker': {
 		attributes:  {},
 		grouping: 'J',
-		intgrouping: 'C',
 		consiggrouping:'Tracker',
 		alignment:'town'
 	},
@@ -363,7 +333,6 @@ var autoRoles =
 	      		SELF:attributes.SELF
 	    },
 		grouping: 'E',
-		intgrouping: 'F',
 		consiggrouping:'Musician',
 		alignment:'mafia'
 	},
@@ -1259,7 +1228,7 @@ module.exports = {
 									            str += 'They must be a ' + possibleRoles[0] + '.';
 									        }
 									        else {
-									            str += possibleRoles.slice(0, possibleRoles.length - 1).join(', ') + ' or ' + possibleRoles[possibleRoles.length - 1] + '.';
+									            str += possibleRoles.slice(0, possibleRoles.length - 1).join(', ') + ', or ' + possibleRoles[possibleRoles.length - 1] + '.';
 									        }
 									        addSuggestedMessage(str, num);
 									    }
