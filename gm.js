@@ -65,7 +65,6 @@ var autoRoles =
 		attributes: {
 			RB:attributes.RB,
 			RBIMMUNE:attributes.RBIMMUNE},
-			DEADTARGET:attributes.DEADTARGET},
 		grouping: 'D',
 		intgrouping: 'G',
 		consiggrouping:'Escort',
@@ -221,7 +220,6 @@ var autoRoles =
 		attributes:  {
 			RB:attributes.RB,
 			RBIMMUNE:attributes.RBIMMUNE},
-			DEADTARGET:attributes.DEADTARGET},
 		grouping: 'D',
 		intgrouping: 'I',
 		consiggrouping:'Consort',
@@ -257,7 +255,6 @@ var autoRoles =
 	'forger': {
 		attributes:  {
 			FORGE:attributes.FORGE},
-			DEADTARGET:attributes.DEADTARGET},
 		grouping: 'F',
 		intgrouping: 'D',
 		consiggrouping:'Forger',
@@ -290,7 +287,6 @@ var autoRoles =
 			MAUL:attributes.MAUL,
 			SELF:attributes.SELF,
 			IMMUNE:attributes.IMMUNE,
-			DEADTARGET:attributes.DEADTARGET},
 			FULLMOONSHERIFFRESULT:attributes.FULLMOONSHERIFFRESULT,
 			MUSTVISITEVEN:attributes.MUSTVISITEVEN,
 			RBHOME:attributes.RBHOME},
