@@ -61,6 +61,7 @@ var autoRoles =
 	'escort': {
 		attributes: {
 			RB:attributes.RB,
+			DEADTARGET:attributes.DEADTARGET,
 			RBIMMUNE:attributes.RBIMMUNE},
 		grouping: 'H',
 		consiggrouping:'Escort',
@@ -108,13 +109,6 @@ var autoRoles =
 		consiggrouping:'Sheriff',
 		alignment:'town'
 	},
-	'investigator': {
-		attributes:  {
-			INVESTIGATE:attributes.INVESTIGATE},
-		grouping: 'J',
-		consiggrouping:'Investigator',
-		alignment:'town'
-	},
 	'lookout': {
 		attributes:  {
 			WATCH:attributes.WATCH
@@ -123,11 +117,30 @@ var autoRoles =
 		consiggrouping:'Lookout',
 		alignment:'town'
 	},
+	'investigator': {
+		attributes:  {
+			INVESTIGATE:attributes.INVESTIGATE},
+		grouping: 'J',
+		consiggrouping:'Investigator',
+		alignment:'town'
+	},
 	'mayor': {
 		attributes:  {
 			NOHEAL:attributes.NOHEAL},
 		grouping: 'J',
 		consiggrouping:'Mayor',
+		alignment:'town'
+	},
+	'tracker': {
+		attributes:  {},
+		grouping: 'J',
+		consiggrouping:'Tracker',
+		alignment:'town'
+	},
+	'psychic': {
+		attributes:  {},
+		grouping: 'C',
+		consiggrouping:'Psychic',
 		alignment:'town'
 	},
 	'medium': {
@@ -145,6 +158,12 @@ var autoRoles =
 			NOLIVINGTARGET:attributes.NOLIVINGTARGET},
 		grouping: 'B',
 		consiggrouping:'Retributionist',
+		alignment:'town'
+	},
+	'trapper': {
+		attributes:  {},
+		grouping: 'B',
+		consiggrouping:'Trapper',
 		alignment:'town'
 	},
 	'doctor': {
@@ -166,12 +185,31 @@ var autoRoles =
 		alignment:'town',
 		priority: 1
 	},
+	'crusader': {
+		attributes:  {},
+		grouping: 'K',
+		consiggrouping:'Crusader',
+		alignment:'town',
+	},
+	'spy': {
+		attributes:  {
+			DEADTARGET:attributes.DEADTARGET},
+		grouping: 'D',
+		consiggrouping:'Spy',
+		alignment:'town'
+	},
 	'jailor': {
 		attributes:  {
 			JAIL:attributes.JAIL,
 			EXECUTE:attributes.EXECUTE},
 		grouping: 'D',
 		consiggrouping:'Jailor',
+		alignment:'town'
+	},
+	'vampire hunter': {
+		attributes:  {},
+		grouping: 'C',
+		consiggrouping:'Vampire Hunter',
 		alignment:'town'
 	},
 	'godfather': {
@@ -206,6 +244,7 @@ var autoRoles =
 	'consort': {
 		attributes:  {
 			RB:attributes.RB,
+			DEADTARGET:attributes.DEADTARGET,
 			RBIMMUNE:attributes.RBIMMUNE},
 		grouping: 'H',
 		consiggrouping:'Consort',
@@ -236,6 +275,7 @@ var autoRoles =
 	},
 	'janitor': {
 		attributes:  {
+			DEADTARGET:attributes.DEADTARGET,
 			CLEAN:attributes.CLEAN},
 		grouping: 'B',
 		consiggrouping:'Janitor',
@@ -243,6 +283,7 @@ var autoRoles =
 	},
 	'forger': {
 		attributes:  {
+			DEADTARGET:attributes.DEADTARGET,
 			FORGE:attributes.FORGE},
 		grouping: 'G',
 		consiggrouping:'Forger',
@@ -273,12 +314,19 @@ var autoRoles =
 			MAUL:attributes.MAUL,
 			SELF:attributes.SELF,
 			IMMUNE:attributes.IMMUNE,
+			DEADTARGET:attributes.DEADTARGET,
 			FULLMOONSHERIFFRESULT:attributes.FULLMOONSHERIFFRESULT,
 			MUSTVISITEVEN:attributes.MUSTVISITEVEN,
 			RBHOME:attributes.RBHOME},
 		grouping: 'E',
 		consiggrouping:'Werewolf',
 		alignment:'ww'
+	},
+	'juggernaut': {
+		attributes:  {},
+		grouping: 'G',
+		consiggrouping:'Juggernaut',
+		alignment:'neutral'
 	},
 	'jester': {
 		attributes:  {
@@ -306,8 +354,7 @@ var autoRoles =
 		},
 		grouping: 'G',
 		consiggrouping:'Witch',
-		alignment:'neutral',
-		priority:3
+		alignment:'neutral'
 	},
 	'survivor': {
 		attributes:  {
@@ -330,13 +377,74 @@ var autoRoles =
 		consiggrouping:'Amnesiac',
 		alignment:'neutral'
 	},
-	//Custom Roles
-	'tracker': {
+	'guardian angel': {
+		attributes:  {},
+		grouping: 'D',
+		consiggrouping:'Survivor',
+		alignment:'neutral'
+	},
+	'vampire': {
+		attributes:  {},
+		grouping: 'F',
+		consiggrouping:'Framer',
+		alignment:'neutral'
+	},
+	'pirate': {
+		attributes:  {},
+		grouping: 'A',
+		consiggrouping:'Pirate',
+		alignment:'neutral'
+	},
+	'plaguebearer': {
 		attributes:  {},
 		grouping: 'J',
-		consiggrouping:'Tracker',
-		alignment:'town'
+		consiggrouping:'Plaguebearer',
+		alignment:'neutral'
 	},
+	'pestilence': {
+		attributes:  {},
+		grouping: 'J',
+		consiggrouping:'Pestilence',
+		alignment:'neutral'
+	},
+	'coven leader': {
+		attributes:  {},
+		grouping: 'G',
+		consiggrouping:'Coven Leader',
+		alignment:'coven'
+	},
+	'hex master': {
+		attributes:  {},
+		grouping: 'F',
+		consiggrouping:'Hex Master',
+		alignment:'coven'
+	},
+	'medusa': {
+		attributes:  {},
+		grouping: 'C',
+		consiggrouping:'Medusa',
+		alignment:'coven'
+	},
+	'necromancer': {
+		attributes:  {},
+		grouping: 'B',
+		consiggrouping:'Necromancer',
+		alignment:'coven'
+	},
+	'poisoner': {
+		attributes:  {},
+		grouping: 'E',
+		consiggrouping:'Poisoner',
+		alignment:'coven'
+	},
+	'potion master': {
+		attributes:  {
+			},
+		grouping: 'I',
+		consiggrouping:'Potion Master',
+		alignment:'coven'
+	},
+	//Custom Roles
 	'musician': {
 	    attributes: {
 	      		SELF:attributes.SELF
@@ -348,17 +456,17 @@ var autoRoles =
 };
 
 var investGrouping = {
-	'A':'Your target could be a',
-	'B':'Your target could be a',
-	'C':'Your target could be a',
-	'D':'Your target could be a',
-	'E':'Your target could be a',
-	'F':'Your target could be a',
-	'G':'Your target could be a',
-	'H':'Your target could be an',
-	'I':'Your target could be a',
-	'J':'Your target could be an',
-	'K':'Your target could be a',
+	'A':'Your target could be a Vigilante, Veteran, Mafioso, Pirate, or Ambusher.',
+	'B':'Your target could be a Medium, Janitor, Retributionist, Necromancer, or Trapper.',
+	'C':'Your target could be a Survivor, Vampire Hunter, Amnesiac, Medusa, or Psychic.',
+	'D':'Your target could be a Spy, Blackmailer, Jailor, or Guardian Angel.',
+	'E':'Your target could be a Sheriff, Executioner, Werewolf, or Poisoner.',
+	'F':'Your target could be a Framer, Vampire, Jester, or Hex Master.',
+	'G':'Your target could be a Lookout, Forger, Juggernaut, or Coven Leader.',
+	'H':'Your target could be an Escort, Transporter, Consort, or Hypnotist.',
+	'I':'Your target could be a Doctor, Disguiser, Serial Killer, or Potion Master.',
+	'J':'Your target could be an Investigator, Consigliere, Mayor, Tracker, or Plaguebearer.',
+	'K':'Your target could be a Bodyguard, Godfather, Arsonist, or Crusader.',
 };
 //A - Vigilante, Veteran, Mafioso, Pirate, or Ambusher.
 //B - Medium, Janitor, Retributionist, Necromancer, or Trapper.
@@ -483,7 +591,7 @@ module.exports = {
 			}
 			if (auto.attributes.MAUL && daynumber % 2 == 1)
 			{
-				return 'You can only attack on Full Moon!';
+				return 'You can only attack on a Full Moon!';
 			}
 			//Check number of targets
 			if (arr.length > 1)
