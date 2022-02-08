@@ -72,9 +72,47 @@ var roles = [
 			'On even nights you will have a vision of two players, at least one will be Good.',
 			'All Town roles and Neutral Benign roles appear as Good, all other roles appear as Evil.',
 		],
-		targeting: [],
 		goal: towngoal,
 		color: towncolor,
+		targeting: [],
+		interpret_targeting: function(targets) {
+			return {
+				type: 'default',
+				targets: [],
+			};
+		},
+		setup: function(gm) {
+			gm.addActionHandler({
+				phase: 'night',
+				role: 'psychic',
+				type: 'default',
+				priority: 4,
+			}, function(targets) {
+				var is_good = (p)=>(p.alignment.split(' ')[0] == town || p.alignment == 'neutral benign');
+				var living_others = gm.players.filter(p=>p.alive && p !== this);
+				if(gm.day % 2) {
+					//Odd night: evil vision
+					var evil = living_others.filter(p=>!is_good(p)).random_pick(1);
+					var picks = [evil, ...living_others.filter(p=>p !== evil).random_pick(2)].shuffle();
+					if(picks.length < 3) {
+						gm.notify(this, 'The town is too small to accurately find an evildoer!');
+					} else {
+						var pick_names = picks.map(p=>p.name);
+						gm.notify(this, 'At least one of '+picks[0]+', '+picks[1]+', or '+picks[2]+' is evil!');
+					}
+				} else {
+					//Even night: good vision
+					var good = living_others.filter(p=>is_good(p)).random_pick(1);
+					var picks = [good, ...living_others.filter(p=>p !== good).random_pick(1)].shuffle();
+					if(picks.length < 3) {
+						gm.notify(this, 'The town is too evil to find anyone good!');
+					} else {
+						var pick_names = picks.map(p=>p.name);
+						gm.notify(this, 'At least one of '+picks[0]+' or '+picks[1]+' is good!');
+					}
+				}
+			});
+		},
 	},
 
 	// TOWN SUPPORT VANILLA
@@ -83,60 +121,122 @@ var roles = [
 		alignment: 'town support',
 		abilities: ['Distract someone each night.'],
 		attributes: ["Distraction blocks your target from using their role's night ability.", 'You are immune to roleblocks.'],
-		targeting: ['living other'],
 		goal: towngoal,
 		color: towncolor,
+		targeting: ['living other'],
+		interpret_targeting: function(targets) {
+			if(targets.length === 1) {
+				this.schedule_action('default', targets);
+			}
+			this.immunities({
+				roleblock_immunity: true,
+			});
+		},
+		setup: function(gm) {
+			gm.addActionHandler({
+				phase: 'night',
+				role: 'escort',
+				type: 'default',
+				priority: 3,
+			}, function(targets) {
+				gm.roleblock(targets[0]);
+			});
+		},
 	},
 	{
 		rolename: 'mayor',
 		alignment: 'town support',
 		abilities: ['You may reveal yourself as the Mayor of the Town.'],
 		attributes: ['Once you have revealed yourself as Mayor your vote counts as 3 votes.', 'You may not be healed once you have revealed yourself.'],
-		day_targeting: ['self'],
-		targeting: [],
 		goal: towngoal,
 		color: towncolor,
+		targeting: [],
+		day_targeting: ['self'],
+		features: {
+			mayor: true,
+		},
+		setup: function(gm) {
+			gm.on('target', {
+				phase: 'day',
+				role: 'mayor',
+			}, function(e) {
+				e.player.command('reveal');
+			});
+		},
 	},
 	{
 		rolename: 'medium',
 		alignment: 'town support',
 		abilities: ['When dead, seance a living person at night.'],
 		attributes: ['You will speak to the dead anonymously each night you are alive.', 'You may only seance a living person once.'],
-		targeting: [],
-		dead_targeting: ['living'],
 		goal: towngoal,
 		color: towncolor,
+		targeting: [],
+		day_dead_targeting: ['living'],
+		interpret_targeting: function(targets) {
+			if(targets.length === 1) {
+				this.schedule_action('seance', targets);
+			}
+		},
+		features: {
+			canSeance: true,
+			charges: 1,
+		},
+		setup: function(gm) {
+			gm.addActionHandler({
+				phase: 'day',
+				role: 'medium',
+				type: 'seance',
+			}, function(targets) {
+				var [a] = targets;
+				this.seancing = a;
+			});
+		},
 	},
 	{
 		rolename: 'transporter',
 		alignment: 'town support',
 		abilities: ['Choose two people to transport at night.'],
 		attributes: ['Transporting two people swaps all targets against them.', 'You may transport yourself.', 'Your targets will know they were transported.'],
-		targeting: ['living', 'living'],
 		goal: towngoal,
 		color: towncolor,
-		interpret_targeting: function(targets) {
-			if(targets.length === 2) {
-				this.schedule_action(1, 'default', targets);
-			}
-			this.immunities({
+		targeting: ['living', 'living'],
+		interpret_targeting: function({ targets }) {
+			var immunities = {
 				control_immunity: true,
 				roleblock_immunity: true,
-			});
+			};
+			if(targets.length === 2) {
+				return {
+					type: 'default',
+					targets,
+					immunities,
+				};
+			} else {
+				return {
+					type: 'none',
+					immunities,
+				}
+			}
 		},
-		actions: {
-			default: function(targets) {
+		setup: function(gm) {
+			gm.addActionHandler({
+				phase: 'night',
+				role: 'transporter',
+				type: 'default',
+				priority: 1,
+			}, function(targets) {
 				var [a, b] = targets;
-				this.notify(a, "You were transported to another location!");
-				this.notify(b, "You were transported to another location!");
-				this.pending_actions.map(function(action) {
+				gm.notify(a, "You were transported to another location!");
+				gm.notify(b, "You were transported to another location!");
+				gm.pending_actions.map(function(action) {
 					action.targets = action.targets.map(function(target) {
 						if(target === a) return b;
 						if(target === b) return a;
 						return target;
 					});
 				});
-			},
+			});
 		},
 	},
 	{
@@ -144,19 +244,25 @@ var roles = [
 		alignment: 'town support',
 		abilities: ['You may raise a dead Town member and use their ability on a player.'],
 		attributes: ['Create zombies from dead true-hearted Town players.', 'Use their abilities on your second target.', 'Each zombie can be used once before it rots.'],
-		targeting: ['dead town', 'living'],
 		goal: towngoal,
 		color: towncolor,
-		interpret_targeting: function(targets, self) {
-			this.schedule_action(0, 'default', targets);
+		targeting: ['dead town', 'living'],
+		interpret_targeting: function(targets) {
+			this.schedule_action('default', targets);
 		},
-		actions: {
-			default: function(targets) {
-				this.control(targets[0], {
+		setup: function(gm) {
+			gm.addActionHandler({
+				phase: 'night',
+				role: 'retributionist',
+				type: 'default',
+				priority: 0,
+			}, function(targets) {
+				gm.control(targets[0], {
 					type: 'default',
 					targets: [targets[1]],
+					notification_steal: this,
 				});
-			},
+			});
 		},
 	},
 
@@ -166,9 +272,40 @@ var roles = [
 		alignment: 'town protective',
 		abilities: ['Heal one person each night, granting them Powerful Defense.'],
 		attributes: ['You may only heal yourself once.', 'You will know if your target is attacked.'],
-		targeting: ['living'],
 		goal: towngoal,
 		color: towncolor,
+		targeting: ()=>(this.charges ? ['living'] : ['living other']),
+		interpret_targeting: function(targets, self) {
+			if(targets[1] === self) {
+				this.schedule_action('selfheal', []);
+			} else if(targets.length == 1) {
+				this.schedule_action('default', targets);
+			}
+		},
+		features: {
+			charges: 1,
+		},
+		setup: function(gm) {
+			gm.addActionHandler({
+				phase: 'night',
+				role: 'doctor',
+				type: 'selfheal',
+				priority: 4,
+			}, function(targets) {
+				if(this.charges > 0) {
+					this.charges--;
+					this.heal(this);
+				}
+			});
+			gm.addActionHandler({
+				phase: 'night',
+				role: 'doctor',
+				type: 'default',
+				priority: 4,
+			}, function(targets) {
+				this.heal(targets[0]);
+			});
+		},
 	},
 	{
 		rolename: 'bodyguard',
@@ -180,9 +317,60 @@ var roles = [
 			'If you successfully protect someone you can still be healed.',
 			'You have one bulletproof vest.',
 		],
-		targeting: ['living'],
 		goal: towngoal,
 		color: towncolor,
+		targeting: ()=>(this.charges ? ['living'] : ['living other']),
+		interpret_targeting: function(targets, self) {
+			if(targets[1] === self) {
+				this.schedule_action('selfheal', []);
+			} else if(targets.length == 1) {
+				this.schedule_action('default', targets);
+			}
+		},
+		features: {
+			charges: 1,
+		},
+		setup: function(gm) {
+			gm.addActionHandler({
+				phase: 'night',
+				role: 'bodyguard',
+				type: 'selfheal',
+				priority: 4,
+			}, function(targets) {
+				if(this.charges > 0) {
+					this.charges--;
+					this.protective_vest();
+				}
+			});
+			gm.addActionHandler({
+				phase: 'night',
+				role: 'bodyguard',
+				type: 'default',
+				priority: 4,
+			}, function([target]) {
+				var already_protected = false;
+				target.on('attacked', function(attack) {
+					if(attack.visit == 'direct' && !attack.blocked && !already_protected) {
+						attack.blocked = true;
+						attack.blocked_message = 'You were attacked, but someone protected you!';
+						gm.attack({
+							target: attack.source,
+							source: this,
+							visit: 'indirect',
+							power: 2,
+						});
+						gm.attack({
+							target: this,
+							source: this,
+							visit: 'indirect',
+							power: 2,
+							killed_by: 'guarding',
+						});
+						already_protected = true;
+					}
+				});
+			});
+		},
 	},
 	{
 		rolename: 'crusader',

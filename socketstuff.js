@@ -1132,7 +1132,7 @@ addSocketListener(Type.SUGGESTIONS,function(results){
 		data = [];
 	}
 	container.append(table.object);
-	if (results.messages)
+	if (results.actions)
 	{
 		//Suggested messages
 		container.append('<h2>Suggested Messages</h2>');
