@@ -601,10 +601,10 @@ module.exports = {
 
 				var targets = (loggedActions[player.name] || []).map(name=>gmPlayerNames[name]);
 				var role = autoRoles[player.role];
-				if(role && role.interpretTargeting) {
-					player.action = role.interpretTargeting.call(player, {
+				if(role && role.interpret_targeting) {
+					player.action = role.interpret_targeting.call(player, {
 						targets,
-						fromphase,
+						phase: fromphase,
 						daynumber,
 					});
 				} else if(targets.length) {
@@ -643,7 +643,7 @@ module.exports = {
 						});
 						if(e.blocked) return;
 					}
-					if(target.action.roleblock_immunity) {
+					if(target.roleblock_immunity) {
 						target.notify(target, "Someone tried to roleblock you, but you are immune!");
 					} else {
 						target.notify(target, "You were roleblocked!");
@@ -651,7 +651,7 @@ module.exports = {
 					}
 				},
 				control: function(target, new_action) {
-					if(target.action.control_immunity) {
+					if(target.control_immunity) {
 						target.notify(target, "Someone tried to control you, but you are immune!");
 					} else {
 						target.notify(target, "You were controlled!");
@@ -688,7 +688,7 @@ module.exports = {
 			phase_gm.actionHandlers.map(function({ filter, callback }) {
 				if(filter.phase && filter.phase !== framPhase) return;
 				var foundPlayers = phase_gm.players.filter(function(p) {
-					if(filter.role && p.role != filter.role) return false;
+					if(filter.role && (p.action.role || p.role) != filter.role) return false;
 					if(filter.type && p.action.type != filter.type) return false;
 					return true;
 				});

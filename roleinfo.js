@@ -128,9 +128,7 @@ var roles = [
 			if(targets.length === 1) {
 				this.schedule_action('default', targets);
 			}
-			this.immunities({
-				roleblock_immunity: true,
-			});
+			this.roleblock_immunity = true;
 		},
 		setup: function(gm) {
 			gm.addActionHandler({
@@ -202,21 +200,12 @@ var roles = [
 		color: towncolor,
 		targeting: ['living', 'living'],
 		interpret_targeting: function({ targets }) {
-			var immunities = {
-				control_immunity: true,
-				roleblock_immunity: true,
-			};
+			this.control_immunity = true;
+			this.roleblock_immunity = true;
 			if(targets.length === 2) {
-				return {
-					type: 'default',
-					targets,
-					immunities,
-				};
+				return { type: 'default', targets };
 			} else {
-				return {
-					type: 'none',
-					immunities,
-				}
+				return { type: 'none', targets: [] };
 			}
 		},
 		setup: function(gm) {
