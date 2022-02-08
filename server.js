@@ -533,7 +533,7 @@ io.on('connection', function (socket, req) {
 		} catch(err) {
 			console.error(err);
 			addLogMessage(Type.SYSTEM, sanitize(err.stack).replace(/\n/g, '<br>'));
-			players[mod].s.sendMessage(Type.SYSTEM, 'That command caused an error: '+err);
+			socket.sendMessage(Type.SYSTEM, 'That command caused an error: '+err);
 		} }
 	});
 	socket.sendMessage = function() {
