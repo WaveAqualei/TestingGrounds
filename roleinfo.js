@@ -15,31 +15,6 @@ var mafiagoal = 'Kill anyone that will not submit to the Mafia.';
 var covengoal = 'Kill all who would oppose the Coven.';
 var vampgoal = 'Convert or kill all who would oppose you.';
 
-Object.defineProperty(Array.prototype, 'random_pick', {
-    value: function(count) {
-		if(typeof count === 'undefined') {
-			return this[Math.floor(Math.random()*this.length)];
-		} else {
-			var source = this.slice();
-			var result = [];
-			for(var i = 0; i < count; i++) {
-				const random = Math.floor(Math.random()*source.length);
-				result = result.concat(source.splice(random, 1));
-			}
-			return result;
-		}
-    }
-});
-Object.defineProperty(Array.prototype, 'shuffle', {
-    value: function() {
-        for (let i = this.length - 1; i > 0; i--) {
-            const j = Math.floor(Math.random() * (i + 1));
-            [this[i], this[j]] = [this[j], this[i]];
-        }
-        return this;
-    }
-});
-
 var roles = [
 	// === VANILLA ROLES ===
 	// TOWN INVESTIGATIVE VANILLA
@@ -48,7 +23,6 @@ var roles = [
 		alignment: 'town investigative',
 		abilities: ['Interrogate one person each night for suspicious activity.'],
 		attributes: ['You will know if your target is suspicious.'],
-		targeting: ['living other'],
 		goal: towngoal,
 		color: towncolor,
 	},
@@ -57,7 +31,6 @@ var roles = [
 		alignment: 'town investigative',
 		abilities: ['Investigate one person each night for a clue to their role.'],
 		attributes: ['None'],
-		targeting: ['living other'],
 		goal: towngoal,
 		color: towncolor,
 	},
@@ -66,7 +39,6 @@ var roles = [
 		alignment: 'town investigative',
 		abilities: ['Watch one person at night to see who visits them.'],
 		attributes: ['None'],
-		targeting: ['living other'],
 		goal: towngoal,
 		color: towncolor,
 	},
@@ -75,7 +47,6 @@ var roles = [
 		alignment: 'town investigative',
 		abilities: ['Track one person at night to see who they visit.'],
 		attributes: ['None'],
-		targeting: ['living other'],
 		goal: towngoal,
 		color: towncolor,
 	},
@@ -84,7 +55,6 @@ var roles = [
 		alignment: 'town investigative',
 		abilities: ["You may bug a player's house to see what happens to them that night."],
 		attributes: ['You will know who the Mafia and Coven visit each night.'],
-		targeting: ['living other'],
 		goal: towngoal,
 		color: towncolor,
 	},
@@ -99,45 +69,6 @@ var roles = [
 		],
 		goal: towngoal,
 		color: towncolor,
-		targeting: [],
-		interpret_targeting: function(targets) {
-			return {
-				type: 'default',
-				targets: [],
-			};
-		},
-		setup: function(gm) {
-			gm.addActionHandler({
-				phase: 'night',
-				role: 'psychic',
-				type: 'default',
-				priority: 4,
-			}, function(targets) {
-				var is_good = (p)=>(p.alignment.split(' ')[0] == town || p.alignment == 'neutral benign');
-				var living_others = gm.players.filter(p=>p.alive && p !== this);
-				if(gm.day % 2) {
-					//Odd night: evil vision
-					var evil = living_others.filter(p=>!is_good(p)).random_pick();
-					var picks = [evil, ...living_others.filter(p=>p !== evil).random_pick(2)].shuffle();
-					if(picks.length < 3) {
-						gm.notify(this, 'The town is too small to accurately find an evildoer!');
-					} else {
-						var pick_names = picks.map(p=>p.name);
-						gm.notify(this, 'At least one of '+picks[0]+', '+picks[1]+', or '+picks[2]+' is evil!');
-					}
-				} else {
-					//Even night: good vision
-					var good = living_others.filter(p=>is_good(p)).random_pick();
-					var picks = [good, ...living_others.filter(p=>p !== good).random_pick(1)].shuffle();
-					if(picks.length < 3) {
-						gm.notify(this, 'The town is too evil to find anyone good!');
-					} else {
-						var pick_names = picks.map(p=>p.name);
-						gm.notify(this, 'At least one of '+picks[0]+' or '+picks[1]+' is good!');
-					}
-				}
-			});
-		},
 	},
 
 	// TOWN SUPPORT VANILLA
@@ -148,23 +79,6 @@ var roles = [
 		attributes: ["Distraction blocks your target from using their role's night ability.", 'You are immune to roleblocks.'],
 		goal: towngoal,
 		color: towncolor,
-		targeting: ['living other'],
-		interpret_targeting: function(targets) {
-			if(targets.length === 1) {
-				this.schedule_action('default', targets);
-			}
-			this.roleblock_immunity = true;
-		},
-		setup: function(gm) {
-			gm.addActionHandler({
-				phase: 'night',
-				role: 'escort',
-				type: 'default',
-				priority: 3,
-			}, function(targets) {
-				gm.roleblock(targets[0]);
-			});
-		},
 	},
 	{
 		rolename: 'mayor',
@@ -173,19 +87,6 @@ var roles = [
 		attributes: ['Once you have revealed yourself as Mayor your vote counts as 3 votes.', 'You may not be healed once you have revealed yourself.'],
 		goal: towngoal,
 		color: towncolor,
-		targeting: [],
-		day_targeting: ['self'],
-		features: {
-			mayor: true,
-		},
-		setup: function(gm) {
-			gm.on('target', {
-				phase: 'day',
-				role: 'mayor',
-			}, function(e) {
-				e.player.command('reveal');
-			});
-		},
 	},
 	{
 		rolename: 'medium',
@@ -194,27 +95,6 @@ var roles = [
 		attributes: ['You will speak to the dead anonymously each night you are alive.', 'You may only seance a living person once.'],
 		goal: towngoal,
 		color: towncolor,
-		targeting: [],
-		day_dead_targeting: ['living'],
-		interpret_targeting: function(targets) {
-			if(targets.length === 1) {
-				this.schedule_action('seance', targets);
-			}
-		},
-		features: {
-			canSeance: true,
-			charges: 1,
-		},
-		setup: function(gm) {
-			gm.addActionHandler({
-				phase: 'day',
-				role: 'medium',
-				type: 'seance',
-			}, function(targets) {
-				var [a] = targets;
-				this.seancing = a;
-			});
-		},
 	},
 	{
 		rolename: 'transporter',
@@ -223,35 +103,6 @@ var roles = [
 		attributes: ['Transporting two people swaps all targets against them.', 'You may transport yourself.', 'Your targets will know they were transported.'],
 		goal: towngoal,
 		color: towncolor,
-		targeting: ['living', 'living'],
-		interpret_targeting: function({ targets }) {
-			this.control_immunity = true;
-			this.roleblock_immunity = true;
-			if(targets.length === 2) {
-				return { type: 'default', targets };
-			} else {
-				return { type: 'none', targets: [] };
-			}
-		},
-		setup: function(gm) {
-			gm.addActionHandler({
-				phase: 'night',
-				role: 'transporter',
-				type: 'default',
-				priority: 1,
-			}, function(targets) {
-				var [a, b] = targets;
-				gm.notify(a, "You were transported to another location!");
-				gm.notify(b, "You were transported to another location!");
-				gm.pending_actions.map(function(action) {
-					action.targets = action.targets.map(function(target) {
-						if(target === a) return b;
-						if(target === b) return a;
-						return target;
-					});
-				});
-			});
-		},
 	},
 	{
 		rolename: 'retributionist',
@@ -260,32 +111,6 @@ var roles = [
 		attributes: ['Create zombies from dead true-hearted Town players.', 'Use their abilities on your second target.', 'Each zombie can be used once before it rots.'],
 		goal: towngoal,
 		color: towncolor,
-		targeting: ['dead town', 'living'],
-		interpret_targeting: function(targets) {
-			this.control_immunity = true;
-			this.roleblock_immunity = true;
-			if(targets.length == 2) {
-				var [target, ...control_to] = targets;
-				return { type: 'default', targets: [target], control_to });
-			} else {
-				return { type: 'none', targets: [] };
-			}
-		},
-		setup: function(gm) {
-			gm.addActionHandler({
-				phase: 'night',
-				role: 'retributionist',
-				type: 'default',
-				priority: 0,
-			}, function(targets) {
-				if(!this.action.control_to) return;
-				gm.control(targets[0], {
-					type: 'default',
-					targets: this.action.control_to,
-					notification_steal: this,
-				});
-			});
-		},
 	},
 
 	// TOWN PROTECTIVE VANILLA
@@ -296,52 +121,6 @@ var roles = [
 		attributes: ['You may only heal yourself once.', 'You will know if your target is attacked.'],
 		goal: towngoal,
 		color: towncolor,
-		targeting: ()=>(this.charges ? ['living'] : ['living other']),
-		interpret_targeting: function(targets) {
-			if(targets[1] === this) {
-				return { type: 'selfheal', targets: [] });
-			} else if(targets.length == 1) {
-				return { type: 'default', targets };
-			} else {
-				return { type: 'none', targets: [] };
-			}
-		},
-		features: {
-			charges: 1,
-		},
-		setup: function(gm) {
-			gm.addActionHandler({
-				phase: 'night',
-				role: 'doctor',
-				type: 'selfheal',
-				priority: 4,
-			}, function() {
-				if(this.charges > 0) {
-					this.charges--;
-					this.on('attacked', function(attack) {
-						if(!attack.blocked) {
-							attack.defense = 2;
-							attack.saved_message = 'You were attacked, but someone nursed you back to health!';
-							gm.notify(this, 'Your target was attacked last night!');
-						}
-					});
-				}
-			});
-			gm.addActionHandler({
-				phase: 'night',
-				role: 'doctor',
-				type: 'default',
-				priority: 4,
-			}, function([target]) {
-				target.on('attacked', function(attack) {
-					if(attack.power <= 2) {
-						attack.defense = 2;
-						attack.saved_message = 'You were attacked, but someone nursed you back to health!';
-						gm.notify(this, 'Your target was attacked last night!');
-					}
-				});
-			});
-		},
 	},
 	{
 		rolename: 'bodyguard',
@@ -355,58 +134,6 @@ var roles = [
 		],
 		goal: towngoal,
 		color: towncolor,
-		targeting: ()=>(this.charges ? ['living'] : ['living other']),
-		interpret_targeting: function(targets, self) {
-			if(targets[1] === self) {
-				this.schedule_action('selfheal', []);
-			} else if(targets.length == 1) {
-				this.schedule_action('default', targets);
-			}
-		},
-		features: {
-			charges: 1,
-		},
-		setup: function(gm) {
-			gm.addActionHandler({
-				phase: 'night',
-				role: 'bodyguard',
-				type: 'selfheal',
-				priority: 4,
-			}, function(targets) {
-				if(this.charges > 0) {
-					this.charges--;
-					this.protective_vest();
-				}
-			});
-			gm.addActionHandler({
-				phase: 'night',
-				role: 'bodyguard',
-				type: 'default',
-				priority: 4,
-			}, function([target]) {
-				var already_protected = false;
-				target.on('attacked', function(attack) {
-					if(attack.visit == 'direct' && !attack.blocked && !already_protected) {
-						attack.blocked = true;
-						attack.blocked_message = 'You were attacked, but someone protected you!';
-						gm.attack({
-							target: attack.source,
-							source: this,
-							visit: 'indirect',
-							power: 2,
-						});
-						gm.attack({
-							target: this,
-							source: this,
-							visit: 'indirect',
-							power: 2,
-							killed_by: 'guarding',
-						});
-						already_protected = true;
-					}
-				});
-			});
-		},
 	},
 	{
 		rolename: 'crusader',
@@ -421,48 +148,6 @@ var roles = [
 		],
 		goal: towngoal,
 		color: towncolor,
-		targeting: ['living other'],
-		interpret_targeting: function(targets) {
-			if(targets.length == 1) {
-				return { type: 'default', targets };
-			} else {
-				return { type: 'none', targets: [] };
-			}
-		},
-		setup: function(gm) {
-			gm.addActionHandler({
-				phase: 'night',
-				role: 'crusader',
-				type: 'default',
-				priority: 4,
-			}, function([target]) {
-				target.on('attacked', function(attack) {
-					if(attack.power <= 2) {
-						attack.defense = 2;
-						attack.saved_message = 'You were attacked, but someone protected you!';
-						gm.notify(this, 'Your target was attacked last night!');
-					}
-				});
-			});
-			gm.addActionHandler({
-				phase: 'night',
-				role: 'crusader',
-				type: 'default',
-				priority: 5,
-			}, function([target]) {
-				var visitors = gm.spotVisitors(target);
-				var victim = visitors.filter(p=>!p.chats.vamp).random_pick();
-				if(victim) {
-					gm.attack({
-						target: victim,
-						source: this,
-						visit: 'indirect',
-						power: 1,
-					});
-					gm.notify(this, 'You attacked someone!');
-				}
-			});
-		},
 	},
 	{
 		rolename: 'trapper',
@@ -478,82 +163,6 @@ var roles = [
 		],
 		goal: towngoal,
 		color: towncolor,
-		targeting: ()=>(this.charges ? ['living other'] : this.trapPlaced ? ['living self'] : []),
-		interpret_targeting: function(targets) {
-			if(!this.charges && !this.trapPlaced) {
-				return { type: 'default', targets: [] };
-			} else if(this.trapPlaced && targets[0] === this) {
-				return { type: 'remove_trap', targets: [] };
-			} else if(this.charges && targets.length) {
-				return { type: 'default', targets };
-			} else {
-				return { type: 'none', targets: [] };
-			}
-		},
-		features: {
-			charges: 0,
-			trapPlaced: undefined,
-		},
-		setup: function(gm) {
-			gm.addActionHandler({
-				phase: 'night',
-				role: 'trapper',
-				type: 'default',
-				priority: 3.8,
-			}, function([target]) {
-				if(!this.charges && !this.trapPlaced) {
-					this.charges = 1;
-				} else if(this.charges && target) {
-					this.trapPlaced = target;
-					this.charges = 0;
-				}
-			});
-			gm.addActionHandler({
-				phase: 'night',
-				role: 'trapper',
-				type: 'remove_trap',
-				priority: 3.8,
-			}, function([target]) {
-				this.charges = 1;
-				this.trapPlaced = undefined;
-			});
-			gm.addActionHandler({
-				phase: 'night',
-				role: 'trapper',
-				priority: 3.9,
-			}, function([target]) {
-				if(!this.trapPlaced) return;
-
-				var trapper = this;
-				var already_protected = false;
-				this.trapPlaced.on('attacked', function(attack) {
-					if(attack.visit != 'indirect' && !attack.blocked && !already_protected) {
-						gm.notify(trapper, 'Your trap attacked someone!');
-						gm.notify(attack.source, 'You triggered a trap!');
-						attack.blocked = true;
-						attack.blocked_message = 'You were attacked, but a trap saved you!';
-						already_protected = true;
-						if(attack.visit == 'direct') {
-							gm.attack({
-								target: attack.source,
-								source: trapper,
-								visit: 'indirect',
-								power: 2,
-							});
-						}
-						trapper.trapPlaced = undefined;
-					}
-				});
-
-				var visitors = gm.spotVisitors(target);
-				if(visitors.length) {
-					var roles = visitors.map(p=>'a '+p.role);
-					var rolesmsg = (roles.length > 1 ? roles.slice(0, -1).join(', ')+', and ' : '')+roles.slice(-1).join('');
-					gm.notify(this, 'Your trap was triggered by '+rolesmsg+'.';
-					this.trapPlaced = undefined;
-				}
-			});
-		},
 	},
 
 	// TOWN KILLING VANILLA
@@ -570,41 +179,6 @@ var roles = [
 		],
 		goal: towngoal,
 		color: towncolor,
-		day_targeting: ['living other'],
-		targeting: ['jailed notfirst'],
-		interpret_targeting: function(targets) {
-			if(targets.length) {
-				return { type: 'default', targets };
-			} else {
-				return { type: 'none', targets };
-			}
-		},
-		setup: function(gm) {
-			gm.addActionHandler({
-				phase: 'day',
-				role: 'jailor',
-				type: 'default',
-				priority: 0,
-			}, function({ target }) {
-				target.chats.jailed = true;
-			});
-			gm.addActionHandler({
-				phase: 'night',
-				role: 'jailor',
-				priority: 5,
-			}, function({ target }) {
-				if(target.chats.jailed) {
-					
-				}
-			});
-			gm.addActionHandler({
-				phase: 'night',
-				role: 'jailor',
-				priority: 6,
-			}, function({ target }) {
-				gm.players.map(p=>p.chats.jailed = false);
-			});
-		},
 	},
 	{
 		rolename: 'vampire hunter',
@@ -617,7 +191,6 @@ var roles = [
 			'You can hear Vampires at night.',
 			'If all the Vampires die you will become a Vigilante with one bullet.',
 		],
-		targeting: ['living other'],
 		goal: towngoal,
 		color: towncolor,
 	},
@@ -632,7 +205,6 @@ var roles = [
 			'You can only go on alert 3 times.',
 			'You cannot be roleblocked.',
 		],
-		targeting: ['self'],
 		goal: towngoal,
 		color: towncolor,
 	},
@@ -642,7 +214,6 @@ var roles = [
 		attack: 'Basic',
 		abilities: ['Choose to take justice into your own hands and shoot someone.'],
 		attributes: ['If you shoot another Town member you will commit suicide over the guilt.', 'You can only shoot your gun 3 times.'],
-		targeting: ['living other notfirst'],
 		goal: towngoal,
 		color: towncolor,
 	},
@@ -655,7 +226,6 @@ var roles = [
 		defense: 'Basic',
 		abilities: ['You may choose to attack a player each night.'],
 		attributes: ['If there is a Mafioso they will attack the target instead of you.', 'You will appear to be innocent to the Sheriff.', 'You can talk with the other Mafia at night.'],
-		targeting: ['living nonmafia'],
 		goal: mafiagoal,
 		color: mafiacolor,
 	},
@@ -665,7 +235,6 @@ var roles = [
 		attack: 'Basic',
 		abilities: ["Carry out the Godfather's orders."],
 		attributes: ["You can attack if the Godfather doesn't give you orders.", 'If the Godfather dies you will become the next Godfather.', 'You can talk with the other Mafia at night.'],
-		targeting: ['living nonmafia'],
 		goal: mafiagoal,
 		color: mafiacolor,
 	},
@@ -680,7 +249,6 @@ var roles = [
 			'If there are no kill capable Mafia roles left you will become a Mafioso.',
 			'You can talk with the other Mafia at night.',
 		],
-		targeting: ['living nonmafia'],
 		goal: mafiagoal,
 		color: mafiacolor,
 	},
@@ -694,7 +262,6 @@ var roles = [
 			'If there are no kill capable Mafia roles left you will become a Mafioso.',
 			'You can talk with the other Mafia at night.',
 		],
-		targeting: ['living nonmafia'],
 		goal: mafiagoal,
 		color: mafiacolor,
 	},
@@ -703,7 +270,6 @@ var roles = [
 		alignment: 'mafia support',
 		abilities: ['Check one person for their exact role each night.'],
 		attributes: ['If there are no kill capable Mafia roles left you will become a Mafioso.', 'You can talk with the other Mafia at night.'],
-		targeting: ['living nonmafia'],
 		goal: mafiagoal,
 		color: mafiacolor,
 	},
@@ -716,7 +282,6 @@ var roles = [
 			'If there are no kill capable Mafia roles left you will become a Mafioso.',
 			'You can talk with the other Mafia at night.',
 		],
-		targeting: ['living nonmafia'],
 		goal: mafiagoal,
 		color: mafiacolor,
 	},
@@ -727,7 +292,6 @@ var roles = [
 		attributes: [
 			'The disguised Mafia member will appear to have the same role as the non-Mafia member to the Investigator and Sheriff, will appear to be the other person to a Lookout, and Mafia visits are disregarded by Spy.',
 		],
-		targeting: ['living mafia', 'living nonmafia'],
 		goal: mafiagoal,
 		color: mafiacolor,
 	},
@@ -741,7 +305,6 @@ var roles = [
 			'If there are no kill capable Mafia roles left you will become a Mafioso.',
 			'You can talk with the other Mafia at night.',
 		],
-		targeting: ['living nonmafia'],
 		goal: mafiagoal,
 		color: mafiacolor,
 	},
@@ -756,7 +319,6 @@ var roles = [
 			'If there are no kill capable Mafia roles left you will become a Mafioso.',
 			'You can talk with the other Mafia at night.',
 		],
-		targeting: ['living nonmafia'],
 		goal: mafiagoal,
 		color: mafiacolor,
 	},
@@ -770,7 +332,6 @@ var roles = [
 			'If there are no kill capable Mafia roles left you will become a Mafioso.',
 			'You can talk with the other Mafia at night.',
 		],
-		targeting: ['living nonmafia'],
 		goal: mafiagoal,
 		color: mafiacolor,
 	},
@@ -779,7 +340,6 @@ var roles = [
 		alignment: 'mafia deception',
 		abilities: ['You may sneak into a players house at night and plant a memory.'],
 		attributes: ['A planted memory will confuse the player.', 'If there are no kill capable Mafia roles left you will become a Mafioso.', 'You can talk with the other Mafia at night.'],
-		targeting: ['living nonmafia'],
 		goal: mafiagoal,
 		color: mafiacolor,
 	},
@@ -795,7 +355,6 @@ var roles = [
 			'With the Necronomicon, your victim is dealt a Basic attack and you gain Basic defense.',
 			'You will know the role of the player you control.',
 		],
-		targeting: ['living noncoven', 'living'],
 		goal: covengoal,
 		color: covencolor,
 	},
@@ -810,7 +369,6 @@ var roles = [
 			'When all living non-Coven players are hexed, all hexed players will be dealt an Unstoppable attack.',
 			'With the Necronomicon, you gain Astral and Basic attacks.',
 		],
-		targeting: ['living noncoven'],
 		goal: covengoal,
 		color: covencolor,
 	},
@@ -820,8 +378,6 @@ var roles = [
 		attack: 'Powerful',
 		abilities: ['You may choose to Stone Gaze all visitors at night.'],
 		attributes: ['You may choose to stone gaze thrice.', "Your victims's last wills and roles will not be revealed.", 'With the Necronomicon, you may visit players and turn them to stone.'],
-		targeting: ['self'],
-		necronomicon_targeting: ['living'],
 		goal: covengoal,
 		color: covencolor,
 	},
@@ -835,8 +391,6 @@ var roles = [
 			'Each zombie can be used once before it rots.',
 			'With the Necronomicon, select yourself to summon a ghoul to Basic attack your target.',
 		],
-		targeting: ['dead', 'living'],
-		necronomicon_targeting: ['self', 'living'],
 		goal: covengoal,
 		color: covencolor,
 	},
@@ -846,7 +400,6 @@ var roles = [
 		attack: 'Basic',
 		abilities: ['You may choose to poison a player each night.'],
 		attributes: ['Your poisons take one day to take effect.', 'Poison can be removed by Heals.', 'With the Necronomicon, your poison can no longer be Healed.'],
-		targeting: ['living noncoven'],
 		goal: covengoal,
 		color: covencolor,
 	},
@@ -856,7 +409,6 @@ var roles = [
 		attack: 'Basic',
 		abilities: ['You may choose to use a potion on a player each night.'],
 		attributes: ['You may choose to use a Heal, reveal, or attack potion on a player.', 'Each potion has a three day cooldown.', 'With the Necronomicon, your potions no longer have a cooldown.'],
-		targeting: ['living'],
 		goal: covengoal,
 		color: covencolor,
 	},
@@ -867,7 +419,6 @@ var roles = [
 		alignment: 'neutral benign',
 		abilities: ['Put on a bulletproof vest at night, granting you Basic Defense.'],
 		attributes: ['You can only use the bulletproof vest 4 times.'],
-		targeting: ['self'],
 		goal: 'Live to the end of the game.',
 		color: '#dddd30',
 	},
@@ -877,7 +428,6 @@ var roles = [
 		abilities: ['Remember who you were by selecting a graveyard role.'],
 		attributes: ['When you choose a role it will be revealed to all the players in the game.'],
 		goal: 'Remember who you were and complete that role\'s objective.',
-		targeting: ['dead'],
 		color: '#94ffff',
 	},
 	{
@@ -889,7 +439,6 @@ var roles = [
 			'If your target is killed you will become a Survivor without any bulletproof vests.',
 			'Twice a game you may Heal and Purge your target. This may be done from the grave. Watching over a player ignores Jail.',
 		],
-		targeting: ['target'],
 		goal: 'Keep your target alive until the end of the game.',
 		color: '#FFFFFF',
 	},
@@ -902,7 +451,6 @@ var roles = [
 		defense: 'Basic',
 		abilities: ['Trick the Town into lynching your target.'],
 		attributes: ['Your target can be any Townmember except a Jailor or Mayor.', 'If your target is killed at night you will become a Jester.'],
-		targeting: [],
 		goal: 'Get your target lynched at any cost.',
 		color: '#CCCCCC',
 	},
@@ -911,8 +459,6 @@ var roles = [
 		alignment: 'neutral evil',
 		abilities: ['Trick the Town into voting against you.'],
 		attributes: ['If you are lynched you may kill one of your guilty or abstaining voters the following night.'],
-		targeting: [],
-		dead_targeting: ['living'],
 		goal: 'Get yourself lynched by any means necessary.',
 		color: '#e6b3d9',
 	},
@@ -925,7 +471,6 @@ var roles = [
 			'Your victim will know they are being controlled.',
 			'You will know the role of the player you Control.',
 		],
-		targeting: ['living other', 'living'],
 		goal: 'Survive to see the Town lose the game.',
 		color: '#8634A0',
 	},
@@ -942,7 +487,6 @@ var roles = [
 			'Roleblockers that target you will have their last will covered in blood making it unreadable.',
 			'You can choose to be cautious and not kill roleblockers.',
 		],
-		targeting: ['living other'],
 		goal: 'Kill everyone who would oppose you.',
 		color: '#4a6efb',
 	},
@@ -958,7 +502,6 @@ var roles = [
 			'If you take no action, you will attempt to clean gasoline off yourself.',
 			'Doused targets will have their Investigator results changed. Non-Arsonists will not know they were doused.',
 		],
-		targeting: ['living'],
 		goal: 'Live to see everyone else burn.',
 		color: '#d57615',
 	},
@@ -969,7 +512,6 @@ var roles = [
 		defense: 'Basic',
 		abilities: ['Transform into a Werewolf during the full moon.'],
 		attributes: ["You will Rampage at a player's house when you attack.", 'If you do not select a target you will stay home and Rampage at your home.'],
-		targeting: ['living other notfirst'],
 		goal: 'Kill everyone who would oppose you.',
 		color: '#94703d',
 	},
@@ -985,7 +527,6 @@ var roles = [
 			'On your second kill, you Rampage when you attack.',
 			'On your third kill, you ignore all effects that would protect a player.',
 		],
-		targeting: ['living other notfirst'],
 		goal: 'Kill everyone who would oppose you.',
 		color: '#8c2b55',
 	},
@@ -997,8 +538,6 @@ var roles = [
 		attack: 'Powerful',
 		abilities: ['Choose a player to plunder each night.'],
 		attributes: ['When you plunder a player, you will duel the player for their valuables.', 'If the player defends against your attack, you get no loot.'],
-		day_targeting: ['living other'],
-		targeting: [],
 		goal: 'Successfully plunder two players.',
 		color: '#e2c24c',
 	},
@@ -1014,7 +553,6 @@ var roles = [
 			'Players will not know they have been infected.',
 			'When all living players are infected, you will become Pestilence.',
 		],
-		targeting: ['living other'],
 		goal: 'Infect all living players and become Pestilence.',
 		color: '#deff70',
 	},
@@ -1030,7 +568,6 @@ var roles = [
 			'If you are jailed you will attack the Jailor.',
 			'You cannot be killed at night.',
 		],
-		targeting: ['living other'],
 		goal: 'Kill all who would oppose you.',
 		color: '#424242; text-shadow: 0px 0px 5px #bbff00',
 		
@@ -1045,7 +582,6 @@ var roles = [
 			'The youngest Vampire will visit the target at night.',
 			'If your target cannot be converted, they will instead be dealt a Basic attack.',
 		],
-		targeting: ['living nonvampire'],
 		goal: 'Convert everyone who would oppose you.',
 		color: '#7f896a',
 	},
@@ -1062,7 +598,6 @@ var roles = [
 			'Your target will learn if they were autopsied.',
 			'You will learn if your target has already been autopsied.',
 		],
-		targeting: ['dead'],
 		goal: towngoal,
 		color: towncolor,
 		custom: true,
@@ -1075,7 +610,6 @@ var roles = [
 			'You will know if your target participates in Occult activities.',
 			'Occult roles: Mediums, Psychics, Retributionist, Hypnotists, Witches, Coven members, Guardian Angels, Vampires, Werewolves.',
 		],
-		targeting: ['living other'],
 		goal: towngoal,
 		color: towncolor,
 		custom: true,
@@ -1085,7 +619,6 @@ var roles = [
 		alignment: 'town investigative',
 		abilities: ['Investigate one role slot at night to see who the player in that role slot visits.'],
 		attributes: ['Your night action does not count as a visit.', 'If the role slot is Any, you will be told which general alignment that role slot was rolled as (Town, Mafia, Coven, Neutral).'],
-		targeting: [],
 		goal: towngoal,
 		color: towncolor,
 		custom: true,
@@ -1099,7 +632,6 @@ var roles = [
 			'You may only research each player once.',
 			'If your target visits a non-Townmember the night you research them, it will count towards their total.',
 		],
-		targeting: ['living other'],
 		goal: towngoal,
 		color: towncolor,
 		custom: true,
@@ -1116,7 +648,6 @@ var roles = [
 			'Using an ability reveals your name to everyone but Town and Neutral Benigns.',
 			'You cannot be blackmailed.',
 		],
-		targeting: [],
 		goal: towngoal,
 		color: towncolor,
 		custom: true,
@@ -1129,7 +660,6 @@ var roles = [
 			'You will know the names of every player that passes your gate (excludes astral visits).',
 			'Twice a game, you may lock the gate, preventing anyone from crossing to the other side.',
 		],
-		targeting: ['self'],
 		goal: towngoal,
 		color: towncolor,
 		custom: true,
@@ -1139,7 +669,6 @@ var roles = [
 		alignment: 'town support',
 		abilities: ['You may speak to all factions at once at night. Your name will appear as Seeker.'],
 		attributes: ['You can hear all night time conversations except for those with the dead.', 'You cannot decipher which faction, what role or who is speaking.'],
-		targeting: [],
 		goal: towngoal,
 		color: towncolor,
 		custom: true,
@@ -1156,7 +685,6 @@ var roles = [
 			'You can execute only 2 rain dances.',
 			'It cannot rain 2 days in a row.',
 		],
-		targeting: ['self'],
 		goal: towngoal,
 		color: towncolor,
 		custom: true,
@@ -1166,7 +694,6 @@ var roles = [
 		alignment: 'town support',
 		abilities: ['Patrol out someone’s house each night.'],
 		attributes: ['You will send all visiting players to prison.', 'Detained targets will be role blocked the night following their imprisonment.', 'Detainment will bypass role block immunities.'],
-		targeting: ['living other'],
 		goal: towngoal,
 		color: towncolor,
 		custom: true,
@@ -1182,7 +709,6 @@ var roles = [
 			'You know how many visitors visited your target, but not who or what.',
 			'If your target is attacked you will be killed instead. You will still turn away all other visitors.',
 		],
-		targeting: ['living other'],
 		goal: towngoal,
 		color: towncolor,
 		custom: true,
@@ -1192,7 +718,6 @@ var roles = [
 		alignment: 'town protective',
 		abilities: ['Watch over one person every night.', 'Choose a different player to give armor to if your first target dies that night or is lynched the next day.'],
 		attributes: ['Armor provides powerful defense to a target until their next attack.', 'Players are not notified when they receive armor.', 'You may not give armor to yourself.'],
-		targeting: ['living other', 'living other'],
 		goal: towngoal,
 		color: towncolor,
 		custom: true,
@@ -1207,7 +732,6 @@ var roles = [
 			'When protecting a player, you can only kill an attacker if they are on your Duel list.',
 			'Evils are informed if they have been dueled by a Duelist.',
 		],
-		targeting: ['living other'],
 		goal: towngoal,
 		color: towncolor,
 		custom: true,
@@ -1223,7 +747,6 @@ var roles = [
 			'You will know you hooked someone, and they will know they were hooked.',
 			'You may decide to ‘release’, or ‘kill’ your hooked player the night following a successful hook.',
 		],
-		targeting: ['living other'],
 		goal: towngoal,
 		color: towncolor,
 		custom: true,
@@ -1241,7 +764,6 @@ var roles = [
 			'Regular frames last until checked by a TI, whereas passive frames last for one night.',
 			'If there are no kill capable Mafia roles left you will become a Mafioso.',
 		],
-		targeting: ['living nonmafia', 'living'],
 		goal: mafiagoal,
 		color: mafiacolor,
 		custom: true,
@@ -1255,7 +777,6 @@ var roles = [
 			'Trained players will become untrained after you use them.',
 			'When you select a trainee, you may select a second target for them to use their ability on.',
 		],
-		targeting: ['living nonmafia'],
 		goal: mafiagoal,
 		color: mafiacolor,
 		custom: true,
@@ -1271,7 +792,6 @@ var roles = [
 			'You can target Mafia members.',
 			'You cannot target the same player twice in a row.',
 		],
-		targeting: ['living other'],
 		goal: mafiagoal,
 		color: mafiacolor,
 		custom: true,
@@ -1285,7 +805,6 @@ var roles = [
 			'Gas Grenades take one night to build; they obscure information to their targets and visitors.',
 			'Tapping a player gives you all notifications they get that night.',
 		],
-		targeting: ['living nonmafia'],
 		goal: mafiagoal,
 		color: mafiacolor,
 		custom: true,
@@ -1300,7 +819,6 @@ var roles = [
 			'If there are no kill capable Mafia roles left you will become a Mafioso.',
 			'You can talk with the other Mafia at night.',
 		],
-		targeting: ['living nonmafia'],
 		goal: mafiagoal,
 		color: mafiacolor,
 	},
@@ -1309,7 +827,6 @@ var roles = [
 		alignment: 'mafia deception',
 		abilities: ['You may lay a smoke bomb to a target at night.'],
 		attributes: ['You only have four smoke bombs.', 'Your smoke bombs obscures the results of night abilities used on your target.', 'Your smoke bombs obscures what happens to your target.'],
-		targeting: ['living nonmafia'],
 		goal: mafiagoal,
 		color: mafiacolor,
 		custom: true,
@@ -1324,7 +841,6 @@ var roles = [
 			'You may use Alibi on yourself.',
 			'You can only use each ability on each Mafia member once.',
 		],
-		targeting: ['living mafia'],
 		goal: mafiagoal,
 		color: mafiacolor,
 		custom: true,
@@ -1339,7 +855,6 @@ var roles = [
 			'If there are no kill capable Mafia roles left you will become a Mafioso.',
 			'You can talk with the other Mafia at night.',
 		],
-		targeting: ['living nonmafia'],
 		goal: mafiagoal,
 		color: mafiacolor,
 	},
@@ -1353,7 +868,6 @@ var roles = [
 			"Your Last Will won't be revealed upon death.",
 			'You are shieleded against Mafia attacks.',
 		],
-		targeting: ['living nonmafia'],
 		goal: mafiagoal,
 		color: mafiacolor,
 		custom: true,
@@ -1363,7 +877,6 @@ var roles = [
 		alignment: 'mafia support',
 		abilities: ['Remove all night feedback from someone and their visitors.'],
 		attributes: ['You may select yourself at night to choose to remove the discussion phase from the town the next day.', 'You can only serenade the town twice in a game.'],
-		targeting: ['living'],
 		goal: mafiagoal,
 		color: mafiacolor,
 		custom: true,
@@ -1378,7 +891,6 @@ var roles = [
 			'When you stop blocking, the most recent action is released with all the rest getting roleblocked.',
 			'You must switch target if you torture someone for 2 consecutive nights.',
 		],
-		targeting: ['living nonmafia'],
 		goal: mafiagoal,
 		color: mafiacolor,
 		custom: true,
@@ -1392,7 +904,6 @@ var roles = [
 					 'You cannot be controlled.',
 					 'If there are no capable Mafia killing roles you will become a Mafioso.',
 		],
-		targeting: ['living mafia'],
 		goal: mafiagoal,
 		color: mafiacolor,
 		custom: true,
@@ -1404,7 +915,6 @@ var roles = [
 		attributes: ['You will know who visits your target, along with who your target visits.',
 					 'If there are no capable Mafia killing roles you will become a Mafioso.',
 		],
-		targeting: ['living other'],
 		goal: mafiagoal,
 		color: mafiacolor,
 		custom: true,
@@ -1422,7 +932,6 @@ var roles = [
 			'If your crystallized target visits you, you will deal a Basic attack to them.',
 			'With the Necronomicon, you have unlimited Crystals and will deliver a Basic attack to your target.',
 		],
-		targeting: ['living noncoven'],
 		goal: covengoal,
 		color: covencolor,
 		custom: true,
@@ -1437,7 +946,6 @@ var roles = [
 			'Charmed targets will not know they were charmed.',
 			'With the Necronomicon, charms repeat on the subsequent night without you needing to visit the target.',
 		],
-		targeting: ['living noncoven'],
 		goal: covengoal,
 		color: covencolor,
 		custom: true,
@@ -1453,7 +961,6 @@ var roles = [
 			'Curses are permanent.',
 			'With the Necronomicon, you may deal a basic rampage attack against someone regardless of whether a cursed person was lynched.',
 		],
-		targeting: ['living noncoven', 'living noncoven'],
 		goal: covengoal,
 		color: covencolor,
 		custom: true,
@@ -1468,7 +975,6 @@ var roles = [
 			'You will be given a list of roles that visited your target when a curse has triggered.',
 			'With the Necronomicon, your attack is Powerful, and you may cast a Curse every night.',
 		],
-		targeting: ['living noncoven notfirst'],
 		goal: covengoal,
 		color: covencolor,
 		custom: true,
@@ -1485,7 +991,6 @@ var roles = [
 			'You gain all Attributes your master has.',
 			'If your employer dies while you are still alive, you will inherit their role.',
 		],
-		targeting: [],
 		goal: 'See your employer win the game.',
 		color: '#80BFBF',
 		custom: true,
@@ -1499,8 +1004,6 @@ var roles = [
 			'You may protect when dead, however you have a one day cooldown.',
 			'You may not protect yourself.',
 		],
-		targeting: ['living other'],
-		dead_targeting: ['living'],
 		goal: 'Save four people from attacks.',
 		color: '#CFD4B4',
 		custom: true,
@@ -1512,7 +1015,6 @@ var roles = [
 		alignment: 'neutral evil',
 		abilities: ['Each night, you may visit a target in order to scare off a visitor.'],
 		attributes: ['You will scare one visitor away from your target, effectively roleblocking them.', 'You can only scare Town roles away from your target.'],
-		targeting: ['living other'],
 		goal: 'Survive to see the Town lose the game.',
 		color: '#BF4040',
 		custom: true,
@@ -1525,7 +1027,6 @@ var roles = [
 			'If the marked player dies during the same day or night, you will copy their abilities.',
 			'Copying a killing role will replenish the one-shot basic defense shield if depleted. Copying a killing role while the shield is intact grants a one-shot basic attack.',
 		],
-		targeting: ['living other'],
 		goal: 'See the Town lose the game.',
 		color: '#8080FF',
 	},
@@ -1534,7 +1035,6 @@ var roles = [
 		alignment: 'neutral evil',
 		abilities: ['Each night, you may choose a player to trick and another player to focus the trick on.'],
 		attributes: ['You will play a harmful trick on Town, and a helpful trick on everyone else.', 'Town will not know you tricked them.', 'You cannot be roleblocked or controlled.'],
-		targeting: ['living other', 'living'],
 		goal: 'Survive to see the Town lose the game.',
 		color: '#FF69B4',
 		custom: true,
@@ -1551,7 +1051,6 @@ var roles = [
 			'Killing a single player, you will clean them, but not be informed their information.',
 			'You cannot kill the night following a clean kill.',
 		],
-		targeting: ['living other', 'living other'],
 		goal: 'Kill everyone who would oppose you.',
 		color: '#804040',
 		custom: true,
@@ -1568,7 +1067,6 @@ var roles = [
 			'If every other player is charged, the town will be notified.',
 			'If every other player is charged, you may kill all charged players.',
 		],
-		targeting: ['living other'],
 		goal: 'Live to see everyone electrocuted.',
 		color: '#00FF80',
 		custom: true,
@@ -1584,7 +1082,6 @@ var roles = [
 			'Their name will still appear in the list as alive, and a "phantom" of their body will leave their house.',
 			'You will learn who visits your target the night you drown them.',
 		],
-		targeting: ['living other'],
 		goal: 'Kill anyone that would oppose you.',
 		color: '#008080',
 		custom: true,
@@ -1600,8 +1097,6 @@ var roles = [
 			'Alerting Veterans survive the attack, but cannot kill the Slaughterer',
 			'You can gain a new "identity" at day (adds a charge every 3 days), nulliying the visits made to you.',
 		],
-		day_targeting: ['self'],
-		targeting: ['living other'],
 		goal: 'Kill anyone that would oppose you.',
 		color: '#5F0060',
 		custom: true,
@@ -1617,8 +1112,8 @@ var roles = [
 			'If you do not choose to devour you will attack someone at random.',
 			'All of your victims will have their role and last will unreadable upon death. Those you attack directly will be cleaned, and those who die from visiting you will only have their subalignment shown.',
 		],
-		targeting: ['living other'],
-		goal: 'Devour all who occupy the town.',		color: '#808000',
+		goal: 'Devour all who occupy the town.',
+		color: '#808000',
 		custom: true,
 	},
 
@@ -1630,7 +1125,6 @@ var roles = [
 		defense: 'Basic',
 		abilities: ['You may mark two players every night for burial.'],
 		attributes: ['Marks last for two days.', 'If marked player is lynched and is a member of the Town, you will bury them and transform into Death, Horseman of the Apocalypse.'],
-		targeting: ['living other', 'living other'],
 		goal: 'Successfully bury one player and become Death.',
 		color: '#A00000',
 		custom: true,
@@ -1646,7 +1140,6 @@ var roles = [
 			'Each night, you will be able to kill one more player than the previous night.',
 			'You cannot be killed at night.',
 		],
-		targeting: ['living other'],
 		goal: 'Kill all who would oppose you.',
 		color: '#700030',
 		custom: true,
@@ -1658,7 +1151,6 @@ var roles = [
 		defense: 'Basic',
 		abilities: ['Each night, you may choose two players: one will be healed, one will be attacked.'],
 		attributes: ['You may not heal yourself.', 'You only win if every other faction is reduced to a single member. At least two other factions must survive.'],
-		targeting: ['living other', 'living other'],
 		goal: 'Successfully Conquer the Town.',
 		color: '#4080FF',
 		custom: true,
@@ -1674,8 +1166,6 @@ var roles = [
 			'If you choose to stay at home and your prey visits you, you will shoot them.',
 			'If you are attacked you will attack your attacker, but stay at home instead.',
 		],
-		day_targeting: ['living other'],
-		targeting: ['living other'],
 		goal: 'Successfully kill one of your prey while they are visiting someone.',		color: '#521421',
 		custom: true,
 	},
@@ -1689,7 +1179,6 @@ var roles = [
 			'Visiting a member of the Mafia will send your clock forward 3 hours.',
 			'Visiting any Neutral role will send your clock backwards 2 hours.',
 		],
-		targeting: ['living other'],
 		goal: "Land your clock on 12 o'clock to win",
 		color: 'magenta',
 		custom: true,
@@ -1702,7 +1191,6 @@ var roles = [
 		attack: 'Basic',
 		abilities: ['You may choose a target to drain blood from at night.', 'You can mask your true identity upon killing.'],
 		attributes: ['Killing your target replaces your Investigator and Consigliere results with that of your drained target.', 'You can talk to the other Vampires at night.'],
-		targeting: ['living nonvampire'],
 		goal: vampgoal,
 		color: vampcolor,
 		custom: true,
@@ -1713,7 +1201,6 @@ var roles = [
 		attack: 'Basic',
 		abilities: ['You may choose a target to drain blood from at night.'],
 		attributes: ['You cannot go 2 nights without feasting, otherwise you die.', 'Your visits are Astral.', 'You can talk to the other Vampires at night.'],
-		targeting: ['living nonvampire'],
 		goal: vampgoal,
 		color: vampcolor,
 		custom: true,
@@ -1725,7 +1212,6 @@ var roles = [
 		abilities: ['You may choose a target to drain blood from at night.'],
 		attributes: ['If you are roleblocked you will attack your roleblocker instead of your original target. Their Last Will will be unreadable.',
 					 'You can talk to the other Vampires at night.'],
-		targeting: ['living nonvampire'],
 		goal: vampgoal,
 		color: vampcolor,
 		custom: true,
@@ -1741,7 +1227,6 @@ var roles = [
 			'You will know your newest Progeny’s notifications.',
 			'If there are no kill capable Vampire roles left you will become a Lampir.',
 		],
-		targeting: ['living nonvampire'],
 		goal: vampgoal,
 		color: vampcolor,
 		custom: true,
@@ -1756,7 +1241,6 @@ var roles = [
 			'The oldest Progeny becomes the new Catacano one night after the Catacano dies.',
 			'If there are no kill capable Vampire roles left you will become a Lampir.',
 		],
-		targeting: [],
 		goal: vampgoal,
 		color: vampcolor,
 		custom: true,
@@ -1771,7 +1255,6 @@ var roles = [
 			'You must wait a night before influencing another player\'s vote.',
 			'If there are no kill capable Vampire roles left you will become a Lampir.',
 		],
-		targeting: ['living nonvampire'],
 		goal: vampgoal,
 		color: vampcolor,
 		custom: true,
@@ -1786,7 +1269,6 @@ var roles = [
 			'If one bound player dies the other one dies at night.',
 			'If there are no kill capable Vampire roles left you will become a Lampir.',
 		],
-		targeting: ['living nonvampire', 'living nonvampire'],
 		goal: vampgoal,
 		color: vampcolor,
 		custom: true,
@@ -1801,7 +1283,6 @@ var roles = [
 			'Anyone who visits you is lulled into a false sense of security.',
 			'If there are no kill capable Vampire roles left you will become a Lampir.',
 		],
-		targeting: ['living nonvampire'],
 		goal: vampgoal,
 		color: vampcolor,
 		custom: true,
@@ -1815,7 +1296,6 @@ var roles = [
 			'You can talk to the other Vampires at night.',
 			'If there are no kill capable Vampire roles left you will become a Lampir.',
 		],
-		targeting: ['living nonvampire'],
 		goal: vampgoal,
 		color: vampcolor,
 		custom: true,
@@ -1830,7 +1310,6 @@ var roles = [
 			'You can talk to the other Vampires at night.',
 			'If there are no kill capable Vampire roles left you will become a Lampir.',
 		],
-		targeting: ['dead', 'living vampire'],
 		goal: vampgoal,
 		color: vampcolor,
 		custom: true,
@@ -1842,7 +1321,6 @@ var roles = [
 		alignment: 'town casual',
 		abilities: ['Your only ability is your vote.'],
 		attributes: ['Without the burden of power to weigh you down, you exhibit superior logic and deductive abilities.'],
-		targeting: [],
 		goal: towngoal,
 		color: towncolor,
 		custom: true,
@@ -2130,7 +1608,6 @@ module.exports = {
 			return {
 				rolename: name,
 				alignment: '',
-				targeting: ['living other'],
 			};
 		}
 		return roles[num];

@@ -3,455 +3,793 @@ var suggestedMessages = [];
 var suggestedActions = [];
 var dousedlist = [];
 var daynumber = 1;
-var attributes = { 
-	 BG:'Protect your target, killing their attacker and yourself.',
-	 HEAL:'Heal your target.',
-	 NOHEAL:'Cannot be healed after revealing.',
-	 RB:'Roleblock your target.',
-	 INVESTIGATE:'View the target\'s investigator results. Affected by Framer, Arsonist, Disguiser, and Hex Master.',
-	 JAIL:'Jail the target.',
-	 EXECUTE:'Execute the jailed target.',
-	 WATCH:'See all visitors to the target.',
-	 MAFVISIT:'See who the Mafia visited.',
-	 REVIVE:'Revive the target.',
-	 INTERROGATE:'View the target\'s sheriff results. Affected by Framer, Disguiser, and Hex Master.',
-	 DETECTIONIMMUNE:'Appears as Not Suspious to the Sheriff.',
-	 TRANSPORT:'Swap all targets on your two targets.',
-	 ALERT:'Kill anyone that targets you.',
-	 MAFKILL:'Kill the target as member of the Mafia.',
-	 VIGKILL:'Kill the target as Vigilante.',
-	 SKKILL:'Kill the target as Serial Killer.',
-	 IMMUNE:'Cannot die to KILL.',
-	 BLACKMAIL:'Blackmail the target.',
-	 CONSIG:'View the target\'s role.',
-	 DISGUISE:'Disguise as the target, if they die.',
-	 SWAPWILL:'Swap wills with the target, if they die.',
-	 CLEAN:'Clean the target, if they die.',
-	 REMEMBER:'Take the role of the target, if they are dead. Announce to the town.',
-	 DOUSE:'Douse the target.',
-	 IGNITE:'Ignite all doused targets.',
-	 MULTI:'Target two players.',
-	 FORCEDMULTI:'Has to target two players.',
-	 SELF:'Can target themself.',
-	 NOVISIT:'Can only target themself.',
-	 VEST:'Make yourself night immune.',
-	 NINJA:'Not spotted by WATCHES when visiting.',
-	 RBIMMUNE:'Cannot be roleblocked.',
-	 RBATTACK:'Attack the roleblocker.',
-	 RBHOME:'Stays home when roleblocked.',
-	 MAUL:'Attack target and all visitors.',
-	 MUSTVISIT:'Must visit each night. If not visiting visits themselves instead.',
-	 MUSTVISITEVEN:'Must visit each even night. If not visiting visits themselves instead.',
-	 CHARGE:'Charge someone with electricity.',
-	 CONTROLIMMUNE:'Cannot be controlled.',
-	 FRAME:'Make the target appear as member of the Mafia.',
-	 FULLMOONSHERIFFRESULT:'During a full moon the target shows as a Werewolf to the Sheriff.',
-	 FORGE:'Change targets last will.',
-	 HAUNT:'Kills one of their guilty voters.',
-	 // TARGET:'Player that needs to be lynched for victory.',
-	 CONTROL:'Make your first target visit your second target.',
-	 PASSIVE:'Your night action takes effect without you needing to send in an action.',
-	 /*Targetting attributes*/
-	 DEADTARGET:'Able to target players that are dead.',
-	 NOLIVINGTARGET:'Unable to target living players.',
-	 RAINDANCE: 'Let it rain next night',
-};
-var autoRoles = 
-	{
-	'escort': {
-		attributes: {
-			RB:attributes.RB,
-			DEADTARGET:attributes.DEADTARGET,
-			RBIMMUNE:attributes.RBIMMUNE},
-		grouping: 'H',
-		consiggrouping:'Escort',
-		alignment:'town',
-		priority: 2
-	}, 
-	'transporter': {
-		attributes: {
-			MULTI:attributes.MULTI,
-			FORCEDMULTI:attributes.FORCEDMULTI,
-			TRANSPORT:attributes.TRANSPORT,
-			RBIMMUNE:attributes.RBIMMUNE,
-			CONTROLIMMUNE:attributes.CONTROLIMMUNE,
-			PRIO1:attributes.PRIO1, 
-			SELF:attributes.SELF},
-		grouping: 'H',
-		consiggrouping:'Transporter',
-		alignment:'town',
-		priority: 4
-	},
-	'vigilante': {
-		attributes: {
-			VIGKILL:attributes.VIGKILL},
-		grouping: 'A',
-		consiggrouping:'Vigilante',
-		alignment:'town'
-	},
-	'veteran': {
-		attributes: {
-			RBIMMUNE:attributes.RBIMMUNE,
-			CONTROLIMMUNE:attributes.CONTROLIMMUNE,
-			SELF:attributes.SELF,
-			ALERT:attributes.ALERT,
-			NINJA:attributes.NINJA,
-			NOVISIT:attributes.NOVISIT
-			},
-		grouping: 'A',
-		consiggrouping:'Veteran',
-		alignment:'town'
-	},
+
+Object.defineProperty(Array.prototype, 'random_pick', {
+	value: function(count) {
+		if(typeof count === 'undefined') {
+			return this[Math.floor(Math.random()*this.length)];
+		} else {
+			var source = this.slice();
+			var result = [];
+			for(var i = 0; i < count; i++) {
+				const random = Math.floor(Math.random()*source.length);
+				result = result.concat(source.splice(random, 1));
+			}
+			return result;
+		}
+	}
+});
+Object.defineProperty(Array.prototype, 'shuffle', {
+	value: function() {
+		for (let i = this.length - 1; i > 0; i--) {
+			const j = Math.floor(Math.random() * (i + 1));
+			[this[i], this[j]] = [this[j], this[i]];
+		}
+		return this;
+	}
+});
+
+var autoRoles = {
 	'sheriff': {
-		attributes: {
-			INTERROGATE:attributes.INTERROGATE},
+		targeting: ['living other'],
 		grouping: 'E',
-		consiggrouping:'Sheriff',
-		alignment:'town'
-	},
-	'lookout': {
-		attributes:  {
-			WATCH:attributes.WATCH
-		},
-		grouping: 'G',
-		consiggrouping:'Lookout',
-		alignment:'town'
 	},
 	'investigator': {
-		attributes:  {
-			INVESTIGATE:attributes.INVESTIGATE},
+		targeting: ['living other'],
 		grouping: 'J',
-		consiggrouping:'Investigator',
-		alignment:'town'
 	},
-	'mayor': {
-		attributes:  {
-			NOHEAL:attributes.NOHEAL},
-		grouping: 'J',
-		consiggrouping:'Mayor',
-		alignment:'town'
+	'lookout': {
+		targeting: ['living other'],
+		grouping: 'G',
 	},
 	'tracker': {
-		attributes:  {},
+		targeting: ['living other'],
 		grouping: 'J',
-		consiggrouping:'Tracker',
-		alignment:'town'
-	},
-	'psychic': {
-		attributes:  {},
-		grouping: 'C',
-		consiggrouping:'Psychic',
-		alignment:'town'
-	},
-	'medium': {
-		attributes:  {},
-		grouping: 'B',
-		consiggrouping:'Medium',
-		alignment:'town'
-	},
-	'retributionist': {
-		attributes:  {
-			RBIMMUNE:attributes.RBIMMUNE,
-			CONTROLIMMUNE:attributes.CONTROLIMMUNE,
-			REVIVE:attributes.REVIVE,
-			DEADTARGET:attributes.DEADTARGET,
-			NOLIVINGTARGET:attributes.NOLIVINGTARGET},
-		grouping: 'B',
-		consiggrouping:'Retributionist',
-		alignment:'town'
-	},
-	'trapper': {
-		attributes:  {},
-		grouping: 'B',
-		consiggrouping:'Trapper',
-		alignment:'town'
-	},
-	'doctor': {
-		attributes:  {
-			HEAL:attributes.HEAL,
-			SELF:attributes.SELF},
-		grouping: 'I',
-		consiggrouping:'Doctor',
-		alignment:'town',
-		priority: 1
-	},
-	'bodyguard': {
-		attributes:  {
-			VEST:attributes.VEST,
-			BG:attributes.BG,
-			SELF:attributes.SELF},
-		grouping: 'K',
-		consiggrouping:'Bodyguard',
-		alignment:'town',
-		priority: 1
-	},
-	'crusader': {
-		attributes:  {},
-		grouping: 'K',
-		consiggrouping:'Crusader',
-		alignment:'town',
 	},
 	'spy': {
-		attributes:  {
-			DEADTARGET:attributes.DEADTARGET},
+		targeting: ['living other'],
 		grouping: 'D',
-		consiggrouping:'Spy',
-		alignment:'town'
+	},
+	'psychic': {
+		targeting: [],
+		interpret_targeting: function(targets) {
+			return {
+				type: 'default',
+				targets: [],
+			};
+		},
+		setup: function(gm) {
+			gm.addActionHandler({
+				phase: 'night',
+				role: 'psychic',
+				type: 'default',
+				priority: 4,
+			}, function(targets) {
+				var is_good = (p)=>(p.alignment.split(' ')[0] == town || p.alignment == 'neutral benign');
+				var living_others = gm.players.filter(p=>p.alive && p !== this);
+				if(gm.day % 2) {
+					//Odd night: evil vision
+					var evil = living_others.filter(p=>!is_good(p)).random_pick();
+					var picks = [evil, ...living_others.filter(p=>p !== evil).random_pick(2)].shuffle();
+					if(picks.length < 3) {
+						gm.notify(this, 'The town is too small to accurately find an evildoer!');
+					} else {
+						var pick_names = picks.map(p=>p.name);
+						gm.notify(this, 'At least one of '+picks[0]+', '+picks[1]+', or '+picks[2]+' is evil!');
+					}
+				} else {
+					//Even night: good vision
+					var good = living_others.filter(p=>is_good(p)).random_pick();
+					var picks = [good, ...living_others.filter(p=>p !== good).random_pick(1)].shuffle();
+					if(picks.length < 3) {
+						gm.notify(this, 'The town is too evil to find anyone good!');
+					} else {
+						var pick_names = picks.map(p=>p.name);
+						gm.notify(this, 'At least one of '+picks[0]+' or '+picks[1]+' is good!');
+					}
+				}
+			});
+		},
+		grouping: 'C',
+	},
+	'escort': {
+		targeting: ['living other'],
+		interpret_targeting: function(targets) {
+			if(targets.length === 1) {
+				this.schedule_action('default', targets);
+			}
+			this.roleblock_immunity = true;
+		},
+		setup: function(gm) {
+			gm.addActionHandler({
+				phase: 'night',
+				role: 'escort',
+				type: 'default',
+				priority: 3,
+			}, function(targets) {
+				gm.roleblock(targets[0]);
+			});
+		},
+		grouping: 'H',
+	},
+	'mayor': {
+		targeting: [],
+		day_targeting: ['self'],
+		features: {
+			mayor: true,
+		},
+		setup: function(gm) {
+			gm.on('target', {
+				phase: 'day',
+				role: 'mayor',
+			}, function(e) {
+				e.player.command('reveal');
+			});
+		},
+		grouping: 'J',
+	},
+	'medium': {
+		targeting: [],
+		day_dead_targeting: ['living'],
+		interpret_targeting: function(targets) {
+			if(targets.length === 1) {
+				this.schedule_action('seance', targets);
+			}
+		},
+		features: {
+			canSeance: true,
+			charges: 1,
+		},
+		setup: function(gm) {
+			gm.addActionHandler({
+				phase: 'day',
+				role: 'medium',
+				type: 'seance',
+			}, function(targets) {
+				var [a] = targets;
+				this.seancing = a;
+			});
+		},
+		grouping: 'B',
+	},
+	'transporter': {
+		targeting: ['living', 'living'],
+		interpret_targeting: function({ targets }) {
+			this.control_immunity = true;
+			this.roleblock_immunity = true;
+			if(targets.length === 2) {
+				return { type: 'default', targets };
+			} else {
+				return { type: 'none', targets: [] };
+			}
+		},
+		setup: function(gm) {
+			gm.addActionHandler({
+				phase: 'night',
+				role: 'transporter',
+				type: 'default',
+				priority: 1,
+			}, function(targets) {
+				var [a, b] = targets;
+				gm.notify(a, "You were transported to another location!");
+				gm.notify(b, "You were transported to another location!");
+				gm.pending_actions.map(function(action) {
+					action.targets = action.targets.map(function(target) {
+						if(target === a) return b;
+						if(target === b) return a;
+						return target;
+					});
+				});
+			});
+		},
+		grouping: 'H',
+	},
+	'retributionist': {
+		targeting: ['dead town', 'living'],
+		interpret_targeting: function(targets) {
+			this.control_immunity = true;
+			this.roleblock_immunity = true;
+			if(targets.length == 2) {
+				var [target, ...control_to] = targets;
+				return { type: 'default', targets: [target], control_to });
+			} else {
+				return { type: 'none', targets: [] };
+			}
+		},
+		setup: function(gm) {
+			gm.addActionHandler({
+				phase: 'night',
+				role: 'retributionist',
+				type: 'default',
+				priority: 0,
+			}, function(targets) {
+				if(!this.action.control_to) return;
+				gm.control(targets[0], {
+					type: 'default',
+					targets: this.action.control_to,
+					notification_steal: this,
+				});
+			});
+		},
+		grouping: 'B',
+	},
+	'doctor': {
+		targeting: ()=>(this.charges ? ['living'] : ['living other']),
+		interpret_targeting: function(targets) {
+			if(targets[1] === this) {
+				return { type: 'selfheal', targets: [] });
+			} else if(targets.length == 1) {
+				return { type: 'default', targets };
+			} else {
+				return { type: 'none', targets: [] };
+			}
+		},
+		features: {
+			charges: 1,
+		},
+		setup: function(gm) {
+			gm.addActionHandler({
+				phase: 'night',
+				role: 'doctor',
+				type: 'selfheal',
+				priority: 4,
+			}, function() {
+				if(this.charges > 0) {
+					this.charges--;
+					this.on('attacked', function(attack) {
+						if(!attack.blocked) {
+							attack.defense = 2;
+							attack.saved_message = 'You were attacked, but someone nursed you back to health!';
+							gm.notify(this, 'Your target was attacked last night!');
+						}
+					});
+				}
+			});
+			gm.addActionHandler({
+				phase: 'night',
+				role: 'doctor',
+				type: 'default',
+				priority: 4,
+			}, function([target]) {
+				target.on('attacked', function(attack) {
+					if(attack.power <= 2) {
+						attack.defense = 2;
+						attack.saved_message = 'You were attacked, but someone nursed you back to health!';
+						gm.notify(this, 'Your target was attacked last night!');
+					}
+				});
+			});
+		},
+		grouping: 'I',
+	},
+	'bodyguard': {
+		targeting: ()=>(this.charges ? ['living'] : ['living other']),
+		interpret_targeting: function(targets, self) {
+			if(targets[1] === self) {
+				this.schedule_action('selfheal', []);
+			} else if(targets.length == 1) {
+				this.schedule_action('default', targets);
+			}
+		},
+		features: {
+			charges: 1,
+		},
+		setup: function(gm) {
+			gm.addActionHandler({
+				phase: 'night',
+				role: 'bodyguard',
+				type: 'selfheal',
+				priority: 4,
+			}, function(targets) {
+				if(this.charges > 0) {
+					this.charges--;
+					this.protective_vest();
+				}
+			});
+			gm.addActionHandler({
+				phase: 'night',
+				role: 'bodyguard',
+				type: 'default',
+				priority: 4,
+			}, function([target]) {
+				var already_protected = false;
+				target.on('attacked', function(attack) {
+					if(attack.visit == 'direct' && !attack.blocked && !already_protected) {
+						attack.blocked = true;
+						attack.blocked_message = 'You were attacked, but someone protected you!';
+						gm.attack({
+							target: attack.source,
+							source: this,
+							visit: 'indirect',
+							power: 2,
+						});
+						gm.attack({
+							target: this,
+							source: this,
+							visit: 'indirect',
+							power: 2,
+							killed_by: 'guarding',
+						});
+						already_protected = true;
+					}
+				});
+			});
+		},
+		grouping: 'K',
+	},
+	'crusader': {
+		targeting: ['living other'],
+		interpret_targeting: function(targets) {
+			if(targets.length == 1) {
+				return { type: 'default', targets };
+			} else {
+				return { type: 'none', targets: [] };
+			}
+		},
+		setup: function(gm) {
+			gm.addActionHandler({
+				phase: 'night',
+				role: 'crusader',
+				type: 'default',
+				priority: 4,
+			}, function([target]) {
+				target.on('attacked', function(attack) {
+					if(attack.power <= 2) {
+						attack.defense = 2;
+						attack.saved_message = 'You were attacked, but someone protected you!';
+						gm.notify(this, 'Your target was attacked last night!');
+					}
+				});
+			});
+			gm.addActionHandler({
+				phase: 'night',
+				role: 'crusader',
+				type: 'default',
+				priority: 5,
+			}, function([target]) {
+				var visitors = gm.spotVisitors(target);
+				var victim = visitors.filter(p=>!p.chats.vamp).random_pick();
+				if(victim) {
+					gm.attack({
+						target: victim,
+						source: this,
+						visit: 'indirect',
+						power: 1,
+					});
+					gm.notify(this, 'You attacked someone!');
+				}
+			});
+		},
+		grouping: 'K',
+	},
+	'trapper': {
+		targeting: ()=>(this.charges ? ['living other'] : this.trapPlaced ? ['living self'] : []),
+		interpret_targeting: function(targets) {
+			if(!this.charges && !this.trapPlaced) {
+				return { type: 'default', targets: [] };
+			} else if(this.trapPlaced && targets[0] === this) {
+				return { type: 'remove_trap', targets: [] };
+			} else if(this.charges && targets.length) {
+				return { type: 'default', targets };
+			} else {
+				return { type: 'none', targets: [] };
+			}
+		},
+		features: {
+			charges: 0,
+			trapPlaced: undefined,
+		},
+		setup: function(gm) {
+			gm.addActionHandler({
+				phase: 'night',
+				role: 'trapper',
+				type: 'default',
+				priority: 3.8,
+			}, function([target]) {
+				if(!this.charges && !this.trapPlaced) {
+					this.charges = 1;
+				} else if(this.charges && target) {
+					this.trapPlaced = target;
+					this.charges = 0;
+				}
+			});
+			gm.addActionHandler({
+				phase: 'night',
+				role: 'trapper',
+				type: 'remove_trap',
+				priority: 3.8,
+			}, function([target]) {
+				this.charges = 1;
+				this.trapPlaced = undefined;
+			});
+			gm.addActionHandler({
+				phase: 'night',
+				role: 'trapper',
+				priority: 3.9,
+			}, function([target]) {
+				if(!this.trapPlaced) return;
+
+				var trapper = this;
+				var already_protected = false;
+				this.trapPlaced.on('attacked', function(attack) {
+					if(attack.visit != 'indirect' && !attack.blocked && !already_protected) {
+						gm.notify(trapper, 'Your trap attacked someone!');
+						gm.notify(attack.source, 'You triggered a trap!');
+						attack.blocked = true;
+						attack.blocked_message = 'You were attacked, but a trap saved you!';
+						already_protected = true;
+						if(attack.visit == 'direct') {
+							gm.attack({
+								target: attack.source,
+								source: trapper,
+								visit: 'indirect',
+								power: 2,
+							});
+						}
+						trapper.trapPlaced = undefined;
+					}
+				});
+
+				var visitors = gm.spotVisitors(target);
+				if(visitors.length) {
+					var roles = visitors.map(p=>'a '+p.role);
+					var rolesmsg = (roles.length > 1 ? roles.slice(0, -1).join(', ')+', and ' : '')+roles.slice(-1).join('');
+					gm.notify(this, 'Your trap was triggered by '+rolesmsg+'.';
+					this.trapPlaced = undefined;
+				}
+			});
+		},
+		grouping: 'B',
 	},
 	'jailor': {
-		attributes:  {
-			JAIL:attributes.JAIL,
-			EXECUTE:attributes.EXECUTE},
+		day_targeting: ['living other'],
+		targeting: ['jailed notfirst'],
+		interpret_targeting: function(targets) {
+			if(targets.length) {
+				return { type: 'default', targets };
+			} else {
+				return { type: 'none', targets };
+			}
+		},
+		setup: function(gm) {
+			gm.addActionHandler({
+				phase: 'day',
+				role: 'jailor',
+				type: 'default',
+				priority: 0,
+			}, function({ target }) {
+				target.chats.jailed = true;
+			});
+			gm.addActionHandler({
+				phase: 'night',
+				role: 'jailor',
+				priority: 5,
+			}, function({ target }) {
+				if(target.chats.jailed) {
+					
+				}
+			});
+			gm.addActionHandler({
+				phase: 'night',
+				role: 'jailor',
+				priority: 6,
+			}, function({ target }) {
+				gm.players.map(p=>p.chats.jailed = false);
+			});
+		},
 		grouping: 'D',
-		consiggrouping:'Jailor',
-		alignment:'town'
 	},
 	'vampire hunter': {
-		attributes:  {},
+		targeting: ['living other'],
 		grouping: 'C',
-		consiggrouping:'Vampire Hunter',
-		alignment:'town'
+	},
+	'veteran': {
+		targeting: ['self'],
+		grouping: 'A',
+	},
+	'vigilante': {
+		targeting: ['living other notfirst'],
+		grouping: 'A',
 	},
 	'godfather': {
-		attributes:  {
-			MAFKILL:attributes.MAFKILL,
-			IMMUNE:attributes.IMMUNE},
+		targeting: ['living nonmafia'],
 		grouping: 'K',
-		consiggrouping:'Godfather',
-		alignment:'gf'
 	},
 	'mafioso': {
-		attributes:  {
-			MAFKILL:attributes.MAFKILL,
-			DEADTARGET:attributes.DEADTARGET},
+		targeting: ['living nonmafia'],
 		grouping: 'A',
-		consiggrouping:'Mafioso',
-		alignment:'mafia'
 	},
 	'ambusher': {
-		attributes:  {},
+		targeting: ['living nonmafia'],
 		grouping: 'A',
-		consiggrouping:'Ambusher',
-		alignment:'mafia'
+	},
+	'blackmailer': {
+		targeting: ['living nonmafia'],
 	},
 	'consigliere': {
-		attributes:  {
-			CONSIG:attributes.CONSIG},
+		targeting: ['living nonmafia'],
 		grouping: 'J',
-		consiggrouping:'Consigliere',
-		alignment:'mafia'
 	},
 	'consort': {
-		attributes:  {
-			RB:attributes.RB,
-			DEADTARGET:attributes.DEADTARGET,
-			RBIMMUNE:attributes.RBIMMUNE},
+		targeting: ['living nonmafia'],
 		grouping: 'H',
-		consiggrouping:'Consort',
-		alignment:'mafia',
-		priority:2
-	},
-	'hypnotist': {
-		attributes:  {},
-		grouping: 'H',
-		consiggrouping:'Hypnotist',
-		alignment:'mafia'
 	},
 	'disguiser': {
-		attributes:  {
-			DISGUISE:attributes.DISGUISE,
-			SWAPWILL:attributes.SWAPWILL
-			},
+		targeting: ['living mafia', 'living nonmafia'],
 		grouping: 'I',
-		consiggrouping:'Disguiser',
-		alignment:'mafia'
 	},
 	'framer': {
-		attributes:  {
-			FRAME:attributes.FRAME},
+		targeting: ['living nonmafia'],
 		grouping: 'F',
-		consiggrouping:'Framer',
-		alignment:'mafia'
 	},
 	'janitor': {
-		attributes:  {
-			DEADTARGET:attributes.DEADTARGET,
-			CLEAN:attributes.CLEAN},
+		targeting: ['living nonmafia'],
 		grouping: 'B',
-		consiggrouping:'Janitor',
-		alignment:'mafia'
 	},
 	'forger': {
-		attributes:  {
-			DEADTARGET:attributes.DEADTARGET,
-			FORGE:attributes.FORGE},
+		targeting: ['living nonmafia'],
 		grouping: 'G',
-		consiggrouping:'Forger',
-		alignment:'mafia'
 	},
-	'serial killer': {
-		attributes:  {
-			SKKILL:attributes.SKKILL,
-			RBATTACK:attributes.RBATTACK,
-			IMMUNE:attributes.IMMUNE},
-		grouping: 'I',
-		consiggrouping:'Serial Killer',
-		alignment:'sk'
-	},
-	'arsonist': {
-		attributes:  {
-			DOUSE:attributes.DOUSE,
-			IGNITE:attributes.IGNITE,
-			SELF: attributes.SELF,
-			MUSTVISIT: attributes.MUSTVISIT,
-			IMMUNE:attributes.IMMUNE},
-		grouping: 'K',
-		consiggrouping:'Arsonist',
-		alignment:'arsonist'
-	},
-	'werewolf': {
-		attributes:  {
-			MAUL:attributes.MAUL,
-			SELF:attributes.SELF,
-			IMMUNE:attributes.IMMUNE,
-			DEADTARGET:attributes.DEADTARGET,
-			FULLMOONSHERIFFRESULT:attributes.FULLMOONSHERIFFRESULT,
-			MUSTVISITEVEN:attributes.MUSTVISITEVEN,
-			RBHOME:attributes.RBHOME},
-		grouping: 'E',
-		consiggrouping:'Werewolf',
-		alignment:'ww'
-	},
-	'juggernaut': {
-		attributes:  {},
-		grouping: 'G',
-		consiggrouping:'Juggernaut',
-		alignment:'neutral'
-	},
-	'jester': {
-		attributes:  {
-			HAUNT:attributes.HAUNT
-		},
-		grouping: 'F',
-		consiggrouping:'Jester',
-		alignment:'neutral'
-	},	
-	'executioner': {
-		attributes:  {
-			IMMUNE:attributes.IMMUNE
-			// TARGET:attributes.TARGET
-		},
-		grouping: 'E',
-		consiggrouping:'Executioner',
-		alignment:'neutral'
-	},
-	'witch': {
-		attributes:  {
-			CONTROL:attributes.CONTROL,
-			RBIMMUNE:attributes.RBIMMUNE,
-			MULTI:attributes.MULTI,
-			FORCEDMULTI:attributes.MULTI
-		},
-		grouping: 'G',
-		consiggrouping:'Witch',
-		alignment:'neutral'
-	},
-	'survivor': {
-		attributes:  {
-			VEST:attributes.VEST,
-			SELF:attributes.SELF,
-			NINJA:attributes.NINJA,
-			NOVISIT:attributes.NOVISIT
-		},
-		grouping: 'C',
-		consiggrouping:'Survivor',
-		alignment:'neutral'
-	},
-	'amnesiac': {
-		attributes:  {
-			REMEMBER:attributes.REMEMBER,
-			DEADTARGET:attributes.DEADTARGET,
-			NOLIVINGTARGET:attributes.NOLIVINGTARGET
-		},
-		grouping: 'C',
-		consiggrouping:'Amnesiac',
-		alignment:'neutral'
-	},
-	'guardian angel': {
-		attributes:  {},
-		grouping: 'D',
-		consiggrouping:'Survivor',
-		alignment:'neutral'
-	},
-	'vampire': {
-		attributes:  {},
-		grouping: 'F',
-		consiggrouping:'Framer',
-		alignment:'neutral'
-	},
-	'pirate': {
-		attributes:  {},
-		grouping: 'A',
-		consiggrouping:'Pirate',
-		alignment:'neutral'
-	},
-	'plaguebearer': {
-		attributes:  {},
-		grouping: 'J',
-		consiggrouping:'Plaguebearer',
-		alignment:'neutral'
-	},
-	'pestilence': {
-		attributes:  {},
-		grouping: 'J',
-		consiggrouping:'Pestilence',
-		alignment:'neutral'
+	'hypnotist': {
+		targeting: ['living nonmafia'],
+		grouping: 'H',
 	},
 	'coven leader': {
-		attributes:  {},
+		targeting: ['living noncoven', 'living'],
 		grouping: 'G',
-		consiggrouping:'Coven Leader',
-		alignment:'coven'
 	},
 	'hex master': {
-		attributes:  {},
+		targeting: ['living noncoven'],
 		grouping: 'F',
-		consiggrouping:'Hex Master',
-		alignment:'coven'
 	},
 	'medusa': {
-		attributes:  {},
+		targeting: ['self'],
+		necronomicon_targeting: ['living'],
 		grouping: 'C',
-		consiggrouping:'Medusa',
-		alignment:'coven'
 	},
 	'necromancer': {
-		attributes:  {},
+		targeting: ['dead', 'living'],
+		necronomicon_targeting: ['self', 'living'],
 		grouping: 'B',
-		consiggrouping:'Necromancer',
-		alignment:'coven'
 	},
 	'poisoner': {
-		attributes:  {},
+		targeting: ['living noncoven'],
 		grouping: 'E',
-		consiggrouping:'Poisoner',
-		alignment:'coven'
 	},
 	'potion master': {
-		attributes:  {
-			},
+		targeting: ['living'],
 		grouping: 'I',
-		consiggrouping:'Potion Master',
-		alignment:'coven'
 	},
-	//Custom Roles
-	'musician': {
-	    attributes: {
-	      		SELF:attributes.SELF
-	    },
+	'survivor': {
+		targeting: ['self'],
+		grouping: 'C',
+	},
+	'amnesiac': {
+		targeting: ['dead'],
+		grouping: 'C',
+	},
+	'guardian angel': {
+		targeting: ['target'],
+		grouping: 'D',
+	},
+	'executioner': {
+		targeting: [],
 		grouping: 'E',
-		consiggrouping:'Musician',
-		alignment:'mafia'
+	},
+	'jester': {
+		targeting: [],
+		dead_targeting: ['living'],
+		grouping: 'F',
+	},
+	'witch': {
+		targeting: ['living other', 'living'],
+		grouping: 'G',
+	},
+	'serial killer': {
+		targeting: ['living other'],
+		grouping: 'I',
+	},
+	'arsonist': {
+		targeting: ['living'],
+		grouping: 'K',
+	},
+	'werewolf': {
+		targeting: ['living other notfirst'],
+		grouping: 'E',
+	},
+	'juggernaut': {
+		targeting: ['living other notfirst'],
+		grouping: 'G',
+	},
+	'pirate': {
+		day_targeting: ['living other'],
+		targeting: [],
+		grouping: 'A',
+	},
+	'plaguebearer': {
+		targeting: ['living other'],
+		grouping: 'J',
+	},
+	'pestilence': {
+		targeting: ['living other'],
+		grouping: 'J',
+	},
+	'vampire': {
+		targeting: ['living nonvampire'],
+		grouping: 'F',
+	},
+	'coroner': {
+		targeting: ['dead'],
+	},
+	'occultist': {
+		targeting: ['living other'],
+	},
+	'gossip': {
+		targeting: [],
+	},
+	'historian': {
+		targeting: ['living other'],
+	},
+	'judge': {
+		targeting: [],
+	},
+	'gatekeeper': {
+		targeting: ['self'],
+	},
+	'seeker': {
+		targeting: [],
+	},
+	'rain dancer': {
+		targeting: ['self'],
+	},
+	'incarcerator': {
+		targeting: ['living other'],
+	},
+	'bouncer': {
+		targeting: ['living other'],
+	},
+	'blacksmith': {
+		targeting: ['living other', 'living other'],
+	},
+	'duelist': {
+		targeting: ['living other'],
+	},
+	'fisherman': {
+		targeting: ['living other'],
+	},
+	'framer rework': {
+		targeting: ['living nonmafia', 'living'],
+	},
+	'caporegime': {
+		targeting: ['living nonmafia'],
+	},
+	'chauffeur': {
+		targeting: ['living other'],
+	},
+	'technician': {
+		targeting: ['living nonmafia'],
+	},
+	'consigliere buff': {
+		targeting: ['living nonmafia'],
+	},
+	'agent': {
+		targeting: ['living nonmafia'],
+	},
+	'associate': {
+		targeting: ['living mafia'],
+	},
+	'framer rework': {
+		targeting: ['living nonmafia', 'living'],
+		grouping: 'F',
+	},
+	'hitman': {
+		targeting: ['living nonmafia'],
+	},
+	'musician': {
+		targeting: ['living'],
+		grouping: 'E',
+	},
+	'malpractitioner': {
+		targeting: ['living nonmafia'],
+	},
+	'scout': {
+		targeting: ['living mafia'],
+	},
+	'recon': {
+		targeting: ['living other'],
+	},
+	'lapidarist': {
+		targeting: ['living noncoven'],
+	},
+	'spellslinger': {
+		targeting: ['living noncoven'],
+	},
+	'ritualist': {
+		targeting: ['living noncoven', 'living noncoven'],
+	},
+	'mystic': {
+		targeting: ['living noncoven notfirst'],
+	},
+	'servant': {
+		targeting: [],
+	},
+	'harmony\'s angel': {
+		targeting: ['living other'],
+		dead_targeting: ['living'],
+	},
+	'rolestopper': {
+		targeting: ['living other'],
+	},
+	'copycat': {
+		targeting: ['living other'],
+	},
+	'fairy': {
+		targeting: ['living other', 'living'],
+	},
+	'butcher': {
+		targeting: ['living other', 'living other'],
+	},
+	'electrician': {
+		targeting: ['living other'],
+	},
+	'naiad': {
+		targeting: ['living other'],
+	},
+	'slaughterer': {
+		day_targeting: ['self'],
+		targeting: ['living other'],
+	},
+	'patient': {
+		targeting: ['living other'],
+	},
+	'mortician': {
+		targeting: ['living other', 'living other'],
+	},
+	'death': {
+		targeting: ['living other'],
+	},
+	'conqueror': {
+		targeting: ['living other', 'living other'],
+	},
+	'huntsman': {
+		day_targeting: ['living other'],
+		targeting: ['living other'],
+	},
+	'paradoxist': {
+		targeting: ['living other'],
+	},
+	'adze': {
+		targeting: ['living nonvampire'],
+	},
+	'bebarlang': {
+		targeting: ['living nonvampire'],
+	},
+	'lampir': {
+		targeting: ['living nonvampire'],
+	},
+	'catacano': {
+		targeting: ['living nonvampire'],
+	},
+	'progeny': {
+		targeting: [],
+	},
+	'pijavica': {
+		targeting: ['living nonvampire'],
+	},
+	'nelapsi': {
+		targeting: ['living nonvampire', 'living nonvampire'],
+	},
+	'broxa': {
+		targeting: ['living nonvampire'],
+	},
+	'gierach': {
+		targeting: ['living nonvampire'],
+	},
+	'talamaur': {
+		targeting: ['dead', 'living vampire'],
+	},
+	'citizen': {
+		targeting: [],
 	},
 };
 
