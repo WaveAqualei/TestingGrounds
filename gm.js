@@ -191,7 +191,7 @@ var autoRoles = {
 			this.roleblock_immunity = true;
 			if(targets.length == 2) {
 				var [target, ...control_to] = targets;
-				return { type: 'default', targets: [target], control_to });
+				return { type: 'default', targets: [target], control_to };
 			} else {
 				return { type: 'none', targets: [] };
 			}
@@ -217,7 +217,7 @@ var autoRoles = {
 		targeting: ()=>(this.charges ? ['living'] : ['living other']),
 		interpret_targeting: function(targets) {
 			if(targets[1] === this) {
-				return { type: 'selfheal', targets: [] });
+				return { type: 'selfheal', targets: [] };
 			} else if(targets.length == 1) {
 				return { type: 'default', targets };
 			} else {
@@ -434,7 +434,7 @@ var autoRoles = {
 				if(visitors.length) {
 					var roles = visitors.map(p=>'a '+p.role);
 					var rolesmsg = (roles.length > 1 ? roles.slice(0, -1).join(', ')+', and ' : '')+roles.slice(-1).join('');
-					gm.notify(this, 'Your trap was triggered by '+rolesmsg+'.';
+					gm.notify(this, 'Your trap was triggered by '+rolesmsg+'.');
 					this.trapPlaced = undefined;
 				}
 			});
@@ -915,58 +915,17 @@ module.exports = {
 	getInvestGroupings:function(group){
 		return getInvestGroupings(group);
 	},
-	getPlayerTargetingOptions: function({ player, isDay, playernums, players, mod }) {
-		var params = {};
-		if(isDay) {
-			params.day = true;
-		}
+	getPlayerTargetingRule: function(player, params) {
 		if(!player.alive) {
 			params.dead = true;
 		}
 		var key = Object.keys(params).concat(['targeting']).join('_');
-		var role_data = autoRoles[player.role] || {};
+		var role_data = autoRoles[player.role.toLowerCase()] || {};
 		var role_targeting = role_data[key] || (key == 'targeting' ? ['living other'] : []);
 		if(typeof role_targeting === 'function') {
 			role_targeting = role_targeting.call(player);
 		}
-
-		var targetables = playernums.map(function(id) {
-			var p = players[id];
-			var r = roles.getRoleData(p.role);
-			var params;
-			if(id === mod) params = {mod: true};
-			else if(p.spectate) params = {spec: true};
-			else params = {
-				any: true,
-				living: p.alive,
-				dead: !p.alive,
-				other: p !== player,
-				self: p === player,
-				town: !!r.alignment.match(/^town/),
-				nontown: !r.alignment.match(/^town/),
-				mafia: !!r.alignment.match(/^mafia/),
-				nonmafia: !r.alignment.match(/^mafia/),
-				coven: !!r.alignment.match(/^coven/),
-				noncoven: !r.alignment.match(/^coven/),
-				vampire: !!r.alignment.match(/^vampire/) || r.rolename === 'vampire',
-				nonvampire: !r.alignment.match(/^vampire/) && r.rolename !== 'vampire',
-				notfirst: gm.getDay() > 1,
-				jailed: p.chats.jailed,
-				target: p === player.goal_target,
-			};
-			return {
-				name: p.name,
-				params: params,
-			};
-		});
-		return role_targeting.map(function(targeting_str) {
-			var rules = targeting_str.split(' ').filter(a=>a);
-			return targetables.filter(function(a) {
-				return rules.every(rule=>a.params[rule]);
-			}).map(function(a) {
-				return a.name;
-			});
-		});
+		return role_targeting;
 	},
 	validTarget:function(arr, role, players, playernames, playernums, self, phase){
 		var auto = autoRoles[role];
@@ -1118,13 +1077,13 @@ module.exports = {
 				actionHandlers: [],
 				addActionHandler: function(filter, callback) {
 					if(isNaN(filter['priority'])) filter['priority'] = 0;
-					actionHandlers.push({ filter, callback });
+					this.actionHandlers.push({ filter, callback });
 				},
 				//Event handlers, for special situations that an action doesn't cover
 				eventHandlers: {},
 				on: function(type, callback) {
-					eventHandlers[type] = (eventHandlers[type] || []);
-					eventHandlers[type].push(callback);
+					this.eventHandlers[type] = (eventHandlers[type] || []);
+					this.eventHandlers[type].push(callback);
 				},
 				//Action list created while running the action handlers
 				suggestedActions: [],
