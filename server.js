@@ -1576,8 +1576,8 @@ function setPhase(p) {
 		offerTargetingOptions();
 	}
 }
-function getPlayerTargetingOptions(player) {
-	var params = {};
+function offerTargetingOptions() {
+	var isDay;
 	switch(phase) {
 	case Phase.FIRSTDAY:
 	case Phase.DAY:
@@ -1585,64 +1585,19 @@ function getPlayerTargetingOptions(player) {
 	case Phase.TRIAL:
 	case Phase.VERDICTS:
 	case Phase.LASTWORDS:
-		params.day = true;
+		isDay = true;
 		break;
 	case Phase.NIGHT:
+		isDay = false;
 		break;
 	default:
-		return [];
+		return;
 	}
-	if(!player.alive) {
-		params.dead = true;
-	}
-	var key = Object.keys(params).concat(['targeting']).join('_');
-	var role_data = roles.getRoleData(player.role);
-	var role_targeting = role_data[key] || [];
-
-	var targetables = playernums.map(function(id) {
-		var p = players[id];
-		var r = roles.getRoleData(p.role);
-		var params;
-		if(id === mod) params = {mod: true};
-		else if(p.spectate) params = {spec: true};
-		else params = {
-			any: true,
-			living: p.alive,
-			dead: !p.alive,
-			other: p !== player,
-			self: p === player,
-			town: !!r.alignment.match(/^town/),
-			nontown: !r.alignment.match(/^town/),
-			mafia: !!r.alignment.match(/^mafia/),
-			nonmafia: !r.alignment.match(/^mafia/),
-			coven: !!r.alignment.match(/^coven/),
-			noncoven: !r.alignment.match(/^coven/),
-			vampire: !!r.alignment.match(/^vampire/) || r.rolename === 'vampire',
-			nonvampire: !r.alignment.match(/^vampire/) && r.rolename !== 'vampire',
-			notfirst: gm.getDay() > 1,
-			jailed: p.chats.jailed,
-			target: p === player.goal_target,
-		};
-		return {
-			name: p.name,
-			params: params,
-		};
-	});
-	return role_targeting.map(function(targeting_str) {
-		var rules = targeting_str.split(' ').filter(a=>a);
-		return targetables.filter(function(a) {
-			return rules.every(rule=>a.params[rule]);
-		}).map(function(a) {
-			return a.name;
-		});
-	});
-}
-function offerTargetingOptions() {
 	for(i in players) {
 		if(i == mod) {
 			continue;
 		}
-		var legal_targets = getPlayerTargetingOptions(players[i]);
+		var legal_targets = gm.getPlayerTargetingOptions({ player: players[i], isDay, playernums, players, mod });
 		if(legal_targets.length) {
 			player.s.sendMessage(Type.TARGETING_OPTIONS, legal_targets);
 		}

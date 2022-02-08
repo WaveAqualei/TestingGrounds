@@ -915,6 +915,59 @@ module.exports = {
 	getInvestGroupings:function(group){
 		return getInvestGroupings(group);
 	},
+	getPlayerTargetingOptions: function({ player, isDay, playernums, players, mod }) {
+		var params = {};
+		if(isDay) {
+			params.day = true;
+		}
+		if(!player.alive) {
+			params.dead = true;
+		}
+		var key = Object.keys(params).concat(['targeting']).join('_');
+		var role_data = autoRoles[player.role] || {};
+		var role_targeting = role_data[key] || (key == 'targeting' ? ['living other'] : []);
+		if(typeof role_targeting === 'function') {
+			role_targeting = role_targeting.call(player);
+		}
+
+		var targetables = playernums.map(function(id) {
+			var p = players[id];
+			var r = roles.getRoleData(p.role);
+			var params;
+			if(id === mod) params = {mod: true};
+			else if(p.spectate) params = {spec: true};
+			else params = {
+				any: true,
+				living: p.alive,
+				dead: !p.alive,
+				other: p !== player,
+				self: p === player,
+				town: !!r.alignment.match(/^town/),
+				nontown: !r.alignment.match(/^town/),
+				mafia: !!r.alignment.match(/^mafia/),
+				nonmafia: !r.alignment.match(/^mafia/),
+				coven: !!r.alignment.match(/^coven/),
+				noncoven: !r.alignment.match(/^coven/),
+				vampire: !!r.alignment.match(/^vampire/) || r.rolename === 'vampire',
+				nonvampire: !r.alignment.match(/^vampire/) && r.rolename !== 'vampire',
+				notfirst: gm.getDay() > 1,
+				jailed: p.chats.jailed,
+				target: p === player.goal_target,
+			};
+			return {
+				name: p.name,
+				params: params,
+			};
+		});
+		return role_targeting.map(function(targeting_str) {
+			var rules = targeting_str.split(' ').filter(a=>a);
+			return targetables.filter(function(a) {
+				return rules.every(rule=>a.params[rule]);
+			}).map(function(a) {
+				return a.name;
+			});
+		});
+	},
 	validTarget:function(arr, role, players, playernames, playernums, self, phase){
 		var auto = autoRoles[role];
 		if (auto)
