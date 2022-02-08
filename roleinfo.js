@@ -15,6 +15,31 @@ var mafiagoal = 'Kill anyone that will not submit to the Mafia.';
 var covengoal = 'Kill all who would oppose the Coven.';
 var vampgoal = 'Convert or kill all who would oppose you.';
 
+Object.defineProperty(Array.prototype, 'random_pick', {
+    value: function(count) {
+		if(typeof count === 'undefined') {
+			return this[Math.floor(Math.random()*this.length)];
+		} else {
+			var source = this.slice();
+			var result = [];
+			for(var i = 0; i < count; i++) {
+				const random = Math.floor(Math.random()*source.length);
+				result = result.concat(source.splice(random, 1));
+			}
+			return result;
+		}
+    }
+});
+Object.defineProperty(Array.prototype, 'shuffle', {
+    value: function() {
+        for (let i = this.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [this[i], this[j]] = [this[j], this[i]];
+        }
+        return this;
+    }
+});
+
 var roles = [
 	// === VANILLA ROLES ===
 	// TOWN INVESTIGATIVE VANILLA
@@ -92,7 +117,7 @@ var roles = [
 				var living_others = gm.players.filter(p=>p.alive && p !== this);
 				if(gm.day % 2) {
 					//Odd night: evil vision
-					var evil = living_others.filter(p=>!is_good(p)).random_pick(1);
+					var evil = living_others.filter(p=>!is_good(p)).random_pick();
 					var picks = [evil, ...living_others.filter(p=>p !== evil).random_pick(2)].shuffle();
 					if(picks.length < 3) {
 						gm.notify(this, 'The town is too small to accurately find an evildoer!');
@@ -102,7 +127,7 @@ var roles = [
 					}
 				} else {
 					//Even night: good vision
-					var good = living_others.filter(p=>is_good(p)).random_pick(1);
+					var good = living_others.filter(p=>is_good(p)).random_pick();
 					var picks = [good, ...living_others.filter(p=>p !== good).random_pick(1)].shuffle();
 					if(picks.length < 3) {
 						gm.notify(this, 'The town is too evil to find anyone good!');
@@ -237,7 +262,14 @@ var roles = [
 		color: towncolor,
 		targeting: ['dead town', 'living'],
 		interpret_targeting: function(targets) {
-			this.schedule_action('default', targets);
+			this.control_immunity = true;
+			this.roleblock_immunity = true;
+			if(targets.length == 2) {
+				var [target, ...control_to] = targets;
+				return { type: 'default', targets: [target], control_to });
+			} else {
+				return { type: 'none', targets: [] };
+			}
 		},
 		setup: function(gm) {
 			gm.addActionHandler({
@@ -246,9 +278,10 @@ var roles = [
 				type: 'default',
 				priority: 0,
 			}, function(targets) {
+				if(!this.action.control_to) return;
 				gm.control(targets[0], {
 					type: 'default',
-					targets: [targets[1]],
+					targets: this.action.control_to,
 					notification_steal: this,
 				});
 			});
@@ -264,11 +297,13 @@ var roles = [
 		goal: towngoal,
 		color: towncolor,
 		targeting: ()=>(this.charges ? ['living'] : ['living other']),
-		interpret_targeting: function(targets, self) {
-			if(targets[1] === self) {
-				this.schedule_action('selfheal', []);
+		interpret_targeting: function(targets) {
+			if(targets[1] === this) {
+				return { type: 'selfheal', targets: [] });
 			} else if(targets.length == 1) {
-				this.schedule_action('default', targets);
+				return { type: 'default', targets };
+			} else {
+				return { type: 'none', targets: [] };
 			}
 		},
 		features: {
@@ -280,10 +315,16 @@ var roles = [
 				role: 'doctor',
 				type: 'selfheal',
 				priority: 4,
-			}, function(targets) {
+			}, function() {
 				if(this.charges > 0) {
 					this.charges--;
-					this.heal(this);
+					this.on('attacked', function(attack) {
+						if(!attack.blocked) {
+							attack.defense = 2;
+							attack.saved_message = 'You were attacked, but someone nursed you back to health!';
+							gm.notify(this, 'Your target was attacked last night!');
+						}
+					});
 				}
 			});
 			gm.addActionHandler({
@@ -291,8 +332,14 @@ var roles = [
 				role: 'doctor',
 				type: 'default',
 				priority: 4,
-			}, function(targets) {
-				this.heal(targets[0]);
+			}, function([target]) {
+				target.on('attacked', function(attack) {
+					if(attack.power <= 2) {
+						attack.defense = 2;
+						attack.saved_message = 'You were attacked, but someone nursed you back to health!';
+						gm.notify(this, 'Your target was attacked last night!');
+					}
+				});
 			});
 		},
 	},
@@ -372,9 +419,50 @@ var roles = [
 			'You attack one person who visits your target on the same night.',
 			'You do not attack vampires, but you do block their attacks.',
 		],
-		targeting: ['living other'],
 		goal: towngoal,
 		color: towncolor,
+		targeting: ['living other'],
+		interpret_targeting: function(targets) {
+			if(targets.length == 1) {
+				return { type: 'default', targets };
+			} else {
+				return { type: 'none', targets: [] };
+			}
+		},
+		setup: function(gm) {
+			gm.addActionHandler({
+				phase: 'night',
+				role: 'crusader',
+				type: 'default',
+				priority: 4,
+			}, function([target]) {
+				target.on('attacked', function(attack) {
+					if(attack.power <= 2) {
+						attack.defense = 2;
+						attack.saved_message = 'You were attacked, but someone protected you!';
+						gm.notify(this, 'Your target was attacked last night!');
+					}
+				});
+			});
+			gm.addActionHandler({
+				phase: 'night',
+				role: 'crusader',
+				type: 'default',
+				priority: 5,
+			}, function([target]) {
+				var visitors = gm.spotVisitors(target);
+				var victim = visitors.filter(p=>!p.chats.vamp).random_pick();
+				if(victim) {
+					gm.attack({
+						target: victim,
+						source: this,
+						visit: 'indirect',
+						power: 1,
+					});
+					gm.notify(this, 'You attacked someone!');
+				}
+			});
+		},
 	},
 	{
 		rolename: 'trapper',
@@ -388,9 +476,84 @@ var roles = [
 			'Traps will trigger upon visits, but will only harm attackers.',
 			'You will know the roles of all the players that visit your trapped target.',
 		],
-		targeting: ['living other notfirst'],
 		goal: towngoal,
 		color: towncolor,
+		targeting: ()=>(this.charges ? ['living other'] : this.trapPlaced ? ['living self'] : []),
+		interpret_targeting: function(targets) {
+			if(!this.charges && !this.trapPlaced) {
+				return { type: 'default', targets: [] };
+			} else if(this.trapPlaced && targets[0] === this) {
+				return { type: 'remove_trap', targets: [] };
+			} else if(this.charges && targets.length) {
+				return { type: 'default', targets };
+			} else {
+				return { type: 'none', targets: [] };
+			}
+		},
+		features: {
+			charges: 0,
+			trapPlaced: undefined,
+		},
+		setup: function(gm) {
+			gm.addActionHandler({
+				phase: 'night',
+				role: 'trapper',
+				type: 'default',
+				priority: 3.8,
+			}, function([target]) {
+				if(!this.charges && !this.trapPlaced) {
+					this.charges = 1;
+				} else if(this.charges && target) {
+					this.trapPlaced = target;
+					this.charges = 0;
+				}
+			});
+			gm.addActionHandler({
+				phase: 'night',
+				role: 'trapper',
+				type: 'remove_trap',
+				priority: 3.8,
+			}, function([target]) {
+				this.charges = 1;
+				this.trapPlaced = undefined;
+			});
+			gm.addActionHandler({
+				phase: 'night',
+				role: 'trapper',
+				priority: 3.9,
+			}, function([target]) {
+				if(!this.trapPlaced) return;
+
+				var trapper = this;
+				var already_protected = false;
+				this.trapPlaced.on('attacked', function(attack) {
+					if(attack.visit != 'indirect' && !attack.blocked && !already_protected) {
+						gm.notify(trapper, 'Your trap attacked someone!');
+						gm.notify(attack.source, 'You triggered a trap!');
+						attack.blocked = true;
+						attack.blocked_message = 'You were attacked, but a trap saved you!';
+						already_protected = true;
+						if(attack.visit == 'direct') {
+							gm.attack({
+								target: attack.source,
+								source: trapper,
+								visit: 'indirect',
+								power: 2,
+							});
+						}
+						trapper.trapPlaced = undefined;
+					}
+				});
+
+				var visitors = gm.spotVisitors(target);
+				if(visitors.length) {
+					var roles = visitors.map(p=>'a '+p.role);
+					var rolesmsg = (roles.length > 1 ? roles.slice(0, -1).join(', ')+', and ' : '')+roles.slice(-1).join('');
+					gm.notify(this, 'Your trap was triggered by '+rolesmsg+'.';
+					this.trapPlaced = undefined;
+				}
+			});
+		},
 	},
 
 	// TOWN KILLING VANILLA
@@ -405,10 +568,43 @@ var roles = [
 			"The jailed target can't perform their night ability.",
 			'If you execute a Town member, you forfeit further executions.',
 		],
-		day_targeting: ['living other'],
-		targeting: ['jailed notfirst'],
 		goal: towngoal,
 		color: towncolor,
+		day_targeting: ['living other'],
+		targeting: ['jailed notfirst'],
+		interpret_targeting: function(targets) {
+			if(targets.length) {
+				return { type: 'default', targets };
+			} else {
+				return { type: 'none', targets };
+			}
+		},
+		setup: function(gm) {
+			gm.addActionHandler({
+				phase: 'day',
+				role: 'jailor',
+				type: 'default',
+				priority: 0,
+			}, function({ target }) {
+				target.chats.jailed = true;
+			});
+			gm.addActionHandler({
+				phase: 'night',
+				role: 'jailor',
+				priority: 5,
+			}, function({ target }) {
+				if(target.chats.jailed) {
+					
+				}
+			});
+			gm.addActionHandler({
+				phase: 'night',
+				role: 'jailor',
+				priority: 6,
+			}, function({ target }) {
+				gm.players.map(p=>p.chats.jailed = false);
+			});
+		},
 	},
 	{
 		rolename: 'vampire hunter',

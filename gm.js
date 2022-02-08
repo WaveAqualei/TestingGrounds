@@ -763,9 +763,8 @@ module.exports = {
 						target.notify(target, "Someone tried to control you, but you are immune!");
 					} else {
 						target.notify(target, "You were controlled!");
-						new_action.targets = Object.assign(target.action.targets, new_action.targets);
-						target.action = new_action;
-						//TODO: Move immunities out of the action, so that a witch control doesn't erase roleblock immunity
+						new_action.targets = Object.assign({}, target.action.targets, new_action.targets);
+						Object.assign(target.action, new_action);
 					}
 				},
 				attacks: [],
@@ -869,12 +868,6 @@ function getConsigGroupings(consiggrouping)
 		}
 	}
 	return arr;
-}
-function isLegalTarget(name,roleAttributes,targets)								
-{
-	//If they are not self targetting, or are allowed to self target anyway. 
-	//Exception variable for witches and transporters.
-	return (targets[name][1] != name || roleAttributes.SELF || targets[name][3]);
 }
 //String stuff
 function capitalize(str)
