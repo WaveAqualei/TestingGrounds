@@ -833,7 +833,7 @@ else
 			mnight.play();
 
 });
-socket.on(Type.TARGETING_OPTIONS,function(legal_targets) {
+addSocketListener(Type.TARGETING_OPTIONS,function(legal_targets) {
 	if(!legal_targets.length || !legal_targets[0].length) {
 		// No legal targets
 		return;
@@ -874,7 +874,7 @@ socket.on(Type.TARGETING_OPTIONS,function(legal_targets) {
 		}
 	}
 });
-socket.on(Type.WHISPER,function(msg)
+addSocketListener(Type.WHISPER,function(msg)
 {
 	var i1=users.indexOf(name1);
 	var i2=users.indexOf(name2);
