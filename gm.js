@@ -296,7 +296,7 @@ var autoRoles = {
 				target.on('attacked', function(attack) {
 					if(attack.visit == 'direct' && !attack.blocked && !already_protected) {
 						attack.blocked = true;
-						attack.blocked_message = 'You were attacked, but someone protected you!';
+						attack.blocked_message = 'You were attacked but someone protected you!';
 						gm.attack({
 							target: attack.source,
 							source: this,
