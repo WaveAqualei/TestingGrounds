@@ -1747,7 +1747,7 @@ function loadBanlist() {
 }
 function loadPassword() {
 	console.log('Loading password...');
-	apass = 'ferriswheels';
+	apass = process.env.DEVPASSWORD || 'ferriswheels';
 	console.log('Password is: ' + apass);
 }
 function showConfirms() {
