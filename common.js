@@ -238,15 +238,7 @@ function processMessage(msg, type)
 				}
 			}
 			var message = '';
-			message += '<li><h2><span class="guilty"><b>'+guilties+'</b></span> - <span class="inno"><b>'+innos+'</b></span></h2></li>';
-			if (msg.result) //Inno
-			{
-				message += '<li><span class="guilty"><b>Guilty!</b></span></li>';
-			}
-			else //Guilty
-			{
-				message += '<li><span class="inno"><b>Innocent!</b></span></li>';
-			}
+			message += '<li class="vote">The town has decided to '+(msg.result ? 'lynch' : 'pardon')+' '+msg.name+' by a vote of <span class="inno"><b>'+innos+'</b></span> to <span class="guilty"><b>'+guilties+'</b></span>.</li>';
 			for (i in msg.votes)
 			{
 				switch (msg.votes[i])
@@ -474,12 +466,8 @@ addMessageHandler(Type.VERDICT,function(name,val)
 addMessageHandler(Type.GUARDIAN_ANGEL, function(name, yourName) {
 	return processMessage({msg: '👼 The Guardian Angel has protected '+name+'.', styling: 'highlight'}, "highlight");
 });
-addMessageHandler(Type.JUDGEMENT,function(votes,result)
+addMessageHandler(Type.JUDGEMENT,function(msg)
 {
-	var msg = {
-		result:result,
-		votes:votes,
-	};
 	return processMessage(msg,'judgement');
 });
 addMessageHandler(Type.ROLECARD,function(card)

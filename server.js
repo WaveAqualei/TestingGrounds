@@ -1677,7 +1677,11 @@ function Timer() {
 					else {
 						setPhase(Phase.VOTING);
 					}
-					sendPublicMessage(Type.JUDGEMENT, votes, result < 0);
+					sendPublicMessage(Type.JUDGEMENT, {
+						name: players[ontrial]?.name,
+						votes,
+						result: result < 0,
+					});
 					break;
 				case Phase.LASTWORDS:
 					//Change to firstday.
