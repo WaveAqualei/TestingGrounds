@@ -1601,7 +1601,8 @@ function trialCheck(player) {
 		//Put the player on trial.
 		clearVotes();
 		setPhase(Phase.TRIAL);
-		sendPublicMessage(Type.HIGHLIGHT, player.name + ' has been put on trial. What is your defense?');
+		sendPublicMessage(Type.HIGHLIGHT, ' The Town has decided to put ' player.name + ' on trial.');
+		sendPublicMessage(Type.HIGHLIGHT, player.name + ', you are on trial for conspiracy against the Town. What is your defense?');
 		sendPublicMessage(Type.SETPHASE, phase, true, timer.time);
 		ontrial = player.s.id;
 	}
@@ -1909,7 +1910,7 @@ function Player(socket, name, ip) {
 				if (mod == this.s.id) {
 					setTimeout(function () {
 						if(!(players[mod] && players[mod].s.readyState == ws.OPEN)) {
-							sendPublicMessage(Type.SYSTEM, 'Game canceled because the mod has been disconnected for over a minute.');
+							sendPublicMessage(Type.SYSTEM, 'Game cancelled because the mod has been disconnected for over a minute.');
 							setPhase(Phase.PREGAME);
 						}
 					}, 1 * 60 * 1000); // 1 minute.
