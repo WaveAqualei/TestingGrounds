@@ -251,9 +251,9 @@ function processMessage(msg, type)
 			{
 				switch (msg.votes[i])
 				{
-					case -1: case -3: message += '<li>'+i+' voted <span class="guilty">guilty</span>.</li>'; break;
+					case -1: case -3: message += '<li>'+i+' <span class="inno"> voted</span> <span class="guilty">guilty</span>.</li>'; break;
 					case 0: message += '<li>'+i+' <span class="abstain">abstained</span>.</li>'; break;
-					case 1: case 3: message += '<li>'+i+' voted <span class="inno">innocent</span>.</li>'; break;
+					case 1: case 3: message += '<li>'+i+' <span class="inno"> voted innocent</span>.</li>'; break;
 				}
 			}
 			return message;
@@ -261,7 +261,7 @@ function processMessage(msg, type)
 		case 'will':
 			if (msg == '')
 			{
-				return '<li class="highlight"><span>We could not find a last will.</span></li>';
+				return '<li class="highlight"><span>We could not find a Last Will.</span></li>';
 			}
 			else
 			{
