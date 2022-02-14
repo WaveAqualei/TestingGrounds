@@ -2748,63 +2748,11 @@ function Player(socket, name, ip) {
 					}
 					break;
 				case 'jail':
-					if (mod == this.s.id) {
-						this.s.sendMessage(Type.SYSTEM, 'The mod cannot use this command.');
-					} else if (this.jailorcom === false) {
+					if (this.jailorcom === false) {
 						this.s.sendMessage(Type.SYSTEM, 'Only the jailor can detain people.');
-					} else if (!this.alive) {
-						this.s.sendMessage(Type.SYSTEM, 'You must be alive to jail.');
-					} else if ((phase >= Phase.DAY && phase <= Phase.LASTWORDS) || phase == Phase.FIRSTDAY) {
-						var args = c.slice(1, c.length);
-						var targets = [];
-						var error = false;
-						if (args.length == 0 || args[0] == '0') {
-							var actions = gm.getActions(this.name);
-							if (actions && actions.length > 0) {
-								//This is a cancel
-							} else {
-								error = true;
-								this.s.sendMessage(Type.SYSTEM, 'You are not targetting anyone.');
-							}
-						} else {
-							//Check if the targetting is valid
-							var vt = gm.validTarget(args, this.role.toLowerCase(), players, playernames, playernums, this, phase);
-							if (vt == 'notfound' || vt == 'ok' || free) {
-								for (i in args) {
-									if (args[i] != '') {
-										if (isNaN(args[i])) {
-											var p = getPlayerByName(args[i]);
-										} else {
-											var p = getPlayerByNumber(parseInt(args[i]));
-										}
-										if (p && p != -1) {
-											if (p.s.id != mod) {
-												targets.push(p.name);
-											} else {
-												this.s.sendMessage(Type.SYSTEM, 'You cannot jail the mod.');
-												error = true;
-												break;
-											}
-										} else {
-											this.s.sendMessage(Type.SYSTEM, 'Invalid player: ' + sanitize(args[i]));
-											error = true;
-											break;
-										}
-									}
-								}
-							} else {
-								error = true;
-								var message = vt;
-								this.s.sendMessage(Type.SYSTEM, message);
-							}
-						}
-						if (!error) {
-							this.target(targets);
-						}
-					} else {
-						this.s.sendMessage(Type.SYSTEM, 'You can only jail during the day.');
+						break;
 					}
-					break;
+					// Intentional fallthrough to normal targeting
 				case 't':
 				case 'target':
 				case 'freetarget':
@@ -2836,36 +2784,23 @@ function Player(socket, name, ip) {
 								error = true;
 								this.s.sendMessage(Type.SYSTEM, 'You are not targetting anyone.');
 							}
-						} else {
+						} else if(!free) {
 							//Check if the targetting is valid
-							var vt = gm.validTarget(args, this.role.toLowerCase(), players, playernames, playernums, this, phase);
-							if (vt == 'notfound' || vt == 'ok' || free) {
-								for (i in args) {
-									if (args[i] != '') {
-										if (isNaN(args[i])) {
-											var p = getPlayerByName(args[i]);
-										} else {
-											var p = getPlayerByNumber(parseInt(args[i]));
-										}
-										if (p && p != -1) {
-											if (p.s.id != mod) {
-												targets.push(p.name);
-											} else {
-												this.s.sendMessage(Type.SYSTEM, 'You cannot target the mod.');
-												error = true;
-												break;
-											}
-										} else {
-											this.s.sendMessage(Type.SYSTEM, 'Invalid player: ' + sanitize(args[i]));
-											error = true;
-											break;
-										}
-									}
+							for(var i = 0; i < args.length; i++) {
+								const p = isNaN(args[i]) ? getPlayerByName(args[i]) : getPlayerByNumber(parseInt(args[i]));
+								if(i >= legal_targets.length) {
+									error = true;
+									this.s.sendMessage(Type.SYSTEM, 'You can only target '+legal_targets.length+' players.');
+									break;
+								} else if(!p) {
+									error = true;
+									this.s.sendMessage(Type.SYSTEM, 'Invalid player: ' + sanitize(v));
+								} else if(!legal_targets[i].includes(p.name)) {
+									error = true;
+									this.s.sendMessage(Type.SYSTEM, 'You cannot target ' + sanitize((p === this) ? 'yourself' : p.name) + '.');
+								} else {
+									targets.push(p.name);
 								}
-							} else {
-								error = true;
-								var message = vt;
-								this.s.sendMessage(Type.SYSTEM, message);
 							}
 						}
 						if (!error) {
