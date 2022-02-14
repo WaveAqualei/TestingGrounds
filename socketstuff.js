@@ -192,7 +192,7 @@ function connectSocket(reconnecting)
 		var display = msgToHTML(type, args);
 		if(display) {
 			addMessage(display);
-	}
+		}
 		if(listeners[type]) {
 			listeners[type].apply(socket, args);
 		}
@@ -334,21 +334,21 @@ addSocketListener(Type.JOIN,function(name)
 		//Add in a rolelist button if it is does not already exist
 		if ($('#rolelistbutton').length == 0)
 		{
-		var rlbutton = $('<div id="rolelistbutton"></div>');
-		rlbutton.click(function()
-		{
-			openRolelist();
-		});
+			var rlbutton = $('<div id="rolelistbutton"></div>');
+			rlbutton.click(function()
+			{
+				openRolelist();
+			});
 			$('#inputarea').append(rlbutton);
 		}
 		//Add in an automod settings button if it doesn't exist
 		if ($('#automodsettingsbutton').length == 0)
 		{
-		var ambutton = $('<div id="automodsettingsbutton"></div>');
-		ambutton.click(function()
-		{
-			autoModSettings();
-		});
+			var ambutton = $('<div id="automodsettingsbutton"></div>');
+			ambutton.click(function()
+			{
+				autoModSettings();
+			});
 			$('#inputarea').append(ambutton);
 		}
 		addModControls();
@@ -440,7 +440,7 @@ addSocketListener(Type.JOIN,function(name)
 			}
 		});
 		modcontrols.append(rolechanger);
-				}
+	}
 	li.append(info);
 	if (mod) {
 		li.append(modcontrols);
@@ -563,7 +563,7 @@ addSocketListener(Type.ROOMLIST,function(list)
 					$(`#${list[i].name}-will`).click((e) => {
 						openUserWill(e.target);
 					});
-			}
+				}
 			}
 			else
 			{
@@ -594,7 +594,7 @@ addSocketListener(Type.ROOMLIST,function(list)
 				$('#userlist').append(user_names[list[i].name]);
 				delete user_names[list[i].name];
 				users.push(list[i].name);
-	}
+			}
 			else
 			{
 				listeners[Type.JOIN](list[i].name);
@@ -632,16 +632,16 @@ addSocketListener(Type.TOGGLELIVING,function(p)
 				$(`#${p.name}-will`).click(() => {
 					openUserWill($(`#p-${p.name}`));
 				});
-		}
+			}
 		}
 		else
 		{
 			li.removeClass('deadplayer');
 			if(p.name != player_name) {
 				li.find('.roledisplay').remove();
-		}
+			}
 			li.find(`#${p.name}-will`).remove();
-	}
+		}
 	}
 });
 addSocketListener(Type.KICK,function()
@@ -874,7 +874,7 @@ addSocketListener(Type.TARGETING_OPTIONS,function(legal_targets) {
 		}
 	}
 });
-addSocketListener(Type.WHISPER,function(msg)
+addSocketListener(Type.SWITCH,function(name1,name2)
 {
 	var i1=users.indexOf(name1);
 	var i2=users.indexOf(name2);
@@ -1275,13 +1275,13 @@ function kittyReconnect()
 				blocker.append(notify);
 				$('body').append(blocker);
 			}
-				setTimeout(function()
-				{
+			setTimeout(function()
+			{
 				connectSocket(true);
-					connectAttempt++;
-					$('#count').html(connectAttempt+'/10');
-				},1000);
-			}
+				connectAttempt++;
+				$('#count').html(connectAttempt+'/10');
+			},1000);
+		}
 		else
 		{
 			$('#try').html('<p>Our dancing kitty has failed to reconnect you. No milk for him tonight. Please rejoin.</p>');
