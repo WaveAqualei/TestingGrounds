@@ -238,7 +238,6 @@ function processMessage(msg, type)
 				}
 			}
 			var message = '';
-			message += '<li class="vote">The Town has decided to '+(msg.result ? 'lynch' : 'pardon')+' '+msg.name+' by a vote of <span class="inno"><b>'+innos+'</b></span> to <span class="guilty"><b>'+guilties+'</b></span>.</li>';
 			for (i in msg.votes)
 			{
 				switch (msg.votes[i])
@@ -248,6 +247,7 @@ function processMessage(msg, type)
 					case 1: case 3: message += '<li>'+i+' <span class="inno">voted innocent</span>.</li>'; break;
 				}
 			}
+			message += '<li class="vote">The Town has decided to '+(msg.result ? 'lynch' : 'pardon')+' '+msg.name+' by a vote of <span class="inno"><b>'+innos+'</b></span> to <span class="guilty"><b>'+guilties+'</b></span>.</li>';
 			return message;
 		break;
 		case 'will':
