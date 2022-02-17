@@ -3312,7 +3312,7 @@ function Player(socket, name, ip) {
 							this.s.sendMessage(Type.SYSTEM, "<span class=\"mafia\">Mafia: GF, Maf, Amb</span>");
 							this.s.sendMessage(Type.SYSTEM, "<span class=\"coven\">Coven: CL, Dusa, Necro, PM, HM, Poisoner</span>");
 							this.s.sendMessage(Type.SYSTEM, "<span class=\"jailed\">Other: SK, WW, Arso, Jugg, Jest, Vamp, Pirate, Pest, Suicide, Heart</span>");
-							this.s.sendMessage(Type.SYSTEM, "span class=\"wisteria\"Florae: Aza, Dahlia, Nettle, Wist, Lav, NS</span>");
+							this.s.sendMessage(Type.SYSTEM, "<span class=\"wisteria\"Florae: Aza, Dahlia, Nettle, Wist, Lav, NS</span>");
 						}
 					} else {
 						this.s.sendMessage(Type.SYSTEM, "Only the mod can use this command.");
