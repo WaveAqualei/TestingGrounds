@@ -1511,7 +1511,7 @@ function setPhase(p) {
 	}
 	if (p == Phase.VERDICTS) {
 		if (ontrial) {
-			sendPublicMessage(Type.HIGHLIGHT, 'Cast your votes now.');
+			sendPublicMessage(Type.HIGHLIGHT, 'The Town may now vote on the fate of '+msg.name+'.');
 		} else {
 			players[mod].s.sendMessage(Type.SYSTEM, 'No player is currently on trial. Phase is being set back to voting.');
 			phase = p = Phase.VOTING;
