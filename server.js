@@ -1511,7 +1511,7 @@ function setPhase(p) {
 	}
 	if (p == Phase.VERDICTS) {
 		if (ontrial) {
-			sendPublicMessage(Type.HIGHLIGHT, 'The Town may now vote on the fate of '+msg.name+'.');
+			sendPublicMessage(Type.HIGHLIGHT, 'The Town may now vote on their fate.');
 		} else {
 			players[mod].s.sendMessage(Type.SYSTEM, 'No player is currently on trial. Phase is being set back to voting.');
 			phase = p = Phase.VOTING;
@@ -2501,6 +2501,7 @@ function Player(socket, name, ip) {
 							}
 							if (!error) {
 								sendPublicMessage(Type.HIGHLIGHT, 'The mod has put ' + one + ' on trial.');
+								sendPublicMessage(Type.HIGHLIGHT, 'You are on trial for conspiracy against the Town. What is your defense?');
 								setPhase(Phase.TRIAL);
 								ontrial = p.s.id;
 							}
