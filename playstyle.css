@@ -1590,10 +1590,11 @@ neut
 .reviving
 {
 	background:#00992b;
+	color:white;
 }
 .vote
 {
-	color:#00de00;
+	color:#1ca61c;
 }
 .whisper
 {
@@ -1605,7 +1606,7 @@ neut
 }
 .inno
 {
-	color:#00BF00;
+	color:#00ff00;
 }
 .abstain
 {
