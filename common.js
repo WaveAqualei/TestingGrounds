@@ -242,9 +242,9 @@ function processMessage(msg, type)
 			{
 				switch (msg.votes[i])
 				{
-					case -1: case -3: message += '<li>'+i+' <span class="inno">voted</span> <span class="guilty">guilty</span>.</li>'; break;
+					case -1: case -3: message += '<li>'+i+' <span class="vote">voted</span> <span class="guilty">guilty</span>.</li>'; break;
 					case 0: message += '<li>'+i+' <span class="abstain">abstained</span>.</li>'; break;
-					case 1: case 3: message += '<li>'+i+' <span class="inno">voted innocent</span>.</li>'; break;
+					case 1: case 3: message += '<li>'+i+' <span class="vote">voted</span> <span class="inno">innocent</span>.</li>'; break;
 				}
 			}
 			message += '<li class="vote">The Town has decided to '+(msg.result ? 'lynch' : 'pardon')+' '+msg.name+' by a vote of <span class="inno"><b>'+innos+'</b></span> to <span class="guilty"><b>'+guilties+'</b></span>.</li>';
