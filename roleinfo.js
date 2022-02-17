@@ -3,6 +3,7 @@ var towncolor = '#b0ff39';
 var mafiacolor = '#be0000';
 var covencolor = '#ab5ffb';
 var vampcolor = '#7f896a';
+var floraecolor = '#228f41';
 var randcolor = '#497cef';
 var neutcolor = '#bcbcbc';
 var anycolor = '#F5F5F5';
@@ -14,6 +15,7 @@ var towngoal = 'Lynch every criminal and evildoer.';
 var mafiagoal = 'Kill anyone that will not submit to the Mafia.';
 var covengoal = 'Kill all who would oppose the Coven.';
 var vampgoal = 'Convert or kill all who would oppose you.';
+var floraegoal = 'Exterminate anyone that would harm your tribe.';
 
 var roles = [
 	// === VANILLA ROLES ===
@@ -1289,7 +1291,222 @@ var roles = [
 		color: vampcolor,
 		custom: true,
 	},
-
+	
+	// FLORAE INVESTIGATIVE
+	{
+		rolename: 'daffodil',
+		alignment: 'flora investigative',
+		abilities: ['You may search a player for a clue of their role.'],
+		attributes: ['If your target is Doused, Framed, Disguised, or Hexed you will instead be told you are unsure what your target is.'],
+		goal: floraegoal,
+		color: floraecolor,
+		custom: true,
+	},
+	{
+		rolename: 'hydrangea',
+		alignment: 'flora investigative',
+		abilities: ['You may dance during the day to summon a rainstorm for the night.'],
+		attributes: ['Mafia, Coven, and Neutrals will be notified that a storm is starting at the beginning of the night.',
+			    'Players that visit during a rainstorm will be drenched in water.',
+			    'You will be told all of the players who are not drenched the following day.',
+			    'You may only summon 3 rainstorms.'],
+		goal: floraegoal,
+		color: floraecolor,
+		custom: true,
+	},
+	{
+		rolename: 'iris',
+		alignment: 'flora investigative',
+		abilities: ['You may observe someone at night.'],
+		attributes: ['On odd nights you will know who visits your target.',
+			    'On even nights you will know who your target visits.',
+			    'When dead, you may select a player once to give them your previous result.'],
+		goal: floraegoal,
+		color: floraecolor,
+		custom: true,
+	},
+	{
+		rolename: 'sage',
+		alignment: 'flora investigative',
+		abilities: ['Learn about the Florae each night or vision someone\'s goal.'],
+		attributes: ['Each night you are alive you will be notified how many players that are in your faction are alive.',
+			    'On Full Moon nights, you may vision a player. You will know if your target is good or evil.'],
+		goal: floraegoal,
+		color: floraecolor,
+		custom: true,
+	},
+	{
+		rolename: 'thyme',
+		alignment: 'flora investigative',
+		abilities: ['You may spy on someone\'s house at night.'],
+		attributes: ['You will know all the roles of the players that visit your target.',
+			    'Your ability ignores Jail.'],
+		goal: floraegoal,
+		color: floraecolor,
+		custom: true,
+	},
+	
+	// FLORAE KILLING
+	{
+		rolename: 'azalea',
+		alignment: 'flora killing',
+		attack: 'Powerful',
+		abilities: ['You may shoot a target at night, dealing a Powerful attack.'],
+		attributes: ['If someone visits your target, you will shoot them instead.',
+			    'If more than one player visits your target, you will shoot no one.',
+			    'You may only shoot two times.'],
+		goal: floraegoal,
+		color: floraecolor,
+		custom: true,
+	},
+	{
+		rolename: 'dahlia',
+		alignment: 'flora killing',
+		attack: 'Basic',
+		abilities: ['You may inspect a player during the day.',
+			   'Choose another to players at night to watch.'],
+		attributes: ['You will attack your day target if they visit either of your night targets.',
+			    'You may watch yourself.',
+			    'When dead, you may choose a player at night to deliver a Basic attack to them. This can only be done once.'],
+		goal: floraegoal,
+		color: floraecolor,
+		custom: true,
+	},
+	{
+		rolename: 'nettle',
+		alignment: 'flora killing',
+		attack: 'Powerful',
+		abilities: ['You may urticate a player at night, stinging anyone that visits them.'],
+		attributes: ['Stings take one day to take effect.',
+			    'Stings can be removed by protections that grant Powerful defense.',
+			    'You may not urticate the same player twice.',
+			    'You may only urticate two times.'],
+		goal: floraegoal,
+		color: floraecolor,
+		custom: true,
+	},
+	{
+		rolename: 'wisteria',
+		alignment: 'flora killing',
+		attack: 'Powerful',
+		abilities: ['You may choose one person during the day to lock in your Garden for the night, giving them Basic defense.'],
+		attributes: ['You may anonymously talk with your captive at night.',
+			    'Players can still visit your captive.',
+			    'You may not lock the same person twice in a row.',
+			    'You may only execute three times.',
+			    'You cannot be controlled.'],
+		goal: floraegoal,
+		color: floraecolor,
+		custom: true,
+	},
+	
+	// FLORAE PROTECTIVE
+	{
+		rolename: 'calendula',
+		alignment: 'flora protective',
+		abilities: ['You may aid a player at night, granting them Powerful Defense.'],
+		attributes: ['You will know the roles of the players that attack your target.',
+			    'If your target is attacked, they will not know that they were attacked.',
+			    'You will know if your target is attacked.'],
+		goal: floraegoal,
+		color: floraecolor,
+		custom: true,
+	},
+	{
+		rolename: 'lavender',
+		alignment: 'flora protective',
+		attack: 'Basic',
+		abilities: ['You may protect a player’s house at night.'],
+		attributes: ['Protecting your target provides them Powerful defense against one attack.',
+			    'If your target is attacked you will deliver a Basic attack to their attacker.',
+			    'If your target\'s attacker has defense or if they’re attacked more than once you will not attack anyone but learn the names of all of your target\'s attackers.'],
+		goal: floraegoal,
+		color: floraecolor,
+		custom: true,
+	},
+	{
+		rolename: 'lily',
+		alignment: 'flora protective',
+		abilities: ['You may plant a lily at a player\'s house on odd nights.'],
+		attributes: ['Lilies heal your target and all of their visitors.',
+			    'You cannot be protected by lilies.',
+			    'When dead, you may plant a lily once.'],
+		goal: floraegoal,
+		color: floraecolor,
+		custom: true,
+	},
+	{
+		rolename: 'mint',
+		alignment: 'flora protective',
+		abilities: ['You may sow a mint plant at a player\'s house at night.'],
+		attributes: ['Mint plants take effect the day after they were planted.',
+			    'Mints provide Powerful defense against all direct attacks.',
+			    'When one of your minted targets is attacked, all mint plants will die and you cannot plant for another night.'],
+		goal: floraegoal,
+		color: floraecolor,
+		custom: true,
+	},
+	{
+		rolename: 'rosemary',
+		alignment: 'flora protective',
+		abilities: ['You may infuse a player at night, granting them Basic defense.'],
+		attributes: ['When you infuse a player they will have Roleblock and Control immunity that night.',
+			    'If your target is attacked you cannot infuse a player the next night.',
+			    'You cannot be roleblocked or controlled.'],
+		goal: floraegoal,
+		color: floraecolor,
+		custom: true,
+	},
+	
+	// FLORAE SUPPORT
+	{
+		rolename: 'carnation',
+		alignment: 'flora support',
+		abilities: ['You may purify a player at night.'],
+		attributes: ['When a player is purified they cannot be voted the next day. This can be done from the grave.',
+			    'Players will be notified if they are purified.',
+			    'You may purify yourself once.',
+			    'You may only purify three times.'],
+		goal: floraegoal,
+		color: floraecolor,
+		custom: true,
+	},
+	{
+		rolename: 'gardenia',
+		alignment: 'flora support',
+		abilities: ['You may hand out gardenias to a player at night.'],
+		attributes: ['Players with gardenias will also give out gardenias when they visit or are visited by a player.',
+			    'When all living players have a gardenia, you will have the ability to reveal during the day.',
+			    'Once you reveal, your vote counts as three.',
+			    'Once you reveal you can hear whispers.'],
+		goal: floraegoal,
+		color: floraecolor,
+		custom: true,
+	},
+	{
+		rolename: 'nightshade',
+		alignment: 'flora support',
+		abilities: ['You may use a heal or attack elixir at night.'],
+		attributes: ['Attacking a player uses up your attack elixir.',
+			    'Successfully healing a player from an attack uses up your heal elixir.',
+			    'You may heal yourself.',
+			    'Visiting two players recharges your elixirs once you have used them up.'],
+		goal: floraegoal,
+		color: floraecolor,
+		custom: true,
+	},
+	{
+		rolename: 'peony',
+		alignment: 'flora support',
+		abilities: ['You may perform for a player at night.'],
+		attributes: ['Performing at a player\'s house prevents anyone from visiting your target. This excludes attacking roles.',
+			    'If a Serial Killer attacks your target, you will die instead.',
+			    'You cannot be roleblocked.'],
+		goal: floraegoal,
+		color: floraecolor,
+		custom: true,
+	},
+	
 	//Casual roles
 	{
 		rolename: 'citizen',
@@ -1595,6 +1812,8 @@ module.exports = {
 			str = str.replace(/[Cc]oven/, "<span style='color:" + covencolor + "'>Coven</span>");
 			str = str.replace(/[Ee]vil/, "<span style='color:" + randcolor + "'>Evil</span>");
 			str = str.replace(/[Vv]ampire/, "<span style='color:" + vampcolor + "'>Vampire</span>");
+			str = str.replace(/[Ff]lora/, "<span style='color:" + floraecolor + "'>Flora</span>");
+			str = str.replace(/[Ff]lorae/, "<span style='color:" + floraecolor + "'>Florae</span>");
 			str = str.replace(/[Mm]anipulation/, "<span style='color:" + randcolor + "'>Manipulation</span>");
 			str = str.replace(/[Cc]onversion/, "<span style='color:" + randcolor + "'>Conversion</span>");
 			str = str.replace(/[Dd]ead/, "<span style='color:" + randcolor + "'>Dead</span>");
