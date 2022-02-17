@@ -238,7 +238,7 @@ function processMessage(msg, type)
 				}
 			}
 			var message = '';
-			message += '<li class="vote">The town has decided to '+(msg.result ? 'lynch' : 'pardon')+' '+msg.name+' by a vote of <span class="inno"><b>'+innos+'</b></span> to <span class="guilty"><b>'+guilties+'</b></span>.</li>';
+			message += '<li class="vote">The Town has decided to '+(msg.result ? 'lynch' : 'pardon')+' '+msg.name+' by a vote of <span class="inno"><b>'+innos+'</b></span> to <span class="guilty"><b>'+guilties+'</b></span>.</li>';
 			for (i in msg.votes)
 			{
 				switch (msg.votes[i])
@@ -253,7 +253,7 @@ function processMessage(msg, type)
 		case 'will':
 			if (msg == '')
 			{
-				return '<li class="highlight"><span>We could not find a last will.</span></li>';
+				return '<li class="highlight"><span>We could not find a Last Will.</span></li>';
 			}
 			else
 			{
