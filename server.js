@@ -3269,6 +3269,39 @@ function Player(socket, name, ip) {
 								case 'pestilence':
 									sendPublicMessage(Type.HIGHLIGHT, "They were obliterated by Pestilence, Horseman of the Apocalypse.", 'pestkill');
 									break;
+								case 'az':
+								case 'aza':
+								case 'azal':
+								case 'azalea':
+									sendPublicMessage(Type.HIGHLIGHT, "They were shot by an Azalea.", 'floraekill');
+									break;
+								case 'dah':
+								case 'dahl':
+								case 'dahli':
+								case 'dahlia':
+									sendPublicMessage(Type.HIGHLIGHT, "They were slashed by a Dahlia.", 'floraekill');
+									break;
+								case 'net':
+								case 'nett':
+								case 'nettle':
+									sendPublicMessage(Type.HIGHLIGHT, "They were stung by a Nettle.", 'floraekill');
+									break;
+								case 'wist':
+								case 'wisteria':
+									sendPublicMessage(Type.HIGHLIGHT, "They were executed by Wisteria.", 'floraekill');
+									break;
+								case 'lav':
+								case 'laven':
+								case 'lanvender':
+									sendPublicMessage(Type.HIGHLIGHT, "They were ambushed by a Lavender.", 'floraekill');
+									break;
+								case 'night':
+								case 'shade':
+								case 'ns':
+								case 'NS':
+								case 'nightshade':
+									sendPublicMessage(Type.HIGHLIGHT, "They were killed by a Nightshade.", 'floraekill');
+									break;
 								default:
 									sendPublicMessage(Type.HIGHLIGHT, "They were killed by a "+sanitize(msg)+".", 'modchat');
 							}
@@ -3279,6 +3312,7 @@ function Player(socket, name, ip) {
 							this.s.sendMessage(Type.SYSTEM, "<span class=\"mafia\">Mafia: GF, Maf, Amb</span>");
 							this.s.sendMessage(Type.SYSTEM, "<span class=\"coven\">Coven: CL, Dusa, Necro, PM, HM, Poisoner</span>");
 							this.s.sendMessage(Type.SYSTEM, "<span class=\"jailed\">Other: SK, WW, Arso, Jugg, Jest, Vamp, Pirate, Pest, Suicide, Heart</span>");
+							this.s.sendMessage(Type.SYSTEM, "span class=\"wisteria\"Florae: Aza, Dahlia, Nettle, Wist, Lav, NS</span>");
 						}
 					} else {
 						this.s.sendMessage(Type.SYSTEM, "Only the mod can use this command.");
@@ -3420,7 +3454,7 @@ function Player(socket, name, ip) {
 			} else if (this.s.id == mod) {
 				this.s.sendMessage(Type.SYSTEM, 'Please do not whisper to players as the mod. Use the /msg commmand instead.');
 			} else if (this == to) {
-				this.s.sendMessage(Type.SYSTEM, 'You cannot whisper to yourself.');
+				this.s.sendMessage(Type.SYSTEM, 'You cannot whisper yourself, that would be weird.');
 			} else if (!to.alive && phase != Phase.PREGAME) {
 				this.s.sendMessage(Type.SYSTEM, 'You cannot whisper to the dead.');
 			} else {
