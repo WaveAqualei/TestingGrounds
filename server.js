@@ -1601,7 +1601,7 @@ function trialCheck(player) {
 		//Put the player on trial.
 		clearVotes();
 		setPhase(Phase.TRIAL);
-		sendPublicMessage(Type.HIGHLIGHT, ' The Town has decided to put ' player.name + ' on trial.');
+		sendPublicMessage(Type.HIGHLIGHT, ' The Town has decided to put ' + player.name + ' on trial.');
 		sendPublicMessage(Type.HIGHLIGHT, player.name + ', you are on trial for conspiracy against the Town. What is your defense?');
 		sendPublicMessage(Type.SETPHASE, phase, true, timer.time);
 		ontrial = player.s.id;
