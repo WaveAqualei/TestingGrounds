@@ -141,19 +141,19 @@ function processMessage(msg, type)
 		case 'whisper':
 			if (!msg.msg)
 			{
-				return '<li><b>'+msg.from+'</b><span class="whisper"> is whispering to </span><b>'+msg.to+'</b></span></li>';
+				return '<li><b>'+msg.from+'</b><span class="whisper"> is whispering to </span><b>'+msg.to+'</b></span>.</li>';
 			}
 			else if (msg.from && msg.to)
 			{
-				return '<li><b>'+msg.from+'</b><span class="whisper"> whispers to </span><b>'+msg.to+':</b><span class="whisper"> '+msg.msg+' </span></li>';
+				return '<li><span class="whispermessage">From</span> <b>'+msg.from+'</b><span class="whisper"> <span class="whispermessage">to</span> </span><b>'+msg.to+':</b><span class="whisper"> '+msg.msg+' </span></li>';
 			}
 			else if (msg.from)
 			{
-				return '<li><span class="whisper">From</span> <b>'+msg.from+':</b><span class="whisper"> '+msg.msg+' </span></li>';
+				return '<li><span class="whispermessage">From</span> <b>'+msg.from+':</b><span class="whispermessage"> '+msg.msg+' </span></li>';
 			}
 			else if (msg.to)
 			{
-				return '<li><span class="whisper">To</span> <b>'+msg.to+':</b><span class="whisper"> '+msg.msg+' </span></li>';
+				return '<li><span class="whispermessage">To</span> <b>'+msg.to+':</b><span class="whispermessage"> '+msg.msg+' </span></li>';
 			}
 			else
 			{
@@ -416,7 +416,7 @@ addMessageHandler(Type.PRENOT,function(notification)
 		 return processMessage({msg:'You were shot by the Veteran you visited!',styling:'dying'},'prenot');
 	  break;
 	  case 'VETSHOT':
-		 return processMessage({msg:'You shot someone who visited you!',styling:'dying'},'prenot');
+		 return processMessage({msg:'You shot someone who visited you last night!',styling:'dying'},'prenot');
 	  break;
 	  case 'RB':
 		 return processMessage({msg:'Someone occupied your night. You were roleblocked!',styling:'dying'},'prenot');
@@ -431,10 +431,10 @@ addMessageHandler(Type.PRENOT,function(notification)
 		 return processMessage({msg:'You were attacked but someone nursed you back to health!',styling:'reviving'},'prenot');
 	  break;
 	  case 'JAILED':
-		 return processMessage({msg:'You were hauled off to jail!',styling:'dying'},'prenot');
+		 return processMessage({msg:'You were hauled off to jail!',styling:'hauled'},'prenot');
 	  break;
 	  case 'JAILING':
-		 return processMessage({msg:'You dragged your target to jail!',styling:'reviving'},'prenot');
+		 return processMessage({msg:'You dragged your target off to jail!',styling:'reviving'},'prenot');
 	  break;
 	  case 'LINKED':
 		 return processMessage({msg:'You have been linked!',styling:'reviving'},'prenot');
