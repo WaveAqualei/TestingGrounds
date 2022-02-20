@@ -478,7 +478,8 @@ header ul li span
 }
 .mayor_reveal
 {
-	background:#075700;
+	background:#021f00;
+	text:#ff5349;
 }
 .rolecard
 {
@@ -1599,9 +1600,13 @@ neut
 }
 .dying
 {
-	background:#A00100;
+	background:#db0d0d;
 	color:white;
 }
+.hauled
+{
+	background:#db0d0d;
+	color:yellow;
 .fullmoon
 {
 	background:#8aacb8;
@@ -1618,7 +1623,11 @@ neut
 }
 .whisper
 {
-	color:#80adff;
+	color:#8080ff;
+}
+.whispermessage
+{
+	color:#e600e6;
 }
 .guilty
 {
