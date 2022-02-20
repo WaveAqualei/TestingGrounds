@@ -1460,7 +1460,6 @@ a:visited
 	right:20%;
 	top:5%;
 	bottom:90%;
-	background:orange;
 	border-bottom-left-radius:12px;
 	border: black solid 2px;
 	border-right: black solid 1px;
@@ -1626,10 +1625,12 @@ neut
 .whisper
 {
 	color:#8080ff;
+	text-shadow: 2px 2px 10px black;
 }
 .whispermessage
 {
 	color:#e600e6;
+	text-shadow: 2px 2px 4px black;
 }
 .guilty
 {
