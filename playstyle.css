@@ -479,7 +479,10 @@ header ul li span
 .mayor_reveal
 {
 	background:#021f00;
-	text:#ff5349;
+}
+.gardenia_reveal
+{
+	background:#9D373C;
 }
 .rolecard
 {
@@ -1476,23 +1479,27 @@ a:visited
 .guiltybutton
 {
 	background:url('Unity_Guilty.png');
+	background-size: cover;
 	margin-right:-1px;
 	border-right:1px solid black;
 }
 .guiltybutton:hover
 {
 	background:url('Unity_Guilty.png');
+	background-size: cover;
 	opacity: 0.7;
 }
 .innobutton
 {
 	background:url('Unity_Innocent.png');
+	background-size: cover;
 	margin-left:-1px;
 	border-left:1px solid black;	
 }
 .innobutton:hover
 {
 	background:url('Unity_Innocent.png');
+	background-size: cover;
 	opacity: 0.7;
 }
 /*----Announcement tags----*/
