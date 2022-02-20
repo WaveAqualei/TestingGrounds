@@ -1476,24 +1476,25 @@ a:visited
 }
 .guiltybutton
 {
-	background:linear-gradient(#FF0000,#990000);
-	border-bottom-left-radius:8px;
+	background:url('Unity_Guilty.png');
 	margin-right:-1px;
 	border-right:1px solid black;
 }
 .guiltybutton:hover
 {
-	background:red;
+	background:url('Unity_Guilty.png');
+	opacity: 0.7;
 }
 .innobutton
 {
-	background:linear-gradient(#60FF00,#118100);
+	background:url('Unity_Innocent.png');
 	margin-left:-1px;
 	border-left:1px solid black;	
 }
 .innobutton:hover
 {
-	background:lime;
+	background:url('Unity_Innocent.png');
+	opacity: 0.7;
 }
 /*----Announcement tags----*/
 maf
@@ -1619,7 +1620,7 @@ neut
 }
 .vote
 {
-	color:#1ca61c;
+	color:lime;
 }
 .whisper
 {
@@ -1631,11 +1632,11 @@ neut
 }
 .guilty
 {
-	color:red;
+	color:#FF0000;
 }
 .inno
 {
-	color:#00ff00;
+	color:#66FF66;
 }
 .abstain
 {
