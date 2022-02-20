@@ -366,6 +366,8 @@ var server = http.createServer(function (req, res) {
 		case '/back1.png':
 		case '/back2.png':
 		case '/back3.png':
+		case '/Unity_Innocent.png':
+		case '/Unity_Guilty.png':
 		case '/lastwillbutton.png':
 		case '/paste.png':
 		case '/notesbutton.png':
@@ -831,6 +833,9 @@ io.on('connection', function (socket, req) {
 					break;
 				case 'TRANSPORT':
 					modmessage = name + ' was transported.';
+					break;
+				case 'TARGET_ATTACKED':
+					modmessage = name + '\'s target was attacked.';
 					break;
 			}
 			addLogMessage(Type.SYSTEM, modmessage);
