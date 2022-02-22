@@ -1966,7 +1966,7 @@ function Player(socket, name, ip) {
 						//Guilty, change
 						this.verdict = this.mayor ? 3 : 1;
 						sendPublicMessage(Type.VERDICT, name, 1);
-					} else {
+					} else if {
 						this.verdict = this.mayor ? 3 : 1;
 						sendPublicMessage(Type.VERDICT, name, 0);
 					} else if (this.verdict == -1) {
@@ -1987,7 +1987,7 @@ function Player(socket, name, ip) {
 						//Inno, change
 						this.verdict = this.mayor ? -3 : -1;
 						sendPublicMessage(Type.VERDICT, name, 1);
-					} else {
+					} else if {
 						this.verdict = this.mayor ? -3 : -1;
 						sendPublicMessage(Type.VERDICT, name, 0);
 					} else if (this.verdict == 1) {
@@ -2032,7 +2032,7 @@ function Player(socket, name, ip) {
 						var prev = player.name;
 						if (this.mayor) {
 							players[this.votingFor].votes -= 3;
-						} if (this.gardenia) {
+						} else if (this.gardenia) {
 							players[this.votingFor].votes -= 3;
 						} else {
 							players[this.votingFor].votes--; //subtract a vote from the person that was being voted.
@@ -2047,7 +2047,7 @@ function Player(socket, name, ip) {
 						if (this.mayor) {
 							players[prev].votes -= 3; //subtract 3 votes from the person that was being voted.
 							player.votes += 3; //Add 3 votes to the new person
-						} if (this.gardenia) {
+						} else if (this.gardenia) {
 							players[prev].votes -= 3; //subtract 3 votes from the person that was being voted.
 							player.votes += 3; //Add 3 votes to the new person
 						} else if (players[prev]) {
@@ -2065,7 +2065,7 @@ function Player(socket, name, ip) {
 						this.votingFor = player.s.id;
 						if (this.mayor) {
 							player.votes += 3;
-						} if (this.gardenia) {
+						} ekse if (this.gardenia) {
 							player.votes += 3;
 						} else {
 							player.votes++;
