@@ -1964,44 +1964,30 @@ function Player(socket, name, ip) {
 				var name = this.name;
 				if (verdict === true) {
 					//Inno
-					if (this.verdict == 1) {
+					if (this.verdict > 0) {
 						//Already inno, cancel
 						this.verdict = 0;
 						sendPublicMessage(Type.VERDICT, name, 2);
-					} else if (this.verdict == -1) {
+					} else if (this.verdict < 0) {
 						//Guilty, change
-						this.verdict = this.mayor ? 3 : 1;
-						sendPublicMessage(Type.VERDICT, name, 1);
-					} else if {
-						this.verdict = this.mayor ? 3 : 1;
-						sendPublicMessage(Type.VERDICT, name, 0);
-					} else if (this.verdict == -1) {
-						//Guilty, change
-						this.verdict = this.gardenia ? 3 : 1;
+						this.verdict = (this.mayor || this.gardenia) ? 3 : 1;
 						sendPublicMessage(Type.VERDICT, name, 1);
 					} else {
-						this.verdict = this.gardenia ? 3 : 1;
+						this.verdict = (this.mayor || this.gardenia) ? 3 : 1;
 						sendPublicMessage(Type.VERDICT, name, 0);
 					}
 				} else if (verdict === false) {
 					//Guilty
-					if (this.verdict == -1) {
+					if (this.verdict < 0) {
 						//Already guilty, cancel
 						this.verdict = 0;
 						sendPublicMessage(Type.VERDICT, name, 2);
-					} else if (this.verdict == 1) {
+					} else if (this.verdict > 0) {
 						//Inno, change
-						this.verdict = this.mayor ? -3 : -1;
-						sendPublicMessage(Type.VERDICT, name, 1);
-					} else if {
-						this.verdict = this.mayor ? -3 : -1;
-						sendPublicMessage(Type.VERDICT, name, 0);
-					} else if (this.verdict == 1) {
-						//Inno, change
-						this.verdict = this.gardenia ? -3 : -1;
+						this.verdict = (this.mayor || this.gardenia) ? -3 : -1;
 						sendPublicMessage(Type.VERDICT, name, 1);
 					} else {
-						this.verdict = this.gardenia ? -3 : -1;
+						this.verdict = (this.mayor || this.gardenia) ? -3 : -1;
 						sendPublicMessage(Type.VERDICT, name, 0);
 					}
 				}
