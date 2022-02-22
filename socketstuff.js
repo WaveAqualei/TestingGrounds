@@ -882,7 +882,7 @@ addSocketListener(Type.MAYOR, function(name) {
 	});
 });
 addSocketListener(Type.GARDENIA, function(name) {
-	$(`#p-${name}`).append(`<span class="emoji" id="${name}-gardenia" style="color:#b0ff39"> Gardenia</span>`)
+	$(`#p-${name}`).append(`<span class="emoji" id="${name}-gardenia" style="color:#228f41"> Gardenia</span>`)
 	$(`#${name}-gardenia`).click(() => {
 		if (mod) {
 			$(`#${name}-gardenia`).remove();
