@@ -453,7 +453,7 @@ addMessageHandler(Type.MAYOR, function(name) {
 	return processMessage({msg: '🎩' +name+' has revealed themselves as the Mayor!', styling: 'mayor_reveal'}, "highlight");
 });
 addMessageHandler(Type.GARDENIA, function(name) {
-	return processMessage({msg: '🌼' +name+' has revealed themselves as the Gardenia!', styling: 'gardenia_reveal'}, "highlight");
+	return processMessage({msg: '🌼' +name+' has unveiled themselves as the Gardenia!', styling: 'gardenia_reveal'}, "highlight");
 });
 addMessageHandler(Type.HUG,function(name,target)
 {
