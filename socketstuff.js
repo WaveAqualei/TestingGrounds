@@ -934,6 +934,16 @@ addSocketListener(Type.GUARDIAN_ANGEL, function(name, yourName) {
 		}
 	});
 });
+addSocketListener(Type.CARNATION, function(name, yourName) {
+	if ($(`#${name}-carnation`).length) return;
+	$(`#p-${name}`).append(`<span class="emoji carnation" id="${name}-carnation" style="color:#fffafa">🌺</span>`);
+	$(`#${name}-carnation`).click(() => {
+		if (mod) {
+			$(`#${name}-carnation`).remove();
+			socket.sendMessage(Type.REMOVE_EMOJI, `${name}-carnation`);
+		}
+	});
+});
 
 addSocketListener(Type.REMOVE_EMOJI, function(emojiId) {
 	$(`#${emojiId}`).remove();
