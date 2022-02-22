@@ -335,8 +335,11 @@ function openModList(targ)
 						}
 					});
 				},
-				"GA (Voting Immunity)": function() {
+				"GA (Vote Immunity)": function() {
 					socket.sendMessage(Type.GUARDIAN_ANGEL, $(this.parentNode).attr('name'));
+				}
+				"Carnation": function() {
+					socket.sendMessage(Type.CARNATION, $(this.parentNode).attr('name'));
 				}
 			};
 			var notifications = {
