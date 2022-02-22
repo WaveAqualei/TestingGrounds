@@ -1248,6 +1248,19 @@ a:visited
    background-size:100% 100%;
    color: black;
 }
+.gardeniabutton {
+   background: #364040;
+   background-size:100% 100%;
+ }
+.gardeniabutton:hover {
+   background: #1B693A;
+   background-size:100% 100%;
+}
+.gardeniabuttondown .gardeniabutton {
+   background: #9D373C;
+   background-size:100% 100%;
+   color:black;
+}
 .killbutton
 {
 	background: linear-gradient(#c40e0e, #d66565);
