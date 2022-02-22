@@ -369,6 +369,9 @@ addMessageHandler(Type.PRENOT,function(notification)
 	  case 'GUARDIAN_ANGEL':
 		return processMessage({msg: "The Guardian Angel was watching over you!", styling: 'reviving'}, 'prenot');
 		break;
+	  case 'CARNATION':
+		return processMessage({msg: "A Carnation has purified you!", styling: 'reviving'}, 'prenot');
+		break;
 	  case 'TRANSPORT':
 		return processMessage({msg: "You were transported to another location.", styling: 'dying'}, 'prenot');
 		break;
