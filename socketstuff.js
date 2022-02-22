@@ -881,6 +881,15 @@ addSocketListener(Type.MAYOR, function(name) {
 		}
 	});
 });
+addSocketListener(Type.GARDENIA, function(name) {
+	$(`#p-${name}`).append(`<span class="emoji" id="${name}-gardenia" style="color:#b0ff39"> Gardenia</span>`)
+	$(`#${name}-gardenia`).click(() => {
+		if (mod) {
+			$(`#${name}-gardenia`).remove();
+			socket.sendMessage(Type.REMOVE_EMOJI, `${name}-gardenia`);
+		}
+	});
+});
 addSocketListener(Type.VOTE,function(voter,msg,voted,prev)
 {
 	if (!mod)
