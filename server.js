@@ -2022,9 +2022,7 @@ function Player(socket, name, ip) {
 					} else if (this.votingFor == player.s.id) {
 						//Same person, cancel vote.
 						var prev = player.name;
-						if (this.mayor) {
-							players[this.votingFor].votes -= 3;
-						} else if (this.gardenia) {
+						if (this.mayor || this.gardenia) {
 							players[this.votingFor].votes -= 3;
 						} else {
 							players[this.votingFor].votes--; //subtract a vote from the person that was being voted.
@@ -2033,16 +2031,13 @@ function Player(socket, name, ip) {
 							sendPublicMessage(Type.VOTE, this.name, ' has cancelled their vote.', '', prev);
 						}
 						this.votingFor = undefined;
-					} else if (this.votingFor) {
+					} else if (this.votingFor && players[this.votingFor]) {
 						//Previous voter
 						var prev = this.votingFor;
-						if (this.mayor) {
+						if (this.mayor || this.gardenia) {
 							players[prev].votes -= 3; //subtract 3 votes from the person that was being voted.
 							player.votes += 3; //Add 3 votes to the new person
-						} else if (this.gardenia) {
-							players[prev].votes -= 3; //subtract 3 votes from the person that was being voted.
-							player.votes += 3; //Add 3 votes to the new person
-						} else if (players[prev]) {
+						} else {
 							players[prev].votes--; //subtract a vote from the person that was being voted.
 							player.votes++; //Add a vote to the new person
 						}
@@ -2055,9 +2050,7 @@ function Player(socket, name, ip) {
 							sendPublicMessage(Type.VOTE, this.name, ' has voted for ', player.name);
 						}
 						this.votingFor = player.s.id;
-						if (this.mayor) {
-							player.votes += 3;
-						} ekse if (this.gardenia) {
+						if (this.mayor || this.gardenia) {
 							player.votes += 3;
 						} else {
 							player.votes++;
