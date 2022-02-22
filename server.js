@@ -745,6 +745,9 @@ io.on('connection', function (socket, req) {
 	addSocketListener(Type.GUARDIAN_ANGEL, function (name) {
 		sendPublicMessage(Type.GUARDIAN_ANGEL, name);
 	});
+	addSocketListener(Type.CARNATION, function (name) {
+		sendPublicMessage(Type.CARNATION, name);
+	});
 
 	addSocketListener(Type.REMOVE_EMOJI, function (emojiId) {
 		sendPublicMessage(Type.REMOVE_EMOJI, emojiId);
@@ -819,6 +822,9 @@ io.on('connection', function (socket, req) {
 					break;
 				case 'GUARDIAN_ANGEL':
 					modmessage = name + ' was watched by their Guardian Angel.';
+					break;
+				case 'CARNATION':
+					modmessage = name + ' was purified by a Carnation.';
 					break;
 				case 'SAVED_BY_GA':
 					modmessage = name + ' was attacked but their Guardian Angel saved them.';
