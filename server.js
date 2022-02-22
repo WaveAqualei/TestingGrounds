@@ -641,6 +641,7 @@ io.on('connection', function (socket, req) {
 					send.alive = players[socket.id].alive;
 					send.blackmailer = players[socket.id].hearwhispers;
 					send.mayor = players[socket.id].mayor !== undefined;
+					send.gardenia = players[socket.id].gardenia !== undefined;
 					send.role = players[socket.id].role;
 
 					players[mod].s.sendMessage(Type.ROLEUPDATE, send);
@@ -1174,6 +1175,22 @@ io.on('connection', function (socket, req) {
 								addLogMessage(Type.SYSTEM, player.name+' is no longer the Mayor.');
 								if (!players[socket.id].silenced) {
 									player.s.sendMessage(Type.SYSTEM, 'You are no longer the Mayor.');
+								}
+							}
+							break;
+							break;
+						case 'gardenia':
+							if (player.gardenia === undefined) {
+								player.gardenia = false; //False, meaning not revealed.
+								addLogMessage(Type.SYSTEM, player.name+' is now the gardenia.');
+								if (!players[socket.id].silenced) {
+									player.s.sendMessage(Type.SYSTEM, 'You are now the Gardenia. Use /unveil to reveal yourself and get 3 votes.');
+								}
+							} else {
+								player.gardenia = undefined; //Undefined, meaning not gardenia.
+								addLogMessage(Type.SYSTEM, player.name+' is no longer the Gardenia.');
+								if (!players[socket.id].silenced) {
+									player.s.sendMessage(Type.SYSTEM, 'You are no longer the Gardenia.');
 								}
 							}
 							break;
@@ -1821,6 +1838,7 @@ function sendPlayerInfo() {
 		send.alive = players[j].alive;
 		send.blackmailer = players[j].hearwhispers;
 		send.mayor = players[j].mayor !== undefined;
+		send.gardenia = players[j].gardenia !== undefined;
 		send.jailor = players[j].jailor !== undefined;
 		send.role = players[j].role;
 
@@ -1849,6 +1867,7 @@ function Player(socket, name, ip) {
 		canSeance: false,
 		votelock: false,
 		mayor: undefined,
+		gardenia: undefined,
 		jailorcom: false,
 		spectate: false,
 		afk: undefined,
@@ -1950,6 +1969,13 @@ function Player(socket, name, ip) {
 					} else {
 						this.verdict = this.mayor ? 3 : 1;
 						sendPublicMessage(Type.VERDICT, name, 0);
+					} else if (this.verdict == -1) {
+						//Guilty, change
+						this.verdict = this.gardenia ? 3 : 1;
+						sendPublicMessage(Type.VERDICT, name, 1);
+					} else {
+						this.verdict = this.gardenia ? 3 : 1;
+						sendPublicMessage(Type.VERDICT, name, 0);
 					}
 				} else if (verdict === false) {
 					//Guilty
@@ -1963,6 +1989,13 @@ function Player(socket, name, ip) {
 						sendPublicMessage(Type.VERDICT, name, 1);
 					} else {
 						this.verdict = this.mayor ? -3 : -1;
+						sendPublicMessage(Type.VERDICT, name, 0);
+					} else if (this.verdict == 1) {
+						//Inno, change
+						this.verdict = this.gardenia ? -3 : -1;
+						sendPublicMessage(Type.VERDICT, name, 1);
+					} else {
+						this.verdict = this.gardenia ? -3 : -1;
 						sendPublicMessage(Type.VERDICT, name, 0);
 					}
 				}
@@ -1999,6 +2032,8 @@ function Player(socket, name, ip) {
 						var prev = player.name;
 						if (this.mayor) {
 							players[this.votingFor].votes -= 3;
+						} if (this.gardenia) {
+							players[this.votingFor].votes -= 3;
 						} else {
 							players[this.votingFor].votes--; //subtract a vote from the person that was being voted.
 						}
@@ -2010,6 +2045,9 @@ function Player(socket, name, ip) {
 						//Previous voter
 						var prev = this.votingFor;
 						if (this.mayor) {
+							players[prev].votes -= 3; //subtract 3 votes from the person that was being voted.
+							player.votes += 3; //Add 3 votes to the new person
+						} if (this.gardenia) {
 							players[prev].votes -= 3; //subtract 3 votes from the person that was being voted.
 							player.votes += 3; //Add 3 votes to the new person
 						} else if (players[prev]) {
@@ -2026,6 +2064,8 @@ function Player(socket, name, ip) {
 						}
 						this.votingFor = player.s.id;
 						if (this.mayor) {
+							player.votes += 3;
+						} if (this.gardenia) {
 							player.votes += 3;
 						} else {
 							player.votes++;
@@ -2694,11 +2734,29 @@ function Player(socket, name, ip) {
 						this.s.sendMessage(Type.SYSTEM, 'You can only reveal as the Mayor during the day.');
 					}
 					break;
+				case 'unveil':
+					if (this.gardenia === undefined) {
+						this.s.sendMessage(Type.SYSTEM, "...but you aren't the Gardenia.");
+					} else if (this.gardenia) {
+						this.s.sendMessage(Type.SYSTEM, 'You have already revealed yourself as the Gardenia.');
+					} else if (!this.alive) {
+						this.s.sendMessage(Type.SYSTEM, 'You must be alive to reveal.');
+					} else if ((phase >= Phase.DAY && phase <= Phase.LASTWORDS) || phase == Phase.FIRSTDAY) {
+						sendPublicMessage(Type.GARDENIA, this.name);
+						this.gardenia = true;
+						if (this.votingFor) {
+							players[this.votingFor].votes += 2;
+							trialCheck(players[this.votingFor]);
+						}
+					} else {
+						this.s.sendMessage(Type.SYSTEM, 'You can only reveal as the Gardenia during the day.');
+					}
+					break;
 				case 'jail':
 					if (mod == this.s.id) {
 						this.s.sendMessage(Type.SYSTEM, 'The mod cannot use this command.');
 					} else if (this.jailorcom === false) {
-						this.s.sendMessage(Type.SYSTEM, 'Only the jailor can detain people.');
+						this.s.sendMessage(Type.SYSTEM, 'Only the Jailor can detain people.');
 					} else if (!this.alive) {
 						this.s.sendMessage(Type.SYSTEM, 'You must be alive to jail.');
 					} else if ((phase >= Phase.DAY && phase <= Phase.LASTWORDS) || phase == Phase.FIRSTDAY) {
