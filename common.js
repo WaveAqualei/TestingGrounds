@@ -58,7 +58,8 @@ var Type = {
 	NOTES: 57,
 	GETNOTES: 58,
 	DISCONNECT: 59,
-	RECONNECT: 60
+	RECONNECT: 60,
+	GARDENIA: 61
 };
 /*
  * 0 = No auto
@@ -450,6 +451,9 @@ addMessageHandler(Type.TARGET,function(name,role,target)
 });
 addMessageHandler(Type.MAYOR, function(name) {
 	return processMessage({msg: '🎩' +name+' has revealed themselves as the Mayor!', styling: 'mayor_reveal'}, "highlight");
+});
+addMessageHandler(Type.GARDENIA, function(name) {
+	return processMessage({msg: '🌼' +name+' has revealed themselves as the Gardenia!', styling: 'gardenia_reveal'}, "highlight");
 });
 addMessageHandler(Type.HUG,function(name,target)
 {
