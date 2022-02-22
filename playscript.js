@@ -277,7 +277,6 @@ function openModList(targ)
 				mayor: 'Mayor',
 				blackmailer: 'Read Whispers',
 				medium: 'Hear Dead',
-				gardenia: 'Gardenia',
 			};
 			var actions = {
 				'Blackmail':function()
