@@ -2738,9 +2738,9 @@ function Player(socket, name, ip) {
 					if (this.gardenia === undefined) {
 						this.s.sendMessage(Type.SYSTEM, "...but you aren't the Gardenia.");
 					} else if (this.gardenia) {
-						this.s.sendMessage(Type.SYSTEM, 'You have already revealed yourself as the Gardenia.');
+						this.s.sendMessage(Type.SYSTEM, 'You have already unveiled yourself as the Gardenia.');
 					} else if (!this.alive) {
-						this.s.sendMessage(Type.SYSTEM, 'You must be alive to reveal.');
+						this.s.sendMessage(Type.SYSTEM, 'You must be alive to unveil.');
 					} else if ((phase >= Phase.DAY && phase <= Phase.LASTWORDS) || phase == Phase.FIRSTDAY) {
 						sendPublicMessage(Type.GARDENIA, this.name);
 						this.gardenia = true;
@@ -2749,7 +2749,7 @@ function Player(socket, name, ip) {
 							trialCheck(players[this.votingFor]);
 						}
 					} else {
-						this.s.sendMessage(Type.SYSTEM, 'You can only reveal as the Gardenia during the day.');
+						this.s.sendMessage(Type.SYSTEM, 'You can only unveil as the Gardenia during the day.');
 					}
 					break;
 				case 'jail':
