@@ -59,7 +59,8 @@ var Type = {
 	GETNOTES: 58,
 	DISCONNECT: 59,
 	RECONNECT: 60,
-	GARDENIA: 61
+	GARDENIA: 61,
+	CARNATION: 62,
 };
 /*
  * 0 = No auto
@@ -469,6 +470,9 @@ addMessageHandler(Type.VERDICT,function(name,val)
 });
 addMessageHandler(Type.GUARDIAN_ANGEL, function(name, yourName) {
 	return processMessage({msg: '👼 The Guardian Angel has protected '+name+'.', styling: 'highlight'}, "highlight");
+});
+addMessageHandler(Type.CARNATION, function(name, yourName) {
+	return processMessage({msg: '🌸 A Carnation has purified '+name+'.', styling: 'highlight'}, "highlight");
 });
 addMessageHandler(Type.JUDGEMENT,function(msg)
 {
