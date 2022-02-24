@@ -28,7 +28,7 @@ header
 	overflow-x:hidden;
 	color:#FFFFFF;
 	font-family: 'SuperRareFont', Whitney, sans-serif;
-	background-color: #364040;
+	background-color: #424549;
 }
 .moonimg
 {
@@ -543,7 +543,7 @@ header ul li span
 	margin:0;
 	margin-left:-2px;
 	overflow:auto;
-	background-color: #3B4545;
+	background-color: #36393e;
 }
 #userlist>li
 {
@@ -592,7 +592,7 @@ header ul li span
 	float:left;
 	height:40%;
 	width:85%;
-	background:#202020;
+	background:#1e2124;
 	color:antiquewhite;
 	font-size:15px;
 	text-shadow:0px 1px 10px black;
