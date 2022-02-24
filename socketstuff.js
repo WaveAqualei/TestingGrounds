@@ -26,6 +26,8 @@ var mnight = new Audio('Chaos.mp3');
 var musicon = 1;
 mpregame.loop = true;
 whoami.loop = true;
+mdaytime.loop = true;
+mnight.loop = true;
 mmodtime.loop = true;
 function clearAllInfo()
 {
@@ -843,7 +845,6 @@ else
 		verdict.append(guilty);
 		verdict.append(inno);
 		$('#main').append(verdict);
-		verdict.animate({'left':'60%'},'fast');
 	}
 
 	//Initially start all songs.
@@ -873,7 +874,7 @@ addSocketListener(Type.SWITCH,function(name1,name2)
 	$('.num')[i2].innerHTML = (i2==0)?'MOD':i2;
 });
 addSocketListener(Type.MAYOR, function(name) {
-	$(`#p-${name}`).append(`<span class="emoji" id="${name}-mayor" style="color:#b0ff39"> Mayor</span>`)
+	$(`#p-${name}`).append(`<span class="emoji" id="${name}-mayor" style="color:#b0ff39">(Mayor)</span>`)
 	$(`#${name}-mayor`).click(() => {
 		if (mod) {
 			$(`#${name}-mayor`).remove();
@@ -882,7 +883,7 @@ addSocketListener(Type.MAYOR, function(name) {
 	});
 });
 addSocketListener(Type.GARDENIA, function(name) {
-	$(`#p-${name}`).append(`<span class="emoji" id="${name}-gardenia" style="color:#228f41"> Gardenia</span>`)
+	$(`#p-${name}`).append(`<span class="emoji" id="${name}-gardenia" style="color:#228f41">(Gardenia)</span>`)
 	$(`#${name}-gardenia`).click(() => {
 		if (mod) {
 			$(`#${name}-gardenia`).remove();
