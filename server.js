@@ -820,6 +820,12 @@ io.on('connection', function (socket, req) {
 				case 'TARGET_ATTACKED':
 					modmessage = name + '\'s target was attacked.';
 					break;
+				case 'INNO':
+					modmessage = name + '\'s target was innocent.';
+					break;
+				case 'SUS':
+					modmessage = name + '\'s target was suspicious.';
+					break;
 			}
 			addLogMessage(Type.SYSTEM, modmessage);
 			players[mod].s.sendMessage(Type.SYSTEM, modmessage);
