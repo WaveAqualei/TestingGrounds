@@ -1011,12 +1011,19 @@ addSocketListener(Type.MASSROLEUPDATE,function(people){
 					$($('.controlbutton.more')[index]).addClass(i+'buttondown');
 				}
 			}
-			if (send.role)
+			if (send.hasOwnProperty('role'))
 			{
 				$($('.role')[index]).val(send.role);
 				$('.role')[index].style.background = 'teal';
 			}
-			if (!send.alive)
+			if (send.alive)
+			{
+				var button = $($('.killbutton, .revivebutton')[index]);
+				button.addClass('killbutton');
+				button.removeClass('revivebutton');
+				button.html('<span>Kill</span>');
+			}
+			else
 			{
 				var button = $($('.killbutton, .revivebutton')[index]);
 				button.addClass('revivebutton');
@@ -1029,6 +1036,13 @@ addSocketListener(Type.MASSROLEUPDATE,function(people){
 				button.addClass('releasebutton');
 				button.removeClass('jailbutton');
 				button.html('<span>Release</span>');
+			}
+			else
+			{
+				var button = $($('.releasebutton')[index]);
+				button.addClass('jailbutton');
+				button.removeClass('releasebutton');
+				button.html('<span>Jail</span>');
 			}
 		}
 	}

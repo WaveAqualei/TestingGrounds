@@ -647,21 +647,7 @@ io.on('connection', function (socket, req) {
 					players[mod].s.sendMessage(Type.ROLEUPDATE, send);
 				}
 				//Resend the list.
-				var namelist = [];
-				//Send the roles of any dead players
-				for (i in playernums) {
-					var p = {};
-					p.name = players[playernums[i]].name;
-					p.spectate = players[playernums[i]].spectate;
-					p.dev = players[playernums[i]].dev;
-					if (!players[playernums[i]].alive) {
-						p.role = players[playernums[i]].role;
-						p.rolecolor = roles.getRoleData(players[playernums[i]].role).color;
-						p.haswill = !!players[playernums[i]].publicwill;
-					}
-					namelist.push(p);
-				}
-				socket.sendMessage(Type.ROOMLIST, namelist);
+				sendRoomlist(socket);
 				//Set the rejoining player's will.
 				socket.sendMessage(Type.GETWILL, undefined, players[socket.id].will);
 				//Set the rejoining player's notes.
@@ -680,21 +666,7 @@ io.on('connection', function (socket, req) {
 						mod = socket.id;
 					}
 					//Send the list of names in the game to the new arrival
-					var namelist = [];
-					//Send the roles of any dead players
-					for (i in playernums) {
-						var p = {};
-						p.name = players[playernums[i]].name;
-						p.spectate = players[playernums[i]].spectate;
-						p.dev = players[playernums[i]].dev;
-						if (!players[playernums[i]].alive) {
-							p.role = players[playernums[i]].role;
-							p.rolecolor = roles.getRoleData(players[playernums[i]].role).color;
-							p.haswill = !!players[playernums[i]].publicwill;
-						}
-						namelist.push(p);
-					}
-					socket.sendMessage(Type.ROOMLIST, namelist);
+					sendRoomlist(socket);
 					socket.sendMessage(Type.ACCEPT);
 					players[socket.id] = Player(socket, connecting_as_name, ip);
 					//Inform everyone of the new arrival.
@@ -1357,19 +1329,7 @@ function setPhase(p) {
 		playernums = notspec.concat(spec);
 
 		//Resend the list.
-		var namelist = playernums.map(function(id) {
-			var p = {};
-			p.name = players[id].name;
-			p.spectate = players[id].spectate;
-			p.dev = players[id].dev;
-			if (!players[id].alive) {
-				p.role = players[id].role;
-				p.rolecolor = roles.getRoleData(players[id].role).color;
-				p.haswill = !!players[id].publicwill;
-			}
-			return p;
-		});
-		sendPublicMessage(Type.ROOMLIST, namelist);
+		sendRoomlist();
 	}
 	if(phase == Phase.ROLES && p > Phase.ROLES) {
 		//Leave a record of what players are in the game
@@ -1402,10 +1362,7 @@ function setPhase(p) {
 	if (p == Phase.PREGAME) {
 		for (i in players) {
 			{
-				players[i].seance = undefined;
-				players[i].doused = false;
-				players[i].blackmailed = false;
-				players[i].chats.linked = false;
+				players[i].clearGameData();
 
 				//Now that the game is over, we can remove all disconnected players
 				if(players[i].s.readyState != ws.OPEN) {
@@ -1417,6 +1374,8 @@ function setPhase(p) {
 				}
 			}
 		}
+		//Inform all players that everyone has been revived
+		sendRoomlist();
 		if(!players[mod]) {
 			//Mod was disconnected, give it to someone else.
 			if (Object.keys(players).length > 0) {
@@ -1424,6 +1383,9 @@ function setPhase(p) {
 				players[mod].s.sendMessage(Type.SETMOD, true);
 				sendPlayerInfo();
 			}
+		} else {
+			//Inform the mod that player data was cleared
+			sendPlayerInfo();
 		}
 		ontrial = undefined;
 		if(gamelog.length) {
@@ -1852,6 +1814,26 @@ function sendPlayerInfo() {
 	}
 	players[mod].s.sendMessage(Type.MASSROLEUPDATE, final);
 }
+//Send some info about players to all players
+function sendRoomlist(to) {
+	var namelist = playernums.map(function(id) {
+		var p = {};
+		p.name = players[id].name;
+		p.spectate = players[id].spectate;
+		p.dev = players[id].dev;
+		if (!players[id].alive) {
+			p.role = players[id].role;
+			p.rolecolor = roles.getRoleData(players[id].role).color;
+			p.haswill = !!players[id].publicwill;
+		}
+		return p;
+	});
+	if(to) {
+		to.sendMessage(Type.ROOMLIST, namelist);
+	} else {
+		sendPublicMessage(Type.ROOMLIST, namelist);
+	}
+}
 //--Player object
 function Player(socket, name, ip) {
 	//Add to the playernames array, allowing this object to be referenced by name.
@@ -1914,6 +1896,39 @@ function Player(socket, name, ip) {
 			this.s.sendMessage(Type.SETROLE, {
 				role: this.role,
 				rolecolor: roles.getRoleData(this.role).color,
+			});
+		},
+		clearGameData: function() {
+			Object.assign(this, {
+				will: '',
+				notes: '',
+				role: '',
+				alive: true,
+				canSeance: false,
+				votelock: false,
+				mayor: undefined,
+				gardenia: undefined,
+				jailorcom: false,
+				seance: undefined,
+				blackmailed: false,
+				doused: false,
+				hearwhispers: false,
+				votingFor: undefined,
+				confirm: false,
+				executing: false,
+				votes: 0,
+				verdict: 0,
+				chats: {
+					dead: false,
+					mafia: false,
+					coven: false,
+					vamp: false,
+					jailor: false,
+					jailed: false,
+					medium: false,
+					linked: false,
+					spectate: false,
+				},
 			});
 		},
 		dc: function () {
