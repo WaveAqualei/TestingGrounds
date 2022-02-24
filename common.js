@@ -61,6 +61,7 @@ var Type = {
 	RECONNECT: 60,
 	GARDENIA: 61,
 	CARNATION: 62,
+	TARGETING_OPTIONS: 63,
 };
 /*
  * 0 = No auto

@@ -637,6 +637,9 @@ header ul li span
 	border:1px solid black;
 	margin:-1px;
 }
+.nightbutton.pressed {
+	background: linear-gradient(#2727A3, #0000FC);
+}
 .rolealignment
 {
 	margin-left:auto;
