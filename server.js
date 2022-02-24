@@ -627,8 +627,6 @@ io.on('connection', function (socket, req) {
 				players[socket.id].visibly_disconnected = false;
 				//Tell the new arrival what phase it is.
 				socket.sendMessage(Type.SETPHASE, phase, true, timer.time);
-				//Inform the new arrival of their targeting options, if any.
-				offerTargetingOptions();
 
 				if (players[mod] && mod != socket.id) {
 					var send = {};
@@ -654,6 +652,9 @@ io.on('connection', function (socket, req) {
 				socket.sendMessage(Type.GETWILL, undefined, players[socket.id].will);
 				//Set the rejoining player's notes.
 				socket.sendMessage(Type.GETNOTES, undefined, players[socket.id].notes);
+				//Inform the new arrival of their targeting options, if any.
+				var legal_targets = getPlayerTargetingOptions(players[socket.id]);
+				socket.sendMessage(Type.TARGETING_OPTIONS, legal_targets);
 
 				//If the mod is reconnecting, send the role data for all players
 				if(mod == socket.id) {
@@ -703,7 +704,8 @@ io.on('connection', function (socket, req) {
 						}
 					}
 					//Inform the new arrival of their targeting options, if any.
-					offerTargetingOptions();
+					var legal_targets = getPlayerTargetingOptions(players[socket.id]);
+					socket.sendMessage(Type.TARGETING_OPTIONS, legal_targets);
 				}
 			} else {
 				socket.sendMessage(Type.DENY, 'Sorry, this name is taken.');
@@ -1637,9 +1639,7 @@ function offerTargetingOptions() {
 		}
 		var player = players[i];
 		var legal_targets = getPlayerTargetingOptions(players[i]);
-		if(legal_targets.length) {
-			player.s.sendMessage(Type.TARGETING_OPTIONS, legal_targets);
-		}
+		player.s.sendMessage(Type.TARGETING_OPTIONS, legal_targets);
 	}
 }
 //--IP functions
@@ -1982,6 +1982,9 @@ function Player(socket, name, ip) {
 				role: this.role,
 				rolecolor: roles.getRoleData(this.role).color,
 			});
+			//Inform the player of their new targeting options
+			var legal_targets = getPlayerTargetingOptions(this);
+			this.s.sendMessage(Type.TARGETING_OPTIONS, legal_targets);
 		},
 		clearGameData: function() {
 			Object.assign(this, {
