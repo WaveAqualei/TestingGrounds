@@ -1732,6 +1732,7 @@ function Timer() {
 					setPhase(Phase.VOTING);
 					break;
 				case Phase.VOTING:
+				case Phase.FIRSTDAY:
 				case Phase.NIGHT:
 					var prevphase = phase;
 					//Change to modtime.
@@ -1768,10 +1769,6 @@ function Timer() {
 				case Phase.LASTWORDS:
 					//Change to firstday.
 					setPhase(Phase.FIRSTDAY);
-					break;
-				case Phase.FIRSTDAY:
-					//Change to modtime.
-					setPhase(Phase.NIGHT);
 					break;
 			}
 		},
