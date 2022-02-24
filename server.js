@@ -1459,7 +1459,7 @@ function setPhase(p) {
 				//Even number, full moon
 				if (players[i] == players[mod]) {
 				} else {
-					players[i].s.sendMessage(Type.PRENOT, 'The light of the full moon has transformed you into a rampaging Werewolf!', { styling: 'dying' });
+					players[i].s.sendMessage(Type.HIGHLIGHT, 'The light of the full moon has transformed you into a rampaging Werewolf!', { styling: 'dying' });
 				}
 			}
 			//Jailed player
