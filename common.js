@@ -446,7 +446,7 @@ addMessageHandler(Type.PRENOT,function(notification)
 		 return processMessage({msg:'You have been linked!',styling:'reviving'},'prenot');
 	  break;
 	  case 'FULLMOON':
-		 return processMessage({msg:'There is a full moon out tonight.',styling:'moon'},'highlight');
+		 return processMessage({msg:'There is a full moon out tonight.',styling:'moon'},'prenot');
 	  break;
    }
 });
