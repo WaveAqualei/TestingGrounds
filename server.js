@@ -1465,7 +1465,7 @@ function setPhase(p) {
 				//Even number, full moon
 				if (players[i] == players[mod]) {
 				} else {
-					players[i].s.sendMessage(Type.HIGHLIGHT, 'The light of the full moon has transformed you into a rampaging Werewolf!', { styling: 'dying' });
+					players[i].s.sendMessage(Type.HIGHLIGHT, 'The light of the full moon has transformed you into a rampaging Werewolf!', 'dying');
 				}
 			}
 			//Jailed player
@@ -1501,7 +1501,7 @@ function setPhase(p) {
 			}
 			//Medium messages.
 			if (players[i].seancing) {
-				players[i].s.sendMessage(Type.SYSTEM, 'You have opened a communication with the living!');
+				players[i].s.sendMessage(Type.HIGHLIGHT, 'You have opened a communication with the living!', 'information');
 				players[i].seance = true;
 				addLogMessage(Type.SYSTEM, players[i].name + ' is now talking to ' + players[i].seancing.name);
 				players[mod].s.sendMessage(Type.SYSTEM, players[i].name + ' is now talking to ' + players[i].seancing.name);
@@ -3793,14 +3793,14 @@ function Player(socket, name, ip) {
 					} //Deadchat
 					else {
 						if (this.seancing) {
-							this.seancing.s.sendMessage(Type.MSG, 'Medium', { msg: msg, styling: 'dead' });
+							this.seancing.s.sendMessage(Type.MSG, 'Medium', { msg: msg, styling: 'medium' });
 							//Echo the message back to the medium.
-							this.s.sendMessage(Type.MSG, 'Medium', { msg: msg, styling: 'dead' });
-							addLogMessage(Type.MSG, 'Medium(' + this.name + ')', { msg: msg, styling: 'dead' });
-							players[mod].s.sendMessage(Type.MSG, 'Medium(' + this.name + ')', { msg: msg, styling: 'dead' });
+							this.s.sendMessage(Type.MSG, 'Medium', { msg: msg, styling: 'medium' });
+							addLogMessage(Type.MSG, 'Medium(' + this.name + ')', { msg: msg, styling: 'medium' });
+							players[mod].s.sendMessage(Type.MSG, 'Medium(' + this.name + ')', { msg: msg, styling: 'medium' });
 							for (i in players) {
 								if (players[i].spectate) {
-									players[i].s.sendMessage(Type.MSG, 'Medium(' + this.name + ')', { msg: msg, styling: 'dead' });
+									players[i].s.sendMessage(Type.MSG, 'Medium(' + this.name + ')', { msg: msg, styling: 'medium' });
 								}
 							}
 						} else {
