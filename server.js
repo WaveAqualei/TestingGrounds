@@ -1569,6 +1569,9 @@ function setPhase(p) {
 	}
 }
 function getPlayerTargetingOptions(player) {
+	if(player.spectate) {
+		return [];
+	}
 	var params = {};
 	switch(phase) {
 	case Phase.FIRSTDAY:
