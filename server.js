@@ -1453,7 +1453,7 @@ function setPhase(p) {
 			//Werewolf transforming
 			var n = gm.getDay();
 			if (n == 2 || n >= 4) {
-				players[i].s.sendMessage(Type.PRENOT, 'There is a full moon out tonight.', { styling: 'fullmoon' });
+				players[i].s.sendMessage(Type.PRENOT, 'FULLMOON');
 			}
 			if ((n == 2 || n >= 4) && players[i].role.toLowerCase() == 'werewolf') {
 				//Even number, full moon
@@ -1720,7 +1720,7 @@ function Timer() {
 			60, //Day		60
 			30, //Voting
 			20, //Trial
-			25, //Verdict
+			22, //Verdict
 			15, //Last words
 			70, //Night		70
 			20, //Day 1		20
