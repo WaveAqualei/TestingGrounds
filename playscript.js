@@ -61,6 +61,12 @@ $(document).ready(function(){
 			socket.sendMessage(Type.SETPHASE,phase);
 		}
 	});
+	$('body').on('keydown',function(e)
+	{
+		if ($(':focus-within:read-write').length == 0) {
+			$('#c').focus();
+		}
+	});
 });
 //Check if the window is infocus
 var isActive = true;
@@ -277,7 +283,6 @@ function openModList(targ)
 				mayor: 'Mayor',
 				blackmailer: 'Read Whispers',
 				medium: 'Hear Dead',
-				gardenia: 'Gardenia',
 			};
 			var actions = {
 				'Blackmail':function()
