@@ -363,6 +363,16 @@ function openModList(targ)
 				   var name = $(this.parentNode).attr('name');
 				   socket.sendMessage(Type.PRENOT,name,'TRANSPORT');
 				},
+				'Innocent':function()
+				{
+				   var name = $(this.parentNode).attr('name');
+				   socket.sendMessage(Type.PRENOT,name,'INNO');
+				},
+				'Suspicious':function()
+				{
+				   var name = $(this.parentNode).attr('name');
+				   socket.sendMessage(Type.PRENOT,name,'SUS');
+				},
 				'Attacked(Healed)':function()
 				{
 				   var name = $(this.parentNode).attr('name');
@@ -898,7 +908,7 @@ function chooseAutoButton(info, label)
 function addModControls()
 {
 	//Add numbering interface
-	var spn = $('<input type="number" min="1" max="99" value="'+daynumber+'"/>');
+	var spn = $('<input type="number" min="1" max="999" value="'+daynumber+'"/>');
 	spn.change(function(){
 		socket.sendMessage(Type.SETDAYNUMBER,$(this).val());
 	});
