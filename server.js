@@ -1453,13 +1453,13 @@ function setPhase(p) {
 			//Werewolf transforming
 			var n = gm.getDay();
 			if (n == 2 || n >= 4) {
-				players[i].s.sendMessage(Type.SYSTEM, 'There is a full moon out tonight.', { styling: 'fullmoon' });
+				players[i].s.sendMessage(Type.PRENOT, 'There is a full moon out tonight.', { styling: 'fullmoon' });
 			}
 			if ((n == 2 || n >= 4) && players[i].role.toLowerCase() == 'werewolf') {
 				//Even number, full moon
 				if (players[i] == players[mod]) {
 				} else {
-					players[i].s.sendMessage(Type.SYSTEM, 'The light of the full moon has transformed you into a rampaging Werewolf!', { styling: 'dying' });
+					players[i].s.sendMessage(Type.PRENOT, 'The light of the full moon has transformed you into a rampaging Werewolf!', { styling: 'dying' });
 				}
 			}
 			//Jailed player
@@ -3128,7 +3128,7 @@ function Player(socket, name, ip) {
 							var p = getPlayerByName(this.name);
 							p.setRole('Spectator');
 						} else {
-							this.s.sendMessage(Type.SYSTEM, 'You can only become a spectator in pregame.');
+							this.s.sendMessage(Type.SYSTEM, 'You can only become a Spectator in pregame.');
 						}
 					} else if (this.spectate) {
 						if (phase == Phase.PREGAME) {
@@ -3139,7 +3139,7 @@ function Player(socket, name, ip) {
 							var p = getPlayerByName(this.name);
 							p.setRole('NoRole');
 						} else {
-							this.s.sendMessage(Type.SYSTEM, 'You can only leave spectator in pregame.');
+							this.s.sendMessage(Type.SYSTEM, 'You can only leave Spectator in pregame.');
 						}
 					}
 					break;
