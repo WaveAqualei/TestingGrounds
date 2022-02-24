@@ -559,7 +559,7 @@ addSocketListener(Type.ROOMLIST,function(list)
 			{
 				//Player is dead.
 				var role_safe = sanitize(list[i].role);
-				$('#userlist').append(`<li class="deadplayer"><div class="info" id="p-${list[i].name}"><span class="num">${num}</span><span class="name">${list[i].name}</span></div><div><span style="color: ${list[i].rolecolor}">${role_safe}</span></div></li>`);
+				$('#userlist').append(`<li class="deadplayer"><div class="info" id="p-${list[i].name}"><span class="num">${num}</span><span class="name">${list[i].name}</span></div><div class="roledisplay"><span style="color: ${list[i].rolecolor}">${role_safe}</span></div></li>`);
 				if(list[i].haswill) {
 					$(`#p-${list[i].name}`).append(`<span class="emoji" id="${list[i].name}-will">📜</span>`);
 					$(`#${list[i].name}-will`).click((e) => {
