@@ -1640,6 +1640,11 @@ neut
 {
 	background:#BDBDBD;
 }
+.hauled
+{
+	background:#db0d0d;
+	color:yellow;
+}
 .entangled
 {
 	color:green;
@@ -1654,10 +1659,15 @@ neut
 {
 	background:#ba99ba;
 }
+.captured
+{
+	background:#db0d0d;
+	color:forestgreen;
+}
 .moon
 {
-	background:#249AC7;
-	color:#ADD8E6;
+	background:#34adc6;
+	color:white;
 }
 .mod
 {
@@ -1667,11 +1677,6 @@ neut
 {
 	background:#db0d0d;
 	color:white;
-}
-.hauled
-{
-	background:#db0d0d;
-	color:yellow;
 }
 .fullmoon
 {
