@@ -400,6 +400,12 @@ addMessageHandler(Type.PRENOT,function(notification)
 	  case 'MEDUSA_STONE':
 		return processMessage({msg: "You turned someone to stone.", styling: 'dying'}, 'prenot');
 		break;
+	  case 'INNO':
+		return processMessage({msg: "You could not find evidence of wrongdoing. Your target seems innocent.", styling: 'dying'}, 'prenot');
+		break;
+	  case 'SUS':
+		return processMessage({msg: "Your target is suspicious!", styling: 'dying'}, 'prenot');
+		break;
 	  case 'DEAD':
 		 return processMessage({msg:'You have died!',styling:'dying'},'prenot');
 	  break;
