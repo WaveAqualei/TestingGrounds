@@ -2928,35 +2928,40 @@ function Player(socket, name, ip) {
 							}
 						} else {
 							//Check if the targetting is valid
-							var vt = gm.validTarget(args, this.role.toLowerCase(), players, playernames, playernums, this, phase);
-							if (vt == 'notfound' || vt == 'ok' || free) {
-								for (i in args) {
-									if (args[i] != '') {
-										if (isNaN(args[i])) {
-											var p = getPlayerByName(args[i]);
-										} else {
-											var p = getPlayerByNumber(parseInt(args[i]));
-										}
-										if (p && p != -1) {
-											if (p.s.id != mod) {
-												targets.push(p.name);
-											} else {
-												this.s.sendMessage(Type.SYSTEM, 'You cannot target the mod.');
-												error = true;
-												break;
-											}
-										} else {
-											this.s.sendMessage(Type.SYSTEM, 'Invalid player: ' + sanitize(args[i]));
-											error = true;
-											break;
-										}
+							targets = args.map(function(arg,i) {
+								if (isNaN(arg)) {
+									var p = getPlayerByName(arg);
+								} else {
+									var p = getPlayerByNumber(parseInt(arg));
+								}
+								if(!p) {
+									error = true;
+									this.s.sendMessage(Type.SYSTEM, 'Invalid player: ' + sanitize(arg));
+									return null;
+								} else if(free) {
+									//Don't check validity
+								} else if(i >= legal_targets.length) {
+									error = true;
+									if(i == legal_targets.length) {
+										this.s.sendMessage(Type.SYSTEM, 'You can only target '+legal_targets.length+' player'+(i==1?'':'s')+'.');
+									}
+								} else if(legal_targets.every(targets=>!targets.includes(p.name))) {
+									error = true;
+									if(p === this) {
+										this.s.sendMessage(Type.SYSTEM, 'You can\'t target yourself.');
+									} else {
+										this.s.sendMessage(Type.SYSTEM, 'You can\'t target '+p.name+'.');
+									}
+								} else if(!legal_targets[i].includes(p.name)) {
+									error = true;
+									if(p === this) {
+										this.s.sendMessage(Type.SYSTEM, 'You can\'t choose yourself as target '+(i+1)+'.');
+									} else {
+										this.s.sendMessage(Type.SYSTEM, 'You can\'t choose '+p.name+' as target '+(i+1)+'.');
 									}
 								}
-							} else {
-								error = true;
-								var message = vt;
-								this.s.sendMessage(Type.SYSTEM, message);
-							}
+								return p.name;
+							}.bind(this));
 						}
 						if (!error) {
 							this.target(targets);
