@@ -834,7 +834,7 @@ else
 			mnight.play();
 
 });
-addSocketListener(Type.TARGETING_OPTIONS,function(legal_targets) {
+addSocketListener(Type.TARGETING_OPTIONS,function(legal_targets,current_targets) {
 	$('.nightinterface').remove();
 	if(mod) {
 		// The mod cannot target
@@ -858,6 +858,10 @@ addSocketListener(Type.TARGETING_OPTIONS,function(legal_targets) {
 				var button = $('<div class="nightbutton">TARGET</div>');
 				button.data('target-name', name);
 				button.data('target-num', n);
+				if(current_targets && current_targets[n] == name) {
+					targets_chosen[n] = name;
+					button.addClass('pressed');
+				}
 				button.click(function()
 				{
 					var n = $(this).data('target-num');

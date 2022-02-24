@@ -653,8 +653,7 @@ io.on('connection', function (socket, req) {
 				//Set the rejoining player's notes.
 				socket.sendMessage(Type.GETNOTES, undefined, players[socket.id].notes);
 				//Inform the new arrival of their targeting options, if any.
-				var legal_targets = getPlayerTargetingOptions(players[socket.id]);
-				socket.sendMessage(Type.TARGETING_OPTIONS, legal_targets);
+				sendPlayerTargetingOptions(players[socket.id]);
 
 				//If the mod is reconnecting, send the role data for all players
 				if(mod == socket.id) {
@@ -704,8 +703,7 @@ io.on('connection', function (socket, req) {
 						}
 					}
 					//Inform the new arrival of their targeting options, if any.
-					var legal_targets = getPlayerTargetingOptions(players[socket.id]);
-					socket.sendMessage(Type.TARGETING_OPTIONS, legal_targets);
+					sendPlayerTargetingOptions(players[socket.id]);
 				}
 			} else {
 				socket.sendMessage(Type.DENY, 'Sorry, this name is taken.');
@@ -1635,14 +1633,20 @@ function getPlayerTargetingOptions(player) {
 		});
 	});
 }
+function sendPlayerTargetingOptions(p) {
+	if(p.s.id == mod) {
+		return;
+	}
+	var legal_targets = getPlayerTargetingOptions(p);
+	var actions = gm.getActions(p.name)?.map(function(target,i) {
+		if(legal_targets[i].includes(target)) return target;
+		else return '';
+	});
+	p.s.sendMessage(Type.TARGETING_OPTIONS, legal_targets, actions);
+}
 function offerTargetingOptions() {
 	for(i in players) {
-		if(i == mod) {
-			continue;
-		}
-		var player = players[i];
-		var legal_targets = getPlayerTargetingOptions(players[i]);
-		player.s.sendMessage(Type.TARGETING_OPTIONS, legal_targets);
+		sendPlayerTargetingOptions(players[i]);
 	}
 }
 //--IP functions
@@ -1986,8 +1990,7 @@ function Player(socket, name, ip) {
 				rolecolor: roles.getRoleData(this.role).color,
 			});
 			//Inform the player of their new targeting options
-			var legal_targets = getPlayerTargetingOptions(this);
-			this.s.sendMessage(Type.TARGETING_OPTIONS, legal_targets);
+			sendPlayerTargetingOptions(this);
 		},
 		clearGameData: function() {
 			Object.assign(this, {
