@@ -836,6 +836,10 @@ else
 });
 addSocketListener(Type.TARGETING_OPTIONS,function(legal_targets) {
 	$('.nightinterface').remove();
+	if(mod) {
+		// The mod cannot target
+		return;
+	}
 	if(!legal_targets.length || !legal_targets[0].length) {
 		// No legal targets
 		return;
