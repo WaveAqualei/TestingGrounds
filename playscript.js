@@ -61,7 +61,7 @@ $(document).ready(function(){
 			socket.sendMessage(Type.SETPHASE,phase);
 		}
 	});
-	$('body').on('keydown',function(e)
+	$('body').on('keypress',function(e)
 	{
 		if ($(':focus-within:read-write').length == 0) {
 			$('#c').focus();
