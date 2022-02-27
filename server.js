@@ -1421,7 +1421,7 @@ function setPhase(p) {
 		}
 		for (i in players) {
 			if (players[i].chats.mafia && !players[i].spectate) {
-				players[i].s.sendMessage(Type.SYSTEM, mafmembers);
+				players[i].s.sendMessage(Type.HIGHLIGHT, mafmembers, 'information');
 			}
 		}
 		var covmembers;
@@ -1433,7 +1433,7 @@ function setPhase(p) {
 		}
 		for (i in players) {
 			if (players[i].chats.coven && !players[i].spectate) {
-				players[i].s.sendMessage(Type.SYSTEM, covmembers);
+				players[i].s.sendMessage(Type.HIGHLIGHT, covmembers, 'information');
 			}
 		}
 		var vampmembers;
@@ -1445,7 +1445,7 @@ function setPhase(p) {
 		}
 		for (i in players) {
 			if (players[i].chats.vamp && !players[i].spectate) {
-				players[i].s.sendMessage(Type.SYSTEM, vampmembers);
+				players[i].s.sendMessage(Type.HIGHLIGHT, vampmembers, 'information');
 			}
 		}
 		//Reset cleaning.
@@ -1483,13 +1483,13 @@ function setPhase(p) {
 						players[j].executing = false;
 					}
 					if ((players[j].chats.mafia && !players[j].chats.jailed && players[i].chats.mafia) || players[j].spectate) {
-						players[j].s.sendMessage(Type.SYSTEM, players[i].name + ' was hauled off to jail.');
+						players[j].s.sendMessage(Type.HIGHLIGHT, players[i].name + ' was hauled off to jail.', 'information');
 					}
 					if ((players[j].chats.coven && !players[j].chats.jailed && players[i].chats.coven) || players[j].spectate) {
-						players[j].s.sendMessage(Type.SYSTEM, players[i].name + ' was hauled off to jail.');
+						players[j].s.sendMessage(Type.HIGHLIGHT, players[i].name + ' was hauled off to jail.', 'information');
 					}
 					if ((players[j].chats.vamp && !players[j].chats.jailed && players[i].chats.vamp) || players[j].spectate) {
-						players[j].s.sendMessage(Type.SYSTEM, players[i].name + ' was hauled off to jail.');
+						players[j].s.sendMessage(Type.HIGHLIGHT, players[i].name + ' was hauled off to jail.', 'information');
 					}
 				}
 			}
@@ -1524,7 +1524,7 @@ function setPhase(p) {
 	}
 	if (p == Phase.FIRSTDAY) {
 		var mafmembers;
-		mafmembers = 'Your partners in crime are:';
+		mafmembers = 'Your fellow Mafia members are:';
 		for (i in players) {
 			if (players[i].chats.mafia && !players[i].spectate) {
 				mafmembers = mafmembers + ' ' + players[i].name + ' (' + sanitize(players[i].role) + ')';
@@ -1532,11 +1532,11 @@ function setPhase(p) {
 		}
 		for (i in players) {
 			if (players[i].chats.mafia && !players[i].spectate) {
-				players[i].s.sendMessage(Type.SYSTEM, mafmembers);
+				players[i].s.sendMessage(Type.HIGHLIGHT, mafmembers, 'information');
 			}
 		}
 		var covmembers;
-		covmembers = 'Your partners in witchery are:';
+		covmembers = 'Your fellow Coven members are:';
 		for (i in players) {
 			if (players[i].chats.coven && !players[i].spectate) {
 				covmembers = covmembers + ' ' + players[i].name + '(' + sanitize(players[i].role) + ')';
@@ -1544,7 +1544,7 @@ function setPhase(p) {
 		}
 		for (i in players) {
 			if (players[i].chats.coven && !players[i].spectate) {
-				players[i].s.sendMessage(Type.SYSTEM, covmembers);
+				players[i].s.sendMessage(Type.HIGHLIGHT, covmembers, 'information');
 			}
 		}
 		var vampmembers;
@@ -1556,7 +1556,7 @@ function setPhase(p) {
 		}
 		for (i in players) {
 			if (players[i].chats.vamp && !players[i].spectate) {
-				players[i].s.sendMessage(Type.SYSTEM, vampmembers);
+				players[i].s.sendMessage(Type.HIGHLIGHT, vampmembers, 'information');
 			}
 		}
 	}
@@ -1983,9 +1983,9 @@ function Player(socket, name, ip) {
 			} else if (roles.hasRolecard(role)) {
 				var rolecard = roles.getRoleCard(role, {});
 				this.s.sendMessage(Type.ROLECARD, rolecard);
-				this.s.sendMessage(Type.SYSTEM, 'Your role is ' + sanitize(role));
+				this.s.sendMessage(Type.HIGHLIGHT, 'Your role is ' + sanitize(role), 'information');
 			} else {
-				this.s.sendMessage(Type.SYSTEM, 'Your role is ' + sanitize(role));
+				this.s.sendMessage(Type.HIGHLIGHT, 'Your role is ' + sanitize(role), 'information');
 			}
 			addLogMessage(Type.SYSTEM, this.name+'&#39;s role is now ' + sanitize(role));
 			this.s.sendMessage(Type.SETROLE, {
@@ -2298,7 +2298,7 @@ function Player(socket, name, ip) {
 											this.s.sendMessage(Type.SYSTEM, sanitize(c[1]) + ' is not a valid player.');
 										}
 									} else {
-										this.s.sendMessage(Type.SYSTEM, 'You have 0 seances left.');
+										this.s.sendMessage(Type.HIGHLIGT, 'You have 0 seances left.', 'information');
 									}
 								} else {
 									this.s.sendMessage(Type.SYSTEM, 'You can only use this command during the day.');
@@ -2307,10 +2307,10 @@ function Player(socket, name, ip) {
 								this.s.sendMessage(Type.SYSTEM, 'You need to be dead to seance.');
 							}
 						} else {
-							this.s.sendMessage(Type.SYSTEM, 'You have 0 seances left.');
+							this.s.sendMessage(Type.HIGHLIGT, 'You have 0 seances left.', 'information');
 						}
 					} else {
-						this.s.sendMessage(Type.SYSTEM, 'Only a medium can seance.');
+						this.s.sendMessage(Type.SYSTEM, 'Only a Medium can seance.');
 					}
 					break;
 				case 'clean':
@@ -3532,7 +3532,7 @@ function Player(socket, name, ip) {
 								msg.splice(0, 2);
 								msg = msg.join(' ');
 								msg = sanitize(msg);
-								players[playernames[c[1]]].s.sendMessage(Type.SYSTEM, msg);
+								players[playernames[c[1]]].s.sendMessage(Type.HIGHLIGHT, msg, 'information');
 								this.s.sendMessage(Type.SYSSENT, c[1], msg);
 							} else if (!isNaN(c[1])) {
 								//It's a number.
@@ -3544,7 +3544,7 @@ function Player(socket, name, ip) {
 									msg.splice(0, 2);
 									msg = msg.join(' ');
 									msg = sanitize(msg);
-									target.s.sendMessage(Type.SYSTEM, msg);
+									target.s.sendMessage(Type.HIGHLIGHT, msg, 'information');
 									this.s.sendMessage(Type.SYSSENT, c[1], msg);
 								} else {
 									this.s.sendMessage(Type.SYSTEM, 'Could not find player number ' + sanitize(c[1]) + '!');
