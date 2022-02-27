@@ -26,8 +26,6 @@ var attributes = {
 	 IMMUNE:'Cannot die to KILL.',
 	 BLACKMAIL:'Blackmail the target.',
 	 CONSIG:'View the target\'s role.',
-	 DISGUISE:'Disguise as the target, if they die.',
-	 SWAPWILL:'Swap wills with the target, if they die.',
 	 CLEAN:'Clean the target, if they die.',
 	 REMEMBER:'Take the role of the target, if they are dead. Announce to the town.',
 	 DOUSE:'Douse the target.',
@@ -228,8 +226,6 @@ var autoRoles =
 	},
 	'disguiser': {
 		attributes:  {
-			DISGUISE:attributes.DISGUISE,
-			SWAPWILL:attributes.SWAPWILL
 			},
 		grouping: 'L',
 		intgrouping: 'E',
@@ -1676,38 +1672,6 @@ module.exports = {
 									    }
 									    else if (daynumber % 2 == 1 && fromphase == 8 /*Night*/) {
 									        addSuggestedMessage('Your night action was disregarded because you can only attack on Full Moon.', num);
-									    }
-									}
-									else if (roleAttributes.DISGUISE) {
-									    var t = targets[num][1];
-									    var role = getRole(targets[t[0]]);
-									    var target = players[playernames[t[0]]];
-									    if (autoRoles[role].attributes.IMMUNE) {
-									        /*var mld = false;        //If mauled by a werewolf disguise nevertheless
-											for (v in visitors)
-											{
-												var r = getRole(targets[visitors[v]]);
-												if (autoRoles[r])
-												{
-													var att = autoRoles[r].attributes;
-													if (att.MAUL)
-													{
-														mld = true;
-													}
-												}
-											}
-											if (mld)
-											{
-												if (isDying(t[0],targets) )
-												{
-													addSuggestedAction('Disguise',num+'/'+t[0]);
-												}
-											}*/
-									    }
-									    else {
-									        if (isDying(t[0], targets)) {
-									            addSuggestedAction('Disguise', num + '/' + t[0]);
-									        }
 									    }
 									}
 								}

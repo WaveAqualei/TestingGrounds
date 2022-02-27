@@ -827,28 +827,6 @@ function chooseAutoButton(info, label)
 				$(input[index]).val(arr[1]);
 			}
 		break;
-		case '<Disguise>':
-			func = function(){
-				var arr = info[1].split('/');
-				socket.sendMessage(Type.MSG,'/disguise '+ arr[0] +' '+ arr[1]);
-				//Swap all messages in the table.
-				var container = $('.automodcontainer');
-				container = container[container.length-1];
-				//Loop for all names
-				var names = $(container).find('.playername');
-				for ( i in names)
-				{
-					if ($(names[i]).html() == arr[0])
-					{
-						$(names[i]).html(arr[1]);
-					}
-					else if ($(names[i]).html() == arr[1])
-					{
-						$(names[i]).html(arr[0]);
-					}
-				}
-			}
-		break;
 		case '<Blackmail>':
 			func = function(){
 				var tr = $(this).parent().parent();
@@ -908,7 +886,7 @@ function chooseAutoButton(info, label)
 function addModControls()
 {
 	//Add numbering interface
-	var spn = $('<input type="number" min="1" max="999" value="'+daynumber+'"/>');
+	var spn = $('<input type="number" min="1" max="99" value="'+daynumber+'"/>');
 	spn.change(function(){
 		socket.sendMessage(Type.SETDAYNUMBER,$(this).val());
 	});

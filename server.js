@@ -40,7 +40,6 @@ var commandList = {
 		givemod: 'Pass the mod onto another person. Usage: /givemod name',
 		a: 'Send a public message to everyone (outside of Pregame). Usage: /a message',
 		d: 'Send a public death message to everyone (outside of Pregame). Example: /d WW - Usage: /d message',
-		disguise: 'Disguise one player as another. Usage: /disguise playerone playertwo',
 		random: 'Choose a random player. Usage: /random',
 		roll: 'Roll a dice. Usage /roll or /roll sides',
 		msg: 'Send a message to a player. <span class="mod">From</span> <b>Mod:</b> <span class="mod">This looks like this</span>. Usage: /msg name message',
@@ -2344,53 +2343,6 @@ function Player(socket, name, ip) {
 						}
 					} else {
 						this.s.sendMessage(Type.SYSTEM, 'Only the mod can use that command.');
-					}
-					break;
-				case 'disguise':
-					if (mod == this.s.id) {
-						if (c.length == 3) {
-							//Disguiser
-							var first = undefined;
-							if (isNaN(c[1])) {
-								first = getPlayerByName(c[1]);
-							} else {
-								first = getPlayerByNumber(c[1]);
-							}
-							//Target
-							var second = undefined;
-							if (isNaN(c[2])) {
-								second = getPlayerByName(c[2]);
-							} else {
-								second = getPlayerByNumber(c[2]);
-							}
-							if (first && second && first != -1 && second != -1) {
-								addLogMessage(Type.SYSTEM, first.name + ' disguised as ' + second.name + '.');
-								socket.sendMessage(Type.SYSTEM, first.name + ' disguised as ' + second.name + '.');
-								first.s.sendMessage(Type.HIGHLIGHT, 'You successfully disguised!');
-								second.s.sendMessage(Type.HIGHLIGHT, 'A disguiser stole your identity!');
-								//Swap names in the playernames
-								var temp = playernames[first.name];
-								playernames[first.name] = second.s.id;
-								playernames[second.name] = temp;
-								//Swap names
-								var temp = first.name;
-								first.name = second.name;
-								second.name = temp;
-								//Swap numbers
-								var one = playernums.indexOf(first.s.id);
-								var two = playernums.indexOf(second.s.id);
-								var temp = playernums[one];
-								playernums[one] = playernums[two];
-								playernums[two] = temp;
-								sendPlayerInfo();
-							} else {
-								this.s.sendMessage(Type.SYSTEM, 'Invalid players!');
-							}
-						} else {
-							this.s.sendMessage(Type.SYSTEM, 'The syntax of this command is /disguise disguiser target');
-						}
-					} else {
-						this.s.sendMessage(Type.SYSTEM, 'You need to be the mod to use this command.');
 					}
 					break;
 				case 'givemod':

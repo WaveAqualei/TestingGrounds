@@ -1199,7 +1199,7 @@ addSocketListener(Type.SUGGESTIONS,function(results){
 			}
 			else
 			{
-				//If it's not special, add it as a normal name, selectable for the disguise namechange
+				//If it's not special, add it as a normal name
 				to = '<span class="playername">'+to+'</span>';
 			}
 			data.push(to); //Name
