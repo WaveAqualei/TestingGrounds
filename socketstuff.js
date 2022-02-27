@@ -788,12 +788,12 @@ else
 			addPauseButton(phase);
 		}
 	}
-	if (phase == 4 && !mod) //Voting
+	if (phase == 4 && !mod && !$(`#p-${player_name}`).closest('li').is('.deadplayer, .spectator')) //Voting
 	{
 		//Add the voting interface
 		for (i = 1; i < users.length; i++)
 		{
-			if (!$($('#userlist li')[i]).hasClass('deadplayer') && !$($('#userlist li')[i]).find('.name.spec').length && !$($('#userlist li')[i]).find('.angel').length)
+			if (!$($('#userlist li')[i]).is('.deadplayer, .spectator') && !$($('#userlist li')[i]).find('.angel').length && users[i] !== player_name)
 			{
 				var li = $('#userlist').children()[i];
 				var button = $('<div class="votebutton">Vote</div>');
@@ -811,7 +811,7 @@ else
 			}
 		}
 	}
-	if (phase == 6 && !mod) //Verdicts, guilty/inno/abstain
+	if (phase == 6 && !mod && !$(`#p-${player_name}`).closest('li').is('.deadplayer, .spectator')) //Verdicts, guilty/inno/abstain
 	{
 		//Add verdict interface
 		var verdict = $('<div class="verdictinterface"></div>');
