@@ -630,7 +630,7 @@ addSocketListener(Type.TOGGLELIVING,function(p)
 		var index = users.indexOf(p.name);
 		var li = $($('#userlist').children()[index]);
 		index = index==0?'MOD':index;
-		if (p.role)
+		if (p.hasOwnProperty('role'))
 		{
 			var role_safe = sanitize(p.role);
 			li.addClass('deadplayer');
