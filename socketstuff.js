@@ -789,7 +789,7 @@ else
 			if (!$($('#userlist li')[i]).hasClass('deadplayer') && !$($('#userlist li')[i]).find('.name.spec').length && !$($('#userlist li')[i]).find('.angel').length)
 			{
 				var li = $('#userlist').children()[i];
-				var button = $('<div class="votebutton">VOTE</div>');
+				var button = $('<div class="votebutton">Vote</div>');
 				button.click(function()
 				{
 					var index = $('#userlist li').index(this.parentNode.parentNode.parentNode);
@@ -808,12 +808,12 @@ else
 	{
 		//Add verdict interface
 		var verdict = $('<div class="verdictinterface"></div>');
-		var guilty = $('<div class="verdictbutton guiltybutton">Guilty</div>');
+		var guilty = $('<div class="verdictbutton guiltybutton"></div>');
 		guilty.click(function()
 		{
 			socket.sendMessage(Type.VERDICT,false); //false for guilty
 		});
-		var inno = $('<div class="verdictbutton innobutton">Innocent</div>');
+		var inno = $('<div class="verdictbutton innobutton"></div>');
 		inno.click(function()
 		{
 			socket.sendMessage(Type.VERDICT,true); //true for inno
@@ -855,7 +855,7 @@ addSocketListener(Type.TARGETING_OPTIONS,function(legal_targets,current_targets)
 			var player_el = $(`#p-${name}`);
 			var nightinterface = $('<div class="nightinterface"></div>');
 			if(targetlist.includes(users[i])) {
-				var button = $('<div class="nightbutton">TARGET</div>');
+				var button = $('<div class="nightbutton">Target</div>');
 				button.data('target-name', name);
 				button.data('target-num', n);
 				if(current_targets && current_targets[n] == name) {
@@ -964,7 +964,7 @@ addSocketListener(Type.GUARDIAN_ANGEL, function(name, yourName) {
 });
 addSocketListener(Type.CARNATION, function(name, yourName) {
 	if ($(`#${name}-carnation`).length) return;
-	$(`#p-${name}`).append(`<span class="emoji carnation" id="${name}-carnation" style="color:#fffafa">🌺</span>`);
+	$(`#p-${name}`).append(`<span class="emoji carnation" id="${name}-carnation" style="color:#ff9494">🌺</span>`);
 	$(`#${name}-carnation`).click(() => {
 		if (mod) {
 			$(`#${name}-carnation`).remove();
