@@ -1358,6 +1358,7 @@ function setPhase(p) {
 			gamelog.push(html);
 		}
 	}
+	var oldphase = phase;
 	phase = p;
 	timer.setPhase(p);
 	sendPublicMessage(Type.SETPHASE, phase, false, timer.time);
@@ -1411,42 +1412,6 @@ function setPhase(p) {
 		}
 	}
 	if (p == Phase.NIGHT) {
-		var mafmembers;
-		mafmembers = 'Your fellow Mafia members are:';
-		for (i in players) {
-			if (players[i].chats.mafia && !players[i].spectate) {
-				mafmembers = mafmembers + ' ' + players[i].name + ' (' + sanitize(players[i].role) + ')';
-			}
-		}
-		for (i in players) {
-			if (players[i].chats.mafia && !players[i].spectate) {
-				players[i].s.sendMessage(Type.HIGHLIGHT, mafmembers, 'information');
-			}
-		}
-		var covmembers;
-		covmembers = 'Your fellow Coven members are:';
-		for (i in players) {
-			if (players[i].chats.coven && !players[i].spectate) {
-				covmembers = covmembers + ' ' + players[i].name + '(' + sanitize(players[i].role) + ')';
-			}
-		}
-		for (i in players) {
-			if (players[i].chats.coven && !players[i].spectate) {
-				players[i].s.sendMessage(Type.HIGHLIGHT, covmembers, 'information');
-			}
-		}
-		var vampmembers;
-		vampmembers = 'Your fellow Vampires are:';
-		for (i in players) {
-			if (players[i].chats.vamp && !players[i].spectate) {
-				vampmembers = vampmembers + ' ' + players[i].name + '(' + sanitize(players[i].role) + ')';
-			}
-		}
-		for (i in players) {
-			if (players[i].chats.vamp && !players[i].spectate) {
-				players[i].s.sendMessage(Type.HIGHLIGHT, vampmembers, 'information');
-			}
-		}
 		//Reset cleaning.
 		//Special beginning of night messages.
 		for (i in players) {
@@ -1521,7 +1486,7 @@ function setPhase(p) {
 	if (p == Phase.VOTING) {
 		clearVotes();
 	}
-	if (p == Phase.FIRSTDAY) {
+	if ((p == Phase.FIRSTDAY && oldphase < Phase.TRIAL) || p == Phase.NIGHT) {
 		var informed_factions = {
 			mafia: 'Mafia members',
 			coven: 'Coven members',
