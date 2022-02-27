@@ -330,7 +330,10 @@ addMessageHandler(Type.SYSTEM,function(msg)
 });
 addMessageHandler(Type.SYSSENT,function(to,msg)
 {
-	return processMessage('To '+to+': '+msg,'system');
+	return processMessage({
+		msg: 'To '+to+': '+msg,
+		styling: 'information',
+	},'highlight');
 });
 var phasetext = [
 	'Pregame',
