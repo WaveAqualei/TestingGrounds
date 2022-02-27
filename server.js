@@ -1522,41 +1522,27 @@ function setPhase(p) {
 		clearVotes();
 	}
 	if (p == Phase.FIRSTDAY) {
-		var mafmembers;
-		mafmembers = 'Your fellow Mafia members are:';
-		for (i in players) {
-			if (players[i].chats.mafia && !players[i].spectate) {
-				mafmembers = mafmembers + ' ' + players[i].name + ' (' + sanitize(players[i].role) + ')';
+		var informed_factions = {
+			mafia: 'Mafia members',
+			coven: 'Coven members',
+			vamp: 'Vampires',
+		};
+		for(var chatname in informed_factions) {
+			var members = [];
+			for (i in players) {
+				if (players[i].chats[chatname] && !players[i].spectate) {
+					members.push(players[i].name + ' (' + sanitize(players[i].role) + ')');
+				}
 			}
-		}
-		for (i in players) {
-			if (players[i].chats.mafia && !players[i].spectate) {
-				players[i].s.sendMessage(Type.HIGHLIGHT, mafmembers, 'information');
+			var to_members = 'Your fellow '+informed_factions[chatname]+' are: '+members.join(' ');
+			for (i in players) {
+				if (players[i].chats[chatname] && !players[i].spectate) {
+					players[i].s.sendMessage(Type.HIGHLIGHT, to_members, 'information');
+				}
 			}
-		}
-		var covmembers;
-		covmembers = 'Your fellow Coven members are:';
-		for (i in players) {
-			if (players[i].chats.coven && !players[i].spectate) {
-				covmembers = covmembers + ' ' + players[i].name + '(' + sanitize(players[i].role) + ')';
-			}
-		}
-		for (i in players) {
-			if (players[i].chats.coven && !players[i].spectate) {
-				players[i].s.sendMessage(Type.HIGHLIGHT, covmembers, 'information');
-			}
-		}
-		var vampmembers;
-		vampmembers = 'Your fellow Vampires are:';
-		for (i in players) {
-			if (players[i].chats.vamp && !players[i].spectate) {
-				vampmembers = vampmembers + ' ' + players[i].name + '(' + sanitize(players[i].role) + ')';
-			}
-		}
-		for (i in players) {
-			if (players[i].chats.vamp && !players[i].spectate) {
-				players[i].s.sendMessage(Type.HIGHLIGHT, vampmembers, 'information');
-			}
+			var to_mod = 'The '+informed_factions[chatname]+' are: '+members.join(' ');
+			players[mod].s.sendMessage(Type.HIGHLIGHT, to_mod, 'information');
+			addLogMessage(Type.HIGHLIGHT, to_mod, 'information');
 		}
 	}
 	if (p == Phase.ROLES) {
