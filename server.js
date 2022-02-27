@@ -1499,15 +1499,17 @@ function setPhase(p) {
 					members.push(players[i].name + ' (' + sanitize(players[i].role) + ')');
 				}
 			}
-			var to_members = 'Your fellow '+informed_factions[chatname]+' are: '+members.join(' ');
-			for (i in players) {
-				if (players[i].chats[chatname] && !players[i].spectate) {
-					players[i].s.sendMessage(Type.ROLERESULTS, to_members);
+			if(members.length) {
+				var to_members = 'Your fellow '+informed_factions[chatname]+' are: '+members.join(' ');
+				for (i in players) {
+					if (players[i].chats[chatname] && !players[i].spectate) {
+						players[i].s.sendMessage(Type.ROLERESULTS, to_members);
+					}
 				}
+				var to_mod = 'The '+informed_factions[chatname]+' are: '+members.join(' ');
+				players[mod].s.sendMessage(Type.ROLERESULTS, to_mod);
+				addLogMessage(Type.ROLERESULTS, to_mod);
 			}
-			var to_mod = 'The '+informed_factions[chatname]+' are: '+members.join(' ');
-			players[mod].s.sendMessage(Type.ROLERESULTS, to_mod);
-			addLogMessage(Type.ROLERESULTS, to_mod);
 		}
 	}
 	if (p == Phase.ROLES) {
