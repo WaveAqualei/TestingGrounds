@@ -802,7 +802,7 @@ var roles = [
 			'When protecting a player, you can only kill an attacker if they are on your Duel list.',
 			'Evils are informed if they have been dueled by a Duelist.',
 		],
-		targeting: ['living other'],
+		targeting: ['living other', 'living other'],
 		goal: towngoal,
 		color: towncolor,
 		custom: true,
