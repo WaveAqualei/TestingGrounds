@@ -62,6 +62,7 @@ var Type = {
 	GARDENIA: 61,
 	CARNATION: 62,
 	TARGETING_OPTIONS: 63,
+	ROLERESULTS: 64,
 };
 /*
  * 0 = No auto
@@ -116,8 +117,9 @@ function processMessage(msg, type)
 		case 'system':
 			return '<li><b>'+msg+'</b></li>';
 		break;
-		case 'automod':
-			return '<li>'+msg+'</li>';
+		case 'information':
+			msg.styling = msg.styling || 'information';
+			return '<li class="'+msg.styling+'">'+msg.msg+'</li>';
 		break;
 		case 'highlight':
 			msg.msg = (function(msg) {
@@ -312,6 +314,10 @@ addMessageHandler(Type.HIGHLIGHT,function(msg, styling)
 {
 	return processMessage({msg: msg, styling: styling}, 'highlight');
 });
+addMessageHandler(Type.ROLERESULTS,function(msg, styling)
+{
+	return processMessage({msg: msg, styling: styling}, 'information');
+});
 addMessageHandler(Type.JOIN,function(name)
 {
 	return processMessage(name+' has joined.','system');
@@ -328,12 +334,12 @@ addMessageHandler(Type.SYSTEM,function(msg)
 {
 	return processMessage(msg,'system');
 });
-addMessageHandler(Type.SYSSENT,function(to,msg)
+addMessageHandler(Type.SYSSENT,function(to,msg,styling)
 {
 	return processMessage({
 		msg: 'To '+to+': '+msg,
-		styling: 'information',
-	},'highlight');
+		styling,
+	},'information');
 });
 var phasetext = [
 	'Pregame',

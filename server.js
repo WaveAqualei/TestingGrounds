@@ -1447,13 +1447,13 @@ function setPhase(p) {
 						players[j].executing = false;
 					}
 					if ((players[j].chats.mafia && !players[j].chats.jailed && players[i].chats.mafia) || players[j].spectate) {
-						players[j].s.sendMessage(Type.HIGHLIGHT, players[i].name + ' was hauled off to jail.', 'information');
+						players[j].s.sendMessage(Type.ROLERESULTS, players[i].name + ' was hauled off to jail.');
 					}
 					if ((players[j].chats.coven && !players[j].chats.jailed && players[i].chats.coven) || players[j].spectate) {
-						players[j].s.sendMessage(Type.HIGHLIGHT, players[i].name + ' was hauled off to jail.', 'information');
+						players[j].s.sendMessage(Type.ROLERESULTS, players[i].name + ' was hauled off to jail.');
 					}
 					if ((players[j].chats.vamp && !players[j].chats.jailed && players[i].chats.vamp) || players[j].spectate) {
-						players[j].s.sendMessage(Type.HIGHLIGHT, players[i].name + ' was hauled off to jail.', 'information');
+						players[j].s.sendMessage(Type.ROLERESULTS, players[i].name + ' was hauled off to jail.');
 					}
 				}
 			}
@@ -1465,7 +1465,7 @@ function setPhase(p) {
 			}
 			//Medium messages.
 			if (players[i].seancing) {
-				players[i].s.sendMessage(Type.HIGHLIGHT, 'You have opened a communication with the living!', 'information');
+				players[i].s.sendMessage(Type.ROLERESULTS, 'You have opened a communication with the living!');
 				players[i].seance = true;
 				addLogMessage(Type.SYSTEM, players[i].name + ' is now talking to ' + players[i].seancing.name);
 				players[mod].s.sendMessage(Type.SYSTEM, players[i].name + ' is now talking to ' + players[i].seancing.name);
@@ -1502,12 +1502,12 @@ function setPhase(p) {
 			var to_members = 'Your fellow '+informed_factions[chatname]+' are: '+members.join(' ');
 			for (i in players) {
 				if (players[i].chats[chatname] && !players[i].spectate) {
-					players[i].s.sendMessage(Type.HIGHLIGHT, to_members, 'information');
+					players[i].s.sendMessage(Type.ROLERESULTS, to_members);
 				}
 			}
 			var to_mod = 'The '+informed_factions[chatname]+' are: '+members.join(' ');
-			players[mod].s.sendMessage(Type.HIGHLIGHT, to_mod, 'information');
-			addLogMessage(Type.HIGHLIGHT, to_mod, 'information');
+			players[mod].s.sendMessage(Type.ROLERESULTS, to_mod);
+			addLogMessage(Type.ROLERESULTS, to_mod);
 		}
 	}
 	if (p == Phase.ROLES) {
@@ -1933,9 +1933,9 @@ function Player(socket, name, ip) {
 			} else if (roles.hasRolecard(role)) {
 				var rolecard = roles.getRoleCard(role, {});
 				this.s.sendMessage(Type.ROLECARD, rolecard);
-				this.s.sendMessage(Type.HIGHLIGHT, 'Your role is ' + sanitize(role), 'information');
+				this.s.sendMessage(Type.ROLERESULTS, 'Your role is ' + sanitize(role));
 			} else {
-				this.s.sendMessage(Type.HIGHLIGHT, 'Your role is ' + sanitize(role), 'information');
+				this.s.sendMessage(Type.ROLERESULTS, 'Your role is ' + sanitize(role));
 			}
 			addLogMessage(Type.SYSTEM, this.name+'&#39;s role is now ' + sanitize(role));
 			this.s.sendMessage(Type.SETROLE, {
@@ -3435,7 +3435,7 @@ function Player(socket, name, ip) {
 								msg.splice(0, 2);
 								msg = msg.join(' ');
 								msg = sanitize(msg);
-								players[playernames[c[1]]].s.sendMessage(Type.HIGHLIGHT, msg, 'information');
+								players[playernames[c[1]]].s.sendMessage(Type.ROLERESULTS, msg);
 								addLogMessage(Type.SYSSENT, c[1], msg);
 								this.s.sendMessage(Type.SYSSENT, c[1], msg);
 							} else if (!isNaN(c[1])) {
@@ -3448,7 +3448,7 @@ function Player(socket, name, ip) {
 									msg.splice(0, 2);
 									msg = msg.join(' ');
 									msg = sanitize(msg);
-									target.s.sendMessage(Type.HIGHLIGHT, msg, 'information');
+									target.s.sendMessage(Type.ROLERESULTS, msg);
 									addLogMessage(Type.SYSSENT, c[1], msg);
 									this.s.sendMessage(Type.SYSSENT, c[1], msg);
 								} else {
