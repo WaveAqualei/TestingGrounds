@@ -149,17 +149,24 @@ function modInterface()
 		var rolechanger = $('<input type="text" class="role"></li>');
 		rolechanger.keydown(function(e)
 		{
-				if (e.keyCode==13) //Enter
-				{
-					var index = $('.role').index($(this));
-					var name = $('.name')[index].innerHTML;
-					socket.sendMessage(Type.SETROLE,name,this.value);
-					this.style.background='teal';
-				}
-				else
-				{
-					this.style.background='white';
-				}
+			if (e.keyCode==13) //Enter
+			{
+				var index = $('.role').index($(this));
+				var name = $('.name')[index].innerHTML;
+				socket.sendMessage(Type.SETROLE,name,this.value);
+				this.style.background='teal';
+				this.old = this.value;
+			}
+		});
+		rolechanger.keyup(function(e){
+			if (this.old != this.value)
+			{
+				this.style.background='white';
+			}
+			else
+			{
+				this.style.background='teal';
+			}
 		});
 		modcontrols.append(rolechanger);
 		$($('#userlist li')[x]).append(info);
