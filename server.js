@@ -3485,6 +3485,7 @@ function Player(socket, name, ip) {
 								msg = msg.join(' ');
 								msg = sanitize(msg);
 								players[playernames[c[1]]].s.sendMessage(Type.HIGHLIGHT, msg, 'information');
+								addLogMessage(Type.SYSSENT, c[1], msg);
 								this.s.sendMessage(Type.SYSSENT, c[1], msg);
 							} else if (!isNaN(c[1])) {
 								//It's a number.
@@ -3497,6 +3498,7 @@ function Player(socket, name, ip) {
 									msg = msg.join(' ');
 									msg = sanitize(msg);
 									target.s.sendMessage(Type.HIGHLIGHT, msg, 'information');
+									addLogMessage(Type.SYSSENT, c[1], msg);
 									this.s.sendMessage(Type.SYSSENT, c[1], msg);
 								} else {
 									this.s.sendMessage(Type.SYSTEM, 'Could not find player number ' + sanitize(c[1]) + '!');
