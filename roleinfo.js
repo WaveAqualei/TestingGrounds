@@ -807,6 +807,20 @@ var roles = [
 		color: towncolor,
 		custom: true,
 	},
+	{
+		rolename: 'charmer',
+		alignment: 'town protective',
+		abilities: ['Give out two charms each night.'],
+		attributes: [
+			'A charm provides basic defense against one attack.',
+			'At the end of the night your charms are returned to you.',
+			'If you protect a player, your charms will break, and you will have to spend a night making new charms.',
+		],
+		targeting: ['living other', 'living other'],
+		goal: towngoal,
+		color: towncolor,
+		custom: true,
+	},
 
 	// TOWN KILLING CUSTOM
 	{
@@ -975,6 +989,20 @@ var roles = [
 		color: mafiacolor,
 		custom: true,
 	},
+	{
+		rolename: 'disguiser rework',
+		alignment: 'mafia deception',
+		abilities: ['Choose a Mafia member to disguise at Night.'],
+		attributes: [
+			'Disguises last until the start of the next night.',
+			'Disguised players show up as the role of your choice, both to investigative roles and on death (including lynches).',
+			'You cannot disguise the same Player Twice in a row.',
+		],
+		targeting: ['living mafia'],
+		goal: mafiagoal,
+		color: mafiacolor,
+		custom: true,
+	},
 
 	// COVEN CUSTOM
 	{
@@ -1035,6 +1063,25 @@ var roles = [
 			'With the Necronomicon, your attack is Powerful, and you may cast a Curse every night.',
 		],
 		targeting: ['living noncoven notfirst'],
+		goal: covengoal,
+		color: covencolor,
+		custom: true,
+	},
+	{
+		rolename: 'familiar',
+		alignment: 'coven evil',
+		attack: 'Basic',
+		abilities: ['Sumon or postpone the full moon during the day, and lurk at a player\'s house at night under the full moon.'],
+		attributes: [
+			'On Full Moon nights, you may lurk at a player\'s house. If your target is visited by a non-Coven member you will deliver a Basic attack to your target.',
+			'When each non-Full Moon Night passes your powers grow for your next attack.',
+			'With the Necronomicon, you will deliver a Basic attack to your target, and your Postpone powers stay permanent.',
+			'After one night without a full moon, anyone you kill will have theri Last Will destroyed.',
+			'After two nights without a full moon, you are roleblock immune, and you roleblock your target.',
+			'After three nights without a full moon, you will deal a Basic attack to any visitors to your target.',
+		],
+		day_targeting: ['self'],
+		targeting: ['living noncoven fullmoon'],
 		goal: covengoal,
 		color: covencolor,
 		custom: true,
