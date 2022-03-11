@@ -1634,6 +1634,18 @@ var roles = [
 	
 	// FLORAE SUPPORT
 	{
+		rolename: 'dicentra',
+		alignment: 'flora support',
+		abilities: ['You may perform for a player at night.'],
+		attributes: ['Performing at a player\'s house prevents anyone from visiting your target. This excludes attacking roles.',
+			    'If a Serial Killer attacks your target, you will die instead.',
+			    'You cannot be roleblocked.'],
+		targeting: ['living other'],
+		goal: floraegoal,
+		color: floraecolor,
+		custom: true,
+	},
+	{
 		rolename: 'gardenia',
 		alignment: 'flora support',
 		abilities: ['You may hand out gardenias to a player at night.'],
@@ -1654,18 +1666,6 @@ var roles = [
 			    'Successfully healing a player from an attack uses up your heal elixir.',
 			    'You may heal yourself.',
 			    'Visiting two players recharges your elixirs once you have used them up.'],
-		targeting: ['living other'],
-		goal: floraegoal,
-		color: floraecolor,
-		custom: true,
-	},
-	{
-		rolename: 'peony',
-		alignment: 'flora support',
-		abilities: ['You may perform for a player at night.'],
-		attributes: ['Performing at a player\'s house prevents anyone from visiting your target. This excludes attacking roles.',
-			    'If a Serial Killer attacks your target, you will die instead.',
-			    'You cannot be roleblocked.'],
 		targeting: ['living other'],
 		goal: floraegoal,
 		color: floraecolor,
