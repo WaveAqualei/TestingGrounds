@@ -423,6 +423,7 @@ var server = http.createServer(function (req, res) {
 		case '/CosmicCove.mp3':
 		case '/DarkAlley.mp3':
 		case '/DarkHolidays.mp3':
+		case '/Deceitful.mp3':
 		case '/GardenGridlock.mp3':
 		case '/GreenMeadows.mp3':
 		case '/Heated.mp3':
@@ -432,15 +433,19 @@ var server = http.createServer(function (req, res) {
 		case '/KakarikoNight.mp3':
 		case '/KakarikoSaved.mp3':
 		case '/LittleItaly.mp3':
+		case '/Magmic.mp3':
+		case '/MilkyWay.mp3':
 		case '/MountHylia.mp3':
 		case '/PeaceAndTranquility.mp3':
 		case '/Remembrance.mp3':
+		case '/Riverside.mp3':
 		case '/Searching.mp3':
 		case '/ShockAndAwe.mp3':
 		case '/Skyworld.mp3':
 		case '/StarlitSky.mp3':
 		case '/Suspicion.mp3':
 		case '/Touchstone.mp3':
+		case '/Truth.mp3':
 		case '/Valkyrie.mp3':
 		case '/Vampiric.mp3':
 		case '/WhatLurksInTheNight.mp3':
@@ -1678,7 +1683,7 @@ function Timer() {
 			60, //Day		60
 			30, //Voting
 			20, //Trial
-			22, //Verdict
+			23, //Verdict
 			15, //Last words
 			70, //Night		70
 			20, //Day 1		20
@@ -2144,13 +2149,13 @@ function Player(socket, name, ip) {
 					break;
 				case 'music':
 					this.s.sendMessage(Type.SYSTEM, "Here's our current music! It's recommended you right click the desired link and copy it, as clicking on it regularly will take you out of the client.");
-					this.s.sendMessage(Type.SYSTEM, "<span class=\"coven\">Pregame:</span> <a href=\"https://youtu.be/dA6Fs_7MHj0\">A Starlit Sky (Mario Party 9)</a>");
-					this.s.sendMessage(Type.SYSTEM, "<span class=\"jailor\">Roles:</span> <a href=\"https://youtu.be/-rlytf-yEcE\">Garden Gridlock (Wii Party)</a>");
-					this.s.sendMessage(Type.SYSTEM, "<span class=\"mod\">Modtime:</span> <a href=\"https://youtu.be/25R6GDrVedw\">Spinwheel Library (Captain Toad: Treasure Tracker)</a>");
-					this.s.sendMessage(Type.SYSTEM, "<span class=\"linked\">Day:</span> <a href=\"https://youtu.be/dA6Fs_7MHj0\">Autumn Mountain (Paper Mario: Origami King)</a>");
-					this.s.sendMessage(Type.SYSTEM, "<span class=\"jailed\">Voting:</span> <a href=\"https://youtu.be/ifEInAAbzS8\">Suspicion (Town of Salem)</a>");
-					this.s.sendMessage(Type.SYSTEM, "<span class=\"dev\">Trial:</span> <a href=\"https://youtu.be/XD2eVXqY4D4\">Innocence (Town of Salem)</a>");
-					this.s.sendMessage(Type.SYSTEM, "<span class=\"medium\">Night:</span> <a href=\"https://youtu.be/EjohktZdWi0\">Noatun, Ruins of Chaos (Bayonetta 2)</a>");
+					this.s.sendMessage(Type.SYSTEM, "<span class=\"coven\">Pregame:</span> <a href=\"https://youtu.be/yXtkH1KajwQ\">Riverside (Legend of Zelda: Triforce Heroes)</a>")
+					this.s.sendMessage(Type.SYSTEM, "<span class=\"jailor\">Roles:</span> <a href=\"https://youtu.be/SHvhps47Lmc\">Peace and Tranquility (A Hat in Time)</a>");
+					this.s.sendMessage(Type.SYSTEM, "<span class=\"mod\">Modtime:</span> <a href=\"https://youtu.be/Q0oofE_cxvM\">Wave\'s Vale (Wave Aqualei - Single)</a>");
+					this.s.sendMessage(Type.SYSTEM, "<span class=\"linked\">Day:</span> <a href=\"https://youtu.be/dC9EhBT03SQ\">Goron Shrine (Legend of Zelda: Breath of the Wild)</a>");
+					this.s.sendMessage(Type.SYSTEM, "<span class=\"jailed\">Voting:</span> <a href=\"https://youtu.be/UADPWlh7iD0\">EV17 Deceitful (Bayonetta)</a>");
+					this.s.sendMessage(Type.SYSTEM, "<span class=\"dev\">Trial:</span> <a href=\"https://youtu.be/q3JxxEEUJxw\">EV27-2 Truth (Bayonetta)</a>");
+					this.s.sendMessage(Type.SYSTEM, "<span class=\"medium\">Night:</span> <a href=\"https://youtu.be/cmuZDJl8vQ8\">Milky Way Wishes (Kirby and the Rainbow Curse)</a>");
 					break;
 				case 'whisper':
 				case 'w':
