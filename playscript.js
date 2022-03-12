@@ -343,8 +343,8 @@ function openModList(targ)
 				"GA (Vote Immunity)": function() {
 					socket.sendMessage(Type.GUARDIAN_ANGEL, $(this.parentNode).attr('name'));
 				},
-				"Carnation": function() {
-					socket.sendMessage(Type.CARNATION, $(this.parentNode).attr('name'));
+				"Phlox": function() {
+					socket.sendMessage(Type.PHLOX, $(this.parentNode).attr('name'));
 				}
 			};
 			var notifications = {
@@ -390,7 +390,7 @@ function openModList(targ)
 				'Attacked(Saved By GA)': function() {
 					socket.sendMessage(Type.PRENOT,$(this.parentNode).attr('name'),'SAVED_BY_GA');
 				},
-				'Target attacked': function() {
+				'Target Attacked': function() {
 					socket.sendMessage(Type.PRENOT,$(this.parentNode).attr('name'),'TARGET_ATTACKED');
 				},
 				'Attacked(Immune)':function()
@@ -398,7 +398,7 @@ function openModList(targ)
 				   var name = $(this.parentNode).attr('name');
 				   socket.sendMessage(Type.PRENOT,name,'IMMUNE');
 				},
-				'Target immune':function()
+				'Target Immune':function()
 				{
 				   var name = $(this.parentNode).attr('name');
 				   socket.sendMessage(Type.PRENOT,name,'TARGETIMMUNE');
