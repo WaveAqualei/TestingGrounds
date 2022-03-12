@@ -14,15 +14,15 @@ var kicked = false;
 var hey = new Audio('ping.wav');
 //Halloween
 //var hey = new Audio('Giratina.wav');
-var mpregame = new Audio('StarlitSky.mp3');
-var whoami = new Audio('GardenGridlock.mp3');
-var mmodtime = new Audio('Spinwheel.m4a');
+var mpregame = new Audio('Riverside.mp3');
+var whoami = new Audio('PeaceAndTranquility.mp3');
+var mmodtime = new Audio('Aquabatics.mp3');
 //Halloween
 //var mmodtime = new Audio('Bewitching.mp3');
-var mdaytime = new Audio('AutumnMountain.mp3');
-var mvoting = new Audio('Suspicion.mp3');
-var mtrial = new Audio('Innocence.mp3');
-var mnight = new Audio('Chaos.mp3');
+var mdaytime = new Audio('Magmic.mp3');
+var mvoting = new Audio('Deceitful.mp3');
+var mtrial = new Audio('Truth.mp3');
+var mnight = new Audio('MilkyWay.mp3');
 var musicon = 1;
 mpregame.loop = true;
 whoami.loop = true;
@@ -969,13 +969,13 @@ addSocketListener(Type.GUARDIAN_ANGEL, function(name, yourName) {
 		}
 	});
 });
-addSocketListener(Type.CARNATION, function(name, yourName) {
-	if ($(`#${name}-carnation`).length) return;
-	$(`#p-${name}`).append(`<span class="emoji carnation" id="${name}-carnation" style="color:#ff9494">🌺</span>`);
-	$(`#${name}-carnation`).click(() => {
+addSocketListener(Type.PHLOX, function(name, yourName) {
+	if ($(`#${name}-phlox`).length) return;
+	$(`#p-${name}`).append(`<span class="emoji phlox" id="${name}-phlox" style="color:#ff9494">🌺</span>`);
+	$(`#${name}-phlox`).click(() => {
 		if (mod) {
-			$(`#${name}-carnation`).remove();
-			socket.sendMessage(Type.REMOVE_EMOJI, `${name}-carnation`);
+			$(`#${name}-phlox`).remove();
+			socket.sendMessage(Type.REMOVE_EMOJI, `${name}-phlox`);
 		}
 	});
 });
