@@ -1832,7 +1832,7 @@ neut
 .emoji:hover {
 	cursor: pointer;
 }
-@media only screen and (max-device-width: 600px)
+@media only screen and (max-device-width: 900px)
 {
   #main {
     width: 50%;
