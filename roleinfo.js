@@ -704,14 +704,16 @@ var roles = [
 	{
 		rolename: 'judge',
 		alignment: 'town support',
-		abilities: ['You may force one trial on someone during the day.', 'You may object to a vote outcome once, and flip the result.'],
+		abilities: ['You may pardon a player at night.', 'You may object to a vote outcome during the Judgement phase, and flip the result.'],
 		attributes: [
-			'Only your vote counts during your forced trial; no one else may vote.',
-			'Your forced trial cannot be the first or last trial of the day.',
-			'Using an ability reveals your name to everyone but Town and Neutral Benigns.',
-			'You cannot be blackmailed.',
+			'You may not pardon Night 1.',
+			'You may not pardon yourself.',
+			'You only have 3 Pardons.',
+			'You may object a vote once.',
+			'Objecting reveals your name to all Evils. Town will not learn your identity.',
+			'You cannot be controlled or blackmailed.',
 		],
-		targeting: [],
+		targeting: ['living other'],
 		goal: towngoal,
 		color: towncolor,
 		custom: true,
@@ -839,6 +841,21 @@ var roles = [
 	},
 
 	// MAFIA CUSTOM
+	{
+		rolename: 'ambusher buff',
+		alignment: 'mafia killing',
+		attack: 'Basic',
+		abilities: ['You may choose to lie in wait outside your targets house.'],
+		attributes: [
+			'You will attack one player who visits your target.',
+			'All players visiting your target will learn your name.',
+			'You can choose to be cautious and not kill anyone if there is more than one visitor to your target.',
+			'If there are no kill capable Mafia roles left you will become a Mafioso.',
+		],
+		targeting: ['living nonmafia'],
+		goal: mafiagoal,
+		color: mafiacolor,
+	},
 	{
 		rolename: 'framer rework',
 		alignment: 'mafia deception',
