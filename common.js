@@ -150,7 +150,7 @@ function processMessage(msg, type)
 			}
 			else if (msg.from && msg.to)
 			{
-				return '<li><span class="whispermessage">From</span> <b>'+msg.from+'</b><span class="whisper"> <span class="whispermessage">to</span> </span><b>'+msg.to+':</b><span class="whisper"> '+msg.msg+' </span></li>';
+				return '<li><span class="whispermessage">From</span> <b>'+msg.from+'</b><span class="jailed"> <span class="whispermessage">to</span> </span><b>'+msg.to+':</b><span class="jailed"> '+msg.msg+' </span></li>';
 			}
 			else if (msg.from)
 			{
