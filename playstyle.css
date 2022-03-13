@@ -628,7 +628,7 @@ header ul li span
 	width:70%;
 	height:100%;
 	float:left;
-	background: linear-gradient(#A39827, #FCE400);
+	background: linear-gradient(teal, mediumaquamarine);
 	border-radius:8px;
 	font-family: 'Slabo 27px', serif;
 	cursor:default;
@@ -638,7 +638,7 @@ header ul li span
 	margin:-1px;
 }
 .nightbutton.pressed {
-	background: linear-gradient(#2727A3, #0000FC);
+	background: linear-gradient(#252729, #103d36);
 }
 .rolealignment
 {
@@ -659,7 +659,7 @@ header ul li span
 }
 .nightbutton:hover
 {
-	background:#A39827;
+	background:cornflowerblue;
 }
 .votecount
 {
@@ -1750,9 +1750,9 @@ neut
 .allroleslist
 {	
 	width:300px;
-	border: 2px solid #604605;
+	border: 2px solid black;
 	list-style:none;
-	background: #846007;
+	background: #252729;
 	padding:0;
 	margin:0;
 }
