@@ -1724,9 +1724,9 @@ neut
 .displaylist
 {	
 	width:150px;
-	border: 2px solid #604605;
+	border: 2px solid black;
 	list-style:none;
-	background: #846007;
+	background: #252729;
 	padding:0;
 	margin:0;
 }
@@ -1736,7 +1736,7 @@ neut
 	margin:0;
 	width:100%;
 	height:20px;
-	border-bottom: 1px solid #5E470D;
+	border-bottom: 1px solid #252729;
 	text-align:center;
 }
 .displaylistitem:last-child
@@ -1761,7 +1761,7 @@ neut
 	display:inline-block;
 	width:50%;
 	height:100%;
-	border-right: 1px solid #5E470D;
+	border-right: 1px solid #252729;
 	float:left;
 }
 .editableMessage
