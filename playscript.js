@@ -711,7 +711,6 @@ function formatAlignment(str)
 	str = str.replace(/[Aa]ny/, "<span style='color:white'>Any</span>");
 	str = str.replace(/[Aa]ny/, "<span style='color:white'>Any</span>");
 	str = str.replace(/[Aa]ny/, "<span style='color:white'>Any</span>");
-	str = str.replace(/[Aa]ny/, "<span style='color:white'>Any</span>");
 	return str;      
 }
 function createTable(cls)
