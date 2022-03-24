@@ -2012,8 +2012,8 @@ module.exports = {
 			str = str.replace(/[Cc]oven/, "<span style='color:" + covencolor + "'>Coven</span>");
 			str = str.replace(/[Ee]vil/, "<span style='color:" + randcolor + "'>Evil</span>");
 			str = str.replace(/[Vv]ampire/, "<span style='color:" + vampcolor + "'>Vampire</span>");
-			str = str.replace(/[Ff]lora/, "<span style='color:" + floraecolor + "'>Flora</span>");
 			str = str.replace(/[Ff]lorae/, "<span style='color:" + floraecolor + "'>Florae</span>");
+			str = str.replace(/[Ff]lora/, "<span style='color:" + floraecolor + "'>Flora</span>");
 			str = str.replace(/[Mm]anipulation/, "<span style='color:" + randcolor + "'>Manipulation</span>");
 			str = str.replace(/[Cc]onversion/, "<span style='color:" + randcolor + "'>Conversion</span>");
 			str = str.replace(/[Dd]ead/, "<span style='color:" + randcolor + "'>Dead</span>");
