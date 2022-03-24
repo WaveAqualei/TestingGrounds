@@ -971,7 +971,7 @@ addSocketListener(Type.GUARDIAN_ANGEL, function(name, yourName) {
 });
 addSocketListener(Type.PHLOX, function(name, yourName) {
 	if ($(`#${name}-phlox`).length) return;
-	$(`#p-${name}`).append(`<span class="emoji phlox" id="${name}-phlox" style="color:#ff9494">🌺</span>`);
+	$(`#p-${name}`).append(`<span class="emoji phlox" id="${name}-phlox" style="color:#df00ff">🌺</span>`);
 	$(`#${name}-phlox`).click(() => {
 		if (mod) {
 			$(`#${name}-phlox`).remove();
