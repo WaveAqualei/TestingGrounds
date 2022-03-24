@@ -150,7 +150,7 @@ function processMessage(msg, type)
 			}
 			else if (msg.from && msg.to)
 			{
-				return '<li><span class="whispermessage">From</span> <b>'+msg.from+'</b><span class="jailed"> <span class="whispermessage">to</span> </span><b>'+msg.to+':</b><span class="jailed"> '+msg.msg+' </span></li>';
+				return '<li><span class="whispermessage">From</span> <span class="jailed"><b>'+msg.from+'</b></span> <span class="whispermessage">to</span> <span class="jailed"><b>'+msg.to+':</b></span><span class="whispermessage"> '+msg.msg+' </span></li>';
 			}
 			else if (msg.from)
 			{
@@ -176,7 +176,7 @@ function processMessage(msg, type)
 			}
 			else
 			{
-				return '<li><span class="mod">Malformed message</span></li>';
+				return '<li><span class="mod">Malformed message.</span></li>';
 			}
 		break;
 		case 'target':
