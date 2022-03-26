@@ -908,7 +908,7 @@ addSocketListener(Type.SWITCH,function(name1,name2)
 	$('.num')[i2].innerHTML = (i2==0)?'MOD':i2;
 });
 addSocketListener(Type.MAYOR, function(name) {
-	$(`#p-${name}`).append(`<span class="emoji" id="${name}-mayor" style="color:#b0ff39">(Mayor)</span>`)
+	$(`#p-${name}`).append(`<span class="emoji" id="${name}-mayor" style="color:#7fff00">(Mayor)</span>`)
 	$(`#${name}-mayor`).click(() => {
 		if (mod) {
 			$(`#${name}-mayor`).remove();
