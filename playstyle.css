@@ -401,61 +401,61 @@ header ul li span
 }
 .townkill
 {
-	background:#b0ff39;
+	background:#7fff00;
 	color: black;
 	font-weight: bold;
 }
 .mafiakill
 {
-	background:#be0000;
+	background:#dd0000;
 	color: white;
 	font-weight: bold;
 }
 .covenkill
 {
-	background:#ab5ffb;
+	background:#bf5fff;
 	color: white;
 	font-weight: bold;
 }
 .skkill
 {
-	background:#4a6efb;
+	background:#336eff;
 	color: white;
 	font-weight: bold;
 }
 .wwkill
 {
-	background:#94703d;
+	background:#9f703a;
 	color: white;
 	font-weight: bold;
 }
 .arsokill
 {
-	background:#d57615;
+	background:#ee7600;
 	color: black;
 	font-weight: bold;
 }
 .juggkill
 {
-	background:#8c2b55;
+	background:#a12b56;
 	color: white;
 	font-weight: bold;
 }
 .jestkill
 {
-	background:#e6b3d9;
+	background:#f7b3da;
 	color: white;
 	font-weight: bold;
 }
 .vampkill
 {
-	background: #7f896a;
+	background:#7b8968;
 	color: black;
 	font-weight: bold;
 }
 .piratekill
 {
-	background:#e2c24c;
+	background:#edc240;
 	color: black;
 	font-weight: bold;
 }
