@@ -28,7 +28,7 @@ header
 	overflow-x:hidden;
 	color:#FFFFFF;
 	font-family: 'SuperRareFont', Whitney, sans-serif;
-	background-color: #424549;
+	background-color:#36393f;
 }
 .moonimg
 {
@@ -548,7 +548,7 @@ header ul li span
 	margin:0;
 	margin-left:-2px;
 	overflow:auto;
-	background-color: #36393e;
+	background-color:#2f3136;
 }
 #userlist>li
 {
@@ -1540,16 +1540,19 @@ a:visited
 }
 .guiltybutton
 {
-	background:url('Unity_Guilty.png');
+	background: url(Unity_Guilty.png);
 	background-size: 100% 100%;
 	height: 5vw;
-	margin-right:-1px;
+	margin-top: -6px;
+	margin-left: -61.5px;
 }
 .guiltybutton:hover
 {
 	background:url('Unity_Guilty.png');
 	background-size: 100% 100%;
 	height: 5vw;
+	margin-top: -6px;
+	margin-left: -61.5px;
 	opacity: 0.8;
 }
 .innobutton
@@ -1569,11 +1572,11 @@ a:visited
 /*----Announcement tags----*/
 maf
 {
-	color:#be0000;
+	color:#dd0000;
 }
 cov 
 {
-	color:#ab5ffb;
+	color:#bf5fff;
 }
 arso
 {
@@ -1589,7 +1592,7 @@ jester
 }
 town
 {
-	color:#B0FF39;
+	color:#7fff00;
 }
 sk
 {
@@ -1597,7 +1600,7 @@ sk
 }
 neut
 {
-	color:#bcbcbc;
+	color:#cccccc;
 }
 /*----Chat messages----*/
 .mafia
@@ -1607,12 +1610,12 @@ neut
 }
 .coven 
 {
-	color: #ab5ffb;
+	color:#bf5fff;
 	text-shadow: 0px 0px 10px black;
 }
 .vamp
 {
-	color: #99b068;
+	color:#c1d9a0
 	text-shadow: 0px 0px 10px black;
 }
 .linked
@@ -1621,7 +1624,7 @@ neut
 }
 .dead
 {
-	color: #c7c7c7;
+	color:#c7c7c7;
 	text-shadow: 0px 0px 10px #4b7c80;
 }
 .medium
