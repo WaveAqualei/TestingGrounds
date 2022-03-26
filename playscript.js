@@ -669,7 +669,7 @@ function resizeDivider(e)
 function formatAlignment(str)
 {                       
 	//colors
-	var towncolor="#9fff00";
+	var towncolor="#7fff00";
 	var mafiacolor="#dd0000";
 	var covencolor="#bf5fff";
 	var randcolor="#49a9d0";
