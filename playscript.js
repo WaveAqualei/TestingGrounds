@@ -669,10 +669,10 @@ function resizeDivider(e)
 function formatAlignment(str)
 {                       
 	//colors
-	var towncolor="#b0ff39";
-	var mafiacolor="#be0000";
-	var covencolor="#ab5ffb";
-	var randcolor="#42C0FB";
+	var towncolor="#9fff00";
+	var mafiacolor="#dd0000";
+	var covencolor="#bf5fff";
+	var randcolor="#49a9d0";
 	var neutcolor='#cccccc';
 	var hilitecolor="orange";
 	str=str.replace(/[Tt]own/,"<span style='color:"+towncolor+"'>Town</span>");
