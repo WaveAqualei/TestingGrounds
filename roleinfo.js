@@ -1,11 +1,11 @@
 //colors
-var towncolor = '#b0ff39';
-var mafiacolor = '#be0000';
-var covencolor = '#ab5ffb';
-var vampcolor = '#7f896a';
+var towncolor = '#7fff00';
+var mafiacolor = '#dd0000';
+var covencolor = '#bf5fff';
+var vampcolor = '#7b8968';
 var floraecolor = '#228f41';
-var randcolor = '#497cef';
-var neutcolor = '#bcbcbc';
+var randcolor = '#49a9d0';
+var neutcolor = '#cccccc';
 var anycolor = '#F5F5F5';
 var mystcolor = '#D7B4F3';
 var overcolor = '#15F4EE';
@@ -464,7 +464,7 @@ var roles = [
 		attributes: ['You can only use the bulletproof vest 4 times.'],
 		targeting: ['self'],
 		goal: 'Live to the end of the game.',
-		color: '#dddd30',
+		color: '#dddd00',
 	},
 	{
 		rolename: 'amnesiac',
@@ -473,7 +473,7 @@ var roles = [
 		attributes: ['When you choose a role it will be revealed to all the players in the game.'],
 		goal: 'Remember who you were and complete that role\'s objective.',
 		targeting: ['dead'],
-		color: '#94ffff',
+		color: '#22ffff',
 	},
 	{
 		rolename: 'guardian angel',
@@ -509,7 +509,7 @@ var roles = [
 		targeting: [],
 		dead_targeting: ['living'],
 		goal: 'Get yourself lynched by any means necessary.',
-		color: '#e6b3d9',
+		color: '#f7b3da',
 	},
 	{
 		rolename: 'witch',
@@ -522,7 +522,7 @@ var roles = [
 		],
 		targeting: ['living other', 'living'],
 		goal: 'Survive to see the Town lose the game.',
-		color: '#8634A0',
+		color: covencolor,
 	},
 
 	// NEUTRAL KILLING VANILLA
@@ -539,7 +539,7 @@ var roles = [
 		],
 		targeting: ['living other'],
 		goal: 'Kill everyone who would oppose you.',
-		color: '#4a6efb',
+		color: '#336eff',
 	},
 	{
 		rolename: 'arsonist',
@@ -555,7 +555,7 @@ var roles = [
 		],
 		targeting: ['living'],
 		goal: 'Live to see everyone else burn.',
-		color: '#d57615',
+		color: '#ee7600',
 	},
 	{
 		rolename: 'werewolf',
@@ -566,7 +566,7 @@ var roles = [
 		attributes: ["You will Rampage at a player's house when you attack.", 'If you do not select a target you will stay home and Rampage at your home.'],
 		targeting: ['living other fullmoon'],
 		goal: 'Kill everyone who would oppose you.',
-		color: '#94703d',
+		color: '#9f703a',
 	},
 	{
 		rolename: 'juggernaut',
@@ -582,7 +582,7 @@ var roles = [
 		],
 		targeting: ['living other notfirst'],
 		goal: 'Kill everyone who would oppose you.',
-		color: '#8c2b55',
+		color: '#a12b56',
 	},
 
 	// NEUTRAL CHAOS VANILLA
@@ -595,7 +595,7 @@ var roles = [
 		day_targeting: ['living other'],
 		targeting: [],
 		goal: 'Successfully plunder two players.',
-		color: '#e2c24c',
+		color: '#edc240',
 	},
 	{
 		rolename: 'plaguebearer',
@@ -611,7 +611,7 @@ var roles = [
 		],
 		targeting: ['living other'],
 		goal: 'Infect all living players and become Pestilence.',
-		color: '#deff70',
+		color: '#cfff63',
 	},
 	{
 		rolename: 'pestilence',
@@ -627,7 +627,7 @@ var roles = [
 		],
 		targeting: ['living other'],
 		goal: 'Kill all who would oppose you.',
-		color: '#424242; text-shadow: 0px 0px 5px #bbff00',
+		color: '#424242; text-shadow: 0px 0px 5px #cfff63',
 		
 	},
 	{
@@ -642,7 +642,7 @@ var roles = [
 		],
 		targeting: ['living nonvampire'],
 		goal: 'Convert everyone who would oppose you.',
-		color: '#7f896a',
+		color: '#7b8968',
 	},
 
 	// === CUSTOM ROLES ====
