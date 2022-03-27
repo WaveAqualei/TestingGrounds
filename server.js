@@ -1394,9 +1394,7 @@ function setPhase(p) {
 		if(!players[mod]) {
 			//Mod was disconnected, give it to someone else.
 			if (Object.keys(players).length > 0) {
-				mod = getPlayerByNumber(0).s.id;
-				players[mod].s.sendMessage(Type.SETMOD, true);
-				sendPlayerInfo();
+				getPlayerByNumber(0).setMod();
 			}
 		} else {
 			//Inform the mod that player data was cleared
@@ -1932,6 +1930,26 @@ function Player(socket, name, ip) {
 			spectate: false,
 		},
 		//Player functions
+		setMod: function () {
+			if(players[mod]) {
+				players[mod].s.sendMessage(Type.SETMOD, false);
+			}
+			if(this.spectate) {
+				this.spectate = false;
+				sendPublicMessage(Type.REMSPEC, this.name);
+			}
+			mod = this.s.id;
+			players[mod].s.sendMessage(Type.SETMOD, true);
+			if(playernums[0] != mod) {
+				sendPublicMessage(Type.SWITCH, players[playernums[0]].name, players[mod].name);
+				//Switch the numbers.
+				var a = playernums.indexOf(mod);
+				var b = 0;
+				playernums[a] = playernums[b];
+				playernums[b] = mod;
+			}
+			sendPlayerInfo();
+		},
 		setRole: function (role) {
 			this.role = role = role.trim();
 			if (role.length == 0) {
@@ -2001,9 +2019,7 @@ function Player(socket, name, ip) {
 				if (mod == this.s.id) {
 					//Player was mod, give it to someone else.
 					if (Object.keys(players).length > 0) {
-						mod = getPlayerByNumber(0).s.id;
-						players[mod].s.sendMessage(Type.SETMOD, true);
-						sendPlayerInfo();
+						getPlayerByNumber(0).setMod();
 					}
 				}
 				if (ontrial == this.s.id) {
@@ -2311,45 +2327,31 @@ function Player(socket, name, ip) {
 						} else {
 							if (playernames[c[1]]) {
 								//Valid player name.
-								players[mod].s.sendMessage(Type.SETMOD, false);
-								if (players[playernames[c[1]]].s.id == players[mod].s.id) {
-									this.s.sendMessage(Type.SYSTEM, 'You are already the mod.');
+								var target = getPlayerByName(c[1]);
+								if (target.s.id == mod) {
+									if(mod == this.s.id) {
+										this.s.sendMessage(Type.SYSTEM, 'You are already the mod.');
+									} else {
+										this.s.sendMessage(Type.SYSTEM, players[mod].name+' is already the mod.');
+									}
 								} else {
-									var prevMod = mod;
-									mod = players[playernames[c[1]]].s.id;
-									players[mod].s.sendMessage(Type.SETMOD, true);
+									target.setMod(true);
 									sendPublicMessage(Type.HIGHLIGHT, this.name + ' gives mod to ' + players[mod].name + '.');
-									sendPublicMessage(Type.SWITCH, players[prevMod].name, players[mod].name);
-									//Switch the numbers.
-									var a = playernums.indexOf(players[prevMod].s.id);
-									var b = playernums.indexOf(mod);
-									var temp = playernums[a];
-									playernums[a] = playernums[b];
-									playernums[b] = temp;
-									sendPlayerInfo();
 								}
 							} else if (!isNaN(c[1])) {
 								//It's a number.
 								//Get the numbered player.
 								var target = getPlayerByNumber(c[1]);
 								if (target != -1) {
-									var prevMod = mod;
-									var name = target.name;
-									if (target.s.id != players[prevMod].s.id) {
-										players[mod].s.sendMessage(Type.SETMOD, false);
-										mod = target.s.id;
-										players[mod].s.sendMessage(Type.SETMOD, true);
-										sendPublicMessage(Type.HIGHLIGHT, this.name + ' gives mod to ' + players[mod].name + '.');
-										sendPublicMessage(Type.SWITCH, players[prevMod].name, players[mod].name);
-										//Switch the numbers.
-										var a = playernums.indexOf(players[prevMod].s.id);
-										var b = playernums.indexOf(mod);
-										var temp = playernums[a];
-										playernums[a] = playernums[b];
-										playernums[b] = temp;
-										sendPlayerInfo();
+									if (target.s.id == mod) {
+										if(mod == this.s.id) {
+											this.s.sendMessage(Type.SYSTEM, 'You are already the mod.');
+										} else {
+											this.s.sendMessage(Type.SYSTEM, players[mod].name+' is already the mod.');
+										}
 									} else {
-										this.s.sendMessage(Type.SYSTEM, 'You are already the mod.');
+										target.setMod(true);
+										sendPublicMessage(Type.HIGHLIGHT, this.name + ' gives mod to ' + players[mod].name + '.');
 									}
 								} else {
 									this.s.sendMessage(Type.SYSTEM, 'Could not find player number ' + sanitize(c[1]) + '!');
@@ -3065,26 +3067,29 @@ function Player(socket, name, ip) {
 						if (c.length < 2) {
 							this.s.sendMessage(Type.SYSTEM, "The syntax of this command is '/setspectate player' or '/ss player'.");
 						} else if (playernames[c[1]]) {
-							if (!players[playernames[c[1]]].spectate) {
-								players[playernames[c[1]]].spectate = true;
-								sendPublicMessage(Type.SETSPEC, players[playernames[c[1]]].name);
+							var target = getPlayerByName(c[1]);
+							if (target.s.id == mod) {
+								this.s.sendMessage(Type.SYSTEM, 'Can\'t set the mod to spectate.');
+							} else if (!target.spectate) {
+								target.spectate = true;
+								sendPublicMessage(Type.SETSPEC, target.name);
 								this.s.sendMessage(Type.SYSTEM, c[1] + ' has been set to spectate.');
-								players[playernames[c[1]]].s.sendMessage(Type.SYSTEM, 'You are now spectating.');
+								target.s.sendMessage(Type.SYSTEM, 'You are now spectating.');
 								addLogMessage(Type.SYSTEM, c[1] + ' has been set to spectate by ' + this.name);
 								if (!mod == this.s.id) {
 									players[mod].s.sendMessage(Type.SYSTEM, c[1] + ' has been set to spectate by ' + this.name);
 								}
-								players[playernames[c[1]]].setRole('Spectator');
+								target.setRole('Spectator');
 							} else {
-								players[playernames[c[1]]].spectate = false;
-								sendPublicMessage(Type.REMSPEC, players[playernames[c[1]]].name);
+								target.spectate = false;
+								sendPublicMessage(Type.REMSPEC, target.name);
 								this.s.sendMessage(Type.SYSTEM, c[1] + ' is no longer set to spectate.');
-								players[playernames[c[1]]].s.sendMessage(Type.SYSTEM, 'You are no longer spectating.');
+								target.s.sendMessage(Type.SYSTEM, 'You are no longer spectating.');
 								addLogMessage(Type.SYSTEM, c[1] + ' is no longer set to spectate by ' + this.name);
 								if (!mod == this.s.id) {
 									players[mod].s.sendMessage(Type.SYSTEM, c[1] + ' is no longer set to spectate by ' + this.name);
 								}
-								players[playernames[c[1]]].setRole('NoRole');
+								target.setRole('NoRole');
 							}
 						} else if (!isNaN(c[1])) {
 							//It's a number.
@@ -3092,7 +3097,9 @@ function Player(socket, name, ip) {
 							var target = getPlayerByNumber(c[1]);
 							var name = target.name;
 							if (target != -1) {
-								if (!target.spectate) {
+								if (target.s.id == mod) {
+									this.s.sendMessage(Type.SYSTEM, 'Can\'t set the mod to spectate.');
+								} else if (!target.spectate) {
 									target.spectate = true;
 									sendPublicMessage(Type.SETSPEC, target.name);
 									this.s.sendMessage(Type.SYSTEM, name + ' has been set to spectate.');
