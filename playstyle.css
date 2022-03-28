@@ -16,6 +16,7 @@ header
 }
 #main
 {
+	position: relative;
 	height:90%;
 	width:76%;
 	/*background-image: url('Snowback1.png');
@@ -1524,11 +1525,11 @@ a:visited
 /*--Verdicts--*/
 .verdictinterface
 {
-	position:absolute;
-	width: 25vw; /*Gets animated to 60%*/
-    	right:20%;
-    	top:5%;
-    	height:5vw;
+	position: absolute;
+	width: 25vw;
+	right: 0%;
+	top: 0%;
+	height: 5vw;
 }
 .verdictbutton
 {
@@ -1541,33 +1542,22 @@ a:visited
 }
 .guiltybutton
 {
-	background: url(Unity_Guilty.png);
+	background: url('Unity_Guilty.png');
 	background-size: 100% 100%;
-	height: 5vw;
-	margin-top: -6px;
-	margin-left: -61.5px;
+	margin-left: 1px;
+	margin-right:-1px;
 }
 .guiltybutton:hover
 {
-	background:url('Unity_Guilty.png');
-	background-size: 100% 100%;
-	height: 5vw;
-	margin-top: -6px;
-	margin-left: -61.5px;
 	opacity: 0.8;
 }
 .innobutton
 {
 	background:url('Unity_Innocent.png');
 	background-size: 100% 100%;
-	height: 5vw;
-	margin-left:-1px;
 }
 .innobutton:hover
 {
-	background:url('Unity_Innocent.png');
-	background-size: 100% 100%;
-	height: 5vw;
 	opacity: 0.8;
 }
 /*----Announcement tags----*/
