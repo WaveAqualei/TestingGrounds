@@ -793,19 +793,21 @@ else
 		//Add the voting interface
 		for (i = 1; i < users.length; i++)
 		{
-			if (!$($('#userlist li')[i]).is('.deadplayer, .spectator') && !$($('#userlist li')[i]).find('.angel').length && users[i] !== player_name)
+			if (!$($('#userlist li')[i]).is('.deadplayer, .spectator'))
 			{
 				var li = $('#userlist').children()[i];
-				var button = $('<div class="votebutton">Vote</div>');
-				button.click(function()
-				{
-					var index = $('#userlist li').index(this.parentNode.parentNode.parentNode);
-					var name = users[index];
-					socket.sendMessage(Type.VOTE,name);
-				});
-				var count = $('<div class="votecount">0</div>');
 				var votinginterface = $('<div class="votinginterface"></div>');
-				votinginterface.append(button);
+				if(users[i] !== player_name && !$($('#userlist li')[i]).find('.angel').length) {
+					var button = $('<div class="votebutton">Vote</div>');
+					button.click(function()
+					{
+						var index = $('#userlist li').index(this.parentNode.parentNode.parentNode);
+						var name = users[index];
+						socket.sendMessage(Type.VOTE,name);
+					});
+					votinginterface.append(button);
+				}
+				var count = $('<div class="votecount">0</div>');
 				votinginterface.append(count);
 				$($(li).children()[0]).append(votinginterface);
 			}
