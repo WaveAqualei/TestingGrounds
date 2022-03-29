@@ -22,19 +22,20 @@ var commandList = {
 		mod: 'Send a message directly to the mod. Usage: /mod message',
 		target: 'Target a player with a night action. Usage: /target player or /target playerone playertwo',
 		vote: 'Command for voting, should only be used if there is a problem with the voting interface. Usage: /vote name',
-		role: 'View your current rolecard, or use /role name to view another rolecard. Usage /role to view your role, /role name to view a rolecard.',
+		role: 'View your current rolecard, or use /role name to view another rolecard. Usage /role to view your role, /role rplename to view a rolecard.',
 		rolelist: 'Display the current rolelist.',
 		confirm: 'Use during the roles phase to confirm you have your role. Usage: /confirm',
 		ping: 'Show your ping. Usage: /ping',
 		afk: 'Go afk. Only usable in pregame. Usage: /afk',
 		back: 'Return. Usage /back, after using /afk',
 		music: 'Tells you what music each phase is set to. Usage: /music',
+		tmk: 'Describes what Tactical Mafia Killing does. Usage: /tmk',
 	},
 	roles: {
 		reveal: 'Reveal yourself as the Mayor, if you have that role. Usage: /reveal, during the day.',
+		jail: 'Choose to jail a player. Usage: /jail [target] during the day.',
 		execute: 'Choose to execute the person you have jailed. Usage /execute, then /execute again to cancel.',
 		seance: 'Choose a player to talk to at night. You may only use this once during the day.',
-		jail: 'Choose to jail a player. Usage: /jail [target] during the day.',
 	},
 	mod: {
 		givemod: 'Pass the mod onto another person. Usage: /givemod name',
@@ -2175,12 +2176,13 @@ function Player(socket, name, ip) {
 					break;
 				case 'tmk':
 				case 'tacticalmafiakilling':
-					this.s.sendMessage(Type.SYSTEM, "In small games with around 7 to 10 people,  the Testing Grounds uses a system called Tactical Mafia Killing (TMK) where a Mafia role may exchange their night ability for the night and perform the kill.");
-					this.s.sendMessage(Type.SYSTEM, "There are no charges or cooldown on who can kill; one member may perform all of the kills or they may swap with one another. This allows Mafia more flexibility in abilities. ");
-					this.s.sendMessage(Type.SYSTEM, "Remember that communication is important with this system, make sure to talk to your fellow Mafia about who is performing what!");
-					this.s.sendMessage(Type.SYSTEM, "Things to remember with TMK enabled:");
-					this.s.sendMessage(Type.SYSTEM, "- Godfather\'s alignment changes to Mafia (Head)");
-					this.s.sendMessage(Type.SYSTEM, "- Mafioso is not allowed to spawn");
+					this.s.sendMessage(Type.SYSTEM, "<span class=\"mafia\">In small games with around 7 to 10 people,  the Testing Grounds uses a system called Tactical Mafia Killing (TMK) where a Mafia role may exchange their night ability for the night and perform the kill.</span>");
+					this.s.sendMessage(Type.SYSTEM, "<span class=\"mafia\">There are no charges or cooldown on who can kill; one member may perform all of the kills or they may swap with one another. This allows Mafia more flexibility in abilities.</span>");
+					this.s.sendMessage(Type.SYSTEM, "<span class=\"mafia\">Remember that communication is important with this system, make sure to talk to your fellow Mafia about who is performing what!</span>");
+					this.s.sendMessage(Type.SYSTEM, "<span class=\"mafia\">Things to remember with TMK enabled:</span>");
+					this.s.sendMessage(Type.SYSTEM, "<span class=\"mafia\">- Godfather\'s alignment changes to Mafia (Head)</span>");
+					this.s.sendMessage(Type.SYSTEM, "<span class=\"mafia\">- Mafioso is not allowed to spawn</span>");
+					break;
 				case 'whisper':
 				case 'w':
 					if (this.silenced) {
