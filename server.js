@@ -18,11 +18,11 @@ var headers = {
 var commandList = {
 	all: {
 		help: 'Displays this message.',
-		whisper: 'Whisper to another player. This is silent during Pregame, but once ingame other players will know that you are whispering. Usage: /w name message',
+		whisper: 'Whisper to another player. This is silent during Pregame, but once in-game other players will know that you are whispering. Usage: /w name message',
 		mod: 'Send a message directly to the mod. Usage: /mod message',
-		target: 'Target a player with a night action. Usage: /target player or /target playerone playertwo',
+		target: 'Target a player with a night action. Usage: /target player or /target player1 player2',
 		vote: 'Command for voting, should only be used if there is a problem with the voting interface. Usage: /vote name',
-		role: 'View your current rolecard, or use /role name to view another rolecard. Usage /role to view your role, /role rplename to view a rolecard.',
+		role: 'View your current rolecard, or use /role name to view another rolecard. Usage /role to view your role, /role rolename to view a rolecard.',
 		rolelist: 'Display the current rolelist.',
 		confirm: 'Use during the roles phase to confirm you have your role. Usage: /confirm',
 		ping: 'Show your ping. Usage: /ping',
