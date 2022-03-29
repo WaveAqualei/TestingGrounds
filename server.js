@@ -2173,6 +2173,14 @@ function Player(socket, name, ip) {
 					this.s.sendMessage(Type.SYSTEM, "<span class=\"dev\">Trial:</span> <a href=\"https://youtu.be/q3JxxEEUJxw\">EV27-2 Truth (Bayonetta)</a>");
 					this.s.sendMessage(Type.SYSTEM, "<span class=\"medium\">Night:</span> <a href=\"https://youtu.be/cmuZDJl8vQ8\">Milky Way Wishes (Kirby and the Rainbow Curse)</a>");
 					break;
+				case 'tmk':
+				case 'tacticalmafiakilling':
+					this.s.sendMessage(Type.SYSTEM, "In small games with around 7 to 10 people,  the Testing Grounds uses a system called Tactical Mafia Killing (TMK) where a Mafia role may exchange their night ability for the night and perform the kill.");
+					this.s.sendMessage(Type.SYSTEM, "There are no charges or cooldown on who can kill; one member may perform all of the kills or they may swap with one another. This allows Mafia more flexibility in abilities. ");
+					this.s.sendMessage(Type.SYSTEM, "Remember that communication is important with this system, make sure to talk to your fellow Mafia about who is performing what!");
+					this.s.sendMessage(Type.SYSTEM, "Things to remember with TMK enabled:");
+					this.s.sendMessage(Type.SYSTEM, "- Godfather\'s alignment changes to Mafia (Head)");
+					this.s.sendMessage(Type.SYSTEM, "- Mafioso is not allowed to spawn");
 				case 'whisper':
 				case 'w':
 					if (this.silenced) {
