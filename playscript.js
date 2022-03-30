@@ -283,6 +283,7 @@ function openModList(targ)
 				mayor: 'Mayor',
 				blackmailer: 'Read Whispers',
 				medium: 'Hear Dead',
+				klepto: 'Name Hidden',
 			};
 			var actions = {
 				'Blackmail':function()

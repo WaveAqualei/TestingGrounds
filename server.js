@@ -1122,6 +1122,10 @@ io.on('connection', function (socket, req) {
 								player.canSeance = true;
 								player.seance = undefined;
 								break;
+							case 'klepto':
+								addLogMessage(Type.SYSTEM, player.name+' will have their name hidden in factional chats.');
+								notify = 'Your name will now be hidden in factional chats.';
+								break;
 							default:
 								addLogMessage(Type.SYSTEM, player.name+' can now talk in the ' + chat + ' chat.');
 								notify = 'You can now talk in the ' + chat + ' chat.';
@@ -1144,6 +1148,10 @@ io.on('connection', function (socket, req) {
 								addLogMessage(Type.SYSTEM, player.name+' can no longer hear the dead at night.');
 								notify = 'You can no longer hear the dead at night.';
 								player.canSeance = false;
+								break;
+							case 'klepto':
+								addLogMessage(Type.SYSTEM, player.name+' will no longer have their name hidden in factional chats.');
+								notify = 'Your name will no longer be hidden in factional chats.';
 								break;
 							default:
 								addLogMessage(Type.SYSTEM, player.name+' can no longer talk in the ' + chat + ' chat.');
@@ -1499,14 +1507,14 @@ function setPhase(p) {
 		for(var chatname in informed_factions) {
 			var members = [];
 			for (i in players) {
-				if (players[i].chats[chatname] && !players[i].spectate) {
+				if (players[i].chats[chatname] && !players[i].spectate && !players[i].chats.klepto) {
 					members.push(players[i].name + ' (' + sanitize(players[i].role) + ')');
 				}
 			}
 			if(members.length) {
 				var to_members = 'Your fellow '+informed_factions[chatname]+' are: '+members.join(' ');
 				for (i in players) {
-					if (players[i].chats[chatname] && !players[i].spectate) {
+					if (players[i].chats[chatname] && !players[i].spectate && !players[i].chats.klepto) {
 						players[i].s.sendMessage(Type.ROLERESULTS, to_members);
 					}
 				}
@@ -1927,6 +1935,7 @@ function Player(socket, name, ip) {
 			jailor: false,
 			jailed: false,
 			medium: false,
+			klepto: false,
 			linked: false,
 			spectate: false,
 		},
@@ -1999,6 +2008,7 @@ function Player(socket, name, ip) {
 					jailor: false,
 					jailed: false,
 					medium: false,
+					klepto: false,
 					linked: false,
 					spectate: false,
 				},
@@ -3570,31 +3580,18 @@ function Player(socket, name, ip) {
 		},
 		target: function (targets) {
 			//Show who the player is targetting to the other mafia, if they are mafia.
-			if (this.chats.mafia) {
-				for (i in players) {
-					if (players[i].chats.mafia || players[i].s.id == mod || players[i].spectate) {
-						players[i].s.sendMessage(Type.TARGET, this.name, this.role, gm.grammarList(targets));
-					}
+			var my_chats = this.chats;
+			var sendto = ['mafia', 'coven', 'vamp'].filter(a=>my_chats[a]);
+			var message = [Type.TARGET, this.name, this.role, gm.grammarList(targets)];
+			if(this.chats.klepto) {
+				message[1] = '';
+			}
+			for (i in players) {
+				if (sendto.some(a=>players[i].chats[a]) || players[i].s.id == mod || players[i].spectate) {
+					players[i].s.sendMessage.apply(players[i].s, message);
 				}
-			} else if (this.chats.coven) {
-				for (i in players) {
-					if (players[i].chats.coven || players[i].s.id == mod || players[i].spectate) {
-						players[i].s.sendMessage(Type.TARGET, this.name, this.role, gm.grammarList(targets));
-					}
-				}
-			} else if (this.chats.vamp) {
-				for (i in players) {
-					if (players[i].chats.vamp || players[i].s.id == mod || players[i].spectate) {
-						players[i].s.sendMessage(Type.TARGET, this.name, this.role, gm.grammarList(targets));
-					}
-				}
-			} else {
-				players[mod].s.sendMessage(Type.TARGET, this.name, this.role, gm.grammarList(targets));
-				for (i in players) {
-					if (players[i].spectate) {
-						players[i].s.sendMessage(Type.TARGET, this.name, this.role, gm.grammarList(targets));
-					}
-				}
+			}
+			if (sendto.length == 0) {
 				this.s.sendMessage(Type.TARGET, 'You', undefined, gm.grammarList(targets));
 			}
 			//Log the night action for review at the end of the night.
@@ -3689,7 +3686,11 @@ function Player(socket, name, ip) {
 							if(this.chats.coven) sendTo.coven = true;
 							if(this.chats.vamp) sendTo.vamp = true;
 							if(Object.keys(sendTo).length) {
-								this.specMessage(msg, sendTo);
+								if(this.chats.klepto) {
+									this.specMessage(msg, sendTo, this.role, 'klepto');
+								} else {
+									this.specMessage(msg, sendTo);
+								}
 							}
 
 							if (this.chats.jailor) {
