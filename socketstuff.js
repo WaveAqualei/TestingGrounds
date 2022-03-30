@@ -612,6 +612,10 @@ addSocketListener(Type.ROOMLIST,function(list)
 			{
 				$($('#userlist').children()[i]).addClass('spectator');
 			}
+			else
+			{
+				$($('#userlist').children()[i]).removeClass('spectator');
+			}
 			if(list[i].dev)
 			{
 				$($('#userlist').children()[i]).find('.name').addClass('dev');
