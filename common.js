@@ -338,8 +338,8 @@ addMessageHandler(Type.SYSSENT,function(to,msg,styling)
 {
 	return processMessage({
 		msg: 'To '+to+': '+msg,
-		msgsystem,
-	},'information');
+		styling,
+	},'msgsystem');
 });
 var phasetext = [
 	'Pregame',
