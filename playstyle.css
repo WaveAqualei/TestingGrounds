@@ -480,6 +480,11 @@ header ul li span
 	font-size:107%;
 	color:ghostwhite;
 }
+.msgsystem
+{
+	color:#dae101;
+	font-weight:bold;
+}
 .mayor_reveal
 {
 	background:transparent;
