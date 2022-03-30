@@ -320,15 +320,24 @@ addMessageHandler(Type.ROLERESULTS,function(msg, styling)
 });
 addMessageHandler(Type.JOIN,function(name)
 {
-	return processMessage(name+' has joined.','msgsystem');
+	return processMessage({
+		msg: name +' has joined.',
+		styling: 'msgsystem',
+	},'information');
 });
 addMessageHandler(Type.DISCONNECT,function(name)
 {
-	return processMessage(name +' has left.','msgsystem');
+	return processMessage({
+		msg: name +' has left.',
+		styling: 'msgsystem',
+	},'information');
 });
 addMessageHandler(Type.RECONNECT,function(name)
 {
-	return processMessage(name +' has reconnected.','msgsystem');
+	return processMessage({
+		msg: name +' has reconnected.',
+		styling: 'msgsystem',
+	},'information');
 });
 addMessageHandler(Type.SYSTEM,function(msg)
 {
