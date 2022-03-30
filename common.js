@@ -186,6 +186,10 @@ function processMessage(msg, type)
 				{
 					msg.role = '('+msg.role+') is';
 				}
+				else if(msg.role === '')
+				{
+					msg.role = ' is';
+				}
 				else
 				{
 					msg.role = ' are';
