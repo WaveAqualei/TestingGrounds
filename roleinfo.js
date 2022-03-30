@@ -1167,6 +1167,25 @@ var roles = [
 		color: '#FF69B4',
 		custom: true,
 	},
+	{
+		rolename: 'kleptomaniac',
+		alignment: 'neutral evil',
+		abilities: [
+			'During the day, you may steal someone\'s ability to use the next night.',
+			'During the night, you may use the stolen ability.',
+		],
+		attributes: [
+			'You will be informed what subalignment you found, and can use any ability from that subalignment.',
+			'You have a mystical barrier that grants you Basic defense until you are attacked.',
+			'You cannot steal killing roles or roles with day abilities. Attempting to do so will instead replenish your barrier.',
+			'You cannot steal from the same player twice.',
+		],
+		day_targeting: ['other'],
+		targeting: ['', ''], //Should be the targeting of the chosen role.  Granting it unrestricted targeting for now.
+		goal: 'Survive to see the Town lose the game.',
+		color: '#FF00FF',
+		custom: true,
+	},
 
 	// NEUTRAL KILLING CUSTOM
 	{
