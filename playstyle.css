@@ -33,7 +33,7 @@ header
 }
 .moonimg
 {
-	background: url('moon.png');
+	background:url('moon.png');
 	height:15px;
 	width:15px;
 	float:left;
@@ -50,34 +50,34 @@ header .moonimg
 .investresult, .sheriffresult
 {
 	position:relative;
-	width: 20em;
-	font-size: 0.9em;
-	padding: 0.5em;
+	width:20em;
+	font-size:0.9em;
+	padding:0.5em;
 	padding-left:1em;
-	border-radius: 1em;
-	padding-right: 50px;
-	font-family: 'Open Sans', Helvetica, sans-serif;
-	background: #CFD7D7;
-	margin: 0.5em;
+	border-radius:1em;
+	padding-right:50px;
+	font-family:'Open Sans', Helvetica, sans-serif;
+	background:#CFD7D7;
+	margin:0.5em;
 	text-align:center;
 }
 .investresult:after
 {
-	position: absolute;
-	display: block;
-	content: '';
-	background: url(invest.png);
-	height: 50px;
-	width: 50px;
-	right: -10px;
-	top: 0px;
+	position:absolute;
+	display:block;
+	content:'';
+	background:url(invest.png);
+	height:50px;
+	width:50px;
+	right:-10px;
+	top:0px;
 }
 .sheriffresult:after
 {
 	position: absolute;
 	display: block;
-	content: '';
-	background: url(sheriff.png);
+	content:'';
+	background:url(sheriff.png);
 	height: 50px;
 	width: 50px;
 	right: -10px;
@@ -119,12 +119,12 @@ header .moonimg
 #automodsettings
 {
 	border: 1px solid black;
-	z-index: 10;
+	z-index:10;
 	background:white;
 }
 #automodsettings li
 {
-	height: 25%;
+	height:25%;
 	width:100%;
 	position:relative;
 	background:white;
@@ -137,18 +137,18 @@ header .moonimg
 	left:6%;
 	right:6%;
 	bottom:6%;
-	padding: 1em;
+	padding:1em;
 	border: 1px solid transparent;
 	border-radius: 8px;
 	cursor:default;
 }
 #automodsettings li div:hover
 {
-	border: 1px solid #D0CCCC;
+	border:1px solid #D0CCCC;
 }
 #automodsettings li div:active
 {
-	background: #929292;
+	background:#929292;
 }
 #rolelist li
 {
@@ -157,7 +157,7 @@ header .moonimg
 	padding:0;
 	margin:0;
 	background:white;
-	border: 1px solid black;
+	border:1px solid black;
 }
 #rolelist li .top, #rolelist li .bottom
 {
@@ -190,15 +190,15 @@ header .moonimg
 	margin-left:auto;
 	margin-right:auto;
 	min-height:100px;
-	border: 2px solid #265B5F;
-	font-family: 'Open Sans', Arial, sans-serif;
+	border:2px solid #265B5F;
+	font-family:'Open Sans', Arial, sans-serif;
 }
 .automodcontainer header
 {
 	height:30px;
 	width:100%;
 	background: #3b5b5f;
-	position: relative;
+	position:relative;
 	font-family:'Denk One', Arial, sans-serif;
 	color:white;
 }
@@ -206,7 +206,7 @@ header .moonimg
 {
 	left:50%;
 	top:50%;
-	transform: translate(-50%, -50%);
+	transform:translate(-50%, -50%);
 	text-align:center;
 	margin:0;
 	padding:0;
@@ -495,19 +495,29 @@ header ul li span
 	background:transparent;
 	color:#ffb95a;
 }
+.guardian_angel
+{
+	background:#ffffff;
+	color:#000000;
+}
+.phlox
+{
+	background:#df00ff;
+	color:#ffffff;
+}
 .rolecard
 {
-	background: #1f1f1f;
-	background-size: 100% 100%;
-	height: 450px;
-	width: 300px;
+	background:#1f1f1f;
+	background-size:100% 100%;
+	height:450px;
+	width:300px;
 	text-shadow: 0px 4px 6px black;
-	color: white;
-	position: relative;
-	padding: 20px;
-	border: 5px solid #A78A52;
-	padding-top: 10px;
-	float: left;
+	color:white;
+	position:relative;
+	padding:20px;
+	border:5px solid #A78A52;
+	padding-top:10px;
+	float:left;
 }
 .rolecard h2
 {
@@ -515,20 +525,20 @@ header ul li span
 }
 .rolecard .aligntext
 {
-	float: unset;
+	float:unset;
 }
 .rolecard .abilities
 {
-	float: left;
-	width: 100%;
+	float:left;
+	width:100%;
 }
 .goal
 {
-	display: block;
-	color: white;
-	position: absolute;
-	left: auto;
-	bottom: 15px;
+	display:block;
+	color:white;
+	position:absolute;
+	left:auto;
+	bottom:15px;
 }
 #adjustabledivider
 {
@@ -610,16 +620,16 @@ header ul li span
 }
 .votinginterface
 {
-	float: right;
-	height: 100%;
-	width: 100px;
-	text-align: right;
+	float:right;
+	height:100%;
+	width:100px;
+	text-align:right;
 }
 .nightinterface
 {
-	float: right;
-	height: 100%;
-	width: 100px;
+	float:right;
+	height:100%;
+	width:100px;
 }
 .votebutton
 {
@@ -650,7 +660,7 @@ header ul li span
 	margin:-1px;
 }
 .nightbutton.pressed {
-	background: linear-gradient(#252729, #103d36);
+	background:linear-gradient(#252729, #103d36);
 }
 .rolealignment
 {
@@ -660,7 +670,7 @@ header ul li span
 .rolealignmentedit
 {
 	height:100%;
-	box-sizing: border-box;  
+	box-sizing:border-box;  
 	margin:0;
 	padding:0;
 	text-align:center;
@@ -713,14 +723,14 @@ a:visited
 	top:100%;
 	left:50%;
 	transform:translate(-50%,0);
-	border: 2px solid black;
+	border:2px solid black;
 	border-top:1px solid black;
-	width: 3.6em;
+	width:3.6em;
 	height:1.4em;
-	border-bottom-left-radius: 200px;
-	border-bottom-right-radius: 200px;
-	font-size: 1.5em;
-	background: indianred;
+	border-bottom-left-radius:200px;
+	border-bottom-right-radius:200px;
+	font-size:1.5em;
+	background:indianred;
 	z-index:100;
 	cursor: default;
 }
@@ -764,13 +774,13 @@ a:visited
 	content:'';
 	height:0;
 	width:0;
-	border-left: 8px solid darkred;
-	border-top: 5px solid transparent;
-	border-bottom: 5px solid transparent;
+	border-left:8px solid darkred;
+	border-top:5px solid transparent;
+	border-bottom:5px solid transparent;
 }
 .playbutton:hover:after
 {
-	border-left: 8px solid red;
+	border-left:8px solid red;
 }
 #clock span
 {
@@ -781,7 +791,7 @@ a:visited
 }
 .role
 {
-	box-sizing: border-box;
+	box-sizing:border-box;
 	float:left;
 	width:40%;
 }
@@ -799,7 +809,7 @@ a:visited
 	left:40%;
 	transform:translate(0,-50%);
 	text-align:center;
-	width: 2.4em;
+	width:2.4em;
 	background: #3B4545;
 	color: white;
 }
@@ -809,36 +819,36 @@ a:visited
 	top:50%;
 	right:65%;
 	transform:translate(0,-50%);
-	font-size: 0.82em;
+	font-size:0.82em;
 	font-family: 'Open Sans', Arial, sans-serif;
 	color:white;
 }
 .notesbutton {
-	height: 2.38em;
-	width: 1.5em;
-	text-align: center;
-	border: 1px solid black;
+	height:2.38em;
+	width:1.5em;
+	text-align:center;
+	border:1px solid black;
 	float: right;
-	background: #3B4545;
-	color: white;
-	font-size: 10px;
+	background:#3B4545;
+	color:white;
+	font-size:10px;
 	padding-top: 2px;
-	padding-right: 6px;
-	padding-left: 6px;
-	padding-bottom: 2px;
-	margin-left: 5px;
-	cursor: default;
+	padding-right:6px;
+	padding-left:6px;
+	padding-bottom:2px;
+	margin-left:5px;
+	cursor:default;
 }
 .notesbutton:hover {
-	background: #97b0b0;
-	color: black;
+	background:#97b0b0;
+	color:black;
 }
 .willbutton
 {
 	height:2.38em;
 	width:1.5em;
 	text-align:center;
-	border: 1px solid black;
+	border:1px solid black;
 	float:right;
 	background: #3B4545;
 	color: white;
@@ -860,7 +870,7 @@ a:visited
 	height:2.38em;
 	width:1.5em;
 	text-align:center;
-	border: 1px solid black;
+	border:1px solid black;
 	float:right;
 	background: #3B4545;
 	color: white;
@@ -879,15 +889,15 @@ a:visited
 }
 #rolelistbutton
 {
-	background-image: url('list.png');
-	background-size: 100% 100%;
+	background-image:url('list.png');
+	background-size:100% 100%;
 	height:35px;
 	width:32px;
 	float:left;
 }
 #rolelistbutton:hover, #automodsettingsbutton:hover
 {
-	background-color: #D8D8D8;
+	background-color:#D8D8D8;
 }
 #rolelistbutton:active, #automodsettingsbutton:active
 {
@@ -895,8 +905,8 @@ a:visited
 }
 #automodsettingsbutton
 {
-	background-image: url('settings.png');
-	background-size: 100% 100%;
+	background-image:url('settings.png');
+	background-size:100% 100%;
 	height:35px;
 	width:32px;
 	float:left;
@@ -918,7 +928,7 @@ a:visited
 	margin-right:auto;
 	width:50%;
 	height:450px;
-	border: 3px solid black;
+	border:3px solid black;
 	background: #996829;
 	color:black;
 	padding-left:10px;
@@ -927,132 +937,132 @@ a:visited
 }
 #will, #modwill
 {
-    background: url(will.png);
-    background-size: 100% 100%;
-    display: none;
-	position: absolute;
-	top: 50%;
-	left: 50%;
-	transform: translate(-50%, -50%);
-	width: 68vh;
-	height: 87vh;
+	background:url(will.png);
+	background-size:100% 100%;
+	display:none;
+	position:absolute;
+	top:50%;
+	left:50%;
+	transform:translate(-50%, -50%);
+	width:68vh;
+	height:87vh;
 }
 #will textarea, #modwill textarea
 {
-    background-color: transparent;
-    border-style: none;
-    border-color: Transparent;
-    font-size: 17.5px;
-    font-family: Helvetica;
-    outline: none;
-    overflow: auto;
-    height: 70%;
-    width: 85%;
-    margin: 7%;
-    margin-top: 24%;
-    resize: none;
+	background-color:transparent;
+	border-style:none;
+	border-color:Transparent;
+	font-size:17.5px;
+	font-family:Helvetica;
+	outline:none;
+	overflow:auto;
+	height:70%;
+	width:85%;
+	margin:7%;
+	margin-top:24%;
+	resize:none;
 }
 #closewill
 {
-    display: block;
-    position: absolute;
-    right: 6%;
-    top: 4.5%;
-    left: 86%;
-    bottom: 89.5%;
-    background: url(button.png);
-    background-size: cover;
-    border: black 1px solid;
+	display:block;
+	position:absolute;
+	right:6%;
+	top:4.5%;
+	left:86%;
+	bottom:89.5%;
+	background:url(button.png);
+	background-size:cover;
+	border:black 1px solid;
 }
 #postwill
 {
-    display: block;
-    position: absolute;
-    right: 6%;
-    top: 88%;
-    left: 86%;
-    bottom: 6%;
-    background: url(paste.png);
-    background-size: cover;
-    border: solid 1px black;
+	display:block;
+	position:absolute;
+	right:6%;
+	top:88%;
+	left:86%;
+	bottom:6%;
+	background:url(paste.png);
+	background-size:cover;
+	border:solid 1px black;
 }
 #will div:hover, #modwill div:hover
 {
-	box-shadow: 0 0 2px yellow;
+	box-shadow:0 0 2px yellow;
 }
 .notes 
 {
-	margin-left: auto;
-	margin-right: auto;
-	width: 40%;
-	height: 400px;
-	border: 2px solid black;
-	background: #D8DE73;
-	padding-left: 10px;
-	padding-top: 10px;
-	overflow: hidden;
+	margin-left:auto;
+	margin-right:auto;
+	width:40%;
+	height:400px;
+	border:2px solid black;
+	background:#D8DE73;
+	padding-left:10px;
+	padding-top:10px;
+	overflow:hidden;
 }
 #notes, #modnotes 
 {
-	background: url("notes.png");
-	background-size: 100% 100%;
-	display: none;
-	position: absolute;
-	left: 42%;
-	top: 10%;
-	right: 25%;
-	bottom: 10%;
+	background:url("notes.png");
+	background-size:100% 100%;
+	display:none;
+	position:absolute;
+	left:42%;
+	top:10%;
+	right:25%;
+	bottom:10%;
 }
 #notes textarea, #modnotes textarea 
 {
-		background-color: transparent;
-		border-style: none;
-		border-color: Transparent;
-		font-size: 18px;
-		font-family: Helvetica;
-		outline: none;
-		overflow: hidden;
-		height: 80%;
-		width: 80%;
-		margin: 8%;
-		margin-top: 15%;
-		resize: none;
+	background-color:transparent;
+	border-style:none;
+	border-color:transparent;
+	font-size:18px;
+	font-family:Helvetica;
+	outline:none;
+	overflow:hidden;
+	height:80%;
+	width:80%;
+	margin:8%;
+	margin-top:15%;
+	resize:none;
 }
 #closenotes
 {
-	display: block;
-	position: absolute;
-	right: 6%;
-	top: 4.5%;
-	height: 50px;
-	width: 48px;
-	background: url("notesclose.png");
-	background-size: 100%,100%;
+	display:block;
+	position:absolute;
+	right:6%;
+	top:4.5%;
+	height:50px;
+	width:48px;
+	background:url("notesclose.png");
+	background-size:100%,100%;
 }
 #postnotes
 {
-    display: block;
-    position: absolute;
-    right: 6%;
-    top: 88%;
-    left: 86%;
-    bottom: 6%;
-    background: url(paste.png);
-    background-size: cover;
-    border: solid 1px black;
+	display:block;
+	position:absolute;
+	right:6%;
+	top:88%;
+	left:86%;
+	bottom:6%;
+	background:url(paste.png);
+	background-size:cover;
+	border:solid 1px black;
 }
 #notes div:hover, #modnotes div:hover 
 {
-	-webkit-filter: drop-shadow(12px 12px 25px rgba(0,0,0,0.5));
-	filter: drop-shadow(12px 12px 25px rgba(0,0,0,0.5));
+	-webkit-filter:drop-shadow(12px 12px 25px rgba(0,0,0,0.5));
+	filter:drop-shadow(12px 12px 25px rgba(0,0,0,0.5));
 }
 .deadplayer
 {
 	background:#400000;
 	font-weight:bold;
 	color: floralwhite;
-	text-shadow: 3px 3px 3px black;
-	opacity: 0.77;
+	text-shadow:3px 3px 3px black;
+	opacity:0.77;
 	
 }
 .deadplayer > div
@@ -1067,12 +1077,12 @@ a:visited
 .spectator .name
 {
 	font-weight:bold;
-	color: tan;
+	color:tan;
 }
 .spectator .name.dev
 {
 	font-weight:bold;
-	color: silver;
+	color:silver;
 }
 .blocker
 {
@@ -1086,12 +1096,12 @@ a:visited
 }
 .downarrow
 {
-	width: 0; 
-	height: 0; 
-	border-left: 6px solid transparent;
-	border-right: 6px solid transparent;
-	border-top: 6px solid black;
-	top: 80%;
+	width:0; 
+	height:0; 
+	border-left:6px solid transparent;
+	border-right:6px solid transparent;
+	border-top:6px solid black;
+	top:80%;
 }
 .alert
 {
