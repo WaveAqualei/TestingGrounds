@@ -338,7 +338,7 @@ addMessageHandler(Type.SYSSENT,function(to,msg,styling)
 {
 	return processMessage({
 		msg: 'To '+to+': '+msg,
-		styling,
+		msgsystem,
 	},'information');
 });
 var phasetext = [
@@ -491,7 +491,7 @@ addMessageHandler(Type.GUARDIAN_ANGEL, function(name, yourName) {
 	return processMessage({msg: '👼 The Guardian Angel has protected '+name+'.', styling: 'guardian_angel'}, "highlight");
 });
 addMessageHandler(Type.PHLOX, function(name, yourName) {
-	return processMessage({msg: '🌸 A Phlox has purified '+name+'.', styling: 'highlight'}, "phlox");
+	return processMessage({msg: '🌸 A Phlox has purified '+name+'.', styling: 'phlox'}, "highlight");
 });
 addMessageHandler(Type.JUDGEMENT,function(msg)
 {
