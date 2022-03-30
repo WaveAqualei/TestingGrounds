@@ -320,15 +320,15 @@ addMessageHandler(Type.ROLERESULTS,function(msg, styling)
 });
 addMessageHandler(Type.JOIN,function(name)
 {
-	return processMessage(name+' has joined.','system');
+	return processMessage(name+' has joined.','msgsystem');
 });
 addMessageHandler(Type.DISCONNECT,function(name)
 {
-	return processMessage(name +' has left.','system');
+	return processMessage(name +' has left.','msgsystem');
 });
 addMessageHandler(Type.RECONNECT,function(name)
 {
-	return processMessage(name +' has reconnected.','system');
+	return processMessage(name +' has reconnected.','msgsystem');
 });
 addMessageHandler(Type.SYSTEM,function(msg)
 {
@@ -488,10 +488,10 @@ addMessageHandler(Type.VERDICT,function(name,val)
 	return processMessage({name:name,val:val},'verdict');
 });
 addMessageHandler(Type.GUARDIAN_ANGEL, function(name, yourName) {
-	return processMessage({msg: '👼 The Guardian Angel has protected '+name+'.', styling: 'highlight'}, "highlight");
+	return processMessage({msg: '👼 The Guardian Angel has protected '+name+'.', styling: 'guardian_angel'}, "highlight");
 });
 addMessageHandler(Type.PHLOX, function(name, yourName) {
-	return processMessage({msg: '🌸 A Phlox has purified '+name+'.', styling: 'highlight'}, "highlight");
+	return processMessage({msg: '🌸 A Phlox has purified '+name+'.', styling: 'highlight'}, "phlox");
 });
 addMessageHandler(Type.JUDGEMENT,function(msg)
 {
