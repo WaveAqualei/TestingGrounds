@@ -339,7 +339,7 @@ addMessageHandler(Type.SYSSENT,function(to,msg,styling)
 	return processMessage({
 		msg: 'To '+to+': '+msg,
 		styling,
-	},'msgsystem');
+	},'information');
 });
 var phasetext = [
 	'Pregame',
