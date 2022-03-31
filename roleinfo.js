@@ -1241,7 +1241,7 @@ var roles = [
 		attack: 'Basic',
 		defense: 'Basic',
 		abilities: ['You may deluge a player at night, turning them into a ghost if they die.',
-			    'You may instead visit a ghost, cleaning their role and will.
+			    'You may instead visit a ghost, cleaning their role and will.'],
 		attributes: [
 			'Ghosts appear as alive despite being dead. Their will won\'t be revealed until they are visited by a player, are voted on trial, or are destroyed.',
 			'You may only have two ghosts out at a time.',
