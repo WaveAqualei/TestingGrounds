@@ -792,7 +792,7 @@ else
 			addPauseButton(phase);
 		}
 	}
-	if (phase == 4 && !mod && !$(`#p-${player_name}`).closest('li').is('.deadplayer, .spectator')) //Voting
+	if (phase == 4 && !mod) //Voting
 	{
 		//Add the voting interface
 		for (i = 1; i < users.length; i++)
@@ -801,7 +801,7 @@ else
 			{
 				var li = $('#userlist').children()[i];
 				var votinginterface = $('<div class="votinginterface"></div>');
-				if(users[i] !== player_name && !$($('#userlist li')[i]).find('.angel').length) {
+				if(users[i] !== player_name && !$($('#userlist li')[i]).find('.angel').length && !$(`#p-${player_name}`).closest('li').is('.deadplayer, .spectator')) {
 					var button = $('<div class="votebutton">Vote</div>');
 					button.click(function()
 					{
