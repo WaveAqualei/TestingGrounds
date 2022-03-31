@@ -1193,7 +1193,7 @@ var roles = [
 			'You will know the subalignment of the player you stole from, and can use any ability from that subalignment.',
 			'Studying a killing role will instead replenish your mystical barrier.',
 			'You may steal from the dead.',
-			'You cannot steal from the same player twice.',
+			'You may steal from each person once..',
 		],
 		day_targeting: ['other'],
 		targeting: ['', ''], //Should be the targeting of the chosen role.  Granting it unrestricted targeting for now.
