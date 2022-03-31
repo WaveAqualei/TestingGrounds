@@ -90,16 +90,18 @@ header .moonimg
 }
 .playernum
 {
-	display: inline-block;
-	width: 1.5em;
-	text-align: center;
-	background: rgba(128, 255, 0, 0.5);
-	color: white;
-	border-radius: 1em;
+	display:inline-block;
+	width:1.24em;
+	text-align:center;
+	background:rgba(127, 255, 0, 0.66);
+	color:white;
+	border:1px solid #1f1f1f;
+	border-radius:1em;
 }
 .playernum.modnum
 {
-	background: rgba(255, 0, 255, 0.5);
+	background:rgba(255, 128, 199, 0.87);
+	color:white;
 }
 .rolecardcontainer
 {
