@@ -296,6 +296,8 @@ addMessageHandler(Type.MSG,function(from,msg)
 {
 	if(from.num) {
 		from = '<span class="playernum">'+from.num+'</span> '+from.name+': ';
+	} else if(from.num === 0) {
+		from = '<span class="playernum modnum">M</span> '+from.name+': ';
 	} else if(from.name) {
 		from = from.name+': ';
 	} else {

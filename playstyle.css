@@ -28,6 +28,7 @@ header
 	overflow-x:hidden;
 	color:#FFFFFF;
 	font-family: 'SuperRareFont', Whitney, sans-serif;
+	line-height: 1.5em;
 	background-color:#36393f;
 }
 .moonimg
@@ -90,11 +91,15 @@ header .moonimg
 .playernum
 {
 	display: inline-block;
-	width: 1em;
+	width: 1.5em;
 	text-align: center;
 	background: rgba(128, 255, 0, 0.5);
 	color: white;
 	border-radius: 1em;
+}
+.playernum.modnum
+{
+	background: rgba(255, 0, 255, 0.5);
 }
 .rolecardcontainer
 {
