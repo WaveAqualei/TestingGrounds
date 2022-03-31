@@ -941,7 +941,7 @@ addSocketListener(Type.VOTE,function(voter,msg,voted,prev)
 			var li =$('#userlist li')[index];
 			if (li.childNodes[0].childNodes[2])
 			{
-				var count = li.childNodes[0].childNodes[2].childNodes[1];
+				var count = li.querySelector('.votecount');
 				var num = parseInt(count.innerHTML);
 				num--;
 				count.innerHTML=num;
@@ -951,7 +951,7 @@ addSocketListener(Type.VOTE,function(voter,msg,voted,prev)
 		{
 			var index = users.indexOf(voted);
 			var li =$('#userlist li')[index];
-			var count = li.childNodes[0].childNodes[2].childNodes[1];
+			var count = li.querySelector('.votecount');
 			var num = parseInt(count.innerHTML);
 			num++;
 			count.innerHTML=num;
