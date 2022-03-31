@@ -36,6 +36,7 @@ var commandList = {
 		jail: 'Choose to jail a player. Usage: /jail [target] during the day.',
 		execute: 'Choose to execute the person you have jailed. Usage /execute, then /execute again to cancel.',
 		seance: 'Choose a player to talk to at night. You may only use this once during the day.',
+		unveil: 'Unveil yourself as the Gardenia, if you have that role. Usage: /unveil, during the day.'
 	},
 	mod: {
 		givemod: 'Pass the mod onto another person. Usage: /givemod name',
@@ -566,9 +567,9 @@ io.on('connection', function (socket, req) {
 		if (banned) {
 			socket.sendMessage(
 				Type.SYSTEM,
-				'This ip is banned. Reason: ' +
+				'This IP has been banned. Reason: ' +
 					reason +
-					'.<br>If you believe this to be in error, bring it up on the <a href="https://discord.gg/EVS55Zb">Testing Grounds Discord Server</a>.'
+					'.<br>If you believe this was a mistake, bring it up on the <a href="https://discord.gg/EVS55Zb">Testing Grounds Discord Server</a>.'
 			);
 			socket.sendMessage(Type.KICK);
 			console.log('Connection attempt from banned ip: ' + ip);
@@ -700,7 +701,7 @@ io.on('connection', function (socket, req) {
 					}
 					if (alts.length > 0) {
 						//Inform everyone of the alt.
-						sendPublicMessage(Type.HIGHLIGHT, 'Please be aware that ' + connecting_as_name + ' is an alt of ' + gm.grammarList(alts) + '.');
+						sendPublicMessage(Type.HIGHLIGHT, 'Note: ' + connecting_as_name + ' is an alt of ' + gm.grammarList(alts) + '.');
 					}
 					//Tell the new arrival what phase it is.
 					socket.sendMessage(Type.SETPHASE, phase, true, timer.time);
@@ -741,10 +742,10 @@ io.on('connection', function (socket, req) {
 	});
 
 	addSocketListener(Type.MSG, function (msg) {
-		if (msg.length > 400) {
-			socket.sendMessage(Type.SYSTEM, 'Your message was too long.');
+		if (msg.length > 512) {
+			socket.sendMessage(Type.SYSTEM, 'Your message sent was over 512 characters.');
 		} else if (msg.trim() == '') {
-			socket.sendMessage(Type.SYSTEM, 'Cannot send an empty message.');
+			socket.sendMessage(Type.SYSTEM, 'You cannot send an empty message.');
 		} else if (msg[0] == '/') {
 			players[socket.id].command(msg.substring(1, msg.length));
 		} else {
@@ -871,8 +872,8 @@ io.on('connection', function (socket, req) {
 	});
 	addSocketListener(Type.SETROLE, function (name, role) {
 		if (socket.id == mod) {
-			if (role.length > 48) {
-				socket.sendMessage(Type.SYSTEM, 'Role name cannot be more than 48 characters.');
+			if (role.length > 80) {
+				socket.sendMessage(Type.SYSTEM, 'Role name cannot be more than 80 characters.');
 			} else {
 				var p = getPlayerByName(name);
 				if (p) {
@@ -889,8 +890,8 @@ io.on('connection', function (socket, req) {
 		if (socket.id == mod) {
 			prev_rolled = roles;
 			for (i in names) {
-				if (roles[i].length > 48) {
-					socket.sendMessage(Type.SYSTEM, 'Invalid rolelist! Role name cannot be more than 48 characters: ' + roles[i]);
+				if (roles[i].length > 80) {
+					socket.sendMessage(Type.SYSTEM, 'Invalid rolelist! Role name cannot be more than 80 characters: ' + roles[i]);
 					break;
 				}
 				var p = getPlayerByName(names[i]);
