@@ -1428,7 +1428,7 @@ var roles = [
 		alignment: 'vampire conversion',
 		abilities: ['You may protect a player at night, granting your target Powerful defense.'],
 		attributes: [
-			'If your target is attacked, reflect one attacker\'s attack. The other attackers will not know of this.'
+			'If your target is attacked, reflect one attacker\'s attack. The other attackers will not know of this.',
 			'If you save your target from an attack they ares converted into a Devoted.',
 			'You cannot protect Night 1.',
 			'If you successfully convert someone, you must wait a day before protecting again.',
