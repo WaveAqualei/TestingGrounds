@@ -102,9 +102,6 @@ function processMessage(msg, type)
 {
 	switch (type)
 	{
-		case 'msg':
-			return '<li>'+msg+'</li>';
-		break;
 		case 'me':
 			return '<li class="me">*<em>'+msg+'</em>*</li>';
 		break;
@@ -209,9 +206,6 @@ function processMessage(msg, type)
 			}
 			return '<li><span class="mod">'+str+'</span></li>';
 		break;
-		case 'custom':	
-			return '<li><span class="'+msg.styling+'">'+msg.name+': '+msg.msg+'</span></li>';
-		break;
 		case 'prenot':
 			return '<li class="'+msg.styling+'">'+msg.msg+'</li>';
 		break;
@@ -298,17 +292,23 @@ function msgToHTML(type, args) {
 		return messageHandlers[type].apply(this, args);
 	}
 }
-addMessageHandler(Type.MSG,function(name,msg)
+addMessageHandler(Type.MSG,function(from,msg)
 {
-	if (msg.styling)
-	{
-		msg.name=name;
-		return processMessage(msg,'custom');
+	if(from.num) {
+		from = '<span class="playernum">'+from.num+'</span> '+from.name+': ';
+	} else if(from.name) {
+		from = from.name+': ';
+	} else {
+		from = '';
 	}
-	else
-	{
-		return processMessage(name+': '+msg,'msg');
+	if(msg.styling) {
+		msg = '<span class="'+msg.styling+'">'+from+msg.msg+'</span>';
+	} else if(msg.msg) {
+		msg = from+msg.msg;
+	} else {
+		msg = from+msg;
 	}
+	return '<li>'+msg+'</li>';
 });
 addMessageHandler(Type.ME,function(name,msg)
 {

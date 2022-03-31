@@ -87,6 +87,15 @@ header .moonimg
 	width:100%;
 	padding-left:5px;
 }
+.playernum
+{
+	display: inline-block;
+	width: 1em;
+	text-align: center;
+	background: rgba(128, 255, 0, 0.5);
+	color: white;
+	border-radius: 1em;
+}
 .rolecardcontainer
 {
 	overflow:auto;

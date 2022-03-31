@@ -3616,7 +3616,10 @@ function Player(socket, name, ip) {
 					if (this.silenced) {
 						this.silencedError();
 					} else {
-						sendPublicMessage(Type.MSG, this.name, msg);
+						sendPublicMessage(Type.MSG, {
+							num: playernums.indexOf(this.s.id),
+							name: this.name,
+						}, msg);
 					}
 					break;
 				case Phase.ROLES:
@@ -3644,7 +3647,10 @@ function Player(socket, name, ip) {
 						if (this.blackmailed) {
 							this.s.sendMessage(Type.SYSTEM, 'You are blackmailed.');
 						} else {
-							sendPublicMessage(Type.MSG, this.name, msg);
+							sendPublicMessage(Type.MSG, {
+								num: playernums.indexOf(this.s.id),
+								name: this.name,
+							}, msg);
 						}
 					} //Deadchat
 					else {
@@ -3660,10 +3666,14 @@ function Player(socket, name, ip) {
 						this.specMessage(msg, { spectate: true });
 					} else if (this.alive) {
 						if (ontrial == this.s.id) {
+							const from = {
+								num: playernums.indexOf(this.s.id),
+								name: this.name,
+							};
 							if (this.blackmailed) {
-								sendPublicMessage(Type.MSG, this.name, 'I am blackmailed.');
+								sendPublicMessage(Type.MSG, from, 'I am blackmailed.');
 							} else {
-								sendPublicMessage(Type.MSG, this.name, msg);
+								sendPublicMessage(Type.MSG, from, msg);
 							}
 						} else {
 							socket.sendMessage(Type.SYSTEM, 'Please do not speak while someone is on trial.');
@@ -3699,7 +3709,7 @@ function Player(socket, name, ip) {
 							if (this.chats.medium) {
 								this.specMessage(msg, { dead: true }, 'Medium', 'medium');
 								//Echo the message back to the medium.
-								this.s.sendMessage(Type.MSG, 'Medium', { msg: msg, styling: 'medium' });
+								this.s.sendMessage(Type.MSG, { name: 'Medium' }, { msg: msg, styling: 'medium' });
 							}
 						}
 						if (this.chats.linked) {
@@ -3707,14 +3717,18 @@ function Player(socket, name, ip) {
 						}
 						var beingSeanced = playernums.map(i=>players[i]).filter(p=>p.seancing === this);
 						if (beingSeanced.length) {
-							beingSeanced.map(p=>p.s.sendMessage(Type.MSG, this.name, msg));
+							const from = {
+								num: playernums.indexOf(this.s.id),
+								name: this.name,
+							};
+							beingSeanced.map(p=>p.s.sendMessage(Type.MSG, from, msg));
 							//Echo the message back to the player.
-							this.s.sendMessage(Type.MSG, this.name, msg);
-							addLogMessage(Type.MSG, this.name, msg);
-							players[mod].s.sendMessage(Type.MSG, this.name, msg);
+							this.s.sendMessage(Type.MSG, from, msg);
+							addLogMessage(Type.MSG, from, msg);
+							players[mod].s.sendMessage(Type.MSG, from, msg);
 							for (i in players) {
 								if (players[i].spectate) {
-									players[i].s.sendMessage(Type.MSG, this.name, msg);
+									players[i].s.sendMessage(Type.MSG, from, msg);
 								}
 							}
 						}
@@ -3723,14 +3737,22 @@ function Player(socket, name, ip) {
 					} //Deadchat
 					else {
 						if (this.seancing) {
-							this.seancing.s.sendMessage(Type.MSG, 'Medium', { msg: msg, styling: 'medium' });
+							const from = {
+								name: 'Medium',
+							};
+							const spec_from = {
+								num: playernums.indexOf(this.s.id),
+								name: 'Medium(' + this.name + ')',
+							};
+							const message = { msg: msg, styling: 'medium' };
+							this.seancing.s.sendMessage(Type.MSG, from, message);
 							//Echo the message back to the medium.
-							this.s.sendMessage(Type.MSG, 'Medium', { msg: msg, styling: 'medium' });
-							addLogMessage(Type.MSG, 'Medium(' + this.name + ')', { msg: msg, styling: 'medium' });
-							players[mod].s.sendMessage(Type.MSG, 'Medium(' + this.name + ')', { msg: msg, styling: 'medium' });
+							this.s.sendMessage(Type.MSG, from, message);
+							addLogMessage(Type.MSG, spec_from, message);
+							players[mod].s.sendMessage(Type.MSG, spec_from, message);
 							for (i in players) {
 								if (players[i].spectate) {
-									players[i].s.sendMessage(Type.MSG, 'Medium(' + this.name + ')', { msg: msg, styling: 'medium' });
+									players[i].s.sendMessage(Type.MSG, spec_from, message);
 								}
 							}
 						} else {
@@ -3762,7 +3784,10 @@ function Player(socket, name, ip) {
 						if (this.blackmailed) {
 							this.s.sendMessage(Type.SYSTEM, 'You are blackmailed.');
 						} else {
-							sendPublicMessage(Type.MSG, this.name, msg);
+							sendPublicMessage(Type.MSG, {
+								num: playernums.indexOf(this.s.id),
+								name: this.name,
+							}, msg);
 						}
 					} else if (ontrial) {
 						this.s.sendMessage(Type.SYSTEM, 'Please do not talk during ' + players[ontrial].name + "'s last words.");
@@ -3776,16 +3801,33 @@ function Player(socket, name, ip) {
 			specname, //Display a message only to players able to see certain chats.
 			primary	// Color the message as being from this chat even for people who can't see that chat
 		) {
-			addLogMessage(Type.MSG, specname ? specname + '(' + this.name + ')' : this.name, { styling: primary || Object.keys(types)[0], msg: msg });
+			var from, spec_from;
+			if(specname) {
+				from = { name: specname };
+				spec_from = {
+					num: playernums.indexOf(this.s.id),
+					name: specname + '(' + this.name + ')',
+				};
+			} else {
+				from = spec_from = {
+					num: playernums.indexOf(this.s.id),
+					name: this.name,
+				};
+			}
+			var spec_msg = {
+				styling: primary || Object.keys(types)[0],
+				msg: msg,
+			};
+			addLogMessage(Type.MSG, spec_from, spec_msg);
 			for (i in players) {
 				if (i == mod || players[i].spectate) {
 					//Mod can view all chats.
-					players[i].s.sendMessage(Type.MSG, specname ? specname + '(' + this.name + ')' : this.name, { styling: primary || Object.keys(types)[0], msg: msg });
+					players[i].s.sendMessage(Type.MSG, spec_from, spec_msg);
 				} else {
 					for (j in types) {
 						if (players[i].chats[j] == types[j]) {
 							//Use the special name if one is provided.
-							players[i].s.sendMessage(Type.MSG, specname ? specname : this.name, { styling: primary || j, msg: msg });
+							players[i].s.sendMessage(Type.MSG, from, { styling: primary || j, msg: msg });
 							break;
 						}
 					}
