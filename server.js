@@ -1609,7 +1609,7 @@ function sendPlayerTargetingOptions(p) {
 	}
 	var legal_targets = getPlayerTargetingOptions(p);
 	var actions = gm.getActions(p.name)?.map(function(target,i) {
-		if(legal_targets[i].includes(target)) return target;
+		if(legal_targets[i]?.includes(target)) return target;
 		else return '';
 	});
 	p.s.sendMessage(Type.TARGETING_OPTIONS, legal_targets, actions);
