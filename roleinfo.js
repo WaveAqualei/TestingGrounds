@@ -1190,7 +1190,7 @@ var roles = [
 		],
 		attributes: [
 			'You have a mystical barrier that grants you Basic defense until you are attacked.',
-			'You will learn the subalignment of the player you stole from, and can use any ability from that subalignment the following night.',
+			'You will know the subalignment of the player you stole from, and can use any ability from that subalignment.',
 			'Studying a killing role will instead replenish your mystical barrier.',
 			'You may steal from the dead.',
 			'You cannot steal from the same player twice.',
