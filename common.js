@@ -98,6 +98,20 @@ if(typeof jQuery !== 'undefined') {
 	}
 }
 
+function referenceToName(from) {
+	if(from.num) {
+		return '<span class="playernum">'+from.num+'</span> '+from.name;
+	} else if(from.num === 0) {
+		return '<span class="playernum modnum">M</span> '+from.name;
+	} else if(from.name) {
+		return from.name;
+	} else if(typeof from === 'string') {
+		return from;
+	} else {
+		return '';
+	}
+}
+
 function processMessage(msg, type)
 {
 	switch (type)
@@ -143,19 +157,19 @@ function processMessage(msg, type)
 		case 'whisper':
 			if (!msg.msg)
 			{
-				return '<li><b>'+msg.from+'</b><span class="whisper"> is whispering to </span><b>'+msg.to+'</b></span>.</li>';
+				return '<li><b>'+referenceToName(msg.from)+'</b><span class="whisper"> is whispering to </span><b>'+referenceToName(msg.to)+'</b></span>.</li>';
 			}
 			else if (msg.from && msg.to)
 			{
-				return '<li><span class="whispermessage">From</span> <b>'+msg.from+'</b> <span class="whispermessage">to</span> <b>'+msg.to+'</b> <span class="whispermessage"> '+msg.msg+' </span></li>';
+				return '<li><span class="whispermessage">From</span> <b>'+referenceToName(msg.from)+'</b> <span class="whispermessage">to</span> <b>'+referenceToName(msg.to)+'</b> <span class="whispermessage"> '+msg.msg+' </span></li>';
 			}
 			else if (msg.from)
 			{
-				return '<li><span class="whispermessage">From</span> <b>'+msg.from+'</b><span class="whispermessage"> '+msg.msg+' </span></li>';
+				return '<li><span class="whispermessage">From</span> <b>'+referenceToName(msg.from)+'</b><span class="whispermessage"> '+msg.msg+' </span></li>';
 			}
 			else if (msg.to)
 			{
-				return '<li><span class="whispermessage">To</span> <b>'+msg.to+'</b><span class="whispermessage"> '+msg.msg+' </span></li>';
+				return '<li><span class="whispermessage">To</span> <b>'+referenceToName(msg.to)+'</b><span class="whispermessage"> '+msg.msg+' </span></li>';
 			}
 			else
 			{
@@ -165,11 +179,11 @@ function processMessage(msg, type)
 		case 'mod':
 			if (msg.from)
 			{
-				return '<li><span class="mod">From</span> <b>'+msg.from+':</b><span class="mod"> '+msg.msg+' </span></li>';
+				return '<li><span class="mod">From</span> <b>'+referenceToName(msg.from)+':</b><span class="mod"> '+msg.msg+' </span></li>';
 			}
 			else if (msg.to)
 			{
-				return '<li><span class="mod">To</span> <b>'+msg.to+':</b><span class="mod"> '+msg.msg+' </span></li>';
+				return '<li><span class="mod">To</span> <b>'+referenceToName(msg.to)+':</b><span class="mod"> '+msg.msg+' </span></li>';
 			}
 			else
 			{
@@ -294,15 +308,7 @@ function msgToHTML(type, args) {
 }
 addMessageHandler(Type.MSG,function(from,msg)
 {
-	if(from.num) {
-		from = '<span class="playernum">'+from.num+'</span> '+from.name+': ';
-	} else if(from.num === 0) {
-		from = '<span class="playernum modnum">M</span> '+from.name+': ';
-	} else if(from.name) {
-		from = from.name+': ';
-	} else {
-		from = '';
-	}
+	from = referenceToName(from)+': ';
 	if(msg.styling) {
 		msg = '<span class="'+msg.styling+'">'+from+msg.msg+'</span>';
 	} else if(msg.msg) {

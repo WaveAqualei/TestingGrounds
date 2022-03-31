@@ -523,6 +523,12 @@ function sendPublicMessage() {
 		players[i].s.sendMessage.apply(players[i].s, arguments);
 	}
 }
+function playerToReference(player) {
+	return {
+		num: playernums.indexOf(player.s.id),
+		name: player.name,
+	};
+}
 io.on('connection', function (socket, req) {
 	socket.id = crypto.randomBytes(16).toString("hex");
 
@@ -2394,8 +2400,8 @@ function Player(socket, name, ip) {
 						msg.splice(0, 1);
 						msg = msg.join(' ');
 						msg = sanitize(msg);
-						addLogMessage(Type.MOD, { from: this.name, msg: msg });
-						players[mod].s.sendMessage(Type.MOD, { from: this.name, msg: msg });
+						addLogMessage(Type.MOD, { from: playerToReference(this), msg: msg });
+						players[mod].s.sendMessage(Type.MOD, { from: playerToReference(this), msg: msg });
 						this.s.sendMessage(Type.MOD, { to: 'Mod', msg: msg });
 					}
 					break;
@@ -3424,28 +3430,23 @@ function Player(socket, name, ip) {
 				case 'msg':
 					if (mod == this.s.id) {
 						if (c.length > 2) {
+							var msg = c.slice();
+							msg.splice(0, 2);
+							msg = msg.join(' ');
+							msg = sanitize(msg);
 							if (playernames[c[1]]) {
-								//Valid player name.
-								var msg = c.slice();
-								msg.splice(0, 2);
-								msg = msg.join(' ');
-								msg = sanitize(msg);
-								players[playernames[c[1]]].s.sendMessage(Type.MOD, { from: 'Mod', msg: msg });
-								addLogMessage(Type.MOD, { to: c[1], msg: msg });
-								this.s.sendMessage(Type.MOD, { to: c[1], msg: msg });
+								var target = getPlayerByName(c[1]);
+								target.s.sendMessage(Type.MOD, { from: 'Mod', msg: msg });
+								addLogMessage(Type.MOD, { to: playerToReference(target), msg: msg });
+								this.s.sendMessage(Type.MOD, { to: playerToReference(target), msg: msg });
 							} else if (!isNaN(c[1])) {
 								//It's a number.
 								//Get the numbered player.
 								var target = getPlayerByNumber(c[1]);
 								if (target != -1) {
-									var name = target.name;
-									var msg = c.slice();
-									msg.splice(0, 2);
-									msg = msg.join(' ');
-									msg = sanitize(msg);
 									target.s.sendMessage(Type.MOD, { from: 'Mod', msg: msg });
-									addLogMessage(Type.MOD, { to: name, msg: msg });
-									this.s.sendMessage(Type.MOD, { to: name, msg: msg });
+									addLogMessage(Type.MOD, { to: playerToReference(target), msg: msg });
+									this.s.sendMessage(Type.MOD, { to: playerToReference(target), msg: msg });
 								} else {
 									this.s.sendMessage(Type.SYSTEM, 'Could not find player number ' + c[1] + '!');
 								}
@@ -3563,14 +3564,15 @@ function Player(socket, name, ip) {
 			} else if (!to.alive && phase != Phase.PREGAME) {
 				this.s.sendMessage(Type.SYSTEM, 'You cannot whisper to the dead.');
 			} else {
-				to.s.sendMessage(Type.WHISPER, { from: this.name, msg: msg });
-				this.s.sendMessage(Type.WHISPER, { to: to.name, msg: msg });
+				const whisper = { from: playerToReference(this), to: playerToReference(to), msg };
+				to.s.sendMessage(Type.WHISPER, { from: whisper.from, msg });
+				this.s.sendMessage(Type.WHISPER, { to: whisper.to, msg });
 				if (phase != Phase.PREGAME) {
-					addLogMessage(Type.WHISPER, { from: this.name, to: to.name, msg: msg });
-					players[mod].s.sendMessage(Type.WHISPER, { from: this.name, to: to.name, msg: msg });
+					addLogMessage(Type.WHISPER, whisper);
+					players[mod].s.sendMessage(Type.WHISPER, whisper);
 					for (i in players) {
 						if (players[i].spectate || players[i].hearwhispers) {
-							players[i].s.sendMessage(Type.WHISPER, { from: this.name, to: to.name, msg: msg });
+							players[i].s.sendMessage(Type.WHISPER, whisper);
 						}
 					}
 					//Public whispering message
@@ -3616,10 +3618,7 @@ function Player(socket, name, ip) {
 					if (this.silenced) {
 						this.silencedError();
 					} else {
-						sendPublicMessage(Type.MSG, {
-							num: playernums.indexOf(this.s.id),
-							name: this.name,
-						}, msg);
+						sendPublicMessage(Type.MSG, playerToReference(this), msg);
 					}
 					break;
 				case Phase.ROLES:
@@ -3647,10 +3646,7 @@ function Player(socket, name, ip) {
 						if (this.blackmailed) {
 							this.s.sendMessage(Type.SYSTEM, 'You are blackmailed.');
 						} else {
-							sendPublicMessage(Type.MSG, {
-								num: playernums.indexOf(this.s.id),
-								name: this.name,
-							}, msg);
+							sendPublicMessage(Type.MSG, playerToReference(this), msg);
 						}
 					} //Deadchat
 					else {
@@ -3666,10 +3662,7 @@ function Player(socket, name, ip) {
 						this.specMessage(msg, { spectate: true });
 					} else if (this.alive) {
 						if (ontrial == this.s.id) {
-							const from = {
-								num: playernums.indexOf(this.s.id),
-								name: this.name,
-							};
+							const from = playerToReference(this);
 							if (this.blackmailed) {
 								sendPublicMessage(Type.MSG, from, 'I am blackmailed.');
 							} else {
@@ -3717,10 +3710,7 @@ function Player(socket, name, ip) {
 						}
 						var beingSeanced = playernums.map(i=>players[i]).filter(p=>p.seancing === this);
 						if (beingSeanced.length) {
-							const from = {
-								num: playernums.indexOf(this.s.id),
-								name: this.name,
-							};
+							const from = playerToReference(this);
 							beingSeanced.map(p=>p.s.sendMessage(Type.MSG, from, msg));
 							//Echo the message back to the player.
 							this.s.sendMessage(Type.MSG, from, msg);
@@ -3784,10 +3774,7 @@ function Player(socket, name, ip) {
 						if (this.blackmailed) {
 							this.s.sendMessage(Type.SYSTEM, 'You are blackmailed.');
 						} else {
-							sendPublicMessage(Type.MSG, {
-								num: playernums.indexOf(this.s.id),
-								name: this.name,
-							}, msg);
+							sendPublicMessage(Type.MSG, playerToReference(this), msg);
 						}
 					} else if (ontrial) {
 						this.s.sendMessage(Type.SYSTEM, 'Please do not talk during ' + players[ontrial].name + "'s last words.");
@@ -3809,10 +3796,7 @@ function Player(socket, name, ip) {
 					name: specname + '(' + this.name + ')',
 				};
 			} else {
-				from = spec_from = {
-					num: playernums.indexOf(this.s.id),
-					name: this.name,
-				};
+				from = spec_from = playerToReference(this);
 			}
 			var spec_msg = {
 				styling: primary || Object.keys(types)[0],
