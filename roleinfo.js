@@ -1126,7 +1126,7 @@ var roles = [
 			'You cannot learn from someone Night 1.',
 			'If you learn from a unique role, you will inherit their win condition and night chat until they die, upon which you will inherit their role.',
 		],
-		targeting: [],
+		targeting: ['living other'],
 		goal: 'Learn a role and complete that role\'s objective.',
 		color: '#004953',
 		custom: true,
@@ -1193,7 +1193,7 @@ var roles = [
 			'You will know the subalignment of the player you stole from, and can use any ability from that subalignment.',
 			'Studying a killing role will instead replenish your mystical barrier.',
 			'You may steal from the dead.',
-			'You may steal from each person once..',
+			'You may steal from each person once.',
 		],
 		day_targeting: ['other'],
 		targeting: ['', ''], //Should be the targeting of the chosen role.  Granting it unrestricted targeting for now.
@@ -1238,13 +1238,14 @@ var roles = [
 	{
 		rolename: 'naiad',
 		alignment: 'neutral killing',
-		attack: 'Powerful',
+		attack: 'Basic',
 		defense: 'Basic',
-		abilities: ['You may drown a player at night, dealing a Powerful attack to them.'],
+		abilities: ['You may deluge a player at night, turning them into a ghost if they die.',
+			    'You may instead visit a ghost, cleaning their role and will.
 		attributes: [
-			'Their death will not be announced until their body is found by a visitor or they are voted up to the gallows.',
-			'Their name will still appear in the list as alive, and a "phantom" of their body will leave their house.',
-			'You will learn who visits your target the night you drown them.',
+			'Ghosts appear as alive despite being dead. Their will won\'t be revealed until they are visited by a player, are voted on trial, or are destroyed.',
+			'You may only have two ghosts out at a time.',
+			'If you attempt to make a third ghost, the oldest one is destroyed.',
 		],
 		targeting: ['living other'],
 		goal: 'Kill anyone that would oppose you.',
@@ -1280,7 +1281,8 @@ var roles = [
 			'All of your victims will have their role and last will unreadable upon death. Those you attack directly will be cleaned, and those who die from visiting you will only have their subalignment shown.',
 		],
 		targeting: ['living other'],
-		goal: 'Devour all who occupy the town.',		color: '#808000',
+		goal: 'Devour all who occupy the town.',
+		color: '#808000',
 		custom: true,
 	},
 
