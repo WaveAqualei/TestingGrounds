@@ -480,7 +480,14 @@ addMessageHandler(Type.PRENOT,function(notification)
 });
 addMessageHandler(Type.TARGET,function(name,role,target)
 {
-	return processMessage({name:name,role:sanitize(role),target:target},'target');
+	if(typeof role === 'string') {
+		role = sanitize(role);
+	}
+	return processMessage({
+		name,
+		role,
+		target,
+	},'target');
 });
 addMessageHandler(Type.MAYOR, function(name) {
 	return processMessage({msg: '🎩' +name+' has revealed themselves as the Mayor!', styling: 'mayor_reveal'}, "highlight");
