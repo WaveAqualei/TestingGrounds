@@ -28,7 +28,7 @@ header
 	overflow-x:hidden;
 	color:#FFFFFF;
 	font-family: 'SuperRareFont', Whitney, sans-serif;
-	line-height: 1.24em;
+	line-height: 1.25em;
 	background-color:#36393f;
 }
 .moonimg
@@ -91,7 +91,7 @@ header .moonimg
 .playernum
 {
 	display:inline-block;
-	width:1.24em;
+	width:1.25em;
 	text-align:center;
 	background:rgba(127, 255, 0, 0.66);
 	color:white;
@@ -101,6 +101,26 @@ header .moonimg
 .playernum.modnum
 {
 	background:rgba(255, 128, 199, 0.87);
+	color:white;
+}
+.mafia .playernum
+{
+	background:#dd0000;
+	color:white;
+}
+.coven .playernum
+{
+	background:#bf5fff;
+	color:white;
+}
+.vamp .playernum
+{
+	background:#7b8968;
+	color:white;
+}
+.klepto .playernum
+{
+	background:#ff00ff;
 	color:white;
 }
 .rolecardcontainer
