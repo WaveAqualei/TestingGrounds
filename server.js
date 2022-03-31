@@ -3697,7 +3697,7 @@ function Player(socket, name, ip) {
 							if(this.chats.vamp) sendTo.vamp = true;
 							if(Object.keys(sendTo).length) {
 								if(this.chats.klepto) {
-									this.specMessage(msg, sendTo, this.role, 'klepto');
+									this.specMessage(msg, sendTo, this.role || 'NoRole', 'klepto');
 								} else {
 									this.specMessage(msg, sendTo);
 								}
