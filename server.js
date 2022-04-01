@@ -1124,7 +1124,6 @@ io.on('connection', function (socket, req) {
 								notify = undefined;
 								break; //No message
 							case 'wisteria':
-								player.wisteriacom = true;
 								addLogMessage(Type.SYSTEM, player.name+' is now the Wisteria.');
 								notify = 'You are now Wisteria. Use /entangle [target] to capture. Use /execute, /exe or /x to execute your prisoner.';
 								break;
@@ -1160,7 +1159,6 @@ io.on('connection', function (socket, req) {
 								notify = undefined;
 								break; //No message
 							case 'wisteria':
-								player.wisteriacom = false;
 								addLogMessage(Type.SYSTEM, player.name+' is no longer Wisteria.');
 								notify = 'You are no longer Wisteria.';
 								break;
@@ -2068,6 +2066,8 @@ function Player(socket, name, ip) {
 					vamp: false,
 					jailor: false,
 					jailed: false,
+					wisteria: false,
+					entangled: false,
 					medium: false,
 					klepto: false,
 					linked: false,
@@ -2904,7 +2904,7 @@ function Player(socket, name, ip) {
 				case 'ent':
 					if (mod == this.s.id) {
 						this.s.sendMessage(Type.SYSTEM, 'The mod cannot use this command.');
-					} else if (this.wisteriacom === false) {
+					} else if (!this.chats.wisteria) {
 						this.s.sendMessage(Type.SYSTEM, 'Only Wisteria can detain people.');
 					} else if (!this.alive) {
 						this.s.sendMessage(Type.SYSTEM, 'You must be alive to entangle.');
@@ -3801,7 +3801,7 @@ function Player(socket, name, ip) {
 							this.specMessage(msg, { jailor: true, jailed: true }, null, 'jailed');
 						} else if (this.chats.entangled) {
 							this.specMessage(msg, { wisteria: true, entangled: true }, null, 'entangled');
-						} else if (this.chats.mafia || this.chats.coven || this.chats.vamp || this.chats.linked || this.chats.jailor || this.chats.medium) {
+						} else if (this.chats.mafia || this.chats.coven || this.chats.vamp || this.chats.linked || this.chats.jailor || this.chats.wisteria || this.chats.medium) {
 							var sendTo = {};
 							if(this.chats.mafia) sendTo.mafia = true;
 							if(this.chats.coven) sendTo.coven = true;
@@ -3875,7 +3875,7 @@ function Player(socket, name, ip) {
 					if (this.silenced) {
 						this.silencedError();
 					} else if (mod == this.s.id) {
-						this.s.sendMessage(Type.SYSTEM, 'Use /a if you want to send a public message as mod');
+						this.s.sendMessage(Type.SYSTEM, 'Use /a if you want to send a public message.');
 					} else if (this.spectate) {
 						this.specMessage(msg, { spectate: true });
 					} else {
@@ -3886,7 +3886,7 @@ function Player(socket, name, ip) {
 					if (this.silenced) {
 						this.silencedError();
 					} else if (mod == this.s.id) {
-						this.s.sendMessage(Type.SYSTEM, 'Use /a if you want to send a public message as mod');
+						this.s.sendMessage(Type.SYSTEM, 'Use /a if you want to send a public message.');
 					} else if (this.spectate) {
 						this.specMessage(msg, { spectate: true });
 					} else if (!this.alive) {
