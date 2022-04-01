@@ -2900,7 +2900,7 @@ function Player(socket, name, ip) {
 					if (mod == this.s.id) {
 						this.s.sendMessage(Type.SYSTEM, 'The mod cannot use this command.');
 					} else if (!this.chats.wisteria) {
-						this.s.sendMessage(Type.SYSTEM, 'Only Wisteria can detain people.');
+						this.s.sendMessage(Type.SYSTEM, 'Only Wisteria can entwine people.');
 					} else if (!this.alive) {
 						this.s.sendMessage(Type.SYSTEM, 'You must be alive to entangle.');
 					} else if ((phase >= Phase.DAY && phase <= Phase.LASTWORDS) || phase == Phase.FIRSTDAY) {
