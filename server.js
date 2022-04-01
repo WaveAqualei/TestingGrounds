@@ -3033,19 +3033,19 @@ function Player(socket, name, ip) {
 							if(this.chats.jailor && is_night) {
 								if(newtarget?.chats?.jailed) {
 									this.s.sendMessage(Type.SYSTEM, 'You have decided to execute your prisoner.');
-									newtarget.s.sendMessage(Type.SYSTEM, 'The Jailor has decided to execute you.');
+									newtarget.s.sendMessage(Type.HIGHLIGHT, 'The Jailor has decided to execute you.', 'dying');
 								} else if(oldtarget?.chats?.jailed) {
 									this.s.sendMessage(Type.SYSTEM, 'You have changed your mind.');
-									oldtarget.s.sendMessage(Type.SYSTEM, 'The Jailor has changed his mind.');
+									oldtarget.s.sendMessage(Type.HIGHLIGHT, 'The Jailor has changed their mind.', 'dying');
 								}
 							}
 							if(this.chats.wisteria && is_night) {
 								if(newtarget?.chats?.entangled) {
-									this.s.sendMessage(Type.SYSTEM, 'You have decided to execute your prisoner.');
-									newtarget.s.sendMessage(Type.SYSTEM, 'The Wisteria has decided to execute you.');
+									this.s.sendMessage(Type.SYSTEM, 'You have decided to execute your captive.');
+									newtarget.s.sendMessage(Type.HIGHLIGHT, 'Wisteria has decided to execute you.');
 								} else if(oldtarget?.chats?.entangled) {
 									this.s.sendMessage(Type.SYSTEM, 'You have changed your mind.');
-									oldtarget.s.sendMessage(Type.SYSTEM, 'The Wisteria has changed his mind.');
+									oldtarget.s.sendMessage(Type.HIGHLIGHT, 'Wisteria has changed their mind.');
 								}
 							}
 							if(this.mayor === false && newtarget === this && is_day) {
@@ -3117,7 +3117,7 @@ function Player(socket, name, ip) {
 								gm.log(this.name, []);
 							}
 						} else {
-							this.s.sendMessage(Type.SYSTEM, 'You do not have a prisoner to execute!');
+							this.s.sendMessage(Type.SYSTEM, 'You do not have anyone to execute!');
 						}
 					}
 					break;
