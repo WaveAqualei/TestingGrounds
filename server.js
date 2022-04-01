@@ -8,7 +8,6 @@ var storage = require('./storage.js');
 var verified = []; //List of ips that are verified to use the MCP.
 var createdList = [];
 var gm = require('./gm.js');
-var jailorcom = false;
 var request = require('request');
 // Set the headers
 var headers = {
@@ -1116,7 +1115,6 @@ io.on('connection', function (socket, req) {
 					if (player.chats[chat]) {
 						switch (chat) {
 							case 'jailor':
-								player.jailorcom = true;
 								addLogMessage(Type.SYSTEM, player.name+' is now the jailor.');
 								notify = 'You are now the Jailor. Use /jail [target] to jail. Use /execute, /exe or /x to execute your prisoner.';
 								break;
@@ -1151,7 +1149,6 @@ io.on('connection', function (socket, req) {
 					} else {
 						switch (chat) {
 							case 'jailor':
-								player.jailorcom = false;
 								addLogMessage(Type.SYSTEM, player.name+' is no longer the jailor.');
 								notify = 'You are no longer the Jailor.';
 								break;
@@ -1972,7 +1969,6 @@ function Player(socket, name, ip) {
 		votelock: false,
 		mayor: undefined,
 		gardenia: undefined,
-		jailorcom: false,
 		spectate: false,
 		afk: undefined,
 		seance: undefined,
@@ -2049,7 +2045,6 @@ function Player(socket, name, ip) {
 				votelock: false,
 				mayor: undefined,
 				gardenia: undefined,
-				jailorcom: false,
 				seance: undefined,
 				blackmailed: false,
 				doused: false,
@@ -2845,7 +2840,7 @@ function Player(socket, name, ip) {
 				case 'jail':
 					if (mod == this.s.id) {
 						this.s.sendMessage(Type.SYSTEM, 'The mod cannot use this command.');
-					} else if (this.jailorcom === false) {
+					} else if (!this.chats.jailor) {
 						this.s.sendMessage(Type.SYSTEM, 'Only the Jailor can detain people.');
 					} else if (!this.alive) {
 						this.s.sendMessage(Type.SYSTEM, 'You must be alive to jail.');
