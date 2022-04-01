@@ -3025,6 +3025,29 @@ function Player(socket, name, ip) {
 							}.bind(this));
 						}
 						if (!error) {
+							var oldtargets = gm.getActions(this.name) || [];
+							var newtarget = getPlayerByName(targets[0]);
+							var oldtarget = getPlayerByName(oldtargets[0]);
+							var is_night = phase == Phase.NIGHT;
+							var is_day = (phase >= Phase.DAY && phase <= Phase.FIRSTDAY) && !is_night;
+							if(this.chats.jailor && is_night) {
+								if(newtarget?.chats?.jailed) {
+									this.s.sendMessage(Type.SYSTEM, 'You have decided to execute your prisoner.');
+									newtarget.s.sendMessage(Type.SYSTEM, 'The Jailor has decided to execute you.');
+								} else if(oldtarget?.chats?.jailed) {
+									this.s.sendMessage(Type.SYSTEM, 'You have changed your mind.');
+									oldtarget.s.sendMessage(Type.SYSTEM, 'The Jailor has changed his mind.');
+								}
+							}
+							if(this.chats.wisteria && is_night) {
+								if(newtarget?.chats?.entangled) {
+									this.s.sendMessage(Type.SYSTEM, 'You have decided to execute your prisoner.');
+									newtarget.s.sendMessage(Type.SYSTEM, 'The Wisteria has decided to execute you.');
+								} else if(oldtarget?.chats?.entangled) {
+									this.s.sendMessage(Type.SYSTEM, 'You have changed your mind.');
+									oldtarget.s.sendMessage(Type.SYSTEM, 'The Wisteria has changed his mind.');
+								}
+							}
 							this.target(targets);
 						}
 					}
