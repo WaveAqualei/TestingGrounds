@@ -3036,7 +3036,7 @@ function Player(socket, name, ip) {
 									newtarget.s.sendMessage(Type.HIGHLIGHT, 'The Jailor has decided to execute you.', 'dying');
 								} else if(oldtarget?.chats?.jailed) {
 									this.s.sendMessage(Type.SYSTEM, 'You have changed your mind.');
-									oldtarget.s.sendMessage(Type.HIGHLIGHT, 'The Jailor has changed their mind.', 'dying');
+									oldtarget.s.sendMessage(Type.HIGHLIGHT, 'The Jailor has changed his mind.', 'dying');
 								}
 							}
 							if(this.chats.wisteria && is_night) {
@@ -3102,8 +3102,8 @@ function Player(socket, name, ip) {
 									found = players[i].name;
 									players[i].s.sendMessage(Type.SYSTEM, msg);
 									socket.sendMessage(Type.SYSTEM, jmsg);
-									addLogMessage(Type.SYSTEM, this.executing ? this.name + ' has changed their mind.' : this.name + ' has decided to execute ' + players[i].name + '.');
-									players[mod].s.sendMessage(Type.SYSTEM, this.executing ? this.name + ' has changed their mind.' : this.name + ' has decided to execute ' + players[i].name + '.');
+									addLogMessage(Type.SYSTEM, this.executing ? this.name + ' has changed his mind.' : this.name + ' has decided to execute ' + players[i].name + '.');
+									players[mod].s.sendMessage(Type.SYSTEM, this.executing ? this.name + ' has changed his mind.' : this.name + ' has decided to execute ' + players[i].name + '.');
 								}
 							}
 						}
