@@ -1644,6 +1644,7 @@ function getPlayerTargetingOptions(player) {
 			even: gm.getDay() % 2 == 0,
 			fullmoon: gm.getDay() == 2 || gm.getDay() >= 4,
 			jailed: p.chats.jailed,
+			entangled: p.chats.entangled,
 			target: p === player.goal_target,
 		};
 		return {
