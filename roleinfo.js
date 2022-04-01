@@ -105,7 +105,7 @@ var roles = [
 		abilities: ['When dead, seance a living person at night.'],
 		attributes: ['You will speak to the dead anonymously each night you are alive.', 'You may only seance a living person once.'],
 		targeting: [],
-		dead_targeting: ['living'],
+		day_dead_targeting: ['living'],
 		goal: towngoal,
 		color: towncolor,
 	},
