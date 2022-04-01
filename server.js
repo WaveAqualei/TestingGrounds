@@ -3048,6 +3048,33 @@ function Player(socket, name, ip) {
 									oldtarget.s.sendMessage(Type.SYSTEM, 'The Wisteria has changed his mind.');
 								}
 							}
+							if(this.mayor === false && newtarget === this && is_day) {
+								this.command('reveal');
+							}
+							if(this.gardenia === false && newtarget === this && is_day) {
+								this.command('unveil');
+							}
+							if(this.chats.medium && this.canSeance && !this.alive && is_day) {
+								if(newtarget && newtarget !== this && newtarget.alive) {
+									this.s.sendMessage(Type.SYSTEM, 'You are now seancing ' + newtarget.name + '.');
+									this.seancing = newtarget;
+									addLogMessage(Type.SYSTEM, this.name + ' is now seancing ' + newtarget.name + '.');
+									for (i in players) {
+										if (players[i].spectate || i == mod) {
+											players[i].s.sendMessage(Type.SYSTEM, this.name + ' is now seancing ' + newtarget.name + '.');
+										}
+									}
+								} else if(this.seancing) {
+									this.s.sendMessage(Type.SYSTEM, 'You cancel your seance.');
+									this.seancing = undefined;
+									addLogMessage(Type.SYSTEM, this.name + ' cancels their seance.');
+									for (i in players) {
+										if (players[i].spectate || i == mod) {
+											players[i].s.sendMessage(Type.SYSTEM, this.name + ' cancels their seance.');
+										}
+									}
+								}
+							}
 							this.target(targets);
 						}
 					}
