@@ -14,13 +14,6 @@ header
 	background:#265B5F;
 	border-bottom:1px solid black;
 }
-header .lighttheme
-{
-	height:2em;
-	width:100%;
-	background:#265f33;
-	border-bottom:1px solid black;
-}
 #main
 {
 	height:90%;
@@ -37,11 +30,6 @@ header .lighttheme
 	font-family: 'SuperRareFont', Whitney, sans-serif;
 	line-height: 1.25em;
 	background-color:#36393f;
-}
-.lighttheme #main
-{
-	background:#E3E3E3;
-	color:#000000;
 }
 .moonimg
 {
@@ -1742,10 +1730,6 @@ neut
 {
 	color:#ff80c7;
 }
-.mod .lighttheme
-{
-	color:#8f476f;
-}
 .dying
 {
 	background:#db0d0d;
@@ -1904,9 +1888,29 @@ neut
 .emoji:hover {
 	cursor: pointer;
 }
+#themeselector {
+    float: right;
+}
 @media only screen and (max-device-width: 900px)
 {
   #main {
     width: 50%;
   }
+}
+
+.lighttheme header
+{
+	height:2em;
+	width:100%;
+	background:#265f33;
+	border-bottom:1px solid black;
+}
+.lighttheme #main
+{
+	background:#E3E3E3;
+	color:#000000;
+}
+.lighttheme .mod
+{
+	color:#8f476f;
 }

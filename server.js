@@ -309,6 +309,7 @@ var server = http.createServer(function (req, res) {
 		case '/socketstuff.js':
 		case '/script.js':
 		case '/playscript.js':
+		case '/themes.js':
 		case '/MCP/modscript.js':
 		case '/MCP/passscript.js':
 		case '/jquery-2.1.4.min.js':
