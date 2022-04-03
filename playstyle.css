@@ -1910,7 +1910,31 @@ neut
 	background:#E3E3E3;
 	color:#000000;
 }
+.lighttheme .msgsystem
+{
+	color:#A78A52
+}
+.lighttheme .modchat
+{
+	background:#ff80c7;
+}
 .lighttheme .mod
 {
-	color:#8f476f;
+	color:#3d0029;
+}
+.lighttheme .mafia
+{
+	color:#dd0000;
+}
+.lighttheme .coven
+{
+	color:#8000FF;
+}
+.lighttheme .vamp
+{
+	color:#7b8968;
+}
+.lighttheme .wisteria
+{
+	color:#96357c;
 }
