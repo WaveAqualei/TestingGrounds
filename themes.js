@@ -1,5 +1,5 @@
 var themes = {
-	'(Default)': {
+	'Dark (Default)': {
 		classname: '',
 		mpregame: 'Riverside.mp3',
 		whoami: 'PeaceAndTranquility.mp3',
