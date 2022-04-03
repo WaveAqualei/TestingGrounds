@@ -1716,13 +1716,13 @@ neut
 }
 .entangled
 {
-	color:green;
-	text-shadow: 0px 0px 10px #001702;
+	color:antiquewhite;
+	text-shadow:0px 0px 10px forestgreen;
 }
 .wisteria
 {
 	color:#eba8ff;
-	text-shadow: 0px 0px 10px #6e225c;
+	text-shadow:0px 0px 10px #6e225c;
 }
 .entangling
 {
