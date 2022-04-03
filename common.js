@@ -478,6 +478,12 @@ addMessageHandler(Type.PRENOT,function(notification)
 	  case 'JAILING':
 		 return processMessage({msg:'You dragged your target off to jail!',styling:'reviving'},'prenot');
 	  break;
+	  case 'ENTANGLED':
+		 return processMessage({msg:'You were locked away in the Garden!',styling:'captured'},'prenot');
+	  break;
+	  case 'ENTANGLING':
+		 return processMessage({msg:'You have locked away your target!',styling:'reviving'},'prenot');
+	  break;
 	  case 'LINKED':
 		 return processMessage({msg:'You have been linked!',styling:'reviving'},'prenot');
 	  break;
