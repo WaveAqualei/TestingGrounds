@@ -1731,7 +1731,7 @@ neut
 .captured
 {
 	background:#db0d0d;
-	color:forestgreen;
+	color:#eba8ff;
 }
 .moon
 {
@@ -1751,6 +1751,11 @@ neut
 	background:#db0d0d;
 	color:white;
 }
+.reviving
+{
+	background:#00992b;
+	color:white;
+}
 .fullmoon
 {
 	background:#8aacb8;
@@ -1760,11 +1765,6 @@ neut
 {
 	background:#50514e;
 	color:lime;
-}
-.reviving
-{
-	background:#00992b;
-	color:white;
 }
 .vote
 {
