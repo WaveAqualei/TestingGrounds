@@ -555,16 +555,16 @@ addSocketListener(Type.SETMOD,function(val)
 		for (i = 0; i < users.length; i++)
 		{
 			var num = i==0?'MOD':i;
+			if ($($('#userlist li')[i]).find('.dev').length)
+			{
+				var name ='<span class="name dev">'+users[i]+'</span>';
+			}
+			else
+			{
+				var name ='<span class="name">'+users[i]+'</span>';
+			}
 			if ($(buttons[i]).hasClass('killbutton'))
 			{
-				if ($($('#userlist li')[i]).find('.dev').length)
-				{
-					var name ='<span class="name dev">'+users[i]+'</span>';
-				}
-				else
-				{
-					var name ='<span class="name">'+users[i]+'</span>';
-				}
 				//Top row, normal users.
 				var info = $(`<div class="info" id="p-${users[i]}"><span class="num">${num}</span>${name}</div>`);
 			}
