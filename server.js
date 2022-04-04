@@ -3664,7 +3664,7 @@ function Player(socket, name, ip) {
 							if(winners.length == 1) sendPublicMessage(Type.HIGHLIGHT, winners.join()+' won!');
 							else if(winners.length > 1) sendPublicMessage(Type.HIGHLIGHT, winners.slice(0, -1).join(', ')+', and '+winners.slice(-1).join()+' won!');
 						} else {
-							this.s.sendMessage(Type.SYSTEM, "The syntax of this command is '/d role.");
+							this.s.sendMessage(Type.SYSTEM, "The syntax of this command is '/win (faction) (players).");
 						}
 					} else {
 						this.s.sendMessage(Type.SYSTEM, "Only the mod can use this command.");
