@@ -464,44 +464,56 @@ header ul li span
 {
 	background:#9f703a;
 	color:white;
-	font-weight: bold;
+	font-weight:bold;
 }
 .arsokill
 {
 	background:#ee7600;
 	color:black;
-	font-weight: bold;
+	font-weight:bold;
 }
 .juggkill
 {
 	background:#a12b56;
 	color:white;
-	font-weight: bold;
+	font-weight:bold;
+}
+.survwin
+{
+	background:#dddd00;
+	color:white;
+	font-weight:bold;
 }
 .jestkill
 {
 	background:#f7b3da;
-	color: white;
-	font-weight: bold;
+	color:white;
+	font-weight:bold;
 }
 .vampkill
 {
 	background:#7b8968;
-	color: black;
-	font-weight: bold;
+	color:black;
+	font-weight:bold;
 }
 .piratekill
 {
 	background:#edc240;
-	color: black;
-	font-weight: bold;
+	color:black;
+	font-weight:bold;
+}
+.pbwin
+{
+	background:#cfff63;
+	color:black;
+	font-weight:bold;
 }
 .pestkill
 {
 	background:#424242;
-	color: black;
-	text-shadow: 0px 0px 5px green;
-	font-weight: bold;
+	color:black;
+	text-shadow:0px 0px 5px #cfff63;
+	font-weight:bold;
 }
 .floraekill
 {
