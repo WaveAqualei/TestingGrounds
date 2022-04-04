@@ -3459,6 +3459,7 @@ function Player(socket, name, ip) {
 									sendPublicMessage(Type.HIGHLIGHT, "They were staked by a Vampire Hunter.", 'townkill');
 									break;
 								case 'guard':
+								case 'guarding':
 									sendPublicMessage(Type.HIGHLIGHT, "They died guarding someone.", 'townkill');
 									break;
 								case 'bg':
@@ -3481,6 +3482,7 @@ function Player(socket, name, ip) {
 									sendPublicMessage(Type.HIGHLIGHT, "They were killed by a member of the Mafia.", 'mafiakill');
 									break;
 								case 'amb':
+								case 'ambush':
 								case 'ambusher':
 									sendPublicMessage(Type.HIGHLIGHT, "They were killed by an Ambusher.", 'mafiakill');
 									break;
@@ -3506,6 +3508,7 @@ function Player(socket, name, ip) {
 								case 'necromancer':
 									sendPublicMessage(Type.HIGHLIGHT, "They were killed by the Necromancer's Ghoul.", 'covenkill');
 									break;
+								case 'poi':
 								case 'poisoner':
 									sendPublicMessage(Type.HIGHLIGHT, "They were poisoned by a Poisoner.", 'covenkill');
 									break;
@@ -3589,6 +3592,66 @@ function Player(socket, name, ip) {
 						this.s.sendMessage(Type.SYSTEM, "Only the mod can use this command.");
 					}
 					break;
+				case 'win':
+					if (mod == this.s.id) {
+						if (c.length > 1) {
+							var msg = c.slice(1);
+							msg = msg.join(' ').trim();
+							switch(msg.toLowerCase()) {
+								case 'town':
+									sendPublicMessage(Type.HIGHLIGHT, "The Town wins!", 'townkill');
+									break;
+								case 'mafia':
+									sendPublicMessage(Type.HIGHLIGHT, "The Mafia wins!", 'mafiakill');
+									break;
+								case 'coven':
+									sendPublicMessage(Type.HIGHLIGHT, "The Coven wins!", 'covenkill');
+									break;
+								case 'neutrals':
+									sendPublicMessage(Type.HIGHLIGHT, "The Neutrals win!", 'suicide');
+									break;
+								case 'sk':
+									sendPublicMessage(Type.HIGHLIGHT, "The Serial Killers win!", 'skkill');
+									break;
+								case 'ww':
+									sendPublicMessage(Type.HIGHLIGHT, "The Werewolf wins!", 'wwkill');
+									break;
+								case 'arso':
+									sendPublicMessage(Type.HIGHLIGHT, "The Arsonists win!", 'arsokill');
+									break;
+								case 'jugg':
+									sendPublicMessage(Type.HIGHLIGHT, "The Juggernaut wins!", 'juggkill');
+									break;
+								case 'surv':
+									sendPublicMessage(Type.HIGHLIGHT, "The Survivors win!", 'survwin');
+									break;
+								case 'exe':
+									sendPublicMessage(Type.HIGHLIGHT, "The Executioners win!", 'suicide');
+									break;
+								case 'jest':
+									sendPublicMessage(Type.HIGHLIGHT, "The Jesters win!", 'jestkill');
+									break;
+								case 'witch':
+									sendPublicMessage(Type.HIGHLIGHT, "The Witches win!", 'covenkill');
+									break;
+								case 'vamp':
+									sendPublicMessage(Type.HIGHLIGHT, "The Vampires win!", 'vampkill');
+									break;
+								case 'pirate':
+									sendPublicMessage(Type.HIGHLIGHT, "The Pirate wins!", 'piratekill');
+									break;
+								case 'pb':
+									sendPublicMessage(Type.HIGHLIGHT, "The Plaguebearer wins!", 'pbwin');
+									break;
+								case 'pest':
+									sendPublicMessage(Type.HIGHLIGHT, "Pestilence wins!", 'pestkill');
+									break;
+								case 'florae':
+									sendPublicMessage(Type.HIGHLIGHT, "The Florae wins!", 'floraekill');
+									break;
+								case 'draw':
+									sendPublicMessage(Type.HIGHLIGHT, "The game has ended in a draw.", 'moon');
+									break;
 				case 'msg':
 					if (mod == this.s.id) {
 						if (c.length > 2) {
