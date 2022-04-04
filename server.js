@@ -41,6 +41,7 @@ var commandList = {
 		givemod: 'Pass the mod onto another person. Usage: /givemod name',
 		a: 'Send a public message to everyone (outside of Pregame). Usage: /a message',
 		d: 'Send a public death message to everyone (outside of Pregame). Example: /d WW - Usage: /d message',
+		win: 'Send a public message to everyone stating who won the game. Example: /win town 1 4 5 8 12 13 14 15 - Usage: /win faction playernumbers',
 		random: 'Choose a random player. Usage: /random',
 		roll: 'Roll a dice. Usage /roll or /roll sides',
 		msg: 'Send a message to a player. <span class="mod">From</span> <b>Mod:</b> <span class="mod">This looks like this</span>. Usage: /msg name message',
@@ -3652,6 +3653,13 @@ function Player(socket, name, ip) {
 								case 'draw':
 									sendPublicMessage(Type.HIGHLIGHT, "The game has ended in a draw.", 'moon');
 									break;
+						} else {
+						this.s.sendMessage(Type.SYSTEM, "The syntax of this command is '/d role.");
+						}
+					} else {
+						this.s.sendMessage(Type.SYSTEM, "Only the mod can use this command.");
+					}
+					break;
 				case 'msg':
 					if (mod == this.s.id) {
 						if (c.length > 2) {
