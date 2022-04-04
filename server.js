@@ -3653,8 +3653,11 @@ function Player(socket, name, ip) {
 								case 'draw':
 									sendPublicMessage(Type.HIGHLIGHT, "The game has ended in a draw.", 'moon');
 									break;
+								default:
+									sendPublicMessage(Type.HIGHLIGHT, "The "+sanitize(msg)+" wins!", 'modchat');
+							}
 						} else {
-						this.s.sendMessage(Type.SYSTEM, "The syntax of this command is '/d role.");
+							this.s.sendMessage(Type.SYSTEM, "The syntax of this command is '/d role.");
 						}
 					} else {
 						this.s.sendMessage(Type.SYSTEM, "Only the mod can use this command.");
