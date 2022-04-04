@@ -3596,6 +3596,7 @@ function Player(socket, name, ip) {
 				case 'win':
 					if (mod == this.s.id) {
 						if (c.length > 1) {
+							c = c.filter(a=>a);
 							var msg = c[1];
 							switch(msg.toLowerCase()) {
 								case 'town':
