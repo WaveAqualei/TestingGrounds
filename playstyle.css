@@ -417,7 +417,8 @@ header ul li span
 }
 .highlight
 {
-	background:#996829;
+	background:#265B5F;
+	color:white;
 }
 .modchat
 {
@@ -647,7 +648,7 @@ header ul li span
 {
 	float:left;
 	height:40%;
-	width:85%;
+	width:80%;
 	background:#1e2124;
 	color:antiquewhite;
 	font-size:15px;
@@ -964,8 +965,8 @@ a:visited
 	width:50%;
 	height:450px;
 	border:3px solid black;
-	background: #996829;
-	color:black;
+	background:#36393f;
+	color:white;
 	padding-left:10px;
 	padding-top:10px;
 	overflow:hidden;
@@ -1146,7 +1147,7 @@ a:visited
 	left:40%;
 	right:40%;
 	bottom:20%;
-	font-family: 'Open Sans', Arial, sans-serif;
+	font-family:'Open Sans', Arial, sans-serif;
 }
 .alert img
 {
@@ -1158,8 +1159,8 @@ a:visited
 	width:10%;
 	float:left;
 	font-family:'Open Sans', Arial, sans-serif;
-	box-shadow: rgba(0,0,0,1) 0 1px 0;
-	text-shadow: rgba(0,0,0,.4) 0 1px 0;
+	box-shadow:rgba(0,0,0,1) 0 1px 0;
+	text-shadow:rgba(0,0,0,.4) 0 1px 0;
 	text-decoration: none;
 	background: white;
 	position:relative;
@@ -1192,7 +1193,7 @@ a:visited
 	position:absolute;
 	right:0;
 	background:#364040;
-	color: white;
+	color:white;
 	border:1px solid white;
 	list-style:none;
 	padding:0;
@@ -1210,8 +1211,8 @@ a:visited
 	background:#8a8a8a;
 }
 .mafiabutton {
-   background: #364040;
-   background-size: 100% 100%
+   background:#364040;
+   background-size:100% 100%
 }
 .mafiabutton:hover {
    background: #b51a1a;
@@ -1898,17 +1899,95 @@ neut
   }
 }
 
-.lighttheme header
-{
-	height:2em;
-	width:100%;
-	background:#265f33;
-	border-bottom:1px solid black;
-}
 .lighttheme #main
 {
 	background:#E3E3E3;
 	color:#000000;
+}
+.lighttheme #c
+{
+	float:left;
+	height:40%;
+	width:80%;
+	background:white;
+	font-size:15px;
+}
+.lighttheme .notesbutton
+{
+	height:2.38em;
+	width:1.5em;
+	text-align:center;
+	border:1px solid black;
+	float:right;
+	background:white;
+	color:white;
+	font-size:10px;
+	padding-top: 2px;
+	padding-right:6px;
+	padding-left:6px;
+	padding-bottom:2px;
+	margin-left:5px;
+	cursor:default;
+}
+.lighttheme .notesbutton:hover
+{
+	background:#bfbfbf;
+	color:black;
+}
+.lighttheme .willbutton
+{
+	height:2.38em;
+	width:1.5em;
+	text-align:center;
+	border:1px solid black;
+	float:right;
+	background:white;
+	color:white;
+	font-size:10px;
+	padding-top:2px;
+	padding-right:6px;
+	padding-left:6px;
+	padding-bottom:2px;
+	margin-left:5px;
+	cursor:default;
+}
+.lighttheme .willbutton:hover
+{
+	background:#bfbfbf;
+	color:black;
+}
+.lighttheme .musicbutton
+{
+	height:2.38em;
+	width:1.5em;
+	text-align:center;
+	border:1px solid black;
+	float:right;
+	background:white;
+	color:white;
+	font-size:10px;
+	padding-top:2px;
+	padding-right:6px;
+	padding-left:6px;
+	padding-bottom:2px;
+	margin-left:5px;
+	cursor:default;
+}
+.lighttheme .musicbutton:hover
+{
+	background:#bfbfbf;
+	color:black;
+}
+.lighttheme #modnumbering input
+{
+	position:absolute;
+	top:50%;
+	left:40%;
+	transform:translate(0,-50%);
+	text-align:center;
+	width:2.4em;
+	background:white;
+	color:black;
 }
 .lighttheme .msgsystem
 {
