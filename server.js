@@ -3596,7 +3596,7 @@ function Player(socket, name, ip) {
 				case 'win':
 					if (mod == this.s.id) {
 						if (c.length > 1) {
-							var msg = c.slice(1);
+							var msg = c[1];
 							switch(msg.toLowerCase()) {
 								case 'town':
 									sendPublicMessage(Type.HIGHLIGHT, "The Town wins!", 'townkill');
