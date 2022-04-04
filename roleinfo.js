@@ -1324,7 +1324,7 @@ var roles = [
 		attributes: ['You may not heal yourself.', 'You only win if every other faction is reduced to a single member. At least two other factions must survive.'],
 		targeting: ['living other', 'living other'],
 		goal: 'Successfully Conquer the Town.',
-		color: '#4080FF',
+		color: '#274ba3',
 		custom: true,
 	},
 	{
