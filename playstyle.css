@@ -515,6 +515,30 @@ header ul li span
 	text-shadow:0px 0px 5px #cfff63;
 	font-weight:bold;
 }
+.conqkill
+{
+	background:#274ba3;
+	color:white;
+	font-weight:bold;
+}
+.huntsmankill
+{
+	background:#521421;
+	color:white;
+	font-weight:bold;
+}
+.patientkill
+{
+	background:#808000;
+	color:white;
+	font-weight:bold;
+}
+.naiadkill
+{
+	background:#008080;
+	color:white;
+	font-weight:bold;
+}
 .floraekill
 {
 	background:#228f41;
