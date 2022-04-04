@@ -3513,6 +3513,13 @@ function Player(socket, name, ip) {
 								case 'poisoner':
 									sendPublicMessage(Type.HIGHLIGHT, "They were poisoned by a Poisoner.", 'covenkill');
 									break;
+								case 'myst':
+								case 'mystic':
+									sendPublicMessage(Type.HIGHLIGHT, "They were cursed by the Mystic.", 'covenkill');
+									break;
+								case 'familiar':
+									sendPublicMessage(Type.HIGHLIGHT, "They were clawed by a Familiar.", 'covenkill');
+									break;
 								case 'sk':
 								case 'serial killer':
 									sendPublicMessage(Type.HIGHLIGHT, "They were stabbed by a Serial Killer.", 'skkill');
@@ -3543,6 +3550,20 @@ function Player(socket, name, ip) {
 								case 'pest':
 								case 'pestilence':
 									sendPublicMessage(Type.HIGHLIGHT, "They were obliterated by Pestilence, Horseman of the Apocalypse.", 'pestkill');
+									break;
+								case 'conq':
+								case 'conqueror':
+									sendPublicMessage(Type.HIGHLIGHT, "They were quelled by the Conqueror.", 'conqkill');
+									break;
+								case 'huntsman':
+									sendPublicMessage(Type.HIGHLIGHT, "They were shot by the Huntsman.", 'huntsmankill');
+									break;
+								case 'patient':
+									sendPublicMessage(Type.HIGHLIGHT, "They were devoured by the Patient.", 'patientkill');
+									break;
+								case 'nai':
+								case 'naiad:
+									sendPublicMessage(Type.HIGHLIGHT, "They were drowned by a Naiad.", 'naiadkill');
 									break;
 								case 'az':
 								case 'aza':
@@ -3586,7 +3607,8 @@ function Player(socket, name, ip) {
 							this.s.sendMessage(Type.SYSTEM, "<span class=\"linked\">Town: Vigi, Guilt, Vet, Jailor, VH, BG, Guard, Crus, Trap</span>");
 							this.s.sendMessage(Type.SYSTEM, "<span class=\"mafia\">Mafia: GF, Maf, Amb</span>");
 							this.s.sendMessage(Type.SYSTEM, "<span class=\"coven\">Coven: CL, Dusa, Necro, PM, HM, Poisoner</span>");
-							this.s.sendMessage(Type.SYSTEM, "<span class=\"jailed\">Other: SK, WW, Arso, Jugg, Jest, Vamp, Pirate, Pest, Suicide, Heart</span>");
+							this.s.sendMessage(Type.SYSTEM, "<span class=\"jailed\">Neutrals: SK, WW, Arso, Jugg, Jest, Vamp, Pirate, Pest</span>");
+							this.s.sendMessage(Type.SYSTEM, "<span class=\"jailor\">Other: Mystic, Conq, Huntsman, Naiad, Suicide, Heart</span>");
 							this.s.sendMessage(Type.SYSTEM, "<span class=\"wisteria\">Florae: Aza, Dahlia, Nettle, Wist, Lav, NS</span>");
 						}
 					} else {
