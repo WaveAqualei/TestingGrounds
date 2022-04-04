@@ -3597,7 +3597,6 @@ function Player(socket, name, ip) {
 					if (mod == this.s.id) {
 						if (c.length > 1) {
 							var msg = c.slice(1);
-							msg = msg.join(' ').trim();
 							switch(msg.toLowerCase()) {
 								case 'town':
 									sendPublicMessage(Type.HIGHLIGHT, "The Town wins!", 'townkill');
@@ -3654,8 +3653,15 @@ function Player(socket, name, ip) {
 									sendPublicMessage(Type.HIGHLIGHT, "The game has ended in a draw.", 'moon');
 									break;
 								default:
-									sendPublicMessage(Type.HIGHLIGHT, "The "+sanitize(msg)+" wins!", 'modchat');
+									sendPublicMessage(Type.HIGHLIGHT, "The "+sanitize(msg)+" wins!", 'heart');
 							}
+							var winners = c.slice(2).map(function(p) {
+										if(playernames[p]) return getPlayerByName(p).name;
+										if(!isNaN(p) && playernums[p]) return getPlayerByNumber(p).name;
+										return p;
+									});
+									if(winners.length == 1) sendPublicMessage(Type.HIGHLIGHT, winners.join()+' won!');
+									else if(winners.length > 1) sendPublicMessage(Type.HIGHLIGHT, winners.slice(0, -1).join(', ')+', and '+winners.slice(-1).join()+' won!');
 						} else {
 							this.s.sendMessage(Type.SYSTEM, "The syntax of this command is '/d role.");
 						}
