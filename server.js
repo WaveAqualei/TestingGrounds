@@ -3569,7 +3569,7 @@ function Player(socket, name, ip) {
 									sendPublicMessage(Type.HIGHLIGHT, "They were devoured by the Patient.", 'patientkill');
 									break;
 								case 'nai':
-								case 'naiad:
+								case 'naiad':
 									sendPublicMessage(Type.HIGHLIGHT, "They were drowned by a Naiad.", 'naiadkill');
 									break;
 								case 'az':
