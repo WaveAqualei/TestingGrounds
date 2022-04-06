@@ -11,18 +11,18 @@ var daynumber = 1;
 var connectAttempt = 0;
 var kicked = false;
 //Notify sound
-var hey = new Audio('ping.wav');
+var hey = new Audio('6ballStart.mp3');
 //Halloween
 //var hey = new Audio('Giratina.wav');
-var mpregame = new Audio('Riverside.mp3');
-var whoami = new Audio('PeaceAndTranquility.mp3');
-var mmodtime = new Audio('Aquabatics.mp3');
+var mpregame = new Audio('Alfheim.mp3');
+var whoami = new Audio('Remembrance.mp3');
+var mmodtime = new Audio('Valkyrie.mp3');
 //Halloween
 //var mmodtime = new Audio('Bewitching.mp3');
-var mdaytime = new Audio('Magmic.mp3');
+var mdaytime = new Audio('Piglets.mp3');
 var mvoting = new Audio('Deceitful.mp3');
 var mtrial = new Audio('Truth.mp3');
-var mnight = new Audio('MilkyWay.mp3');
+var mnight = new Audio('Chaos.mp3');
 var musicon = 1;
 mpregame.loop = true;
 whoami.loop = true;
