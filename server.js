@@ -416,6 +416,10 @@ var server = http.createServer(function (req, res) {
 				}
 			});
 			break;
+		case '/6ballStart.mp3':
+		case '/6ball.mp3':
+		case '/Agari.mp3':
+		case '/Alfheim.mp3':
 		case '/Aquabatics.mp3':
 		case '/AutumnMountain.mp3':
 		case '/Bewitching.mp3':
@@ -436,10 +440,12 @@ var server = http.createServer(function (req, res) {
 		case '/KakarikoNight.mp3':
 		case '/KakarikoSaved.mp3':
 		case '/LittleItaly.mp3':
+		case '/LonghornStartup.mp3':
 		case '/Magmic.mp3':
 		case '/MilkyWay.mp3':
 		case '/MountHylia.mp3':
 		case '/PeaceAndTranquility.mp3':
+		case '/Piglets.mp3':
 		case '/Remembrance.mp3':
 		case '/Riverside.mp3':
 		case '/Searching.mp3':
@@ -448,6 +454,7 @@ var server = http.createServer(function (req, res) {
 		case '/StarlitSky.mp3':
 		case '/Suspicion.mp3':
 		case '/Touchstone.mp3':
+		case '/ToyPuzzle.mp3':
 		case '/Truth.mp3':
 		case '/Valkyrie.mp3':
 		case '/Vampiric.mp3':
