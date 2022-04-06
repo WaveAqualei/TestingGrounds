@@ -1,23 +1,23 @@
 var themes = {
 	'Dark (Default)': {
 		classname: '',
-		mpregame: 'Riverside.mp3',
-		whoami: 'PeaceAndTranquility.mp3',
-		mmodtime: 'Aquabatics.mp3',
-		mdaytime: 'Magmic.mp3',
+		mpregame: 'Alfheim.mp3',
+		whoami: 'Remembrance.mp3',
+		mmodtime: 'Valkyrie.mp3',
+		mdaytime: 'Piglets.mp3',
 		mvoting: 'Deceitful.mp3',
 		mtrial: 'Truth.mp3',
-		mnight: 'MilkyWay.mp3',
+		mnight: 'Chaos.mp3',
 	},
 	'Light': {
 		className: 'lighttheme',
-		mpregame: 'Riverside.mp3',
-		whoami: 'PeaceAndTranquility.mp3',
-		mmodtime: 'Aquabatics.mp3',
-		mdaytime: 'Magmic.mp3',
+		mpregame: 'Alfheim.mp3',
+		whoami: 'ToyPuzzle.mp3',
+		mmodtime: 'Spinwheel.mp3',
+		mdaytime: 'Piglets.mp3',
 		mvoting: 'Deceitful.mp3',
 		mtrial: 'Truth.mp3',
-		mnight: 'MilkyWay.mp3',
+		mnight: 'CosmicCove.mp3',
 	},
 };
 
