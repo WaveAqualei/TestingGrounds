@@ -2133,3 +2133,141 @@ neut
 	color:white;
 	font-weight:bold;
 }
+
+.tostheme .main
+{
+	color:white;
+	background:#452c1b;
+}
+.tostheme #c
+{
+	float:left;
+	height:40%;
+	width:80%;
+	background:#1c110a;
+	color:gold;
+	text-shadow:0px 0px 0px black;
+	font-size:15px;
+}
+.tostheme .notesbutton
+{
+	height:2.38em;
+	width:1.5em;
+	text-align:center;
+	border:1px solid black;
+	float:right;
+	background:#452c1b;
+	color:white;
+	font-size:10px;
+	padding-top: 2px;
+	padding-right:6px;
+	padding-left:6px;
+	padding-bottom:2px;
+	margin-left:5px;
+	cursor:default;
+}
+.tostheme .notesbutton:hover
+{
+	background:#3d2e23;
+	color:black;
+}
+.tostheme .willbutton
+{
+	height:2.38em;
+	width:1.5em;
+	text-align:center;
+	border:1px solid black;
+	float:right;
+	background:#452c1b;
+	color:white;
+	font-size:10px;
+	padding-top:2px;
+	padding-right:6px;
+	padding-left:6px;
+	padding-bottom:2px;
+	margin-left:5px;
+	cursor:default;
+}
+.tostheme .willbutton:hover
+{
+	background:#3d2e23;
+	color:black;
+}
+.tostheme .musicbutton
+{
+	height:2.38em;
+	width:1.5em;
+	text-align:center;
+	border:1px solid black;
+	float:right;
+	background:#452c1b;
+	color:white;
+	font-size:10px;
+	padding-top:2px;
+	padding-right:6px;
+	padding-left:6px;
+	padding-bottom:2px;
+	margin-left:5px;
+	cursor:default;
+}
+.tostheme .musicbutton:hover
+{
+	background:#3d2e23;
+	color:black;
+}
+.lighttheme #modnumbering input
+{
+	position:absolute;
+	top:50%;
+	left:40%;
+	transform:translate(0,-50%);
+	text-align:center;
+	width:2.4em;
+	background:white;
+	color:black;
+}
+.lighttheme .information
+{
+	background:#8f918c;
+	color:lime;
+}
+.lighttheme .rolecard
+{
+	background:#686868;
+	background-size:100% 100%;
+	height:450px;
+	width:300px;
+	text-shadow: 0px 4px 6px #242424;
+	color:black;
+	position:relative;
+	padding:20px;
+	border:5px solid #403113;
+	padding-top:10px;
+	float:left;
+}
+.lighttheme .goal
+{
+	display:block;
+	color:black;
+	position:absolute;
+	left:auto;
+	bottom:15px;
+}
+.lighttheme .will
+{
+	margin-left:auto;
+	margin-right:auto;
+	width:50%;
+	height:450px;
+	border:3px solid black;
+	background:#7A7A7A;
+	color:black;
+	padding-left:10px;
+	padding-top:10px;
+	overflow:hidden;
+}
+.tostheme .phasechange
+{
+	background:forestgreen;
+	color:floralwhite;
+}
