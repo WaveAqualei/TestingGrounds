@@ -2266,3 +2266,13 @@ neut
 	background:forestgreen;
 	color:floralwhite;
 }
+.tostheme .playernum
+{
+	display:inline-block;
+	width:1.25em;
+	text-align:center;
+	background:#c99f3c;
+	color:#ffff00;
+	border:1px solid #1f1f1f;
+	border-radius:1em;
+}
