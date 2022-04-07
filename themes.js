@@ -19,6 +19,16 @@ var themes = {
 		mtrial: 'Truth.mp3',
 		mnight: 'CosmicCove.mp3',
 	},
+	'Salem': {
+		className: 'tostheme',
+		mpregame: 'CalmBeforeTheStorm.mp3',
+		whoami: 'WhoAmI.mp3',
+		mmodtime: 'Bewitching.mp3',
+		mdaytime: 'Heated.mp3',
+		mvoting: 'Suspicion.mp3',
+		mtrial: 'Innocence.mp3',
+		mnight: 'WhatLurksInTheNight.mp3',
+	},
 };
 
 $(function() {
