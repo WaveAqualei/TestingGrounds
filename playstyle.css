@@ -2134,7 +2134,7 @@ neut
 	font-weight:bold;
 }
 
-.tostheme .main
+.tostheme #main
 {
 	color:white;
 	background:#452c1b;
@@ -2225,11 +2225,6 @@ neut
 	width:2.4em;
 	background:white;
 	color:black;
-}
-.lighttheme .information
-{
-	background:#8f918c;
-	color:lime;
 }
 .lighttheme .rolecard
 {
