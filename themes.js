@@ -13,7 +13,7 @@ var themes = {
 		className: 'lighttheme',
 		mpregame: 'Alfheim.mp3',
 		whoami: 'ToyPuzzle.mp3',
-		mmodtime: 'Spinwheel.mp3',
+		mmodtime: 'Spinwheel.m4a',
 		mdaytime: 'Piglets.mp3',
 		mvoting: 'Deceitful.mp3',
 		mtrial: 'Truth.mp3',
