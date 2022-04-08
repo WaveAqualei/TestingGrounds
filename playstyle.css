@@ -1727,7 +1727,7 @@ neut
 }
 .jailor
 {
-	color:#c78800;
+	color:#ffcd00;
 	text-shadow: 0px 0px 10px black;
 }
 .jailing
@@ -1774,7 +1774,7 @@ neut
 }
 .reviving
 {
-	background:#00992b;
+	background:#00c900;
 	color:white;
 }
 .fullmoon
@@ -2156,7 +2156,7 @@ neut
 	text-align:center;
 	border:1px solid black;
 	float:right;
-	background:#452c1b;
+	background:#784d30;
 	color:white;
 	font-size:10px;
 	padding-top: 2px;
@@ -2178,7 +2178,7 @@ neut
 	text-align:center;
 	border:1px solid black;
 	float:right;
-	background:#452c1b;
+	background:#784d30;
 	color:white;
 	font-size:10px;
 	padding-top:2px;
@@ -2200,7 +2200,7 @@ neut
 	text-align:center;
 	border:1px solid black;
 	float:right;
-	background:#452c1b;
+	background:#784d30;
 	color:white;
 	font-size:10px;
 	padding-top:2px;
@@ -2215,7 +2215,20 @@ neut
 	background:#3d2e23;
 	color:black;
 }
-.lighttheme #modnumbering input
+.tostheme #userlist
+{
+	list-style:none;
+	display:block;
+	/*background-image: url('Snowback1.png');
+	background-size: 500% 100%;*/
+	height:90%;
+	padding:0;
+	margin:0;
+	margin-left:-2px;
+	overflow:auto;
+	background-color:#332820;
+}
+.tostheme #modnumbering input
 {
 	position:absolute;
 	top:50%;
@@ -2223,56 +2236,123 @@ neut
 	transform:translate(0,-50%);
 	text-align:center;
 	width:2.4em;
-	background:white;
-	color:black;
+	background:#1c110a;
+	color:gold;
 }
-.lighttheme .rolecard
+.tostheme .rolecard
 {
-	background:#686868;
+	background:#2b251f;
 	background-size:100% 100%;
 	height:450px;
 	width:300px;
-	text-shadow: 0px 4px 6px #242424;
-	color:black;
+	text-shadow: 0px 4px 6px black;
+	color:#fffff5;
 	position:relative;
 	padding:20px;
-	border:5px solid #403113;
+	border:5px solid #6a4c24;
 	padding-top:10px;
 	float:left;
 }
-.lighttheme .goal
+.tostheme .goal
 {
 	display:block;
-	color:black;
+	color:#fffff5;
 	position:absolute;
 	left:auto;
 	bottom:15px;
 }
-.lighttheme .will
+.tostheme .will
 {
 	margin-left:auto;
 	margin-right:auto;
 	width:50%;
 	height:450px;
 	border:3px solid black;
-	background:#7A7A7A;
+	background:#996829;
 	color:black;
 	padding-left:10px;
 	padding-top:10px;
 	overflow:hidden;
 }
+.tostheme .highlight
+{
+	background:#996829;
+	color:white;
+}
 .tostheme .phasechange
 {
-	background:forestgreen;
-	color:floralwhite;
+	background:#c4c4c4;
+	color:black;
+}
+.tostheme .modchat
+{
+	color:#ffcd00;
+	background:#2b2b2b;
+}
+.tostheme .mod
+{
+	color:#ffcd00;
 }
 .tostheme .playernum
 {
 	display:inline-block;
 	width:1.25em;
 	text-align:center;
+	font-weight:bold;
 	background:#c99f3c;
 	color:#ffff00;
 	border:1px solid #1f1f1f;
 	border-radius:1em;
+}
+.tostheme .playernum.modnum
+{
+	background:#c4c4c4;
+	color:white;
+}
+.tostheme header
+{
+	height:2em;
+	width:100%;
+	background:#3e1d00;
+	border-bottom:1px solid black;
+}
+.tostheme .current
+{
+	background:black;
+	color:#fffff5;
+}
+.tostheme .vamp
+{
+	color:#a5a8a2;
+}
+.tostheme .jailor
+{
+	color:#ffcd00;
+}
+.tostheme .jailed
+{
+	color:#ffff81;
+	background:rgba(255, 205, 0, 0.6);
+}
+.tostheme .wisteria
+{
+	color:#eba8ff;
+	text-shadow:0px 0px 10px black;
+}
+.tostheme .entangled
+{
+	color:floralwhite;
+	background:rgba(34, 139, 34, 0.6);
+}
+.tostheme .spectate
+{
+	color:turquoise;
+}
+.tostheme #inputarea
+{
+	clear:both;
+	width:100%;
+	height:8%;
+	border-top:1px solid black;
+	background-color:#265B5F;
 }
