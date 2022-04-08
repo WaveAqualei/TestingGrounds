@@ -1474,11 +1474,11 @@ function setPhase(p) {
 					players[i].s.sendMessage(Type.HIGHLIGHT, 'The light of the full moon has transformed you into a rampaging Werewolf!', 'dying');
 				}
 			}
-			//Jailed player
 			if (players[i].chats.linked) {
 				addLogMessage(Type.SYSTEM, players[i].name + ' has been linked!');
 				players[i].s.sendMessage(Type.PRENOT, 'LINKED');
 			}
+			//Jailed player
 			if (players[i].chats.jailed) {
 				addLogMessage(Type.SYSTEM, players[i].name + ' was hauled off to jail.');
 				players[i].s.sendMessage(Type.PRENOT, 'JAILED');
@@ -1499,17 +1499,7 @@ function setPhase(p) {
 					}
 				}
 			}
-			//Target info, else if because you do not recieve it if you are jailed.
-			else if (i != mod && players[i].alive) {
-				if (!players[i].spectate) {
-					players[i].s.sendMessage(Type.SYSTEM, 'Use "/target name" or "/t name" to send in your night action.');
-				}
-			}
 			//Entangled player
-			if (players[i].chats.linked) {
-				addLogMessage(Type.SYSTEM, players[i].name + ' has been linked!');
-				players[i].s.sendMessage(Type.PRENOT, 'LINKED');
-			}
 			if (players[i].chats.entangled) {
 				addLogMessage(Type.SYSTEM, players[i].name + ' was locked away in the Garden.');
 				players[i].s.sendMessage(Type.PRENOT, 'ENTANGLED');
@@ -1530,11 +1520,9 @@ function setPhase(p) {
 					}
 				}
 			}
-			//Target info, else if because you do not recieve it if you are entangled.
-			else if (i != mod && players[i].alive) {
-				if (!players[i].spectate) {
-					players[i].s.sendMessage(Type.SYSTEM, 'Use "/target name" or "/t name" to send in your night action.');
-				}
+			//Target info
+			if (i != mod && players[i].alive && !players[i].spectate && !players[i].chats.jailed && !players[i].chats.entangled) {
+				players[i].s.sendMessage(Type.SYSTEM, 'Use "/target name" or "/t name" to send in your night action.');
 			}
 			//Medium messages.
 			if (players[i].seancing) {
