@@ -154,7 +154,7 @@ function modInterface()
 				var index = $('.role').index($(this));
 				var name = $('.name')[index].innerHTML;
 				socket.sendMessage(Type.SETROLE,name,this.value);
-				this.style.background='tan';
+				this.style.background='teal';
 				this.old = this.value;
 			}
 		});
@@ -165,7 +165,7 @@ function modInterface()
 			}
 			else
 			{
-				this.style.background='tan';
+				this.style.background='teal';
 			}
 		});
 		modcontrols.append(rolechanger);
@@ -454,7 +454,7 @@ addSocketListener(Type.JOIN,function(name)
 					var index = $('.role').index($(this));
 					var name = $('.name')[index].innerHTML;
 					socket.sendMessage(Type.SETROLE,name,this.value);
-					this.style.background='tan';
+					this.style.background='teal';
 					this.old = this.value;
 				}
 		});
@@ -465,7 +465,7 @@ addSocketListener(Type.JOIN,function(name)
 			}
 			else
 			{
-				this.style.background='tan';
+				this.style.background='teal';
 			}
 		});
 		modcontrols.append(rolechanger);
@@ -1059,7 +1059,7 @@ addSocketListener(Type.ROLEUPDATE,function(send){
 	if (send.role)
 	{
 		$($('.role')[index]).val(send.role);
-		$('.role')[index].style.background = 'tan';
+		$('.role')[index].style.background = 'teal';
 	}
 	if (!send.alive)
 	{
@@ -1101,7 +1101,7 @@ addSocketListener(Type.MASSROLEUPDATE,function(people){
 			if (send.hasOwnProperty('role'))
 			{
 				$($('.role')[index]).val(send.role);
-				$('.role')[index].style.background = 'tan';
+				$('.role')[index].style.background = 'teal';
 			}
 			if (send.alive)
 			{
