@@ -2,7 +2,7 @@ var themes = {
 	'Dark (Default)': {
 		classname: '',
 		mpregame: 'Alfheim.mp3',
-		whoami: 'Remembrance.mp3',
+		whoami: 'Cascades.mp3',
 		mmodtime: 'Valkyrie.mp3',
 		mdaytime: 'Piglets.mp3',
 		mvoting: 'Deceitful.mp3',
@@ -27,7 +27,7 @@ var themes = {
 		mdaytime: 'Heated.mp3',
 		mvoting: 'Suspicion.mp3',
 		mtrial: 'Innocence.mp3',
-		mnight: 'WhatLurksInTheNight.mp3',
+		mnight: 'WLITN.mp3',
 	},
 };
 
