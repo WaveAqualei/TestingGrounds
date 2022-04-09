@@ -425,6 +425,7 @@ var server = http.createServer(function (req, res) {
 		case '/Bewitching.mp3':
 		case '/CalmBeforeTheStorm.mp3':
 		case '/CareFree.mp3':
+		case '/Cascades.mp3':
 		case '/Cauldron.mp3':
 		case '/Chaos.mp3':
 		case '/CosmicCove.mp3':
@@ -459,8 +460,8 @@ var server = http.createServer(function (req, res) {
 		case '/Valkyrie.mp3':
 		case '/Vampiric.mp3':
 		case '/WhatLurksInTheNight.mp3':
-		case '/Remembrance.mp3':
 		case '/WhoAmI.mp3':
+		case /'WLITN.mp3':
 			fs.readFile(__dirname + '/sounds/' + path, function (error, data) {
 				if (error) {
 					res.writeHead(404);
