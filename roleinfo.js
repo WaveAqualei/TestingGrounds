@@ -991,7 +991,7 @@ var roles = [
 	{
 		rolename: 'mystic',
 		alignment: 'coven evil',
-		attack: 'Powerful',
+		attack: 'Basic',
 		abilities: ['You may curse a player on even numbered nights.'],
 		attributes: [
 			'Curses last two nights or until someone is attacked by the curse.',
@@ -1375,14 +1375,13 @@ var roles = [
 	{
 		rolename: 'pijavica',
 		alignment: 'vampire manipulation',
-		abilities: ['Target one player to mesmerize at night.', 'Influence the voting ability of your target the next day.'],
+		abilities: ['You may veil the sky at night, hiding what each player votes during trials the next day.'],
 		attributes: [
-			'You may select the vote the player casts (innocent/abstain/guilty) and override their original vote.',
-			'You can talk to the other Vampires at night.',
-			'You must wait a night before influencing another player\'s vote.',
-			'If there are no kill capable Vampire roles left you will become a Lampir.',
+			'You can hear private messages.',
+			'Only you will learn what each player votes during trials.',
+			'You may not veil twice in a row.'
 		],
-		targeting: ['living nonvampire'],
+		targeting: ['self'],
 		goal: vampgoal,
 		color: vampcolor,
 		custom: true,
@@ -1395,7 +1394,6 @@ var roles = [
 			'Both players will visit the same target as the first player chosen.',
 			'You may only soul bind 2 new target after both die, or you set them free (takes 1 night).',
 			'If one bound player dies the other one dies at night.',
-			'If there are no kill capable Vampire roles left you will become a Lampir.',
 		],
 		targeting: ['living nonvampire', 'living nonvampire'],
 		goal: vampgoal,
