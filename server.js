@@ -547,7 +547,12 @@ io.on('connection', function (socket, req) {
 		listeners[type] = callback;
 	}
 	socket.addEventListener('message', function(event) {
-		var [type, ...args] = JSON.parse(event.data);
+		try {
+			var [type, ...args] = JSON.parse(event.data);
+		} catch(err) {
+			socket.sendMessage(Type.SYSTEM, ''+err);
+			return;
+		}
 		if(type !== Type.JOIN && !players[socket.id]) {
 			return;
 		}
