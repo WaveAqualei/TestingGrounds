@@ -1,5 +1,7 @@
 window.onbeforeunload = function(){
-  return 'If you are in a game and need to leave, please inform the mod before closing this page.';
+	if(socket.readyState == socket.OPEN) {
+		return 'If you are in a game and need to leave, please inform the mod before closing this page.';
+	}
 };
 mod = false;
 var current_rolelist = [
@@ -56,7 +58,13 @@ $(document).ready(function(){
 		if ($(e.target).is('li') || $(e.target).is('span'))
 		{
 			var phase = $('header ul li').index(this);
-			socket.emit(Type.SETPHASE,phase);
+			socket.sendMessage(Type.SETPHASE,phase);
+		}
+	});
+	$('body').on('keypress',function(e)
+	{
+		if ($(':focus-within:read-write').length == 0) {
+			$('#c').focus();
 		}
 	});
 });
@@ -176,15 +184,25 @@ function closeWill()
 	$('#will').hide()
 	if($('#willcontent').data('dirty')) {
 		var will = $('#willcontent').val()
-		socket.emit(Type.WILL,will)
+		socket.sendMessage(Type.WILL,will)
 		$('#willcontent').removeData('dirty')
 	}
+}
+function postWill()
+{
+	var will = $('#willcontent').val()
+	socket.sendMessage(Type.MSG,will)
 }
 function closeNotes()
 {
 	$('#notes').hide()
 	var notes = $('#notescontent').val()
-	socket.emit(Type.NOTES,notes)
+	socket.sendMessage(Type.NOTES,notes)
+}
+function postNotes()
+{
+	var notes = $('#notescontent').val()
+	socket.sendMessage(Type.MSG,notes)
 }
 function highlightTitle()
 {
@@ -221,7 +239,7 @@ function checkKey(e)
 	{
 		var msg = $('#c').val();
 		$('#c').val('');
-		socket.emit(Type.MSG,msg);
+		socket.sendMessage(Type.MSG,msg);
 	}	
 	//Limit length
 	if ($('#c').val().length >= 200)
@@ -229,7 +247,7 @@ function checkKey(e)
 		$('#c').val($('#c').val().substring(0,199));
 	}
 }
-function addMessage(msg, type)
+function addMessage(msg)
 {
 	//Check if scrolled to bottom.
 	var atBottom = ( 10 +$('#main').scrollTop() + $('#main').prop('offsetHeight') >= $('#main').prop('scrollHeight'));
@@ -237,208 +255,7 @@ function addMessage(msg, type)
 	{
 		highlightTitle();
 	}
-	switch (type)
-	{
-		case 'msg':
-			$('#main').append('<li>'+msg+'</li>');
-		break;
-		case 'help':
-			var li = $('<li></li>');
-			li.append(msg);
-			$('#main').append(li);
-		break;
-		case 'me':
-			$('#main').append('<li class="me">*<em>'+msg+'</em>*</li>');
-		break;
-		case 'rolecard':
-			$('#main').append('<li class="rolecardcontainer">'+msg+'</li>');
-		break;
-		case 'hug':
-			$('#main').append('<li>*<b>'+msg.name+' hugs '+msg.target+'</b>*</li>');
-		break;
-		case 'system':
-			$('#main').append('<li><b>'+msg+'</b></li>');
-		break;
-		case 'automod':
-			$('#main').append('<li>'+msg+'</li>');
-		break;
-		case 'highlight':
-			msg.msg = (function(msg) {
-				var changes = ['maf','cov','arso','jester','ww','town','sk','neut'];
-				for (i in changes)
-				{
-					var start = '['+changes[i]+']';
-					var end = '[/'+changes[i]+']';
-					var a = msg.indexOf(start);
-					var b = msg.indexOf(end);
-					while ( a!=-1 && b!=-1)
-					{
-						var a = msg.indexOf(start);
-						var b = msg.indexOf(end);
-						msg = msg.replace(start,'<'+changes[i]+'>');
-						msg = msg.replace(end,'</'+changes[i]+'>');
-					}
-				}
-				return msg;
-			})(msg.msg);
-			msg.styling = msg.styling || 'highlight';
-			$('#main').append('<li class="'+msg.styling+'"><b>'+msg.msg+'</b></li>');
-		break;
-		case 'whisper':
-			if (!msg.msg)
-			{
-				$('#main').append('<li><b>'+msg.from+'</b><span class="whisper"> is whispering to </span><b>'+msg.to+'</b></span></li>');
-			}
-			else if (msg.from && msg.to)
-			{
-				$('#main').append('<li><b>'+msg.from+'</b><span class="whisper"> whispers to </span><b>'+msg.to+':</b><span class="whisper"> '+msg.msg+' </span></li>');
-			}
-			else if (msg.from)
-			{
-				$('#main').append('<li><span class="whisper">From</span> <b>'+msg.from+':</b><span class="whisper"> '+msg.msg+' </span></li>');
-			}
-			else if (msg.to)
-			{
-				$('#main').append('<li><span class="whisper">To</span> <b>'+msg.to+':</b><span class="whisper"> '+msg.msg+' </span></li>');
-			}
-			else
-			{
-				alert('malformed message!');
-			}
-		break;
-		case 'mod':
-			if (msg.from)
-			{
-				$('#main').append('<li><span class="mod">From</span> <b>'+msg.from+':</b><span class="mod"> '+msg.msg+' </span></li>');
-			}
-			else if (msg.to)
-			{
-				$('#main').append('<li><span class="mod">To</span> <b>'+msg.to+':</b><span class="mod"> '+msg.msg+' </span></li>');
-			}
-			else
-			{
-				alert('malformed message!');
-			}
-		break;
-		case 'target':
-			if (msg.target != '')
-			{
-				if (msg.role)
-				{
-					msg.role = '('+msg.role+') is';
-				}
-				else
-				{
-					msg.role = ' are';
-				}
-				var str = msg.name+msg.role+' now targeting <b>'+msg.target+'</b>.';
-			}
-			else
-			{
-				if (msg.role)
-				{
-					var str = msg.name+'('+msg.role+') cancels their targetting.';
-				}
-				else
-				{
-					var str = 'You cancel your targetting.';
-				}
-			}
-			$('#main').append('<li><span class="mod">'+str+'</span></li>');
-		break;
-		case 'custom':	
-			$('#main').append('<li><span class="'+msg.styling+'">'+msg.name+': '+msg.msg+'</span></li>');
-		break;
-		case 'prenot':
-			$('#main').append('<li class="'+msg.styling+'">'+msg.msg+'</li>');
-		break;
-		case 'vote':
-			$('#main').append('<li><b>'+msg.voter+'</b><span class="vote">'+msg.msg+'</span><b>'+msg.voted+'</b></li>');
-		break;
-		case 'verdict':
-			if (msg.val==0)
-			{
-				$('#main').append('<li><b>'+msg.name+'</b> <span class="vote">has voted.</span>');
-			}
-			else if (msg.val==1)
-			{
-				$('#main').append('<li><b>'+msg.name+'</b> <span class="vote">has changed their vote.</span>');
-			}
-			else
-			{
-				$('#main').append('<li><b>'+msg.name+'</b> <span class="vote">has cancelled their vote.</span>');
-			}
-		break;
-		case 'judgement':
-			var guilties = 0;
-			var innos = 0;
-			for (i in msg.votes)
-			{
-				if (msg.votes[i] >0) //Inno
-				{
-					innos+=msg.votes[i];
-				}
-				else if (msg.votes[i] <0) //Guilty
-				{
-					guilties-=msg.votes[i];
-				}
-			}
-			$('#main').append('<li><h2><span class="guilty"><b>'+guilties+'</b></span> - <span class="inno"><b>'+innos+'</b></span></h2>');
-			if (msg.result) //Inno
-			{
-				$('#main').append('<li><span class="guilty"><b>Guilty!</b></span>');
-			}
-			else //Guilty
-			{
-				$('#main').append('<li><span class="inno"><b>Innocent!</b></span>');
-			}
-			var message = '';
-			for (i in msg.votes)
-			{
-				switch (msg.votes[i])
-				{
-					case -1: case -3: message += '<li>'+i+' voted <span class="guilty">guilty</span>.</li>'; break;
-					case 0: message += '<li>'+i+' <span class="abstain">abstained</span>.</li>'; break;
-					case 1: case 3: message += '<li>'+i+' voted <span class="inno">innocent</span>.</li>'; break;
-				}
-			}
-			$('#main').append(message);
-		break;
-		case 'will':
-			if (msg == '')
-			{
-				$('#main').append('<li class="highlight"><span>We could not find a last will.</span></li>');
-			}
-			else
-			{
-				$('#main').append('<li class="highlight"><span>Their last will reads:</span></li>');
-				$('#main').append('<li><div class="will">'+msg+'</div></li>');
-			}
-		break;
-		case 'allroles':
-			var list = $('<ul class="allroleslist"></ul>');
-			for (i in msg)
-			{
-				list.append('<li class="displaylistitem allroles"><div class="innerlistitem">'+msg[i].name+'</div><div class="innerlistitem">'+msg[i].role+'</div></li>');
-			}
-			var li = $('<li></li>');
-			li.append(list);
-			$('#main').append(li);
-		break;
-		case 'rolelist':
-			var list = $('<ul class="displaylist"></ul>');
-			for (i in msg)
-			{
-				list.append('<li class="displaylistitem">'+msg[i]+'</li>');
-			}
-			var li = $('<li></li>');
-			li.append(list);
-			$('#main').append(li);
-		break;
-		default:
-			alert('Bad message type!');
-		break;
-	}
+	$('#main').append(msg);
 	if (atBottom)
 	{
 		//Scroll down.
@@ -458,26 +275,38 @@ function openModList(targ)
 		$('#morelist').remove();
 		if (!alreadyOpen)
 		{
+			var attributes = {
+				mafia: 'Mafia Chat',
+				coven: 'Coven Chat',
+				vamp: 'Vampire Chat',
+				jailor: 'Jailor',
+				mayor: 'Mayor',
+				blackmailer: 'Read Whispers',
+				medium: 'Hear Dead',
+				wisteria: 'Wisteria',
+				gardenia: 'Gardenia',
+				klepto: 'Name Hidden',
+			};
 			var actions = {
 				'Blackmail':function()
 				{
 					var name = $(this.parentNode).attr('name');
-					socket.emit(Type.TOGGLE,name,'blackmail');
+					socket.sendMessage(Type.TOGGLE,name,'blackmail');
 				},
 				'Link':function()
 				{
 					var name = $(this.parentNode).attr('name');
-					socket.emit(Type.TOGGLE,name,'linked');
+					socket.sendMessage(Type.TOGGLE,name,'linked');
 				},
 				'Douse': function () {
 					if ($(`#${name}-fire`).length) return;
 				    var name = $(this.parentNode).attr('name');
-				    socket.emit(Type.TOGGLE, name, 'douse');
+				    socket.sendMessage(Type.TOGGLE, name, 'douse');
 					$(`#p-${name}`).append(`<span class="emoji" id="${name}-fire">🔥</span>`);
 					$(`#${name}-fire`).click(() => {
 						if (mod) {
 							$(`#${name}-fire`).remove();
-							socket.emit(Type.REMOVE_EMOJI, `${name}-fire`);
+							socket.sendMessage(Type.REMOVE_EMOJI, `${name}-fire`);
 						}
 					});
 				},
@@ -488,7 +317,7 @@ function openModList(targ)
 					$(`#${name}-hex`).click(() => {
 						if (mod) {
 							$(`#${name}-hex`).remove();
-							socket.emit(Type.REMOVE_EMOJI, `${name}-hex`);
+							socket.sendMessage(Type.REMOVE_EMOJI, `${name}-hex`);
 						}
 					});
 				},
@@ -499,7 +328,7 @@ function openModList(targ)
 					$(`#${name}-infect`).click(() => {
 						if (mod) {
 							$(`#${name}-infect`).remove();
-							socket.emit(Type.REMOVE_EMOJI, `${name}-infect`);
+							socket.sendMessage(Type.REMOVE_EMOJI, `${name}-infect`);
 						}
 					});
 				},
@@ -510,86 +339,99 @@ function openModList(targ)
 					$(`#${name}-poison`).click(() => {
 						if (mod) {
 							$(`#${name}-poison`).remove();
-							socket.emit(Type.REMOVE_EMOJI, `${name}-poison`);
+							socket.sendMessage(Type.REMOVE_EMOJI, `${name}-poison`);
 						}
 					});
 				},
-				"Guardian Angel (Voting Immunity)": function() {
-					socket.emit(Type.GUARDIAN_ANGEL, $(this.parentNode).attr('name'));
+				"GA (Vote Immunity)": function() {
+					socket.sendMessage(Type.GUARDIAN_ANGEL, $(this.parentNode).attr('name'));
+				},
+				"Phlox": function() {
+					socket.sendMessage(Type.PHLOX, $(this.parentNode).attr('name'));
 				}
 			};
 			var notifications = {
 				'Roleblocked':function()
 				{
 				   var name = $(this.parentNode).attr('name');
-				   socket.emit(Type.PRENOT,name,'RB');
+				   socket.sendMessage(Type.PRENOT,name,'RB');
 				},
 				'Witched':function()
 				{
 				   var name = $(this.parentNode).attr('name');
-				   socket.emit(Type.PRENOT,name,'WITCHED');
+				   socket.sendMessage(Type.PRENOT,name,'WITCHED');
 				},
 				'Transported':function()
 				{
 				   var name = $(this.parentNode).attr('name');
-				   socket.emit(Type.PRENOT,name,'TRANSPORT');
+				   socket.sendMessage(Type.PRENOT,name,'TRANSPORT');
+				},
+				'Innocent':function()
+				{
+				   var name = $(this.parentNode).attr('name');
+				   socket.sendMessage(Type.PRENOT,name,'INNO');
+				},
+				'Suspicious':function()
+				{
+				   var name = $(this.parentNode).attr('name');
+				   socket.sendMessage(Type.PRENOT,name,'SUS');
 				},
 				'Attacked(Healed)':function()
 				{
 				   var name = $(this.parentNode).attr('name');
-				   socket.emit(Type.PRENOT,name,'HEAL');
+				   socket.sendMessage(Type.PRENOT,name,'HEAL');
 				},
 				'Attacked(Saved By BG)': function() {
-					socket.emit(Type.PRENOT,$(this.parentNode).attr('name'),'SAVED_BY_BG');
+					socket.sendMessage(Type.PRENOT,$(this.parentNode).attr('name'),'SAVED_BY_BG');
 				},
 				'Attacked(Protected)': function() {
-					socket.emit(Type.PRENOT,$(this.parentNode).attr('name'),'PROTECTED');
+					socket.sendMessage(Type.PRENOT,$(this.parentNode).attr('name'),'PROTECTED');
 				},
 				'Attacked(Saved By Trap)': function() {
-					socket.emit(Type.PRENOT,$(this.parentNode).attr('name'),'SAVED_BY_TRAP');
+					socket.sendMessage(Type.PRENOT,$(this.parentNode).attr('name'),'SAVED_BY_TRAP');
 				},
 				'Attacked(Saved By GA)': function() {
-					socket.emit(Type.PRENOT,$(this.parentNode).attr('name'),'SAVED_BY_GA');
+					socket.sendMessage(Type.PRENOT,$(this.parentNode).attr('name'),'SAVED_BY_GA');
 				},
-				'Target attacked': function() {
-					socket.emit(Type.PRENOT,$(this.parentNode).attr('name'),'TARGET_ATTACKED');
+				'Target Attacked': function() {
+					socket.sendMessage(Type.PRENOT,$(this.parentNode).attr('name'),'TARGET_ATTACKED');
 				},
 				'Attacked(Immune)':function()
 				{
 				   var name = $(this.parentNode).attr('name');
-				   socket.emit(Type.PRENOT,name,'IMMUNE');
+				   socket.sendMessage(Type.PRENOT,name,'IMMUNE');
 				},
-				'Target immune':function()
+				'Target Immune':function()
 				{
 				   var name = $(this.parentNode).attr('name');
-				   socket.emit(Type.PRENOT,name,'TARGETIMMUNE');
+				   socket.sendMessage(Type.PRENOT,name,'TARGETIMMUNE');
 				},
 				'Doused in gas':function()
 				{
 				   var name = $(this.parentNode).attr('name');
-				   socket.emit(Type.PRENOT,name,'DOUSE');
+				   socket.sendMessage(Type.PRENOT,name,'DOUSE');
 				},
 				'Shot by Vet':function()
 				{
 				   var name = $(this.parentNode).attr('name');
-				   socket.emit(Type.PRENOT,name,'SHOTVET');
+				   socket.sendMessage(Type.PRENOT,name,'SHOTVET');
 				},
 				'Veteran Shot':function()
 				{
 				   var name = $(this.parentNode).attr('name');
-				   socket.emit(Type.PRENOT,name,'VETSHOT');
+				   socket.sendMessage(Type.PRENOT,name,'VETSHOT');
 				},
-				'Guardian Angel Watching': function() {
-					socket.emit(Type.PRENOT,  $(this.parentNode).attr('name'), 'GUARDIAN_ANGEL');
+				'GA Watching': function() {
+					socket.sendMessage(Type.PRENOT,  $(this.parentNode).attr('name'), 'GUARDIAN_ANGEL');
 				},
 				'Poisoned(Curable)': function() {
-					socket.emit(Type.PRENOT,  $(this.parentNode).attr('name'), 'POISON_CURABLE');
+					socket.sendMessage(Type.PRENOT,  $(this.parentNode).attr('name'), 'POISON_CURABLE');
 				},
 				'Poisoned(Uncurable)': function() {
-					socket.emit(Type.PRENOT,  $(this.parentNode).attr('name'), 'POISON_UNCURABLE');
+					socket.sendMessage(Type.PRENOT,  $(this.parentNode).attr('name'), 'POISON_UNCURABLE');
 				},
 				'Medusa Stone': function() {
-					socket.emit(Type.PRENOT,  $(this.parentNode).attr('name'), 'MEDUSA_STONE');
+					socket.sendMessage(Type.PRENOT,  $(this.parentNode).attr('name'), 'MEDUSA_STONE');
 				}
 			};
 			var list = $('<ul id="morelist"></ul>');
@@ -599,6 +441,26 @@ function openModList(targ)
 			var name = users[index];
 			list.attr('name',name);
 			list.css('top',$(targ).height());
+			//Attributes
+			list.append($('<li class="morelistheading">Attributes</li>'));
+			Object.entries(attributes).map(function([chat, i]) {
+				var tmp = $('<li class="morelistitem">'+i+'</li>');
+				tmp.addClass(chat+'button');
+				tmp.click(function() {
+					var name = $(this).closest(".info").find(".name").html();
+					var controlbutton = $(this).closest('.controlbutton.more');
+					if (controlbutton.hasClass(chat+'buttondown'))
+					{
+						controlbutton.removeClass(chat+'buttondown');
+					}
+					else
+					{
+						controlbutton.addClass(chat+'buttondown');
+					}
+					socket.sendMessage(Type.TOGGLE,name,chat);
+				});
+				list.append(tmp);
+			});
 			//Actions
 			list.append($('<li class="morelistheading">Actions</li>'));
 			for (i in actions)
@@ -607,7 +469,7 @@ function openModList(targ)
 				tmp.click(actions[i]);
 				list.append(tmp);
 			}
-			//Prenots
+			//Notifications
 			list.append($('<li class="morelistheading">Notifications</li>'));
 			for (i in notifications)
 			{
@@ -645,7 +507,7 @@ function autoModSettings()
 			var li = $('<li><div><h3>'+i+'</h3><p>'+levels[i]+'</p></div></li>');
 			li.click(function(){
 				var index = $(this).parent().children().index($(this));
-				socket.emit(Type.AUTOLEVEL,index);
+				socket.sendMessage(Type.AUTOLEVEL,index);
 				$('#automodsettings').remove();	
 			});
 			ams.append(li);
@@ -671,17 +533,17 @@ function openRolelist()
 		roll.click(function()
 		{
 			var custom = $('#customRolesChk').is(':checked');
-			socket.emit(Type.ROLL,current_rolelist.slice(0,users.length-1), custom);
+			socket.sendMessage(Type.ROLL,current_rolelist.slice(0,users.length-1), custom);
 		});
 		var showList = $('<div class="showlist">Show List</div>');
 		showList.click(function()
 		{
-			socket.emit(Type.SHOWLIST,current_rolelist.slice(0,users.length-1));
+			socket.sendMessage(Type.SHOWLIST,current_rolelist.slice(0,users.length-1));
 		});
 		var showRoles = $('<div class="showroles">Show Roles</div>');
 		showRoles.click(function()
 		{
-			socket.emit(Type.SHOWALLROLES);
+			socket.sendMessage(Type.SHOWALLROLES);
 		});
 		var setRoles = $('<div class="setroles"></div>');
 		setRoles.click(function()
@@ -693,7 +555,7 @@ function openRolelist()
 				$($('.role')[i]).css('background','green');
 				$('.role')[i].old = rolelist_result[index];
 			}
-			socket.emit(Type.SETROLESBYLIST,rolelist_result,rolelist_names);
+			socket.sendMessage(Type.SETROLESBYLIST,rolelist_result,rolelist_names);
 		});
 		var controls = $('<li class="rolelistcontrols"></li>');
 		
@@ -765,7 +627,7 @@ function openUserWill(e)
 		li = $(li).parent();
 	}
 	var index = $('#userlist').children().index(li);
-	socket.emit(Type.GETWILL,index);
+	socket.sendMessage(Type.GETWILL,index);
 }
 function autoList()
 {
@@ -810,10 +672,11 @@ function resizeDivider(e)
 function formatAlignment(str)
 {                       
 	//colors
-	var towncolor="#19FF19";
-	var mafiacolor="red";
-	var randcolor="#42C0FB";
-	var neutcolor='lightgrey';
+	var towncolor="#7fff00";
+	var mafiacolor="#dd0000";
+	var covencolor="#bf5fff";
+	var randcolor="#49a9d0";
+	var neutcolor='#cccccc';
 	var hilitecolor="orange";
 	str=str.replace(/[Tt]own/,"<span style='color:"+towncolor+"'>Town</span>");
 	str=str.replace(/[Ii]nvestigative/,"<span style='color:"+randcolor+"'>Investigative</span>");
@@ -825,10 +688,12 @@ function formatAlignment(str)
 	str=str.replace(/[Kk]illing/,"<span style='color:"+randcolor+"'>Killing</span>");
 	str=str.replace(/[Mm]afia/,"<span style='color:"+mafiacolor+"'>Mafia</span>");
 	str=str.replace(/[Dd]eception/,"<span style='color:"+randcolor+"'>Deception</span>");
+	str=str.replace(/[Hh]ead/,"<span style='color:"+randcolor+"'>Head</span>");
+	str=str.replace(/[Cc]oven/,"<span style='color:"+covencolor+"'>Coven</span>");
 	str=str.replace(/[Ee]vil/,"<span style='color:"+randcolor+"'>Evil</span>");
+	str=str.replace(/[Cc]haos/,"<span style='color:"+randcolor+"'>Chaos</span>");
 	str=str.replace(/[Bb]enign/,"<span style='color:"+randcolor+"'>Benign</span>");
 	str=str.replace(/[Nn]eutral/,"<span style='color:"+neutcolor+"'>Neutral</span>");
-	str = str.replace(/[Aa]ny/, "<span style='color:white'>Any</span>");
 	str = str.replace(/[Aa]ny/, "<span style='color:white'>Any</span>");
 	str = str.replace(/[Aa]ny/, "<span style='color:white'>Any</span>");
 	str = str.replace(/[Aa]ny/, "<span style='color:white'>Any</span>");
@@ -919,7 +784,7 @@ function chooseAutoButton(info, label)
 			func = function(){
 				var tr = $(this).parent().parent();
 				var to = $($(tr.children()[1]).children()[0]).html();
-				socket.emit(Type.MSG,to);
+				socket.sendMessage(Type.MSG,'/a '+to);
 			};
 		break;
 		/*Actions*/
@@ -927,7 +792,7 @@ function chooseAutoButton(info, label)
 			func = function(){
 				var tr = $(this).parent().parent();
 				var to = $($(tr.children()[1]).children()[0]).html();
-				socket.emit(Type.TOGGLELIVING,to);
+				socket.sendMessage(Type.TOGGLELIVING,to);
 				//Stupid button swapping stuff that I have no idea why I thought was a good idea at the time.
 				var index = users.indexOf(to);
 				var buttons = $('.killbutton, .revivebutton');
@@ -949,7 +814,7 @@ function chooseAutoButton(info, label)
 	        func = function () {
 	            var tr = $(this).parent().parent();
 	            var to = $($(tr.children()[1]).children()[0]).html();
-	            socket.emit(Type.TOGGLE, to, 'douse');
+	            socket.sendMessage(Type.TOGGLE, to, 'douse');
 	        };
 	    break;
 	    case '<Set Role>':
@@ -957,47 +822,25 @@ function chooseAutoButton(info, label)
 				var tr = $(this).parent().parent();
 				var to = $($(tr.children()[1]).children()[0]).html();
 				var arr = to.split('/');
-				socket.emit(Type.SETROLE,arr[0],arr[1]);
+				socket.sendMessage(Type.SETROLE,arr[0],arr[1]);
 				//Change the input box
 				var index = users.indexOf(arr[0]);
 				var input = $('.role');
 				$(input[index]).val(arr[1]);
 			}
 		break;
-		case '<Disguise>':
-			func = function(){
-				var arr = info[1].split('/');
-				socket.emit(Type.MSG,'/disguise '+ arr[0] +' '+ arr[1]);
-				//Swap all messages in the table.
-				var container = $('.automodcontainer');
-				container = container[container.length-1];
-				//Loop for all names
-				var names = $(container).find('.playername');
-				for ( i in names)
-				{
-					if ($(names[i]).html() == arr[0])
-					{
-						$(names[i]).html(arr[1]);
-					}
-					else if ($(names[i]).html() == arr[1])
-					{
-						$(names[i]).html(arr[0]);
-					}
-				}
-			}
-		break;
 		case '<Blackmail>':
 			func = function(){
 				var tr = $(this).parent().parent();
 				var to = $($(tr.children()[1]).children()[0]).html();
-				socket.emit(Type.TOGGLE,to,'blackmail');
+				socket.sendMessage(Type.TOGGLE,to,'blackmail');
 			};
 		break;
 		case '<Jail>':
 			func = function(){
 				var tr = $(this).parent().parent();
 				var to = $($(tr.children()[1]).children()[0]).html();
-				socket.emit(Type.TOGGLE,to,'jailed');
+				socket.sendMessage(Type.TOGGLE,to,'jailed');
 				var index = users.indexOf(to);
 				var buttons = $('.jailbutton, .releasebutton');
 				if ($(buttons[index]).hasClass('jailbutton'))
@@ -1014,18 +857,39 @@ function chooseAutoButton(info, label)
 				}
 			};
 		break;
+		case '<Entangle>':
+			func = function(){
+				var tr = $(this).parent().parent();
+				var to = $($(tr.children()[1]).children()[0]).html();
+				socket.sendMessage(Type.TOGGLE,to,'entangled');
+				var index = users.indexOf(to);
+				var buttons = $('.entanglebutton, .disentanglebutton');
+				if ($(buttons[index]).hasClass('entanglebutton'))
+				{
+					$(buttons[index]).removeClass('entanglebutton');
+					$(buttons[index]).addClass('disentanglebutton');
+					$(buttons[index]).html('<span>Disentangle</span>');
+				}
+				else
+				{
+					$(buttons[index]).removeClass('disentanglebutton');
+					$(buttons[index]).addClass('entanglebutton');
+					$(buttons[index]).html('<span>Entangle</span>');
+				}
+			};
+		break;
 		case '<Linked>':
 			func = function(){
 				var tr = $(this).parent().parent();
 				var to = $($(tr.children()[1]).children()[0]).html();
-				socket.emit(Type.TOGGLE,to,'linked');
+				socket.sendMessage(Type.TOGGLE,to,'linked');
 			};
 		break;
 		case '<Clean>':
 			func = function(){
 				var tr = $(this).parent().parent();
 				var to = $($(tr.children()[1]).children()[0]).html();
-				socket.emit(Type.MSG,'/clean '+to);
+				socket.sendMessage(Type.MSG,'/clean '+to);
 			};
 		break;
 		/*Default is to treat it as a name*/
@@ -1034,7 +898,7 @@ function chooseAutoButton(info, label)
 				var tr = $(this).parent().parent();
 				var to = $($(tr.children()[0]).children()[0]).html();
 				var msg = $($(tr.children()[1]).html()).html();
-				socket.emit(Type.MSG,'/sys '+to+' '+msg);
+				socket.sendMessage(Type.MSG,'/sys '+to+' '+msg);
 			};
 		break;
 	}
@@ -1047,7 +911,7 @@ function addModControls()
 	//Add numbering interface
 	var spn = $('<input type="number" min="1" max="99" value="'+daynumber+'"/>');
 	spn.change(function(){
-		socket.emit(Type.SETDAYNUMBER,$(this).val());
+		socket.sendMessage(Type.SETDAYNUMBER,$(this).val());
 	});
 	var lbl = $('<span>Day/Night:</span>');
 	$('#modnumbering').empty();
@@ -1065,7 +929,7 @@ function addPauseButton(phase)
 		var pause = $('<div class="pausebutton"></div>');
 	}	
 	pause.click(function(){
-		socket.emit(Type.PAUSEPHASE);
+		socket.sendMessage(Type.PAUSEPHASE);
 		if ($(this).hasClass('playbutton'))
 		{
 			$(this).removeClass('playbutton');

@@ -6,8 +6,10 @@ This is a chat client written to help with the Town of Salem [Testing Grounds](h
 * Phase system
 * Complete voting system, including Mayor
 * Whispering
-* Mafia, Jailor, Spy, Medium and Mayor role modifiers
+* Mafia, Coven, Vampire, Jailor, Blackmailer, Medium and Mayor role modifiers
 * Generated rolecards
+* Custom Chats
+* Dark Mode
 * Role randomizer, automatically assign roles to players based on a list
 * Custom rolecards
 

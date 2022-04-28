@@ -17,7 +17,7 @@ header
 #main
 {
 	height:90%;
-	width:76%;
+	width:69.5%;
 	/*background-image: url('Snowback1.png');
 	background-size: 100% 100%;*/
 	padding:0;
@@ -26,11 +26,14 @@ header
 	list-style:none;
 	overflow-y:auto;
 	overflow-x:hidden;
-	background-color: #364040;
+	color:#FFFFFF;
+	font-family: 'SuperRareFont', Whitney, sans-serif;
+	line-height: 1.25em;
+	background-color:#36393f;
 }
 .moonimg
 {
-	background: url('moon.png');
+	background:url('moon.png');
 	height:15px;
 	width:15px;
 	float:left;
@@ -47,34 +50,34 @@ header .moonimg
 .investresult, .sheriffresult
 {
 	position:relative;
-	width: 20em;
-	font-size: 0.9em;
-	padding: 0.5em;
+	width:20em;
+	font-size:0.9em;
+	padding:0.5em;
 	padding-left:1em;
-	border-radius: 1em;
-	padding-right: 50px;
-	font-family: 'Open Sans', Helvetica, sans-serif;
-	background: #CFD7D7;
-	margin: 0.5em;
+	border-radius:1em;
+	padding-right:50px;
+	font-family:'Open Sans', Helvetica, sans-serif;
+	background:#CFD7D7;
+	margin:0.5em;
 	text-align:center;
 }
 .investresult:after
 {
-	position: absolute;
-	display: block;
-	content: '';
-	background: url(invest.png);
-	height: 50px;
-	width: 50px;
-	right: -10px;
-	top: 0px;
+	position:absolute;
+	display:block;
+	content:'';
+	background:url(invest.png);
+	height:50px;
+	width:50px;
+	right:-10px;
+	top:0px;
 }
 .sheriffresult:after
 {
 	position: absolute;
 	display: block;
-	content: '';
-	background: url(sheriff.png);
+	content:'';
+	background:url(sheriff.png);
 	height: 50px;
 	width: 50px;
 	right: -10px;
@@ -84,8 +87,41 @@ header .moonimg
 {
 	width:100%;
 	padding-left:5px;
-	color:#FFFFFF;
-	font-family: 'SuperRareFont', Helvetica, sans-serif;
+}
+.playernum
+{
+	display:inline-block;
+	width:1.25em;
+	text-align:center;
+	background:rgba(127, 255, 0, 0.66);
+	color:white;
+	border:1px solid #1f1f1f;
+	border-radius:1em;
+}
+.playernum.modnum
+{
+	background:rgba(255, 128, 199, 0.87);
+	color:white;
+}
+.mafia .playernum
+{
+	background:#dd0000;
+	color:white;
+}
+.coven .playernum
+{
+	background:#bf5fff;
+	color:white;
+}
+.vamp .playernum
+{
+	background:#7b8968;
+	color:white;
+}
+.klepto .playernum
+{
+	background:#ff00ff;
+	color:white;
 }
 .rolecardcontainer
 {
@@ -118,12 +154,12 @@ header .moonimg
 #automodsettings
 {
 	border: 1px solid black;
-	z-index: 10;
+	z-index:10;
 	background:white;
 }
 #automodsettings li
 {
-	height: 25%;
+	height:25%;
 	width:100%;
 	position:relative;
 	background:white;
@@ -136,18 +172,18 @@ header .moonimg
 	left:6%;
 	right:6%;
 	bottom:6%;
-	padding: 1em;
+	padding:1em;
 	border: 1px solid transparent;
 	border-radius: 8px;
 	cursor:default;
 }
 #automodsettings li div:hover
 {
-	border: 1px solid #D0CCCC;
+	border:1px solid #D0CCCC;
 }
 #automodsettings li div:active
 {
-	background: #929292;
+	background:#929292;
 }
 #rolelist li
 {
@@ -156,7 +192,7 @@ header .moonimg
 	padding:0;
 	margin:0;
 	background:white;
-	border: 1px solid black;
+	border:1px solid black;
 }
 #rolelist li .top, #rolelist li .bottom
 {
@@ -189,16 +225,15 @@ header .moonimg
 	margin-left:auto;
 	margin-right:auto;
 	min-height:100px;
-	border: 2px solid #265B5F;
-	display:block;
-	font-family: 'Open Sans', Arial, sans-serif;
+	border:2px solid #265B5F;
+	font-family:'Open Sans', Arial, sans-serif;
 }
 .automodcontainer header
 {
 	height:30px;
 	width:100%;
 	background: #3b5b5f;
-	position: relative;
+	position:relative;
 	font-family:'Denk One', Arial, sans-serif;
 	color:white;
 }
@@ -206,7 +241,7 @@ header .moonimg
 {
 	left:50%;
 	top:50%;
-	transform: translate(-50%, -50%);
+	transform:translate(-50%, -50%);
 	text-align:center;
 	margin:0;
 	padding:0;
@@ -223,16 +258,11 @@ header .moonimg
 .automodcontainer table
 {
 	border: 1px solid #265B5F;
-	display:block;
 	margin: 0;
 	margin-top: 10px;
 	margin-bottom: 10px;
 	margin-left: auto;
 	margin-right: auto;
-}
-table tbody
-{
-	display:block;
 }
 .unauto
 {
@@ -246,10 +276,6 @@ table tbody
 {
 	border:3px solid #B133E0;
 }
-.automodcontainer table tr
-{
-	display:block;
-}
 .actiontable, .messagetable
 {
 	width: 80%;
@@ -257,19 +283,11 @@ table tbody
 .automodcontainer table tr:first-child
 {
 	border-bottom:1px solid #265B5F;
-	display:block;
-}
-.automodcontainer table tr:first-child td
-{
-	border-bottom:none;
 }
 .automodcontainer table tr td
 {
-	display:block;
 	padding-left:5px;
 	padding-right:5px;
-	float:left;
-	height:100%;
 	border-bottom:1px solid #265B5F;
 }
 .automodcontainer table tr:last-child td
@@ -282,10 +300,8 @@ table tbody
 }
 .automodcontainer table tr td:last-child
 {
-	float:none;
 	border-right:none;
 	overflow:auto;
-	width:unset;
 	border-left: 1px solid #265B5F;
 }
 .automodbutton
@@ -361,7 +377,7 @@ header ul
 	margin:0;
 	padding:0;
 	height:100%;
-	width:80%;
+	width:72%;
 	float:left;
 }
 header ul li
@@ -388,8 +404,8 @@ header ul li:last-child
 }
 .current
 {
-	color:black;
-	background:#EBD33F;
+	color:floralwhite;
+	background:#003030;
 }
 header ul li span
 {
@@ -401,33 +417,179 @@ header ul li span
 }
 .highlight
 {
-	background:#996829;
+	background:#265B5F;
+	color:white;
 }
 .modchat
 {
 	background:#3d0029;
 }
+.suicide
+{
+	background:#cccccc;
+	color:black;
+	font-weight: bold;
+}
+.heart
+{
+	background:#bf0039;
+	color:black;
+	font-weight: bold;
+}
+.townkill
+{
+	background:#7fff00;
+	color:black;
+	font-weight:bold;
+}
+.mafiakill
+{
+	background:#dd0000;
+	color:white;
+	font-weight:bold;
+}
+.covenkill
+{
+	background:#bf5fff;
+	color:white;
+	font-weight:bold;
+}
+.skkill
+{
+	background:#336eff;
+	color:white;
+	font-weight:bold;
+}
+.wwkill
+{
+	background:#9f703a;
+	color:white;
+	font-weight:bold;
+}
+.arsokill
+{
+	background:#ee7600;
+	color:black;
+	font-weight:bold;
+}
+.juggkill
+{
+	background:#a12b56;
+	color:white;
+	font-weight:bold;
+}
+.survwin
+{
+	background:#dddd00;
+	color:white;
+	font-weight:bold;
+}
+.jestkill
+{
+	background:#f7b3da;
+	color:white;
+	font-weight:bold;
+}
+.vampkill
+{
+	background:#7b8968;
+	color:black;
+	font-weight:bold;
+}
+.piratekill
+{
+	background:#edc240;
+	color:black;
+	font-weight:bold;
+}
+.pbwin
+{
+	background:#cfff63;
+	color:black;
+	font-weight:bold;
+}
+.pestkill
+{
+	background:#424242;
+	color:black;
+	text-shadow:0px 0px 5px #cfff63;
+	font-weight:bold;
+}
+.conqkill
+{
+	background:#274ba3;
+	color:white;
+	font-weight:bold;
+}
+.huntsmankill
+{
+	background:#521421;
+	color:white;
+	font-weight:bold;
+}
+.patientkill
+{
+	background:#808000;
+	color:white;
+	font-weight:bold;
+}
+.naiadkill
+{
+	background:#008080;
+	color:white;
+	font-weight:bold;
+}
+.floraekill
+{
+	background:#228f41;
+	color:floralwhite;
+	font-weight:bold;
+}
 .phasechange
 {
 	background:#000000;
+	height:2.9%;
+	font-size:107%;
+	color:ghostwhite;
+}
+.msgsystem
+{
+	color:tan;
+	font-weight:bold;
 }
 .mayor_reveal
 {
-	background:#075700;
+	background:transparent;
+	color:#ff5349;
+}
+.gardenia_reveal
+{
+	background:transparent;
+	color:#ffb95a;
+}
+.guardian_angel
+{
+	background:#ffffff;
+	color:#000000;
+}
+.phlox_li
+{
+	background:#df00ff;
+	color:#ffffff;
 }
 .rolecard
 {
-	background: #1f1f1f;
-	background-size: 100% 100%;
-	height: 450px;
-	width: 300px;
+	background:#1f1f1f;
+	background-size:100% 100%;
+	height:450px;
+	width:300px;
 	text-shadow: 0px 4px 6px black;
-	color: white;
-	position: relative;
-	padding: 20px;
-	border: 5px solid #A78A52;
-	padding-top: 10px;
-	float: left;
+	color:white;
+	position:relative;
+	padding:20px;
+	border:5px solid #A78A52;
+	padding-top:10px;
+	float:left;
 }
 .rolecard h2
 {
@@ -435,20 +597,20 @@ header ul li span
 }
 .rolecard .aligntext
 {
-	float: unset;
+	float:unset;
 }
 .rolecard .abilities
 {
-	float: left;
-	width: 100%;
+	float:left;
+	width:100%;
 }
 .goal
 {
-	display: block;
-	color: white;
-	position: absolute;
-	left: auto;
-	bottom: 20px;
+	display:block;
+	color:white;
+	position:absolute;
+	left:auto;
+	bottom:15px;
 }
 #adjustabledivider
 {
@@ -459,7 +621,7 @@ header ul li span
 	border-right:2px transparent;
 	background:black;
 	height:90%;
-	left:76%;
+	left:69.5%;
 	top:2em;
 	cursor:ew-resize;
 }
@@ -474,17 +636,17 @@ header ul li span
 	margin:0;
 	margin-left:-2px;
 	overflow:auto;
-	background-color: #3B4545;
+	background-color:#2f3136;
 }
 #userlist>li
 {
-	height:2.5em;
+	height:3em;
 	width:100%;
-	border-bottom:1px solid black;
+	border-bottom:2px solid black;
 }
 #userlist>li:first-child
 {
-	border-bottom:2px solid black;
+	border-bottom:4px solid black;
 }
 .num
 {
@@ -492,7 +654,7 @@ header ul li span
 	font-weight:bold;
 	max-width:15%;
 	padding-left:5px;
-	color:#f0ecf4;
+	color:tan;
 }
 .name
 {
@@ -500,9 +662,9 @@ header ul li span
 	font-weight:bold;
 	overflow:hidden;
 	text-overflow:ellipsis;
-	white-space: nowrap;
-	padding-left: 5px;
-	margin-right: -5px;
+	white-space:nowrap;
+	padding-left:5px;
+	margin-right:-5px;
 	color:#FFFFFF;
 }
 .dev
@@ -510,44 +672,45 @@ header ul li span
 	font-weight:bold;
 	color:#00a6a6;
 }
-.spec
-{
-	font-weight:bold;
-	color:#B5A642;
-}
 #inputarea
 {
 	clear:both;
 	width:100%;
 	height:8%;
 	border-top:1px solid black;
-	background-color: #265B5F;
+	background-color:#265B5F;
 }
 #c
 {
 	float:left;
-	width:82%;
+	height:40%;
+	width:80%;
+	background:#1e2124;
+	color:antiquewhite;
+	font-size:15px;
+	text-shadow:0px 1px 10px black;
 }
 .votinginterface
 {
-	float: right;
-	height: 100%;
-	width: 100px;
+	float:right;
+	height:100%;
+	width:100px;
+	text-align:right;
 }
 .nightinterface
 {
-	float: right;
-	height: 100%;
-	width: 100px;
+	float:right;
+	height:100%;
+	width:100px;
 }
 .votebutton
 {
 	width:70%;
-	height:100%;
-	float:left;
-	background: linear-gradient(#A39827, #FCE400);
+	height:110%;
+	display:inline-block;
+	background: linear-gradient(teal, mediumaquamarine);
 	border-radius:8px;
-	font-family: 'Slabo 27px', serif;
+	font-family:'Slabo 27px', serif;
 	cursor:default;
 	color:#383300;
 	text-align:center;
@@ -559,7 +722,7 @@ header ul li span
 	width:70%;
 	height:100%;
 	float:left;
-	background: linear-gradient(#A39827, #FCE400);
+	background: linear-gradient(teal, mediumaquamarine);
 	border-radius:8px;
 	font-family: 'Slabo 27px', serif;
 	cursor:default;
@@ -567,6 +730,9 @@ header ul li span
 	text-align:center;
 	border:1px solid black;
 	margin:-1px;
+}
+.nightbutton.pressed {
+	background:linear-gradient(#252729, #103d36);
 }
 .rolealignment
 {
@@ -576,29 +742,29 @@ header ul li span
 .rolealignmentedit
 {
 	height:100%;
-	box-sizing: border-box;  
+	box-sizing:border-box;  
 	margin:0;
 	padding:0;
 	text-align:center;
 }
 .votebutton:hover
 {
-	background:#A39827;
+	background:cornflowerblue;
 }
 .nightbutton:hover
 {
-	background:#A39827;
+	background:cornflowerblue;
 }
 .votecount
 {
 	width:30%;
-	height:100%;
+	height:110%;
 	border:1px solid black;
 	margin:-1px;
 	border-radius:8px;
-	float:left;
+	display:inline-block;
 	text-align:center;
-	background:white;
+	background:tan;
 }
 .modcontrols, .info
 {
@@ -610,20 +776,33 @@ header ul li span
 {
 	height:100%;
 }
+a
+{
+	color:cadetblue;
+}
+a:hover
+{
+	color:midnightblue;
+}
+a:visited
+{
+	color:cadetblue;
+	text-shadow: 1px 1px 10px black;
+}
 #clock
 {
 	position:absolute;
 	top:100%;
 	left:50%;
 	transform:translate(-50%,0);
-	border: 2px solid black;
+	border:2px solid black;
 	border-top:1px solid black;
-	width: 3.6em;
+	width:3.6em;
 	height:1.4em;
-	border-bottom-left-radius: 200px;
-	border-bottom-right-radius: 200px;
-	font-size: 1.5em;
-	background: #EBD33F;
+	border-bottom-left-radius:200px;
+	border-bottom-right-radius:200px;
+	font-size:1.5em;
+	background:indianred;
 	z-index:100;
 	cursor: default;
 }
@@ -649,13 +828,13 @@ header ul li span
 	content:'';
 	height:70%;
 	width:15%;
-	border-right: 3px solid #B4A861;
-	border-left: 3px solid #B4A861;
+	border-right: 3px solid darkolivegreen;
+	border-left: 3px solid darkolivegreen;
 }
 .pausebutton:hover:after
 {
-	border-right: 3px solid yellow;
-	border-left: 3px solid yellow;
+	border-right: 3px solid mediumseagreen;
+	border-left: 3px solid mediumseagreen;
 }
 .playbutton:after
 {
@@ -667,13 +846,13 @@ header ul li span
 	content:'';
 	height:0;
 	width:0;
-	border-left: 8px solid green;
-	border-top: 5px solid transparent;
-	border-bottom: 5px solid transparent;
+	border-left:8px solid darkred;
+	border-top:5px solid transparent;
+	border-bottom:5px solid transparent;
 }
 .playbutton:hover:after
 {
-	border-left: 8px solid lime;
+	border-left:8px solid red;
 }
 #clock span
 {
@@ -684,7 +863,7 @@ header ul li span
 }
 .role
 {
-	box-sizing: border-box;
+	box-sizing:border-box;
 	float:left;
 	width:40%;
 }
@@ -702,7 +881,7 @@ header ul li span
 	left:40%;
 	transform:translate(0,-50%);
 	text-align:center;
-	width: 2.4em;
+	width:2.4em;
 	background: #3B4545;
 	color: white;
 }
@@ -712,36 +891,36 @@ header ul li span
 	top:50%;
 	right:65%;
 	transform:translate(0,-50%);
-	font-size: 0.8em;
+	font-size:0.82em;
 	font-family: 'Open Sans', Arial, sans-serif;
 	color:white;
 }
 .notesbutton {
-	height: 2.38em;
-	width: 1.5em;
-	text-align: center;
-	border: 1px solid black;
+	height:2.38em;
+	width:1.5em;
+	text-align:center;
+	border:1px solid black;
 	float: right;
-	background: #3B4545;
-	color: white;
-	font-size: 10px;
+	background:#3B4545;
+	color:white;
+	font-size:10px;
 	padding-top: 2px;
-	padding-right: 6px;
-	padding-left: 6px;
-	padding-bottom: 2px;
-	margin-left: 5px;
-	cursor: default;
+	padding-right:6px;
+	padding-left:6px;
+	padding-bottom:2px;
+	margin-left:5px;
+	cursor:default;
 }
 .notesbutton:hover {
-	background: #97b0b0;
-	color: black;
+	background:#97b0b0;
+	color:black;
 }
 .willbutton
 {
 	height:2.38em;
 	width:1.5em;
 	text-align:center;
-	border: 1px solid black;
+	border:1px solid black;
 	float:right;
 	background: #3B4545;
 	color: white;
@@ -763,7 +942,7 @@ header ul li span
 	height:2.38em;
 	width:1.5em;
 	text-align:center;
-	border: 1px solid black;
+	border:1px solid black;
 	float:right;
 	background: #3B4545;
 	color: white;
@@ -782,15 +961,15 @@ header ul li span
 }
 #rolelistbutton
 {
-	background-image: url('list.png');
-	background-size: 100% 100%;
+	background-image:url('list.png');
+	background-size:100% 100%;
 	height:35px;
 	width:32px;
 	float:left;
 }
 #rolelistbutton:hover, #automodsettingsbutton:hover
 {
-	background-color: #D8D8D8;
+	background-color:#D8D8D8;
 }
 #rolelistbutton:active, #automodsettingsbutton:active
 {
@@ -798,8 +977,8 @@ header ul li span
 }
 #automodsettingsbutton
 {
-	background-image: url('settings.png');
-	background-size: 100% 100%;
+	background-image:url('settings.png');
+	background-size:100% 100%;
 	height:35px;
 	width:32px;
 	float:left;
@@ -821,120 +1000,161 @@ header ul li span
 	margin-right:auto;
 	width:50%;
 	height:450px;
-	border: 3px solid black;
-	background: #996829;
-	color:black;
+	border:3px solid black;
+	background:#1f1f1f;
+	color:white;
 	padding-left:10px;
 	padding-top:10px;
 	overflow:hidden;
 }
 #will, #modwill
 {
-    background: url(will.png);
-    background-size: 100% 100%;
-    display: none;
-    position: absolute;
-    left: 45%;
-    top: 5%;
-    right: 23.75%;
-    bottom: 8%;
+	background:url(will.png);
+	background-size:100% 100%;
+	display:none;
+	position:absolute;
+	top:50%;
+	left:50%;
+	transform:translate(-50%, -50%);
+	width:68vh;
+	height:87vh;
 }
 #will textarea, #modwill textarea
 {
-    background-color: transparent;
-    border-style: none;
-    border-color: Transparent;
-    font-size: 18px;
-    font-family: Helvetica;
-    outline: none;
-    overflow: hidden;
-    height: 70%;
-    width: 85%;
-    margin: 7%;
-    margin-top: 21.5%;
-    resize: none;
+	background-color:transparent;
+	border-style:none;
+	border-color:Transparent;
+	font-size:17.5px;
+	font-family:Helvetica;
+	outline:none;
+	overflow:auto;
+	height:70%;
+	width:85%;
+	margin:7%;
+	margin-top:24%;
+	resize:none;
 }
-#will div, #modwill div
+#closewill
 {
-    display: block;
-    position: absolute;
-    right: 6%;
-    top: 4.5%;
-    left: 86%;
-    bottom: 89.5%;
-    background: url(button.png);
-    background-size: cover;
-    border: black 1px solid;
+	display:block;
+	position:absolute;
+	right:6%;
+	top:4.5%;
+	left:86%;
+	bottom:89.5%;
+	background:url(button.png);
+	background-size:cover;
+	border:black 1px solid;
+}
+#postwill
+{
+	display:block;
+	position:absolute;
+	right:6%;
+	top:88%;
+	left:86%;
+	bottom:6%;
+	background:url(paste.png);
+	background-size:cover;
+	border:solid 1px black;
 }
 #will div:hover, #modwill div:hover
 {
-	box-shadow: 0 0 2px yellow;
+	box-shadow:0 0 2px yellow;
 }
 .notes 
 {
-	margin-left: auto;
-	margin-right: auto;
-	width: 40%;
-	height: 400px;
-	border: 2px solid black;
-	background: #D8DE73;
-	padding-left: 10px;
-	padding-top: 10px;
-	overflow: hidden;
+	margin-left:auto;
+	margin-right:auto;
+	width:40%;
+	height:400px;
+	border:2px solid black;
+	background:#D8DE73;
+	padding-left:10px;
+	padding-top:10px;
+	overflow:hidden;
 }
 #notes, #modnotes 
 {
-	background: url("notes.png");
-	background-size: 100% 100%;
-	display: none;
-	position: absolute;
-	left: 45%;
-	top: 10%;
-	right: 20%;
-	bottom: 10%;
+	background:url("notes.png");
+	background-size:100% 100%;
+	display:none;
+	position:absolute;
+	left:42%;
+	top:10%;
+	right:25%;
+	bottom:10%;
 }
 #notes textarea, #modnotes textarea 
 {
-		background-color: transparent;
-		border-style: none;
-		border-color: Transparent;
-		font-size: 18px;
-		font-family: Helvetica;
-		outline: none;
-		overflow: hidden;
-		height: 80%;
-		width: 80%;
-		margin: 8%;
-		margin-top: 15%;
-		resize: none;
+	background-color:transparent;
+	border-style:none;
+	border-color:transparent;
+	font-size:18px;
+	font-family:Helvetica;
+	outline:none;
+	overflow:hidden;
+	height:80%;
+	width:80%;
+	margin:8%;
+	margin-top:15%;
+	resize:none;
 }
-#notes div, #modnotes div 
+#closenotes
 {
-	display: block;
-	position: absolute;
-	right: 6%;
-	top: 4.5%;
-	height: 50px;
-	width: 48px;
-	background: url("notesclose.png");
-	background-size: 100%,100%;
+	display:block;
+	position:absolute;
+	right:6%;
+	top:4.5%;
+	height:50px;
+	width:48px;
+	background:url("notesclose.png");
+	background-size:100%,100%;
+}
+#postnotes
+{
+	display:block;
+	position:absolute;
+	right:6%;
+	top:88%;
+	left:86%;
+	bottom:6%;
+	background:url(paste.png);
+	background-size:cover;
+	border:solid 1px black;
 }
 #notes div:hover, #modnotes div:hover 
 {
-	-webkit-filter: drop-shadow(12px 12px 25px rgba(0,0,0,0.5));
-	filter: drop-shadow(12px 12px 25px rgba(0,0,0,0.5));
+	-webkit-filter:drop-shadow(12px 12px 25px rgba(0,0,0,0.5));
+	filter:drop-shadow(12px 12px 25px rgba(0,0,0,0.5));
 }
 .deadplayer
 {
-	background:#000000;
+	background:#400000;
 	font-weight:bold;
-	color:#707371;
+	color: floralwhite;
+	text-shadow:3px 3px 3px black;
+	opacity:0.77;
 	
 }
-.deadplayer div
+.deadplayer > div
 {
 	width:100%;
 	height:50%;
+}
+.spectator
+{
+	background:slategray;
+}
+.spectator .name
+{
+	font-weight:bold;
+	color:tan;
+}
+.spectator .name.dev
+{
+	font-weight:bold;
+	color:silver;
 }
 .blocker
 {
@@ -944,16 +1164,16 @@ header ul li span
 	right:0;
 	bottom:0;
 	background:rgba(160,160,160,0.9);
-	z-index: 1000;
+	z-index:1000;
 }
 .downarrow
 {
-	width: 0; 
-	height: 0; 
-	border-left: 6px solid transparent;
-	border-right: 6px solid transparent;
-	border-top: 6px solid black;
-	top: 80%;
+	width:0; 
+	height:0; 
+	border-left:6px solid transparent;
+	border-right:6px solid transparent;
+	border-top:6px solid black;
+	top:80%;
 }
 .alert
 {
@@ -963,7 +1183,7 @@ header ul li span
 	left:40%;
 	right:40%;
 	bottom:20%;
-	font-family: 'Open Sans', Arial, sans-serif;
+	font-family:'Open Sans', Arial, sans-serif;
 }
 .alert img
 {
@@ -975,8 +1195,8 @@ header ul li span
 	width:10%;
 	float:left;
 	font-family:'Open Sans', Arial, sans-serif;
-	box-shadow: rgba(0,0,0,1) 0 1px 0;
-	text-shadow: rgba(0,0,0,.4) 0 1px 0;
+	box-shadow:rgba(0,0,0,1) 0 1px 0;
+	text-shadow:rgba(0,0,0,.4) 0 1px 0;
 	text-decoration: none;
 	background: white;
 	position:relative;
@@ -990,81 +1210,157 @@ header ul li span
 	transform:translate(-50%,-50%);
 }
 /*----Buttons----*/
+.attributebutton
+{
+	background: linear-gradient(#497cef, #4a6efb);
+	width: 20%;
+	float:right;
+	text-align:center;
+	cursor:default;
+	color: floralwhite;
+}
+.attributebutton:hover
+{
+	background:#2a4edb;
+	color:floralwhite;
+}
+#attributelist
+{
+	position:absolute;
+	right:0;
+	background:#364040;
+	color:white;
+	border:1px solid white;
+	list-style:none;
+	padding:0;
+	z-index: 10;
+	margin:0;
+	padding:0;
+}
+.attributelistheading
+{
+	width:100%;
+	background:#1f1f1f;
+}
+.attributelistitem:hover
+{
+	background:#8a8a8a;
+}
 .mafiabutton {
-   background: url('maf.png'), linear-gradient(#c40e0e, #d66565);
-   background-size: 100% 100%
+   background:#364040;
+   background-size:100% 100%
 }
 .mafiabutton:hover {
-   background: url('maf.png'), #b51a1a;
+   background: #b51a1a;
    background-size:100% 100%;
 }
-.mafiabuttondown {
-	background: url('maf.png'), #FF7F7F;
+.mafiabuttondown .mafiabutton {
+	background: red;
 	background-size:100% 100%;
 }
 .covenbutton {
-	background: url('cov.png'), linear-gradient(#871F78, #6C1960);
-	background-size: 100% 100%
+	background: #364040;
+	background-size: 100% 100%;
 }
 .covenbutton:hover {
-	background: url('cov.png'), #651FFF;
-	background-size: 100% 100%
+	background: #651FFF;
+	background-size: 100% 100%;
 }
-.covenbuttondown {
-	background: url('cov.png'), #D499ED;
-	background-size: 100% 100%
+.covenbuttondown .covenbutton {
+	background: mediumpurple;
+	background-size: 100% 100%;
+}
+.vampbutton {
+	background: #364040;
+	background-size: 100% 100%;
+}
+.vampbutton:hover {
+	background: #505050;
+	background-size: 100% 100%;
+}
+.vampbuttondown .vampbutton {
+	background: #6c7d47;
+	background-size: 100% 100%;
 }
 .jailorbutton {
-   background: #919191;
-   background: url('jailor.png'), linear-gradient(#303030,#919191);
+   background: #364040;
    background-size:100% 100%;
  }
 .jailorbutton:hover {
-   background: url('jailor.png'), #505050;
+   background: #505050;
    background-size:100% 100%;
  }
-.jailorbuttondown {
-   background: url('jailor.png'), #DEDEDE;
+.jailorbuttondown .jailorbutton {
+   background: lightgray;
    background-size:100% 100%;
+   color: black;
 }
 .blackmailerbutton {
-   background: #65a9d7;
-   background: url('blackmailer.png'), linear-gradient(#FFB404, #DC9202);
+   background: #364040;
    background-size:100% 100%;
   }
 .blackmailerbutton:hover {
-   background:url('blackmailer.png'),#A48111;
+   background:#A48111;
    background-size:100% 100%;
 }
-.blackmailerbuttondown {
-   background:url('blackmailer.png'), yellow;
+.blackmailerbuttondown .blackmailerbutton {
+   background: goldenrod;
    background-size:100% 100%;
 }
 .mayorbutton {
-   background: #1ccf00;
-   background: url('mayor.png'), linear-gradient(#087700, #419B33);
+   background: #364040;
    background-size:100% 100%;
  }
 .mayorbutton:hover {
-   background: url('mayor.png'), #1B693A;
+   background: #1B693A;
    background-size:100% 100%;
 }
-.mayorbuttondown {
-   background: url('mayor.png'), lime;
+.mayorbuttondown .mayorbutton {
+   background: lime;
    background-size:100% 100%;
+   color:black;
 }
 .mediumbutton {
-   background: #7a941e;
-   background: url('med.png'), linear-gradient(#3A92CD, #306284);
+   background: #364040;
    background-size:100% 100%;
 }
 .mediumbutton:hover {
-   background: url('med.png'),#274C66;
+   background:#274C66;
    background-size:100% 100%;
 }
-.mediumbuttondown {
-   background: url('med.png'), cyan;
+.mediumbuttondown .mediumbutton {
+   background:cyan;
    background-size:100% 100%;
+   color:black;
+}
+.kleptobuttondown .kleptobutton {
+   background:#FF00FF;
+}
+.wisteriabutton {
+   background: #364040;
+   background-size:100% 100%;
+ }
+.wisteriabutton:hover {
+   background: #505050;
+   background-size:100% 100%;
+ }
+.wisteriabuttondown .wisteriabutton {
+   background: #e9aff0;
+   background-size:100% 100%;
+   color: black;
+}
+.gardeniabutton {
+   background: #364040;
+   background-size:100% 100%;
+ }
+.gardeniabutton:hover {
+   background: #1B693A;
+   background-size:100% 100%;
+}
+.gardeniabuttondown .gardeniabutton {
+   background: #9D373C;
+   background-size:100% 100%;
+   color:black;
 }
 .killbutton
 {
@@ -1092,7 +1388,7 @@ header ul li span
 }
 .jailbutton
 {
-	background: linear-gradient(#021E3E, #424242);
+	background: linear-gradient(navy, darkslategray);
 	width: 20%;
 	float:right;
 	text-align:center;
@@ -1110,11 +1406,41 @@ header ul li span
 	float:right;
 	text-align:center;
 	cursor:default;
-	color:black;
+	color:navy;
 }
 .releasebutton:hover
 {
 	background:#CACACA;
+}
+.entanglebutton
+{
+	background: linear-gradient(#93E9BE, #20b2aa);
+	width: 20%;
+	float:right;
+	float:left;
+	text-align:center;
+	cursor:default;
+	color:#CCCCCC;
+	color:black;
+}
+.entanglebutton:hover
+{
+	background: #0B504F;
+}
+.disentanglebutton
+{
+	background: linear-gradient(#3EB489, #00FFCD);
+	width: 20%;
+	float:right;
+	float:left;
+	text-align:center;
+	cursor:default;
+	color:navy;
+	color:midnightblue;
+}
+.disentanglebutton:hover
+{
+	background:#77DD77;
 }
 .more
 {
@@ -1210,7 +1536,7 @@ header ul li span
 	vertical-align: middle;
 	cursor: pointer;
 	font-weight: bold;
-	color: #FFFFFF;
+	color: #F5F5F5;
 	font-family: Arial;
 	font-size: 15px;
 	border: 1px solid black;
@@ -1289,62 +1615,57 @@ header ul li span
 /*--Verdicts--*/
 .verdictinterface
 {
-	position:absolute;
-	left:80%; /*Gets animated to 60%*/
-	right:20%;
-	top:5%;
-	bottom:90%;
-	background:orange;
-	border-bottom-left-radius:12px;
-	border: black solid 2px;
-	border-right: black solid 1px;
+	position: fixed;
+	text-align: right;
+	width: inherit;
+	top: 2em;
+	height: 0;
 }
 .verdictbutton
 {
-	height:100%;
-	width:50%;
-	float:left;
+	height:5vw;
+	width:12.5vw;
+	display:inline-block;
 	text-align:center;
 	font-size:20px;
 	cursor:pointer;
 }
 .guiltybutton
 {
-	background:linear-gradient(#FF0000,#990000);
-	border-bottom-left-radius:8px;
+	background: url('Unity_Guilty.png');
+	background-size: 100% 100%;
+	margin-left: 1px;
 	margin-right:-1px;
-	border-right:1px solid black;
 }
 .guiltybutton:hover
 {
-	background:red;
+	opacity: 0.8;
 }
 .innobutton
 {
-	background:linear-gradient(#60FF00,#118100);
-	margin-left:-1px;
-	border-left:1px solid black;	
+	background:url('Unity_Innocent.png');
+	background-size: 100% 100%;
 }
 .innobutton:hover
 {
-	background:lime;
+	opacity: 0.8;
 }
 /*----Announcement tags----*/
 maf
 {
-	color:red;
+	color:#dd0000;
 }
 cov 
 {
-	color:#9E2C9E;
+	color:#bf5fff;
 }
 arso
 {
-	color:#E88718;
+	color:#d57615;
 }
 ww
 {
-	color:#855217;
+	color:#94703d;
 }
 jester
 {
@@ -1352,15 +1673,15 @@ jester
 }
 town
 {
-	color:#4CC327;
+	color:#7fff00;
 }
 sk
 {
-	color:#10188C;
+	color:#4a6efb;
 }
 neut
 {
-	color:grey;
+	color:#cccccc;
 }
 /*----Chat messages----*/
 .mafia
@@ -1370,12 +1691,13 @@ neut
 }
 .coven 
 {
-	color: #ab5ffb;
+	color:#bf5fff;
 	text-shadow: 0px 0px 10px black;
 }
 .vamp
 {
-	color:#405243;
+	color:#c1d9a0;
+	text-shadow: 0px 0px 10px black;
 }
 .linked
 {
@@ -1383,12 +1705,16 @@ neut
 }
 .dead
 {
-	color: #c7c7c7;
+	color:#c7c7c7;
 	text-shadow: 0px 0px 10px #4b7c80;
 }
 .medium
 {
 	color:#00c3ff;
+}
+.klepto
+{
+	color:#ff00ff;
 }
 .spectate
 {
@@ -1401,17 +1727,41 @@ neut
 }
 .jailor
 {
-	color:#c78800;
+	color:#ffcd00;
 	text-shadow: 0px 0px 10px black;
 }
 .jailing
 {
 	background:#BDBDBD;
 }
+.hauled
+{
+	background:#db0d0d;
+	color:yellow;
+}
+.entangled
+{
+	color:antiquewhite;
+	text-shadow:0px 0px 10px forestgreen;
+}
+.wisteria
+{
+	color:#eba8ff;
+	text-shadow:0px 0px 10px #6e225c;
+}
+.entangling
+{
+	background:#ba99ba;
+}
+.captured
+{
+	background:#db0d0d;
+	color:springgreen;
+}
 .moon
 {
-	background:#249AC7;
-	color:#ADD8E6;
+	background:#34adc6;
+	color:white;
 }
 .mod
 {
@@ -1419,7 +1769,12 @@ neut
 }
 .dying
 {
-	background:#A00100;
+	background:#db0d0d;
+	color:white;
+}
+.reviving
+{
+	background:#00c900;
 	color:white;
 }
 .fullmoon
@@ -1427,25 +1782,32 @@ neut
 	background:#8aacb8;
 	color:white;
 }
-.reviving
+.information
 {
-	background:#00992b;
+	background:#50514e;
+	color:lime;
 }
 .vote
 {
-	color:#00de00;
+	color:lime;
 }
 .whisper
 {
-	color:#80adff;
+	color:#8080ff;
+	text-shadow: 2px 2px 10px black;
+}
+.whispermessage
+{
+	color:#e600e6;
+	text-shadow: 2px 2px 4px black;
 }
 .guilty
 {
-	color:red;
+	color:#FF0000;
 }
 .inno
 {
-	color:#00BF00;
+	color:#66FF66;
 }
 .abstain
 {
@@ -1455,9 +1817,9 @@ neut
 .displaylist
 {	
 	width:150px;
-	border: 2px solid #604605;
+	border: 2px solid black;
 	list-style:none;
-	background: #846007;
+	background:#252729;
 	padding:0;
 	margin:0;
 }
@@ -1467,7 +1829,7 @@ neut
 	margin:0;
 	width:100%;
 	height:20px;
-	border-bottom: 1px solid #5E470D;
+	border-bottom:1px solid #252729;
 	text-align:center;
 }
 .displaylistitem:last-child
@@ -1481,9 +1843,9 @@ neut
 .allroleslist
 {	
 	width:300px;
-	border: 2px solid #604605;
+	border: 2px solid black;
 	list-style:none;
-	background: #846007;
+	background: #252729;
 	padding:0;
 	margin:0;
 }
@@ -1492,7 +1854,7 @@ neut
 	display:inline-block;
 	width:50%;
 	height:100%;
-	border-right: 1px solid #5E470D;
+	border-right: 1px solid #252729;
 	float:left;
 }
 .editableMessage
@@ -1539,10 +1901,6 @@ neut
 	margin-left:10px;
 	margin-bottom:5px;
 }
-a:visited
-{
-	color:blue;
-}
 .backline
 {
 	margin-left:0.5em;
@@ -1565,5 +1923,457 @@ a:visited
 }
 
 .emoji:hover {
-	cursor: pointer;
+	cursor:pointer;
+}
+#themeselector {
+    float: right;
+}
+@media only screen and (max-device-width: 900px)
+{
+  #main {
+    width: 50%;
+  }
+}
+
+.lighttheme #main
+{
+	background:#E3E3E3;
+	color:#000000;
+}
+.lighttheme #c
+{
+	float:left;
+	height:40%;
+	width:80%;
+	background:white;
+	color:black;
+	text-shadow:0px 0px 0px black;
+	font-size:15px;
+}
+.lighttheme .notesbutton
+{
+	height:2.38em;
+	width:1.5em;
+	text-align:center;
+	border:1px solid black;
+	float:right;
+	background:white;
+	color:white;
+	font-size:10px;
+	padding-top: 2px;
+	padding-right:6px;
+	padding-left:6px;
+	padding-bottom:2px;
+	margin-left:5px;
+	cursor:default;
+}
+.lighttheme .notesbutton:hover
+{
+	background:#bfbfbf;
+	color:black;
+}
+.lighttheme .willbutton
+{
+	height:2.38em;
+	width:1.5em;
+	text-align:center;
+	border:1px solid black;
+	float:right;
+	background:white;
+	color:white;
+	font-size:10px;
+	padding-top:2px;
+	padding-right:6px;
+	padding-left:6px;
+	padding-bottom:2px;
+	margin-left:5px;
+	cursor:default;
+}
+.lighttheme .willbutton:hover
+{
+	background:#bfbfbf;
+	color:black;
+}
+.lighttheme .musicbutton
+{
+	height:2.38em;
+	width:1.5em;
+	text-align:center;
+	border:1px solid black;
+	float:right;
+	background:white;
+	color:white;
+	font-size:10px;
+	padding-top:2px;
+	padding-right:6px;
+	padding-left:6px;
+	padding-bottom:2px;
+	margin-left:5px;
+	cursor:default;
+}
+.lighttheme .musicbutton:hover
+{
+	background:#bfbfbf;
+	color:black;
+}
+.lighttheme #modnumbering input
+{
+	position:absolute;
+	top:50%;
+	left:40%;
+	transform:translate(0,-50%);
+	text-align:center;
+	width:2.4em;
+	background:white;
+	color:black;
+}
+.lighttheme .information
+{
+	background:#8f918c;
+	color:lime;
+}
+.lighttheme #userlist
+{
+	list-style:none;
+	display:block;
+	/*background-image: url('Snowback1.png');
+	background-size: 500% 100%;*/
+	height:90%;
+	padding:0;
+	margin:0;
+	margin-left:-2px;
+	overflow:auto;
+	background-color:#d1d5d9;
+}
+.lighttheme .rolecard
+{
+	background:#686868;
+	background-size:100% 100%;
+	height:450px;
+	width:300px;
+	text-shadow:0px 3px 22px black
+	color:black;
+	position:relative;
+	padding:20px;
+	border:5px solid #403113;
+	padding-top:10px;
+	float:left;
+}
+.lighttheme .goal
+{
+	display:block;
+	color:black;
+	position:absolute;
+	left:auto;
+	bottom:15px;
+}
+.lighttheme .name
+{
+	color:black;
+}
+.lighttheme .num
+{
+	color:#A78A52;
+}
+.lighttheme .will
+{
+	margin-left:auto;
+	margin-right:auto;
+	width:50%;
+	height:450px;
+	border:3px solid black;
+	background:#7A7A7A;
+	color:black;
+	padding-left:10px;
+	padding-top:10px;
+	overflow:hidden;
+}
+.lighttheme .phasechange
+{
+	background:#7A7A7A;
+	color:black;
+}
+.lighttheme .msgsystem
+{
+	color:#A78A52;
+}
+.lighttheme .modchat
+{
+	background:#ff80c7;
+}
+.lighttheme .mod
+{
+	color:#3d0029;
+}
+.lighttheme .mafia
+{
+	color:#dd0000;
+}
+.lighttheme .coven
+{
+	color:#8000FF;
+}
+.lighttheme .vamp
+{
+	color:#7b8968;
+}
+.lighttheme .linked
+{
+	color:limegreen;
+}
+.lighttheme .dead
+{
+	text-shadow:0px 0px 7px #000000;
+	color:#4E4E4E;
+}
+.lighttheme .jailor
+{
+	color:#8a5900;
+}
+.lighttheme .jailed
+{
+	color:#ffff81;
+	text-shadow:0px 0px 7px black;
+}
+.lighttheme .wisteria
+{
+	color:#96357c;
+}
+.lighttheme .entangled
+{
+	color:forestgreen;
+	text-shadow:0px 0px 10px magenta;
+}
+.lighttheme .spectate
+{
+	color:darkturquoise;
+}
+.lighttheme .deadplayer
+{
+	background:#6a2a2a;
+	color:white;
+	font-weight:bold;
+}
+
+.tostheme #main
+{
+	color:white;
+	background:#452c1b;
+}
+.tostheme #c
+{
+	float:left;
+	height:40%;
+	width:80%;
+	background:#1c110a;
+	color:gold;
+	text-shadow:0px 0px 0px black;
+	font-size:15px;
+}
+.tostheme .notesbutton
+{
+	height:2.38em;
+	width:1.5em;
+	text-align:center;
+	border:1px solid black;
+	float:right;
+	background:#784d30;
+	color:white;
+	font-size:10px;
+	padding-top: 2px;
+	padding-right:6px;
+	padding-left:6px;
+	padding-bottom:2px;
+	margin-left:5px;
+	cursor:default;
+}
+.tostheme .notesbutton:hover
+{
+	background:#3d2e23;
+	color:black;
+}
+.tostheme .willbutton
+{
+	height:2.38em;
+	width:1.5em;
+	text-align:center;
+	border:1px solid black;
+	float:right;
+	background:#784d30;
+	color:white;
+	font-size:10px;
+	padding-top:2px;
+	padding-right:6px;
+	padding-left:6px;
+	padding-bottom:2px;
+	margin-left:5px;
+	cursor:default;
+}
+.tostheme .willbutton:hover
+{
+	background:#3d2e23;
+	color:black;
+}
+.tostheme .musicbutton
+{
+	height:2.38em;
+	width:1.5em;
+	text-align:center;
+	border:1px solid black;
+	float:right;
+	background:#784d30;
+	color:white;
+	font-size:10px;
+	padding-top:2px;
+	padding-right:6px;
+	padding-left:6px;
+	padding-bottom:2px;
+	margin-left:5px;
+	cursor:default;
+}
+.tostheme .musicbutton:hover
+{
+	background:#3d2e23;
+	color:black;
+}
+.tostheme #userlist
+{
+	list-style:none;
+	display:block;
+	/*background-image: url('Snowback1.png');
+	background-size: 500% 100%;*/
+	height:90%;
+	padding:0;
+	margin:0;
+	margin-left:-2px;
+	overflow:auto;
+	background-color:#332820;
+}
+.tostheme #modnumbering input
+{
+	position:absolute;
+	top:50%;
+	left:40%;
+	transform:translate(0,-50%);
+	text-align:center;
+	width:2.4em;
+	background:#1c110a;
+	color:gold;
+}
+.tostheme .rolecard
+{
+	background:#2b251f;
+	background-size:100% 100%;
+	height:450px;
+	width:300px;
+	text-shadow: 0px 4px 6px black;
+	color:#fffff5;
+	position:relative;
+	padding:20px;
+	border:5px solid #6a4c24;
+	padding-top:10px;
+	float:left;
+}
+.tostheme .goal
+{
+	display:block;
+	color:#fffff5;
+	position:absolute;
+	left:auto;
+	bottom:15px;
+}
+.tostheme .will
+{
+	margin-left:auto;
+	margin-right:auto;
+	width:50%;
+	height:450px;
+	border:3px solid black;
+	background:#996829;
+	color:black;
+	padding-left:10px;
+	padding-top:10px;
+	overflow:hidden;
+}
+.tostheme .highlight
+{
+	background:#996829;
+	color:white;
+}
+.tostheme .phasechange
+{
+	background:#c4c4c4;
+	color:black;
+}
+.tostheme .modchat
+{
+	color:#ffcd00;
+	background:#2b2b2b;
+}
+.tostheme .mod
+{
+	color:#ffcd00;
+}
+.tostheme .playernum
+{
+	display:inline-block;
+	width:1.25em;
+	text-align:center;
+	font-weight:bold;
+	background:#c99f3c;
+	color:#ffff00;
+	border:1px solid #1f1f1f;
+	border-radius:1em;
+}
+.tostheme .playernum.modnum
+{
+	background:#c4c4c4;
+	color:white;
+}
+.tostheme header
+{
+	height:2em;
+	width:100%;
+	background:#3e1d00;
+	border-bottom:1px solid black;
+}
+.tostheme .current
+{
+	background:black;
+	color:#fffff5;
+}
+.tostheme .vamp
+{
+	color:#a5a8a2;
+}
+.tostheme .jailor
+{
+	color:#ffcd00;
+}
+.tostheme .jailed
+{
+	color:#ffff81;
+	background:rgba(255, 205, 0, 0.6);
+}
+.tostheme .wisteria
+{
+	color:#eba8ff;
+	text-shadow:0px 0px 10px black;
+}
+.tostheme .entangled
+{
+	color:floralwhite;
+	background:rgba(34, 139, 34, 0.6);
+}
+.tostheme .spectate
+{
+	color:turquoise;
+}
+.tostheme #inputarea
+{
+	clear:both;
+	width:100%;
+	height:8%;
+	border-top:1px solid black;
+	background-color:#3e1d00;
 }

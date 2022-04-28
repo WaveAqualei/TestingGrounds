@@ -94,7 +94,7 @@ function tick()
 	}
 	else
 	{
-		$('#clock').html('<span class="nowtesting">NOW TESTING</span>');
+		$('#clock').html('<span class="nowtesting">Welcome!~</span>');
 	}
 }
 function getTime(time)
