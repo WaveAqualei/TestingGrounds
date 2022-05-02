@@ -4,6 +4,8 @@ var mafiacolor = '#dd0000';
 var covencolor = '#bf5fff';
 var vampcolor = '#7b8968';
 var floraecolor = '#228f41';
+var positivecolor = '#FFFF0A';
+var negativecolor = '#0A0AFF';
 var randcolor = '#49a9d0';
 var neutcolor = '#cccccc';
 var anycolor = '#F5F5F5';
@@ -16,6 +18,7 @@ var mafiagoal = 'Kill anyone that will not submit to the Mafia.';
 var covengoal = 'Kill all who would oppose the Coven.';
 var vampgoal = 'Convert or kill all who would oppose you.';
 var floraegoal = 'Exterminate anyone that would harm your tribe.';
+var electricgoal = 'Kill all who will not submit to technology.';
 
 var roles = [
 	// === VANILLA ROLES ===
@@ -1078,19 +1081,6 @@ var roles = [
 		custom: true,
 	},
 	{
-		rolename: 'copycat',
-		alignment: 'neutral evil',
-		abilities: ["Mark a player during the day and night to copy them, or use a copied role's abilities."],
-		attributes: [
-			'If the marked player dies during the same day or night, you will copy their abilities.',
-			'Copying a killing role will replenish the one-shot basic defense shield if depleted. Copying a killing role while the shield is intact grants a one-shot basic attack.',
-		],
-		targeting: ['living other'],
-		goal: 'See the Town lose the game.',
-		color: '#8080FF',
-		custom: true,
-	},
-	{
 		rolename: 'fairy',
 		alignment: 'neutral evil',
 		abilities: ['Each night, you may choose a player to trick and another player to focus the trick on.'],
@@ -1137,20 +1127,20 @@ var roles = [
 		custom: true,
 	},
 	{
-		rolename: 'electrician',
+		rolename: 'maniac',
 		alignment: 'neutral killing',
-		abilities: ['Charge someone each night.'],
+		attack: 'Powerful',
+		defense: 'Basic',
+		abilities: ['You may snap during the day and begin killing the townsfolk the following night.'],
 		attributes: [
-			'You cannot be killed at night.',
-			'Target wont be notified about charging.',
-			'If a person that is charged visits another charged person, both will die.',
-			'If you charge a person for a second time, that person will die.',
-			'If every other player is charged, the town will be notified.',
-			'If every other player is charged, you may kill all charged players.',
+			'Once you have snapped, you may attack someone, killing them and anyone they visit.',
+			'You Rampage when you attack.',
+			'You will die three days after snapping if any opposing faction remains.',
 		],
+		day_targeting: ['self'],
 		targeting: ['living other'],
-		goal: 'Live to see everyone electrocuted.',
-		color: '#00FF80',
+		goal: 'Get revenge on the Town for how they treated you.',
+		color: '#800000',
 		custom: true,
 	},
 	{
@@ -1206,6 +1196,35 @@ var roles = [
 
 	// NEUTRAL CHAOS CUSTOM
 	{
+		rolename: 'conqueror',
+		alignment: 'neutral chaos',
+		attack: 'Basic',
+		defense: 'Basic',
+		abilities: ['Each night, you may choose two players: one will be healed, one will be attacked.'],
+		attributes: ['You may not heal yourself.', 'You only win if every other faction is reduced to a single member. At least two other factions must survive.'],
+		targeting: ['living other', 'living other'],
+		goal: 'Successfully Conquer the Town.',
+		color: '#274ba3',
+		custom: true,
+	},
+	{
+		rolename: 'huntsman',
+		alignment: 'neutral chaos',
+		attack: 'Powerful',
+		defense: 'Basic',
+		abilities: ["Choose your prey during the day. Camp outside one player's house at night in an attempt to kill your prey."],
+		attributes: [
+			"You load your shotgun with bullets and camp outside another player's house; you will kill your prey if they visit that person.",
+			'If you choose to stay at home and your prey visits you, you will shoot them.',
+			'If you are attacked you will attack your attacker, but stay at home instead.',
+		],
+		day_targeting: ['living other'],
+		targeting: ['living other'],
+		goal: 'Successfully kill one of your prey while they are visiting someone.',
+		color: '#521421',
+		custom: true,
+	},
+	{
 		rolename: 'mortician',
 		alignment: 'neutral chaos',
 		attack: 'None',
@@ -1234,34 +1253,6 @@ var roles = [
 		custom: true,
 	},
 	{
-		rolename: 'conqueror',
-		alignment: 'neutral chaos',
-		attack: 'Basic',
-		defense: 'Basic',
-		abilities: ['Each night, you may choose two players: one will be healed, one will be attacked.'],
-		attributes: ['You may not heal yourself.', 'You only win if every other faction is reduced to a single member. At least two other factions must survive.'],
-		targeting: ['living other', 'living other'],
-		goal: 'Successfully Conquer the Town.',
-		color: '#274ba3',
-		custom: true,
-	},
-	{
-		rolename: 'huntsman',
-		alignment: 'neutral chaos',
-		attack: 'Powerful',
-		defense: 'Basic',
-		abilities: ["Choose your prey during the day. Camp outside one player's house at night in an attempt to kill your prey."],
-		attributes: [
-			"You load your shotgun with bullets and camp outside another player's house; you will kill your prey if they visit that person.",
-			'If you choose to stay at home and your prey visits you, you will shoot them.',
-			'If you are attacked you will attack your attacker, but stay at home instead.',
-		],
-		day_targeting: ['living other'],
-		targeting: ['living other'],
-		goal: 'Successfully kill one of your prey while they are visiting someone.',		color: '#521421',
-		custom: true,
-	},
-	{
 		rolename: 'paradoxist',
 		alignment: 'Neutral Chaos',
 		abilities: ['Visit a player to send them backwards in time, roleblocking but also healing them. Visting a second time kills them.'],
@@ -1274,6 +1265,23 @@ var roles = [
 		targeting: ['living other'],
 		goal: "Land your clock on 12 o'clock to win",
 		color: 'magenta',
+		custom: true,
+	},
+	{
+		rolename: 'shaman',
+		alignment: 'neutral chaos',
+		attack: 'Powerful',
+		defense: 'Basic',
+		abilities: ['You may extend your life by killing others at night. Your target does not have to die to have your life extended.'],
+		attributes: ['You start off with three days to live. You will die if you run out.',
+			'You gain two days if no one visits your target and they are not Doused/Hexed.',
+			'You gain one day if a player visits your target of if they are Doused/Hexed.',
+			'You gain no days if your target would\'ve died to other causes or if they were poisoned.',
+			'If you are attacked you will lose a day.',
+		],
+		targeting: ['living other'],
+		goal: 'Survive to the end of the game.',
+		color: '#8080BF',
 		custom: true,
 	},
 
@@ -1660,6 +1668,7 @@ var roles = [
 	{
 		rolename: 'nightshade',
 		alignment: 'flora support',
+		attack: 'Basic',
 		abilities: ['You may use a heal or attack elixir at night.'],
 		attributes: ['Attacking a player uses up your attack elixir.',
 			    'Successfully healing a player from an attack uses up your heal elixir.',
@@ -1685,7 +1694,179 @@ var roles = [
 		custom: true,
 	},
 	
-	//Casual roles
+	// POSITIVE HEAD
+	{
+		rolename: 'beacon',
+		alignment: 'positive head',
+		attack: 'None',
+		defense: 'Basic',
+		abilities: ['You may set up a beacon at someone\'s house at night, positively charging them and learning the roles of all of their visitors.'],
+		attributes: ['Negative players will know who you target.',
+			     'You may target other Positive players.',
+			     'You may not target yourself.',
+			     'When you are promoted to Killing, you will become the Battery.'],
+		targeting: ['living other],
+		goal: electricgoal,
+		color: positivecolor,
+		custom: true,
+	},
+	{
+		rolename: 'fuse',
+		alignment: 'positive head',
+		attack: 'None',
+		defense: 'Basic',
+		abilities: ['You may Positively charge a player at night.',
+			    'You may reveal yourself as the Fuse to the Town during the day.'],
+		attributes: ['When you reveal, all Positively charged players are unable to vote for you indefinitely.',
+			     'The day after you reveal, you will lose your defense.',
+			     'Positively charged players may vote for you again if you are promoted.',
+			     'When you are promoted to Killing, you will become the Static.'],
+		targeting: ['living other],
+		goal: electricgoal,
+		color: positivecolor,
+		custom: true,
+	},
+	
+	// POSITIVE KILLING
+	{
+		rolename: 'battery',
+		alignment: 'positive killing',
+		abilities: ['You may charge an uncharged player with Positive energy at night.',
+			    'You may instead steal Positive charge off of a player at night, upgrading your attack and removing their charge.'],
+		attributes: ['When you steal a player\'s Positive energy, you will attack them.',
+			     'You will be able to upgrade to rampage after upgrading to Powerful attack.',
+			     'You cannot gain Unstoppable attacks.'],
+		targeting: ['living nonpositive'],
+		goal: electricgoal,
+		color: positivecolor,
+		custom: true,
+	},
+	{
+		rolename: 'static',
+		alignment: 'positive killing',
+		attack: 'Basic',
+		abilities: ['Every night you may kill a player by shocking them.'],
+		attributes: ['You will passively charge players with Positive energy if they visit you.'],
+		targeting: ['living nonpositive'],
+		goal: electricgoal,
+		color: positivecolor,
+		custom: true,
+	},
+	
+	// POSITIVE SUPPORT
+	{
+		rolename: 'conduit',
+		alignment: 'positive support',
+		abilities: ['Every night you may redirect all actions off of one player and onto another.'],
+		attributes: ['Your first target is Positively charged.',
+			     'All players will be unaware they were re-directed.',
+			     'You are roleblock, overload and control immune.',
+			     'When you are promoted to Killing, you will become the Battery.'],
+		targeting: ['living nonpositive', 'living nonpositive'],
+		goal: electricgoal,
+		color: positivecolor,
+		custom: true,
+	},
+	{
+		rolename: 'speaker',
+		alignment: 'positive support',
+		abilities: ['At any time during the night or the day, you may Loudspeak as the Speaker.',
+			    'At night, you may visit a player and Deafen them. Deafened players won\'t know they were deafened, and cannot hear whispers or the Speaker.'],
+		attributes: ['The whole town will hear you Loudspeak, and you will be seen as the "Speaker:".',
+			     'If a deafened player whispers, everyone will be able to read their whisper.',
+			     'You will Positively charge players when you visit them.',
+			     'When you are promoted to Killing you will become the Static.'],
+		targeting: ['living nonpositive'],
+		goal: electricgoal,
+		color: positivecolor,
+		custom: true,
+	},
+	
+	// NEGATIVE HEAD
+	{
+		rolename: 'camera',
+		alignment: 'negative head',
+		abilities: ['You may Negatively charge someone and learn all their visitors at night.'],
+		attributes: ['If a player you see visiting is Negatively charged, you will know their role as well.',
+			     'When you are promoted to Killing, you will become the Defibrillator.'],
+		targeting: ['living other'],
+		goal: electricgoal,
+		color: negativecolor,
+		custom: true,
+	},
+	{
+		rolename: 'sensor',
+		alignment: 'negative head',
+		abilities: ['Every night, you may choose to charge a player Negatively who isn\'t currently Positively charged.'],
+		attributes: ['You will know who is Positively charged.',
+			     'Every night you will receive the feedback of Positive players.',
+			     'You know the roles of the Positive players.',
+			     'When you are promoted to Killing, you will become the Generator.'],
+		targeting: ['living nonpositive'],
+		goal: electricgoal,
+		color: negativecolor,
+		custom: true,
+	},
+	
+	// NEGATIVE KILLING
+	{
+		rolename: 'defibrillator',
+		alignment: 'negative killing',
+		attack: 'Basic',
+		abilities: ['Every night you may Negatively charge two players or visit a Negatively charged player.'],
+		attributes: ['If you visit a Negatively charged player, you will attack them.'],
+		targeting: ['living nonnegative', 'living nonnegative'],
+		goal: electricgoal,
+		color: negativecolor,
+		custom: true,
+	},
+	{
+		rolename: 'generator',
+		alignment: 'negative killing',
+		attack: 'Basic',
+		abilities: ['You may use a charge at night to attack a player, or you may stay home to charge up power.'],
+		attributes: ['You start with one charge at the beginning of the game.',
+			     'If you visit a Negatively charged player, you will attack them.',
+			     'You will passively charge anyone with Negative who visits you.',
+			     'Anyone you kill will have their Last Will unreadable upon death.'],
+		targeting: ['living nonnegative'],
+		goal: electricgoal,
+		color: negativecolor,
+		custom: true,
+	},
+	
+	// NEGATIVE SUPPORT
+	{
+		rolename: 'display',
+		alignment: 'negative support',
+		abilities: ['You may tinker with someone\'s display for the night, Negatively charging them.'],
+		attributes: ['If a tinkered player is lynched the following day, they will appear as the role you selected.',
+			     'Players you decide to make look like Mafia/Coven/Electric have their visits seen by the Spy.',
+			     'Tinkered players cannot be seen visiting by Lookouts or Trackers, and will not appear in Psychic visions.',
+			     'Displays will fool the Sheriff, Investigator, Trapper, Consigliere, and Potion Master.',
+			     'When you are promoted to Killing, you will become the Generator.'],
+		targeting: ['living'],
+		goal: electricgoal,
+		color: negativecolor,
+		custom: true,
+	},
+	{
+		rolename: 'receiver',
+		alignment: 'negative support',
+		abilities: ['You may place or remove a receiver at a player\'s house at night.'],
+		attributes: ['You can only have 2 receivers out at a time.',
+			     'You will learn who your targets visit.',
+			     'You will receive all feedback and notifications of whoever you place your Receiver on.',
+			     'You will not know who the feedback, notifications, or visits belong to if both your Receivers have been placed.',
+			     'You will only Negatively charge your target when placing a receiver on them.',
+			     'When you are promoted to Killing, you will become the the Defibrillator.'],
+		targeting: ['living nonpositive'],
+		goal: electricgoal,
+		color: negativecolor,
+		custom: true,
+	},
+	
+	// Casual roles
 	{
 		rolename: 'citizen',
 		alignment: 'town casual',
@@ -2004,6 +2185,8 @@ module.exports = {
 			str = str.replace(/[Cc]haos/, "<span style='color:" + randcolor + "'>Chaos</span>");
 			str = str.replace(/[Hh]ead/, "<span style='color:" + randcolor + "'>Head</span>");
 			str = str.replace(/[Nn]eutral/, "<span style='color:" + neutcolor + "'>Neutral</span>");
+			str = str.replace(/[Pp]ositive/, "<span style='color:" + positivecolor + "'>Positive</span>");
+			str = str.replace(/[Nn]egative/, "<span style='color:" + negativecolor + "'>Negative</span>");
 		}
 		return str;
 	},
