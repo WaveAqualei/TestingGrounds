@@ -286,6 +286,8 @@ function openModList(targ)
 				wisteria: 'Wisteria',
 				gardenia: 'Gardenia',
 				klepto: 'Name Hidden',
+				positive: 'Positive Chat',
+				negative: 'Negative Chat',
 			};
 			var actions = {
 				'Blackmail':function()
