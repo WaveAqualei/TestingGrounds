@@ -547,7 +547,12 @@ io.on('connection', function (socket, req) {
 		listeners[type] = callback;
 	}
 	socket.addEventListener('message', function(event) {
-		var [type, ...args] = JSON.parse(event.data);
+		try {
+			var [type, ...args] = JSON.parse(event.data);
+		} catch(err) {
+			socket.sendMessage(Type.SYSTEM, ''+err);
+			return;
+		}
 		if(type !== Type.JOIN && !players[socket.id]) {
 			return;
 		}
@@ -1498,6 +1503,12 @@ function setPhase(p) {
 					if ((players[j].chats.vamp && !players[j].chats.jailed && players[i].chats.vamp) || players[j].spectate) {
 						players[j].s.sendMessage(Type.ROLERESULTS, players[i].name + ' was hauled off to jail.');
 					}
+					if ((players[j].chats.positive && !players[j].chats.jailed && players[i].chats.positive) || players[j].spectate) {
+						players[j].s.sendMessage(Type.ROLERESULTS, players[i].name + ' was hauled off to jail.');
+					}
+					if ((players[j].chats.negative && !players[j].chats.jailed && players[i].chats.negative) || players[j].spectate) {
+						players[j].s.sendMessage(Type.ROLERESULTS, players[i].name + ' was hauled off to jail.');
+					}
 				}
 			}
 			//Entangled player
@@ -1517,6 +1528,12 @@ function setPhase(p) {
 						players[j].s.sendMessage(Type.SYSTEM, players[i].name + ' was locked away in the Garden.');
 					}
 					if ((players[j].chats.vamp && !players[j].chats.entangled && players[i].chats.vamp) || players[j].spectate) {
+						players[j].s.sendMessage(Type.SYSTEM, players[i].name + ' was locked away in the Garden.');
+					}
+					if ((players[j].chats.positive && !players[j].chats.entangled && players[i].chats.positive) || players[j].spectate) {
+						players[j].s.sendMessage(Type.SYSTEM, players[i].name + ' was locked away in the Garden.');
+					}
+					if ((players[j].chats.negative && !players[j].chats.entangled && players[i].chats.negative) || players[j].spectate) {
 						players[j].s.sendMessage(Type.SYSTEM, players[i].name + ' was locked away in the Garden.');
 					}
 				}
@@ -1553,6 +1570,8 @@ function setPhase(p) {
 			mafia: 'Mafia members',
 			coven: 'Coven members',
 			vamp: 'Vampires',
+			positive: 'Positive charges',
+			negative: 'Negative charges',
 		};
 		for(var chatname in informed_factions) {
 			var members = [];
@@ -1632,6 +1651,10 @@ function getPlayerTargetingOptions(player) {
 			noncoven: !r.alignment.match(/^coven/),
 			vampire: !!r.alignment.match(/^vampire/) || r.rolename === 'vampire',
 			nonvampire: !r.alignment.match(/^vampire/) && r.rolename !== 'vampire',
+			positive: !!r.alignment.match(/^positive/) || r.rolename === 'positive',
+			nonpositive: !r.alignment.match(/^positive/) && r.rolename !== 'positive',
+			negative: !!r.alignment.match(/^negative/) || r.rolename === 'negative',
+			nonnegative: !r.alignment.match(/^positive/) && r.rolename !== 'negative',
 			notfirst: gm.getDay() > 1,
 			odd: gm.getDay() % 2 == 1,
 			even: gm.getDay() % 2 == 0,
@@ -1983,6 +2006,8 @@ function Player(socket, name, ip) {
 			mafia: false,
 			coven: false,
 			vamp: false,
+			positive: false,
+			negative: false,
 			jailor: false,
 			jailed: false,
 			wisteria: false,
@@ -2057,6 +2082,8 @@ function Player(socket, name, ip) {
 					mafia: false,
 					coven: false,
 					vamp: false,
+					positive: false,
+					negative: false,
 					jailor: false,
 					jailed: false,
 					wisteria: false,
@@ -3594,6 +3621,29 @@ function Player(socket, name, ip) {
 								case 'nightshade':
 									sendPublicMessage(Type.HIGHLIGHT, "They were killed by a Nightshade.", 'floraekill');
 									break;
+								case 'stat':
+								case 'static':
+									sendPublicMessage(Type.HIGHLIGHT, "They were shocked by the Static.", 'positivekill');
+									break;
+								case 'bat':
+								case 'batt':
+								case 'battery':
+									sendPublicMessage(Type.HIGHLIGHT, "They were shocked by the Battery.", 'positivekill');
+									break;
+								case 'gen':
+								case 'gener':
+								case 'generator':
+									sendPublicMessage(Type.HIGHLIGHT, "They were shocked by the Generator.", 'negativekill');
+									break;
+								case 'defib':
+								case 'defibrill':
+								case 'defibrillator':
+									sendPublicMessage(Type.HIGHLIGHT, "They were shocked by the Defibrillator.", 'negativekill');
+									break;
+								case 'shock':
+								case 'shocked':
+									sendPublicMessage(Type.HIGHLIGHT, "They were shocked by electricity.", 'positivekill');
+									break;
 								default:
 									sendPublicMessage(Type.HIGHLIGHT, "They were killed by a "+sanitize(msg)+".", 'modchat');
 							}
@@ -3606,6 +3656,7 @@ function Player(socket, name, ip) {
 							this.s.sendMessage(Type.SYSTEM, "<span class=\"jailed\">Neutrals: SK, WW, Arso, Jugg, Jest, Vamp, Pirate, Pest</span>");
 							this.s.sendMessage(Type.SYSTEM, "<span class=\"jailor\">Other: Mystic, Conq, Huntsman, Naiad, Suicide, Heart</span>");
 							this.s.sendMessage(Type.SYSTEM, "<span class=\"wisteria\">Florae: Aza, Dahlia, Nettle, Wist, Lav, NS</span>");
+							this.s.sendMessage(Type.SYSTEM, "<span class=\"positive\">Electric: Stat, Batt, Defib, Gen, Shocked</span>");
 						}
 					} else {
 						this.s.sendMessage(Type.SYSTEM, "Only the mod can use this command.");
@@ -3630,43 +3681,70 @@ function Player(socket, name, ip) {
 									sendPublicMessage(Type.HIGHLIGHT, "The Neutrals win!", 'suicide');
 									break;
 								case 'sk':
+								case 'serialkillers':
+								case 'serialkiller':
 									sendPublicMessage(Type.HIGHLIGHT, "The Serial Killers win!", 'skkill');
 									break;
 								case 'ww':
+								case 'werewolf':
 									sendPublicMessage(Type.HIGHLIGHT, "The Werewolf wins!", 'wwkill');
 									break;
 								case 'arso':
+								case 'arsos':
+								case 'arsonist':
+								case 'arsonists':
 									sendPublicMessage(Type.HIGHLIGHT, "The Arsonists win!", 'arsokill');
 									break;
 								case 'jugg':
+								case 'juggernaut':
 									sendPublicMessage(Type.HIGHLIGHT, "The Juggernaut wins!", 'juggkill');
 									break;
 								case 'surv':
+								case 'survivors':
+								case 'survivor':
 									sendPublicMessage(Type.HIGHLIGHT, "The Survivors win!", 'survwin');
 									break;
 								case 'exe':
+								case 'executioner':
 									sendPublicMessage(Type.HIGHLIGHT, "The Executioners win!", 'suicide');
 									break;
 								case 'jest':
+								case 'jester':
+								case 'jesters':
 									sendPublicMessage(Type.HIGHLIGHT, "The Jesters win!", 'jestkill');
 									break;
 								case 'witch':
+								case 'witches':
 									sendPublicMessage(Type.HIGHLIGHT, "The Witches win!", 'covenkill');
 									break;
 								case 'vamp':
+								case 'vamps':
+								case 'vampire':
+								case 'vampires':
 									sendPublicMessage(Type.HIGHLIGHT, "The Vampires win!", 'vampkill');
 									break;
 								case 'pirate':
 									sendPublicMessage(Type.HIGHLIGHT, "The Pirate wins!", 'piratekill');
 									break;
 								case 'pb':
+								case 'plaguebearer':
 									sendPublicMessage(Type.HIGHLIGHT, "The Plaguebearer wins!", 'pbwin');
 									break;
 								case 'pest':
+								case 'pestilence':
 									sendPublicMessage(Type.HIGHLIGHT, "Pestilence wins!", 'pestkill');
 									break;
 								case 'florae':
-									sendPublicMessage(Type.HIGHLIGHT, "The Florae wins!", 'floraekill');
+									sendPublicMessage(Type.HIGHLIGHT, "The Florae win!", 'floraekill');
+									break;
+								case 'positive':
+									sendPublicMessage(Type.HIGHLIGHT, "The Positives win!", 'positivekill');
+									break;
+								case 'negative':
+									sendPublicMessage(Type.HIGHLIGHT, "The Florae wins!", 'negativekill');
+									break;
+								case 'electric':
+									sendPublicMessage(Type.HIGHLIGHT, "The Electrics win!", 'positivekill');
 									break;
 								case 'draw':
 									sendPublicMessage(Type.HIGHLIGHT, "The game has ended in a draw.", 'moon');
@@ -3844,7 +3922,7 @@ function Player(socket, name, ip) {
 		target: function (targets) {
 			//Show who the player is targetting to the other mafia, if they are mafia.
 			var my_chats = this.chats;
-			var sendto = ['mafia', 'coven', 'vamp'].filter(a=>my_chats[a]);
+			var sendto = ['mafia', 'coven', 'vamp', 'positive', 'negative'].filter(a=>my_chats[a]);
 			var message = [Type.TARGET, this.name, this.role, gm.grammarList(targets)];
 			if(this.chats.klepto) {
 				message[1] = '';
@@ -3946,11 +4024,13 @@ function Player(socket, name, ip) {
 							this.specMessage(msg, { jailor: true, jailed: true }, null, 'jailed');
 						} else if (this.chats.entangled) {
 							this.specMessage(msg, { wisteria: true, entangled: true }, null, 'entangled');
-						} else if (this.chats.mafia || this.chats.coven || this.chats.vamp || this.chats.linked || this.chats.jailor || this.chats.wisteria || this.chats.medium) {
+						} else if (this.chats.mafia || this.chats.coven || this.chats.vamp || this.chats.positive || this.chats.negative || this.chats.linked || this.chats.jailor || this.chats.wisteria || this.chats.medium) {
 							var sendTo = {};
 							if(this.chats.mafia) sendTo.mafia = true;
 							if(this.chats.coven) sendTo.coven = true;
 							if(this.chats.vamp) sendTo.vamp = true;
+							if(this.chats.positive) sendTo.positive = true;
+							if(this.chats.negative) sendTo.negative = true;
 							if(Object.keys(sendTo).length) {
 								if(this.chats.klepto) {
 									this.specMessage(msg, sendTo, this.role || 'NoRole', 'klepto');

@@ -545,6 +545,18 @@ header ul li span
 	color:floralwhite;
 	font-weight:bold;
 }
+.positivekill
+{
+	background:#FFFF0A;
+	color:black;
+	font-weight:bold;
+}
+.negativekill
+{
+	background:#0A0AFF;
+	color:white;
+	font-weight:bold;
+}
 .phasechange
 {
 	background:#000000;
@@ -1337,30 +1349,65 @@ a:visited
    background:#FF00FF;
 }
 .wisteriabutton {
-   background: #364040;
+   background:#364040;
    background-size:100% 100%;
  }
 .wisteriabutton:hover {
-   background: #505050;
+   background:#505050;
    background-size:100% 100%;
  }
 .wisteriabuttondown .wisteriabutton {
-   background: #e9aff0;
+   background:#e9aff0;
    background-size:100% 100%;
    color: black;
 }
-.gardeniabutton {
-   background: #364040;
-   background-size:100% 100%;
+.gardeniabutton
+{
+	background:#364040;
+	background-size:100% 100%;
  }
-.gardeniabutton:hover {
-   background: #1B693A;
-   background-size:100% 100%;
+.gardeniabutton:hover
+{
+	background:#1B693A;
+	background-size:100% 100%;
 }
-.gardeniabuttondown .gardeniabutton {
-   background: #9D373C;
-   background-size:100% 100%;
-   color:black;
+.gardeniabuttondown .gardeniabutton
+{
+	background:#9D373C;
+	background-size:100% 100%;
+	color:black;
+}
+.positivebutton
+{
+	background:#364040;
+	background-size:100% 100%;
+}
+.positivebutton:hover
+{
+	background:#364040;
+	background-size:100% 100%;
+}
+.positivebuttondown .positivebutton
+{
+	background:#FFFF0A;
+	color:black;
+	background-size:100% 100%;
+}
+.negativebutton
+{
+	background:#364040;
+	background-size:100% 100%;
+}
+.negativebutton:hover
+{
+	background:#364040;
+	background-size:100% 100%;
+}
+.negativebuttondown .negativebutton
+{
+	background:#0A0AFF;
+	color:white;
+	background-size:100% 100%;
 }
 .killbutton
 {
@@ -1699,6 +1746,16 @@ neut
 	color:#c1d9a0;
 	text-shadow: 0px 0px 10px black;
 }
+.positive
+{
+	color:#FFFF0A;
+	text-shadow: 0px 0px 10px black;
+}
+.negative
+{
+	color:#4d6dff;
+	text-shadow: 0px 0px 10px black;
+}
 .linked
 {
 	color:lawngreen;
@@ -1710,7 +1767,7 @@ neut
 }
 .medium
 {
-	color:#00c3ff;
+	color:#00A5FF;
 }
 .klepto
 {
