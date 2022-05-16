@@ -1119,13 +1119,14 @@ io.on('connection', function (socket, req) {
 			}
 		});
 	});
-	addSocketListener(Type.TOGGLE, function (name, chat) {
+	addSocketListener(Type.TOGGLE, function (name, chat, state) {
 		if (socket.id == mod) {
 			var player = players[playernames[name]];
 			if (player) {
 				if (player.chats[chat] !== undefined) {
 					//Chat related role modifiers.
-					player.chats[chat] = !player.chats[chat];
+					if(state === undefined) state = !player.chats[chat];
+					player.chats[chat] = state;
 					var notify;
 					if (player.chats[chat]) {
 						switch (chat) {
@@ -1198,6 +1199,7 @@ io.on('connection', function (socket, req) {
 					if (!players[socket.id].silenced) {
 						if (notify) player.s.sendMessage(Type.SYSTEM, notify);
 					}
+					players[mod].s.sendMessage(Type.TOGGLE, player.name, chat, player.chats[chat]);
 				} else {
 					switch (chat) {
 						case 'mayor':
@@ -1207,12 +1209,14 @@ io.on('connection', function (socket, req) {
 								if (!players[socket.id].silenced) {
 									player.s.sendMessage(Type.SYSTEM, 'You are now the Mayor. Use /reveal to reveal yourself and get 3 votes.');
 								}
+								players[mod].s.sendMessage(Type.TOGGLE, player.name, chat, true);
 							} else {
 								player.mayor = undefined; //Undefined, meaning not mayor.
 								addLogMessage(Type.SYSTEM, player.name+' is no longer the Mayor.');
 								if (!players[socket.id].silenced) {
 									player.s.sendMessage(Type.SYSTEM, 'You are no longer the Mayor.');
 								}
+								players[mod].s.sendMessage(Type.TOGGLE, player.name, chat, false);
 							}
 							break;
 							break;
@@ -1223,17 +1227,19 @@ io.on('connection', function (socket, req) {
 								if (!players[socket.id].silenced) {
 									player.s.sendMessage(Type.SYSTEM, 'You are now the Gardenia. Use /unveil to reveal yourself and get 3 votes.');
 								}
+								players[mod].s.sendMessage(Type.TOGGLE, player.name, chat, true);
 							} else {
 								player.gardenia = undefined; //Undefined, meaning not gardenia.
 								addLogMessage(Type.SYSTEM, player.name+' is no longer the Gardenia.');
 								if (!players[socket.id].silenced) {
 									player.s.sendMessage(Type.SYSTEM, 'You are no longer the Gardenia.');
 								}
+								players[mod].s.sendMessage(Type.TOGGLE, player.name, chat, false);
 							}
 							break;
 							break;
 						case 'blackmailer':
-							player.hearwhispers = !player.hearwhispers;
+							player.hearwhispers = state;
 							if (!players[socket.id].silenced) {
 								if (player.hearwhispers) {
 									addLogMessage(Type.SYSTEM, player.name+' can now hear whispers.');
@@ -1243,9 +1249,10 @@ io.on('connection', function (socket, req) {
 									player.s.sendMessage(Type.SYSTEM, 'You can no longer hear whispers.');
 								}
 							}
+							players[mod].s.sendMessage(Type.TOGGLE, player.name, chat, player.hearwhispers);
 							break;
 						case 'blackmail':
-							player.blackmailed = !player.blackmailed;
+							player.blackmailed = state;
 							if (!players[socket.id].silenced) {
 								if (player.blackmailed) {
 									player.s.sendMessage(Type.PRENOT, 'BLACKMAIL');
@@ -1257,9 +1264,10 @@ io.on('connection', function (socket, req) {
 									players[mod].s.sendMessage(Type.SYSTEM, player.name + ' is no longer blackmailed.');
 								}
 							}
+							players[mod].s.sendMessage(Type.TOGGLE, player.name, chat, player.blackmailed);
 							break;
 						case 'douse':
-							player.doused = !player.doused;
+							player.doused = state;
 							if (!players[socket.id].silenced) {
 								if (player.doused) {
 									addLogMessage(Type.SYSTEM, player.name + ' is now doused.');
@@ -1269,6 +1277,7 @@ io.on('connection', function (socket, req) {
 									players[mod].s.sendMessage(Type.SYSTEM, player.name + ' is no longer doused.');
 								}
 							}
+							players[mod].s.sendMessage(Type.TOGGLE, player.name, chat, player.doused);
 							break;
 						default:
 							socket.sendMessage(Type.SYSTEM, 'Invalid chat selection. Did you break something?');
