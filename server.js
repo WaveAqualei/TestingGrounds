@@ -1399,7 +1399,9 @@ function setPhase(p) {
 		//Resend the list.
 		sendRoomlist();
 	}
-	if(phase == Phase.ROLES && p > Phase.ROLES) {
+	var oldphase = phase;
+	phase = p;
+	if(phase > Phase.ROLES && (oldphase == Phase.ROLES || gamelog.length === 0)) {
 		//Leave a record of what players are in the game
 		if (createdList && createdList.length != 0) {
 			addLogMessage(Type.SHOWLIST, createdList.map(function(roleslot) {
@@ -1412,13 +1414,8 @@ function setPhase(p) {
 				list.push({ name: players[i].name, role: roles.formatAlignment(players[i].role) });
 			}
 		});
-		var html = msgToHTML(Type.SHOWALLROLES, [list]);
-		if(html) {
-			gamelog.push(html);
-		}
+		addLogMessage(Type.SHOWALLROLES, list);
 	}
-	var oldphase = phase;
-	phase = p;
 	timer.setPhase(p);
 	sendPublicMessage(Type.SETPHASE, phase, false, timer.time);
 	//Reset all silenced players. And the medium seancing
