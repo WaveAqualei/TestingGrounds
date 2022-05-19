@@ -99,7 +99,7 @@ function modInterface()
 		jail.click(function()
 		{
 			var index = $('.jailbutton, .releasebutton').index($(this))
-			socket.sendMessage(Type.TOGGLE,users[index],'jailed',!$(this).hasClass('jailbutton'));
+			socket.sendMessage(Type.TOGGLE,users[index],'jailed',$(this).hasClass('jailbutton'));
 		});
 		var will = $('<div class="controlbutton modwillbutton"><span>W</span></div>');
 		var more = $('<div class="controlbutton more"></div>');
@@ -148,7 +148,7 @@ function modInterface()
 		entangle.click(function()
 		{
 			var index = $('.entanglebutton, .disentanglebutton').index($(this))
-			socket.sendMessage(Type.TOGGLE,users[index],'entangled',!$(this).hasClass('entanglebutton'));
+			socket.sendMessage(Type.TOGGLE,users[index],'entangled',$(this).hasClass('entanglebutton'));
 		});
 
 		modcontrols.append(entangle);
@@ -366,7 +366,7 @@ addSocketListener(Type.JOIN,function(name)
 		jail.click(function()
 		{
 			var index = $('.jailbutton, .releasebutton').index($(this))
-			socket.sendMessage(Type.TOGGLE,users[index],'jailed',!$(this).hasClass('jailbutton'));
+			socket.sendMessage(Type.TOGGLE,users[index],'jailed',$(this).hasClass('jailbutton'));
 		});
 		var will = $('<div class="controlbutton modwillbutton"><span>W</span></div>');
 		var more = $('<div class="controlbutton more"><span class="downarrow"></span></div>');
@@ -411,7 +411,7 @@ addSocketListener(Type.JOIN,function(name)
 		entangle.click(function()
 		{
 			var index = $('.entanglebutton, .disentanglebutton').index($(this))
-			socket.sendMessage(Type.TOGGLE,users[index],'entangled',!$(this).hasClass('entanglebutton'));
+			socket.sendMessage(Type.TOGGLE,users[index],'entangled',$(this).hasClass('entanglebutton'));
 		});
 
 		modcontrols.append(entangle);
@@ -907,30 +907,30 @@ addSocketListener(Type.TOGGLE, function(to, chat, state) {
 		var button = li.find('.jailbutton, .releasebutton');
 		if (state)
 		{
-			button.removeClass('releasebutton');
-			button.addClass('jailbutton');
-			button.html('<span>Jail</span>');
-		}
-		else
-		{
 			button.removeClass('jailbutton');
 			button.addClass('releasebutton');
 			button.html('<span>Release</span>');
+		}
+		else
+		{
+			button.removeClass('releasebutton');
+			button.addClass('jailbutton');
+			button.html('<span>Jail</span>');
 		}
 		break;
 	case 'entangled':
 		var button = li.find('.entanglebutton, .disentanglebutton');
 		if (state)
 		{
-			button.removeClass('disentanglebutton');
-			button.addClass('entanglebutton');
-			button.html('<span>Entangle</span>');
-		}
-		else
-		{
 			button.removeClass('entanglebutton');
 			button.addClass('disentanglebutton');
 			button.html('<span>Disentangle</span>');
+		}
+		else
+		{
+			button.removeClass('disentanglebutton');
+			button.addClass('entanglebutton');
+			button.html('<span>Entangle</span>');
 		}
 		break;
 	case 'douse':

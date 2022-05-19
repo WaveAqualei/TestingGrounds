@@ -812,7 +812,7 @@ function chooseAutoButton(info, label)
 				var to = $($(tr.children()[1]).children()[0]).html();
 				var index = users.indexOf(to);
 				var buttons = $('.jailbutton, .releasebutton');
-				socket.sendMessage(Type.TOGGLE,to,'jailed', !$(buttons[index]).hasClass('jailbutton'));
+				socket.sendMessage(Type.TOGGLE,to,'jailed', $(buttons[index]).hasClass('jailbutton'));
 			};
 		break;
 		case '<Entangle>':
@@ -821,7 +821,7 @@ function chooseAutoButton(info, label)
 				var to = $($(tr.children()[1]).children()[0]).html();
 				var index = users.indexOf(to);
 				var buttons = $('.entanglebutton, .disentanglebutton');
-				socket.sendMessage(Type.TOGGLE,to,'entangled',!$(buttons[index]).hasClass('entanglebutton'));
+				socket.sendMessage(Type.TOGGLE,to,'entangled',$(buttons[index]).hasClass('entanglebutton'));
 			};
 		break;
 		case '<Linked>':
