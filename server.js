@@ -1204,6 +1204,14 @@ io.on('connection', function (socket, req) {
 								}
 								players[mod].s.sendMessage(Type.TOGGLE, player.name, chat, true);
 							} else {
+								if(player.mayor) {
+									player.votingPower -= 2;
+									if (player.votingFor) {
+										players[player.votingFor].votes -= 2;
+										sendPublicMessage(Type.VOTE, this.name, undefined, undefined, players[this.votingFor].name, 2);
+									}
+									sendPublicMessage(Type.REMOVE_EMOJI, player.name+'-mayor');
+								}
 								player.mayor = undefined; //Undefined, meaning not mayor.
 								addLogMessage(Type.SYSTEM, player.name+' is no longer the Mayor.');
 								if (!players[socket.id].silenced) {
@@ -1211,7 +1219,6 @@ io.on('connection', function (socket, req) {
 								}
 								players[mod].s.sendMessage(Type.TOGGLE, player.name, chat, false);
 							}
-							break;
 							break;
 						case 'gardenia':
 							if (player.gardenia === undefined) {
@@ -1222,6 +1229,14 @@ io.on('connection', function (socket, req) {
 								}
 								players[mod].s.sendMessage(Type.TOGGLE, player.name, chat, true);
 							} else {
+								if(player.gardenia) {
+									player.votingPower -= 2;
+									if (player.votingFor) {
+										players[player.votingFor].votes -= 2;
+										sendPublicMessage(Type.VOTE, this.name, undefined, undefined, players[this.votingFor].name, 2);
+									}
+									sendPublicMessage(Type.REMOVE_EMOJI, player.name+'-gardenia');
+								}
 								player.gardenia = undefined; //Undefined, meaning not gardenia.
 								addLogMessage(Type.SYSTEM, player.name+' is no longer the Gardenia.');
 								if (!players[socket.id].silenced) {
@@ -1229,7 +1244,6 @@ io.on('connection', function (socket, req) {
 								}
 								players[mod].s.sendMessage(Type.TOGGLE, player.name, chat, false);
 							}
-							break;
 							break;
 						case 'blackmailer':
 							player.hearwhispers = state;
@@ -1787,16 +1801,18 @@ function Timer() {
 					break;
 				case Phase.VERDICTS:
 					//Count the verdicts and declare the person guilty or inno.
-					var result = 0;
+					var innos = 0;
+					var guilties = 0;
 					var votes = {};
 					for (i in players) {
 						if (players[i].alive && players[i].s.id != mod && players[i].s.id != ontrial && !players[i].spectate) {
-							result += players[i].verdict;
 							votes[players[i].name] = players[i].verdict;
+							if(players[i].verdict > 0) innos += players[i].votingPower;
+							if(players[i].verdict < 0) guilties += players[i].votingPower;
 						}
 						players[i].verdict = 0;
 					}
-					if (result < 0) {
+					if (guilties > innos) {
 						//Guilty, die!
 						setPhase(Phase.LASTWORDS);
 					} //Innocent
@@ -1806,7 +1822,9 @@ function Timer() {
 					sendPublicMessage(Type.JUDGEMENT, {
 						name: players[ontrial]?.name,
 						votes,
-						result: result < 0,
+						guilties,
+						innos,
+						result: guilties > innos,
 					});
 					break;
 				case Phase.LASTWORDS:
@@ -1996,6 +2014,7 @@ function Player(socket, name, ip) {
 		doused: false,
 		hearwhispers: false,
 		votingFor: undefined,
+		votingPower: 1,
 		confirm: false,
 		executing: false,
 		votes: 0,
@@ -2072,6 +2091,7 @@ function Player(socket, name, ip) {
 				doused: false,
 				hearwhispers: false,
 				votingFor: undefined,
+				votingPower: 1,
 				confirm: false,
 				executing: false,
 				votes: 0,
@@ -2146,10 +2166,10 @@ function Player(socket, name, ip) {
 						sendPublicMessage(Type.VERDICT, name, 2);
 					} else if (this.verdict < 0) {
 						//Guilty, change
-						this.verdict = (this.mayor || this.gardenia) ? 3 : 1;
+						this.verdict = 1;
 						sendPublicMessage(Type.VERDICT, name, 1);
 					} else {
-						this.verdict = (this.mayor || this.gardenia) ? 3 : 1;
+						this.verdict = 1;
 						sendPublicMessage(Type.VERDICT, name, 0);
 					}
 				} else if (verdict === false) {
@@ -2160,10 +2180,10 @@ function Player(socket, name, ip) {
 						sendPublicMessage(Type.VERDICT, name, 2);
 					} else if (this.verdict > 0) {
 						//Inno, change
-						this.verdict = (this.mayor || this.gardenia) ? -3 : -1;
+						this.verdict = -1;
 						sendPublicMessage(Type.VERDICT, name, 1);
 					} else {
-						this.verdict = (this.mayor || this.gardenia) ? -3 : -1;
+						this.verdict = -1;
 						sendPublicMessage(Type.VERDICT, name, 0);
 					}
 				}
@@ -2198,39 +2218,26 @@ function Player(socket, name, ip) {
 					} else if (this.votingFor == player.s.id) {
 						//Same person, cancel vote.
 						var prev = player.name;
-						if (this.mayor || this.gardenia) {
-							players[this.votingFor].votes -= 3;
-						} else {
-							players[this.votingFor].votes--; //subtract a vote from the person that was being voted.
-						}
+						players[this.votingFor].votes -= this.votingPower;
 						if (!this.silenced) {
-							sendPublicMessage(Type.VOTE, this.name, ' has cancelled their vote.', '', prev);
+							sendPublicMessage(Type.VOTE, this.name, ' has cancelled their vote.', undefined, prev, this.votingPower);
 						}
 						this.votingFor = undefined;
 					} else if (this.votingFor && players[this.votingFor]) {
 						//Previous voter
 						var prev = this.votingFor;
-						if (this.mayor || this.gardenia) {
-							players[prev].votes -= 3; //subtract 3 votes from the person that was being voted.
-							player.votes += 3; //Add 3 votes to the new person
-						} else {
-							players[prev].votes--; //subtract a vote from the person that was being voted.
-							player.votes++; //Add a vote to the new person
-						}
+						players[prev].votes -= this.votingPower; //Subtract votes from the person that was being voted.
+						player.votes += this.votingPower; //Add votes to the new person
 						if (!this.silenced) {
-							sendPublicMessage(Type.VOTE, this.name, ' has changed their vote to ', player.name, players[prev].name);
+							sendPublicMessage(Type.VOTE, this.name, ' has changed their vote to ', player.name, players[prev].name, this.votingPower);
 						}
 						this.votingFor = player.s.id;
 					} else {
 						if (!this.silenced) {
-							sendPublicMessage(Type.VOTE, this.name, ' has voted for ', player.name);
+							sendPublicMessage(Type.VOTE, this.name, ' has voted for ', player.name, undefined, this.votingPower);
 						}
 						this.votingFor = player.s.id;
-						if (this.mayor || this.gardenia) {
-							player.votes += 3;
-						} else {
-							player.votes++;
-						}
+						player.votes += this.votingPower;
 					}
 					trialCheck(player);
 				} else {
@@ -2854,16 +2861,20 @@ function Player(socket, name, ip) {
 							if(this.mayor === false && newtarget === this && this.alive && is_day) {
 								sendPublicMessage(Type.MAYOR, this.name);
 								this.mayor = true;
+								this.votingPower += 2;
 								if (this.votingFor) {
 									players[this.votingFor].votes += 2;
+									sendPublicMessage(Type.VOTE, this.name, undefined, players[this.votingFor].name, undefined, 2);
 									trialCheck(players[this.votingFor]);
 								}
 							}
 							if(this.gardenia === false && newtarget === this && this.alive && is_day) {
 								sendPublicMessage(Type.GARDENIA, this.name);
 								this.gardenia = true;
+								this.votingPower += 2;
 								if (this.votingFor) {
 									players[this.votingFor].votes += 2;
+									sendPublicMessage(Type.VOTE, this.name, undefined, players[this.votingFor].name, undefined, 2);
 									trialCheck(players[this.votingFor]);
 								}
 							}

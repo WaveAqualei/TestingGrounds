@@ -975,7 +975,7 @@ addSocketListener(Type.GARDENIA, function(name) {
 		}
 	});
 });
-addSocketListener(Type.VOTE,function(voter,msg,voted,prev)
+addSocketListener(Type.VOTE,function(voter,msg,voted,prev,power)
 {
 	if (!mod)
 	{
@@ -987,17 +987,17 @@ addSocketListener(Type.VOTE,function(voter,msg,voted,prev)
 			{
 				var count = li.querySelector('.votecount');
 				var num = parseInt(count.innerHTML);
-				num--;
+				num -= power;
 				count.innerHTML=num;
 			}
 		}
-		if (voted!='')
+		if (voted)
 		{
 			var index = users.indexOf(voted);
 			var li =$('#userlist li')[index];
 			var count = li.querySelector('.votecount');
 			var num = parseInt(count.innerHTML);
-			num++;
+			num += power;
 			count.innerHTML=num;
 		}
 	}

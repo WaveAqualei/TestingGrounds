@@ -241,30 +241,17 @@ function processMessage(msg, type)
 			}
 		break;
 		case 'judgement':
-			var guilties = 0;
-			var innos = 0;
-			for (i in msg.votes)
-			{
-				if (msg.votes[i] >0) //Inno
-				{
-					innos+=msg.votes[i];
-				}
-				else if (msg.votes[i] <0) //Guilty
-				{
-					guilties-=msg.votes[i];
-				}
-			}
 			var message = '';
 			for (i in msg.votes)
 			{
 				switch (msg.votes[i])
 				{
-					case -1: case -3: message += '<li>'+i+' <span class="vote">voted</span> <span class="guilty">guilty</span>.</li>'; break;
+					case -1: message += '<li>'+i+' <span class="vote">voted</span> <span class="guilty">guilty</span>.</li>'; break;
 					case 0: message += '<li>'+i+' <span class="abstain">abstained</span>.</li>'; break;
-					case 1: case 3: message += '<li>'+i+' <span class="vote">voted</span> <span class="inno">innocent</span>.</li>'; break;
+					case 1: message += '<li>'+i+' <span class="vote">voted</span> <span class="inno">innocent</span>.</li>'; break;
 				}
 			}
-			message += '<li class="vote">The Town has decided to '+(msg.result ? 'lynch' : 'pardon')+' '+msg.name+' by a vote of <span class="inno"><b>'+innos+'</b></span> to <span class="guilty"><b>'+guilties+'</b></span>.</li>';
+			message += '<li class="vote">The Town has decided to '+(msg.result ? 'lynch' : 'pardon')+' '+msg.name+' by a vote of <span class="inno"><b>'+msg.innos+'</b></span> to <span class="guilty"><b>'+msg.guilties+'</b></span>.</li>';
 			return message;
 		break;
 		case 'will':
@@ -515,7 +502,9 @@ addMessageHandler(Type.HUG,function(name,target)
 });
 addMessageHandler(Type.VOTE,function(voter,msg,voted,prev)
 {
-	return processMessage({voter:voter,msg:msg,voted:voted},'vote');
+	if(msg) {
+		return processMessage({voter:voter,msg:msg,voted:voted},'vote');
+	}
 });
 addMessageHandler(Type.VERDICT,function(name,val)
 {
