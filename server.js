@@ -2781,9 +2781,9 @@ function Player(socket, name, ip) {
 						this.s.sendMessage(Type.SYSTEM, 'You cannot use this command while jailed.');
 					} else if (this.chats.entangled) {
 						this.s.sendMessage(Type.SYSTEM, 'You cannot use this command while entangled.');
-					} else if (!this.alive && !legal_targets.length) {
+					} else if (!this.alive && !legal_targets.length && !free) {
 						this.s.sendMessage(Type.SYSTEM, 'You cannot use this while dead.');
-					} else if (phase != Phase.NIGHT && !legal_targets.length) {
+					} else if (phase != Phase.NIGHT && !legal_targets.length && !free) {
 						this.s.sendMessage(Type.SYSTEM, 'You can only use this command at night.');
 					} else {
 						var args = c.slice(1, c.length);
