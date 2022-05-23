@@ -2220,7 +2220,7 @@ function Player(socket, name, ip) {
 						var prev = player.name;
 						players[this.votingFor].votes -= this.votingPower;
 						if (!this.silenced) {
-							sendPublicMessage(Type.VOTE, this.name, ' has cancelled their vote.', undefined, prev, this.votingPower);
+							sendPublicMessage(Type.VOTE, this.name, true, undefined, prev, this.votingPower);
 						}
 						this.votingFor = undefined;
 					} else if (this.votingFor && players[this.votingFor]) {
@@ -2229,12 +2229,12 @@ function Player(socket, name, ip) {
 						players[prev].votes -= this.votingPower; //Subtract votes from the person that was being voted.
 						player.votes += this.votingPower; //Add votes to the new person
 						if (!this.silenced) {
-							sendPublicMessage(Type.VOTE, this.name, ' has changed their vote to ', player.name, players[prev].name, this.votingPower);
+							sendPublicMessage(Type.VOTE, this.name, true, player.name, players[prev].name, this.votingPower);
 						}
 						this.votingFor = player.s.id;
 					} else {
 						if (!this.silenced) {
-							sendPublicMessage(Type.VOTE, this.name, ' has voted for ', player.name, undefined, this.votingPower);
+							sendPublicMessage(Type.VOTE, this.name, true, player.name, undefined, this.votingPower);
 						}
 						this.votingFor = player.s.id;
 						player.votes += this.votingPower;

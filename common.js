@@ -224,7 +224,13 @@ function processMessage(msg, type)
 			return '<li class="'+msg.styling+'">'+msg.msg+'</li>';
 		break;
 		case 'vote':
-			return '<li><b>'+msg.voter+'</b><span class="vote">'+msg.msg+'</span><b>'+msg.voted+'</b></li>';
+			if(msg.prev && msg.voted) {
+				return '<li><b>'+msg.voter+'</b><span class="vote"> has changed their vote to </span><b>'+msg.voted+'</b></li>';
+			} else if(msg.voted) {
+				return '<li><b>'+msg.voter+'</b><span class="vote"> has voted for </span><b>'+msg.voted+'</b></li>';
+			} else if(msg.prev) {
+				return '<li><b>'+msg.voter+'</b><span class="vote"> has cancelled their vote.</span></li>';
+			}
 		break;
 		case 'verdict':
 			if (msg.val==0)
@@ -500,10 +506,10 @@ addMessageHandler(Type.HUG,function(name,target)
 {
 	return processMessage({name:name,target:target},'hug');
 });
-addMessageHandler(Type.VOTE,function(voter,msg,voted,prev)
+addMessageHandler(Type.VOTE,function(voter,display,voted,prev)
 {
-	if(msg) {
-		return processMessage({voter:voter,msg:msg,voted:voted},'vote');
+	if(display) {
+		return processMessage({voter,voted,prev},'vote');
 	}
 });
 addMessageHandler(Type.VERDICT,function(name,val)
