@@ -284,6 +284,7 @@ function openModList(targ)
 				mayor: 'Mayor',
 				blackmailer: 'Read Whispers',
 				blackmail: 'Blackmailed',
+				deafen: 'Deafened',
 				medium: 'Hear Dead',
 				wisteria: 'Wisteria',
 				gardenia: 'Gardenia',
