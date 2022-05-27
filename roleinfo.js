@@ -1686,9 +1686,8 @@ var roles = [
 	{
 		rolename: 'phlox',
 		alignment: 'flora support',
-		abilities: ['You may purify a player at night.'],
-		attributes: ['When a player is purified they cannot be voted the next day. This can be done from the grave.',
-			    'Players will be notified if they are purified.',
+		abilities: ['You may purify a player at night, automatically pardoning any of their trials the next day.'],
+		attributes: ['When a player is purified they cannot be lynched the next day.',
 			    'You may purify yourself once.',
 			    'You may only purify three times.'],
 		targeting: ['living'],
@@ -1790,6 +1789,8 @@ var roles = [
 	{
 		rolename: 'camera',
 		alignment: 'negative head',
+		attack: 'None',
+		defense: 'Basic',
 		abilities: ['You may Negatively charge someone and learn all their visitors at night.'],
 		attributes: ['If a player you see visiting is Negatively charged, you will know their role as well.',
 			     'When you are promoted to Killing, you will become the Defibrillator.'],
@@ -1801,6 +1802,8 @@ var roles = [
 	{
 		rolename: 'sensor',
 		alignment: 'negative head',
+		attack: 'None',
+		defense: 'Basic',
 		abilities: ['Every night, you may choose to charge a player Negatively who isn\'t currently Positively charged.'],
 		attributes: ['You will know who is Positively charged.',
 			     'Every night you will receive the feedback of Positive players.',
