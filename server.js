@@ -939,11 +939,11 @@ io.on('connection', function (socket, req) {
 	});
 	addSocketListener(Type.SHOWLIST, function (list) {
 		if (socket.id == mod) {
-			for (i in list) {
-				list[i] = roles.formatAlignment(sanitize(list[i]));
-			}
+			createdList = list;
 			if (!players[socket.id].silenced) {
-				sendPublicMessage(Type.SHOWLIST, list);
+				sendPublicMessage(Type.SHOWLIST, createdList.map(function(roleslot) {
+					return roles.formatAlignment(sanitize(roleslot));
+				}));
 			}
 		} else {
 			socket.sendMessage(Type.SYSTEM, 'Only the mod can do that.');
