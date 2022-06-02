@@ -1477,7 +1477,6 @@ function setPhase(p) {
 			var filename = 'Game_'+new Date().toISOString().replace(/T/,' ').replace(/:|\.\d*Z/g,'')+'.html';
 			var data = gamelog.join('');
 			storage.store(filename, data).then(function(data) {
-				console.log(data);
 				sendPublicMessage(Type.SYSTEM, 'Game log stored as <a href="gamelogs?filename='+filename+'" target="_blank">'+filename+'</a>');
 			}, function(e) {
 				sendPublicMessage(Type.SYSTEM, 'Failed to store game log: '+sanitize(e.message));
