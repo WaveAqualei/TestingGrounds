@@ -781,8 +781,22 @@ var roles = [
 
 	// TOWN KILLING CUSTOM
 	{
+		rolename: 'engineer',
+		alignment: 'town killing',
+		abilities: ['You may shoot someone at night or upgrade your gun for a stronger attack.'],
+		attributes: [
+			'Shooting your gun resets your attack level.',
+			'Attempting to upgrade your gun after it is Powerful will reset your attack level.',
+			'If you kill another Townmember you will put away your tools and are unable to shoot.',
+		],
+		targeting: ['living other'],
+		goal: towngoal,
+		color: towncolor,
+		custom: true,
+	},
+	{
 		rolename: 'fisherman',
-		alignment: 'Town Killing',
+		alignment: 'town killing',
 		abilities: ['Cast your line into someone’s house each night.'],
 		attributes: [
 			'If someone visits your target, they will be “hooked”.',
@@ -794,7 +808,6 @@ var roles = [
 		color: towncolor,
 		custom: true,
 	},
-
 	// MAFIA CUSTOM
 	{
 		rolename: 'ambusher buff',
@@ -1034,13 +1047,26 @@ var roles = [
 		abilities: ['Carry out your employer\'s abilities each night.'],
 		attributes: [
 			'You will share a chat with your employer, and you will gain access to any exclusive chats that your master has access to.',
-			'If you are roleblocked, your employer will carry out the action themself.',
-			'You gain all Attributes your master has.',
+			'If you are roleblocked, your employer will carry out the action themselves.',
+			'You gain all attributes your master has.',
 			'If your employer dies while you are still alive, you will inherit their role.',
 		],
 		targeting: [],
 		goal: 'See your employer win the game.',
 		color: '#80BFBF',
+		custom: true,
+	},
+	{
+		rolename: 'deputy',
+		alignment: 'neutral benign',
+		abilities: ['You may watch over a player at night.'],
+		attributes: [
+			'You have a bulletproof vest that grants you Basic Defense until you are attacked.',
+			'If your target dies that night or is lynched the next day, you will inherit their role.',
+		],
+		targeting: ['living other'],
+		goal: 'Assume someone\'s role and fulfill their win conditions.',
+		color: '#407280',
 		custom: true,
 	},
 	{
