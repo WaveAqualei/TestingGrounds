@@ -27,7 +27,7 @@ var roles = [
 	// TOWN INVESTIGATIVE VANILLA
 	{
 		rolename: 'sheriff',
-		alignment: 'town (investigative)',
+		alignment: 'town investigative',
 		abilities: ['Interrogate one person each night for suspicious activity.'],
 		attributes: ['You will know if your target is suspicious.'],
 		targeting: ['living other'],
@@ -1347,6 +1347,21 @@ var roles = [
 		targeting: ['living other'],
 		goal: 'Get 8 stamps and become Famine.',
 		color: '#538135',
+		custom: true,
+	},
+	{
+		rolename: 'weakness',
+		alignment: 'neutral saint',
+		attack: 'None',
+		defense: 'Basic',
+		abilities: ['You may damn a player on Full Moon nights.'],
+		attributes: ['Damned players will have their abilities weakened.',
+			'Damned players won\'t know they were damned.',
+			'When half of the players alive are damned, you will become Conquest.',
+		],
+		targeting: ['living other fullmoon'],
+		goal: 'Sucessfully damn half of the players alive and become Conquest.',
+		color: '#CC3399',
 		custom: true,
 	},
 
