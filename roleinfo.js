@@ -6,6 +6,8 @@ var vampcolor = '#7b8968';
 var floraecolor = '#228f41';
 var positivecolor = '#FFFF0A';
 var negativecolor = '#0A0AFF';
+var godcolor = '#FFC000';
+var sincolor = '#92D050';
 var randcolor = '#49a9d0';
 var neutcolor = '#cccccc';
 var anycolor = '#F5F5F5';
@@ -2205,6 +2207,9 @@ module.exports = {
 			str = str.replace(/[Dd]eception/, "<span style='color:" + randcolor + "'>Deception</span>");
 			str = str.replace(/[Cc]oven/, "<span style='color:" + covencolor + "'>Coven</span>");
 			str = str.replace(/[Ee]vil/, "<span style='color:" + randcolor + "'>Evil</span>");
+			str = str.replace(/[Bb]enign/, "<span style='color:" + randcolor + "'>Benign</span>");
+			str = str.replace(/[Ss]aint/, "<span style='color:" + randcolor + "'>Saint</span>");
+			str = str.replace(/[Cc]haos/, "<span style='color:" + randcolor + "'>Chaos</span>");
 			str = str.replace(/[Vv]ampire/, "<span style='color:" + vampcolor + "'>Vampire</span>");
 			str = str.replace(/[Ff]lorae/, "<span style='color:" + floraecolor + "'>Florae</span>");
 			str = str.replace(/[Ff]lora/, "<span style='color:" + floraecolor + "'>Flora</span>");
@@ -2213,12 +2218,12 @@ module.exports = {
 			str = str.replace(/[Dd]ead/, "<span style='color:" + randcolor + "'>Dead</span>");
 			str = str.replace(/[Mm]ystical/, "<span style='color:" + mystcolor + "'>Mystical</span>");
 			str = str.replace(/[Oo]verseer/, "<span style='color:" + overcolor + "'>Overseer</span>");
-			str = str.replace(/[Bb]enign/, "<span style='color:" + randcolor + "'>Benign</span>");
-			str = str.replace(/[Cc]haos/, "<span style='color:" + randcolor + "'>Chaos</span>");
 			str = str.replace(/[Hh]ead/, "<span style='color:" + randcolor + "'>Head</span>");
 			str = str.replace(/[Nn]eutral/, "<span style='color:" + neutcolor + "'>Neutral</span>");
 			str = str.replace(/[Pp]ositive/, "<span style='color:" + positivecolor + "'>Positive</span>");
 			str = str.replace(/[Nn]egative/, "<span style='color:" + negativecolor + "'>Negative</span>");
+			str = str.replace(/[Gg]od/, "<span style='color:" + godcolor + "'>God</span>");
+			str = str.replace(/[Dd]eadly Sin/, "<span style='color:" + sincolor + "'>Deadlu Sin</span>");
 		}
 		return str;
 	},
