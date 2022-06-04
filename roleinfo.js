@@ -27,7 +27,7 @@ var roles = [
 	// TOWN INVESTIGATIVE VANILLA
 	{
 		rolename: 'sheriff',
-		alignment: 'town investigative',
+		alignment: 'town (investigative)',
 		abilities: ['Interrogate one person each night for suspicious activity.'],
 		attributes: ['You will know if your target is suspicious.'],
 		targeting: ['living other'],
@@ -1314,6 +1314,39 @@ var roles = [
 		targeting: ['living other'],
 		goal: 'Survive to the end of the game.',
 		color: '#8080BF',
+		custom: true,
+	},
+	
+	// NEUTRAL SAINT CUSTOM
+	{
+		rolename: 'stain',
+		alignment: 'neutral saint',
+		attack: 'Basic',
+		defense: 'Basic',
+		abilities: ['You may stalk a person on Full Moon nights, marking them and whoever they visit.'],
+		attributes: ['You are able to mark a player the next two nights after you stalk someone.',
+			'Every third night starting on Night 4, you will attack all marked players, along with dealing a Basic attack to your target.',
+			'If you are roleblocked, all marks are removed and you will deal a Powerful attack to your roleblocker. Their Last Will will be unreadable.',
+			'If you take no action, you will spend the night removing any mark on yourself.',
+		],
+		targeting: ['living other'],
+		goal: 'Successfully kill 5 people and become War.',
+		color: '#800000',
+		custom: true,
+	},
+	{
+		rolename: 'hood',
+		alignment: 'neutral saint',
+		abilities: ['You may drain a player during the day, roleblocking them the following night.',
+			    'Give out supplies to someone at night, giving them an extra vote the next day.'],
+		attributes: ['Drained players can transfer their drainage by visiting another player.',
+			'Anyone who visits you will become Drained.',
+			'At the end of each night, you gain 1 stamp for every living Drained player.',
+		],
+		day_targeting: ['living other'],
+		targeting: ['living other'],
+		goal: 'Get 8 stamps and become Famine.',
+		color: '#538135',
 		custom: true,
 	},
 
