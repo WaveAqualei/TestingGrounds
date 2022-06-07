@@ -2318,7 +2318,13 @@ module.exports = {
 			if (num == -1) {
 				return "Role '" + name + "' not found!";
 			}
-			var al = "<span class='aligntext' style='color:" + hilitecolor + "'><b>Alignment</b>: </span>" + module.exports.formatAlignment(roles[num].alignment);
+			var [alMajor, ...alMinor] = roles[num].alignment.split(' ');
+			if(alMinor.length) {
+				alMinor = " (<span style='color:" + randcolor + "'>"+alMinor.map(capitalize).join(' ')+"</span>)";
+			} else {
+				alMinor = "";
+			}
+			var al = "<span class='aligntext' style='color:" + hilitecolor + "'><b>Alignment</b>: </span><span style='color:" + roles[num].color + "'>" + capitalize(alMajor) + alMinor + "</span>";
 			var atk = "<span class='attack' style='color:" + randcolor + "'><b>Attack</b>: </span>" + getAttack(num);
 			var def = "<span class='defense' style='color:" + randcolor + "'><b>Defense</b>: </span>" + getDefense(num);
 			var abi = "<div class='abilities' style='color:" + hilitecolor + ";'><b>Abilities: </b></div>" + getAbilities(num);
