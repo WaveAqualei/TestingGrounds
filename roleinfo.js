@@ -1347,6 +1347,19 @@ var roles = [
 		color: '#8080BF',
 		custom: true,
 	},
+	{
+		rolename: 'niran',
+		alignment: 'neutral chaos',
+		attack: 'Powerful',
+		defense: 'Basic',
+		abilities: ['You may channel someone\'s divine energy at night.'],
+		attributes: ['.',
+		],
+		targeting: ['living other'],
+		goal: 'Survive to see the Town and the Gods lose the game.',
+		color: '#8080BF',
+		custom: true,
+	},
 	
 	// NEUTRAL SAINT CUSTOM
 	{
@@ -1505,6 +1518,28 @@ var roles = [
 		targeting: ['living other'],
 		goal: 'Kill all who would oppose you.',
 		color: '#FF0000',
+		custom: true,
+	},
+	{
+		rolename: 'famine',
+		alignment: 'god horseman',
+		abilities: ['.'],
+		attributes: ['.',
+		],
+		targeting: ['living other'],
+		goal: 'Kill all who would oppose you.',
+		color: '#E7E6E6',
+		custom: true,
+	},
+	{
+		rolename: 'conquest',
+		alignment: 'god horseman',
+		abilities: ['.'],
+		attributes: ['.',
+		],
+		targeting: ['living other'],
+		goal: 'Kill all who would oppose you.',
+		color: '#3F193A',
 		custom: true,
 	},
 	
@@ -2486,7 +2521,7 @@ module.exports = {
 			str = str.replace(/[Pp]ositive/, "<span style='color:" + positivecolor + "'>Positive</span>");
 			str = str.replace(/[Nn]egative/, "<span style='color:" + negativecolor + "'>Negative</span>");
 			str = str.replace(/[Gg]od/, "<span style='color:" + godcolor + "'>God</span>");
-			str = str.replace(/[Dd]eadly Sin/, "<span style='color:" + sincolor + "'>Deadlu Sin</span>");
+			str = str.replace(/[Dd]eadly Sin/, "<span style='color:" + sincolor + "'>Deadly Sin</span>");
 		}
 		return str;
 	},
