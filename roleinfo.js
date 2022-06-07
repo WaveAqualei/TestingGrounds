@@ -27,7 +27,7 @@ var roles = [
 	// TOWN INVESTIGATIVE VANILLA
 	{
 		rolename: 'sheriff',
-		alignment: 'town (investigative)',
+		alignment: 'town investigative',
 		abilities: ['Interrogate one person each night for suspicious activity.'],
 		attributes: ['You will know if your target is suspicious.'],
 		targeting: ['living other'],
@@ -1476,6 +1476,20 @@ var roles = [
 		targeting: ['living other'],
 		goal: 'Sucessfully give thoughts to 5 people and become Envy.',
 		color: '#8EAADB',
+		custom: true,
+	},
+	
+	// GOD HORSEMAN CUSTOM
+	{
+		rolename: 'war',
+		alignment: 'god horseman',
+		abilities: ['.'],
+		attributes: ['.',
+			     'Kill all who would oppose you.',
+		],
+		targeting: ['living other'],
+		goal: 'Sucessfully give thoughts to 5 people and become Envy.',
+		color: '#FF0000',
 		custom: true,
 	},
 
