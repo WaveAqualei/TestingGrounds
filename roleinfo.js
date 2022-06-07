@@ -2352,11 +2352,18 @@ module.exports = {
 		}
 		return roles[num];
 	},
-	formatAlignment: function (str) {
+	formatRolename: function (str) {
 		if (module.exports.hasRolecard(str)) {
 			var num = getRoleNum(str.toLowerCase());
 			var color;
-			str = "<span style='color:" + roles[num].color + "'>" + capitalize(roles[num].rolename) + '</span>';
+			return "<span style='color:" + roles[num].color + "'>" + capitalize(roles[num].rolename) + '</span>';
+		} else {
+			return str;
+		}
+	},
+	formatAlignment: function (str) {
+		if (module.exports.hasRolecard(str)) {
+			return module.exports.formatRolename(str);
 		} else {
 			str = str.replace(/[Tt]own/, "<span style='color:" + towncolor + "'>Town</span>");
 			str = str.replace(/[Ii]nvestigative/, "<span style='color:" + randcolor + "'>Investigative</span>");

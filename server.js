@@ -870,7 +870,7 @@ io.on('connection', function (socket, req) {
 			shuffleArray(names);
 			//Format the roles
 			for (i in result) {
-				result[i] = roles.formatAlignment(result[i]);
+				result[i] = roles.formatRolename(result[i]);
 			}
 			socket.sendMessage(Type.ROLL, result, names, []);
 		} else {
@@ -955,7 +955,7 @@ io.on('connection', function (socket, req) {
 			var list = [];
 			for (i in players) {
 				if (players[i].s.id != mod) {
-					list.push({ name: players[i].name, role: roles.formatAlignment(players[i].role) });
+					list.push({ name: players[i].name, role: roles.formatRolename(players[i].role) });
 					c++;
 				}
 			}
@@ -1431,7 +1431,7 @@ function setPhase(p) {
 		var list = [];
 		playernums.map(function(i) {
 			if (players[i].s.id != mod) {
-				list.push({ name: players[i].name, role: roles.formatAlignment(players[i].role) });
+				list.push({ name: players[i].name, role: roles.formatRolename(players[i].role) });
 			}
 		});
 		addLogMessage(Type.SHOWALLROLES, list);
@@ -3644,7 +3644,7 @@ function Player(socket, name, ip) {
 					var sendArr = [];
 					if (createdList && createdList.length != 0) {
 						for (i in createdList) {
-							sendArr[i] = roles.formatAlignment(sanitize(createdList[i]));
+							sendArr[i] = roles.formatRolename(sanitize(createdList[i]));
 						}
 						this.s.sendMessage(Type.SHOWLIST, sendArr);
 					} else {
