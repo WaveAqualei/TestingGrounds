@@ -27,7 +27,7 @@ var roles = [
 	// TOWN INVESTIGATIVE VANILLA
 	{
 		rolename: 'sheriff',
-		alignment: 'town investigative',
+		alignment: 'town (investigative)',
 		abilities: ['Interrogate one person each night for suspicious activity.'],
 		attributes: ['You will know if your target is suspicious.'],
 		targeting: ['living other'],
