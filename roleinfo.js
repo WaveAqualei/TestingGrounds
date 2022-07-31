@@ -144,15 +144,6 @@ var roles = [
 
 	// TOWN PROTECTIVE VANILLA
 	{
-		rolename: 'doctor',
-		alignment: 'town protective',
-		abilities: ['Heal one person each night, granting them Powerful Defense.'],
-		attributes: ['You may only heal yourself once.', 'You will know if your target is attacked.'],
-		targeting: ['living'],
-		goal: towngoal,
-		color: towncolor,
-	},
-	{
 		rolename: 'bodyguard',
 		alignment: 'town protective',
 		attack: 'Powerful',
@@ -167,15 +158,22 @@ var roles = [
 		color: towncolor,
 	},
 	{
+		rolename: 'doctor',
+		alignment: 'town protective',
+		abilities: ['Heal one person each night, granting them Powerful Defense and cure Poison.'],
+		attributes: ['You may only heal yourself once.', 'You will know if your target is attacked.', 'You may not Heal a revealed Mayor.'],
+		targeting: ['living'],
+		goal: towngoal,
+		color: towncolor,
+	},
+	{
 		rolename: 'crusader',
 		alignment: 'town protective',
 		attack: 'Basic',
-		abilities: ['Protect one person other than yourself during the night.'],
+		abilities: ['Protect one person other than yourself during the night, granting them Powerful Defense.'],
 		attributes: [
-			'Grant your target Powerful defense.',
 			'You will know if your target is attacked.',
 			'You attack one person who visits your target on the same night.',
-			'You do not attack vampires, but you do block their attacks.',
 		],
 		targeting: ['living other'],
 		goal: towngoal,
@@ -185,7 +183,7 @@ var roles = [
 		rolename: 'trapper',
 		alignment: 'town protective',
 		attack: 'Powerful',
-		abilities: ["You may set up a Trap at another player's house."],
+		abilities: ['You may set up a Trap at another player\'s house.'],
 		attributes: [
 			'Traps take one day to build.',
 			'Traps can be torn down by selecting yourself at night.',
