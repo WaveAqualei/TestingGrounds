@@ -655,19 +655,6 @@ var roles = [
 	// === CUSTOM ROLES ====
 	// TOWN INVESTIGATIVE CUSTOM
 	{
-		rolename: 'occultist',
-		alignment: 'town investigative',
-		abilities: ['Investigate one person at night for Occult activities.'],
-		attributes: [
-			'You will know if your target participates in Occult activities.',
-			'Occult roles: Doctors, Mediums, Psychics, Retributionist, other Occultists, Hypnotists, Witches, Coven members, Guardian Angels, Vampires, Plaguebearers, Pestilence, Juggernauts, Werewolves.',
-		],
-		targeting: ['living other'],
-		goal: towngoal,
-		color: towncolor,
-		custom: true,
-	},
-	{
 		rolename: 'gossip',
 		alignment: 'town investigative',
 		abilities: ['Investigate one role slot at night to see who the player in that role slot visits.'],
@@ -1839,10 +1826,10 @@ var roles = [
 	{
 		rolename: 'sage',
 		alignment: 'flora investigative',
-		abilities: ['Learn about the Florae each night or vision someone\'s goal.'],
-		attributes: ['Each night you are alive you will be notified how many players that are in your faction are alive.',
-			    'On Full Moon nights, you may vision a player. You will know if your target is good or evil.'],
-		targeting: ['living other fullmoon'],
+		abilities: ['You may inspect a player at night.'],
+		attributes: ['Each night you are alive, you will be told how many Florae are still alive.',
+			    'The player you inspect will not be included in your count.'],
+		targeting: ['living other'],
 		goal: floraegoal,
 		color: floraecolor,
 		custom: true,
@@ -1937,10 +1924,10 @@ var roles = [
 		rolename: 'lavender',
 		alignment: 'flora protective',
 		attack: 'Basic',
-		abilities: ['You may protect a player’s house at night.'],
-		attributes: ['Protecting your target provides them Powerful defense against one attack.',
-			    'If your target is attacked you will deliver a Basic attack to their attacker.',
-			    'If your target\'s attacker has defense or if they’re attacked more than once you will not attack anyone but learn the names of all of your target\'s attackers.'],
+		abilities: ['You may protect a player\'s house at night, providing Power Defense against one attack.'],
+		attributes: ['You will know if your target was attacked.',
+			    'If your target is attacked you attack anyone that visits your target.
+			    'You will know how many people you attack.'],
 		targeting: ['living other'],
 		goal: floraegoal,
 		color: floraecolor,
