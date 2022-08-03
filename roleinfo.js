@@ -1926,7 +1926,7 @@ var roles = [
 		attack: 'Basic',
 		abilities: ['You may protect a player\'s house at night, providing Power Defense against one attack.'],
 		attributes: ['You will know if your target was attacked.',
-			    'If your target is attacked you attack anyone that visits your target.
+			    'If your target is attacked you attack anyone that visits your target.',
 			    'You will know how many people you attack.'],
 		targeting: ['living other'],
 		goal: floraegoal,
