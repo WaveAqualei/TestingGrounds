@@ -1193,7 +1193,7 @@ var roles = [
 		attributes: [
 			'You will possess a target, giving them your investigative results.',
 			'If the Possessed player or the Ekko get hung, both will die.',
-			'When Possessing a new target, the previous target will be attacked and the new target possessed.,
+			'When Possessing a new target, the previous target will be attacked and the new target possessed.',
 			'If possession fails, then the Ekko and previous host will die, and the new host will not be possessed.',
 		],
 		targeting: ['living other fullmoon'],
