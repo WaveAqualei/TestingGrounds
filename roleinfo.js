@@ -975,6 +975,21 @@ var roles = [
 
 	// COVEN CUSTOM
 	{
+		rolename: 'poisoner rework',
+		alignment: 'coven evil',
+		attack: 'Basic',
+		abilities: ['You may blight a player at night, or poison a blighted player.'],
+		attributes: [
+			'Blights block your target from using their role\'s night ability.',
+			'Poisoning a blighted player will deal a Basic Attack to them the following night.',
+			'With the Necronomicon, you will deliver a Basic Attack the night you blight your target.',
+		],
+		targeting: ['living noncoven'],
+		goal: covengoal,
+		color: covencolor,
+		custom: true,
+	},
+	{
 		rolename: 'lapidarist',
 		alignment: 'coven evil',
 		attack: 'Basic',
@@ -1006,7 +1021,7 @@ var roles = [
 		custom: true,
 	},
 	{
-		rolename: 'familiar',
+		rolename: 'priestess',
 		alignment: 'coven evil',
 		attack: 'Basic',
 		abilities: ['Sumon or postpone the full moon during the day, and lurk at a player\'s house at night under the full moon.'],
@@ -1118,25 +1133,6 @@ var roles = [
 		color: '#FF69B4',
 		custom: true,
 	},
-	{
-		rolename: 'kleptomaniac',
-		alignment: 'neutral evil',
-		abilities: [
-			'During the day, you may steal someone\'s ability to mimic the following night.',
-		],
-		attributes: [
-			'You have a mystical barrier that grants you Basic defense until you are attacked.',
-			'You will learn the subalignment of the player you studied, and may temporarily inherit a role from that subalignment for the following night.',
-			'Studying a killing role will instead replenish your mystical barrier.',
-			'You may steal from the dead.',
-			'You may steal from each person once.',
-		],
-		day_targeting: ['other'],
-		targeting: ['', ''], //Should be the targeting of the chosen role.  Granting it unrestricted targeting for now.
-		goal: 'See the Town lose the game.',
-		color: '#FF00FF',
-		custom: true,
-	},
 
 	// NEUTRAL KILLING CUSTOM
 	{
@@ -1186,6 +1182,40 @@ var roles = [
 		targeting: ['living other'],
 		goal: 'Kill anyone that would oppose you.',
 		color: '#008080',
+		custom: true,
+	},
+	{
+		rolename: 'ekko',
+		alignment: 'neutral killing',
+		attack: 'Basic',
+		defense: 'Invincible',
+		abilities: ['Each Full Moon, select a player to possess their body, killing your previous host.'],
+		attributes: [
+			'You will possess a target, giving them your investigative results.',
+			'If the Possessed player or the Ekko get hung, both will die.',
+			'When Possessing a new target, the previous target will be attacked and the new target possessed.,
+			'If possession fails, then the Ekko and previous host will die, and the new host will not be possessed.',
+		],
+		targeting: ['living other fullmoon'],
+		goal: 'Kill everyone who would oppose you.',
+		color: '#666666',
+		custom: true,
+	},
+	{
+		rolename: 'juggernaut rework',
+		alignment: 'neutral killing',
+		attack: 'Powerful',
+		defense: 'Basic',
+		abilities: ['You may attack someone at night besides the first night.'],
+		attributes: [
+			'With each kill, your powers grow.',
+			'On your first kill, you gain Roleblock and Control Immunity.',
+			'On your second kill, you rampage when you attack.',
+			'On your third kill, you lose your Detection Immunity and will ignore all effects that would protect a player.',
+		],
+		targeting: ['living other notfirst'],
+		goal: 'Kill everyone who would oppose you.',
+		color: '#A12B56',
 		custom: true,
 	},
 	{
@@ -1276,15 +1306,16 @@ var roles = [
 		alignment: 'neutral chaos',
 		attack: 'Powerful',
 		defense: 'Basic',
-		abilities: ["Choose your prey during the day. Camp outside one player's house at night in an attempt to kill your prey."],
+		abilities: ["Choose your prey during the day, then camp outside someone's house at night."],
 		attributes: [
-			"You load your shotgun with bullets and camp outside another player's house; you will kill your prey if they visit that person.",
-			'If you choose to stay at home and your prey visits you, you will shoot them.',
-			'If you are attacked you will attack your attacker, but stay at home instead.',
+			'You will kill your prey if they visit your target.',
+			'If you are attacked, you will instead attack you attacker.',
+			'If someone attacks your target, you will protect them, counter the attacker, and lose your defense.',
+			'If you protect someone twice, you will die.',
 		],
 		day_targeting: ['living other'],
 		targeting: ['living other'],
-		goal: 'Successfully kill one of your prey while they are visiting someone.',
+		goal: 'Successfully kill one of your prey.',
 		color: '#521421',
 		custom: true,
 	},
