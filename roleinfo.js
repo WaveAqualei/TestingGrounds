@@ -1335,6 +1335,21 @@ var roles = [
 		custom: true,
 	},
 	{
+		rolename: 'gambler',
+		alignment: 'neutral chaos',
+		abilities: ['Bet on two people every night who are most likely to be killed and/or lynched.'],
+		attributes: [
+			'You may not bet on yourself.',
+			'If you win a bet, you are able to bet again the next night and also choose between being able to distract a player, or obtaining a self-heal.',
+			'If you lose a bet, you cannot do anything the next night.',
+			'If you win 3 bets, you will die and win at the end of the game.',
+		],
+		targeting: ['living', 'living other'],
+		goal: 'Bet correctly three times.',
+		color: '#808080',
+		custom: true,
+	},
+	{
 		rolename: 'wizard',
 		alignment: 'neutral chaos',
 		abilities: ['You may cast a spell on someone at night to turn them into a bear, rat, or bird.'],
