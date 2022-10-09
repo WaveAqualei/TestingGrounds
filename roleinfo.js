@@ -1013,7 +1013,7 @@ var roles = [
 		],
 		targeting: ['living other'],
 		goal: 'See your partner win the game.',
-		color: '#DDDDDD',
+		color: '#bf8000',
 		custom: true,
 	},
 	{
