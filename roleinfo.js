@@ -998,7 +998,7 @@ var roles = [
 		],
 		targeting: ['living other'],
 		goal: 'Survive to see your most recent target win the game.',
-		color: '#c87366',
+		color: '#dddd00',
 		custom: true,
 	},
 	{
