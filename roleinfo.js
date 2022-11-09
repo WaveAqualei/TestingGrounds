@@ -1259,7 +1259,7 @@ var roles = [
 		attributes: [
 			'When in Overdrive, you will attack both your targets if they win together.',
 			'When in Bloodlust, you will attack both your targets if they do not win together.',
-			'You must wait a night after successfully attacking someone.',
+			'You must wait a night after successfully attacking players twice in a row.',
 		],
 		targeting: ['living other odd'],
 		goal: 'Devour all who occupy the town.',
