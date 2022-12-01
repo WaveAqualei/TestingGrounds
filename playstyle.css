@@ -2156,6 +2156,11 @@ neut
 {
 	color:#A78A52;
 }
+.lighttheme .dev
+{
+	font-weight:bold;
+	color:#00a6a6;
+}
 .lighttheme .will
 {
 	margin-left:auto;
