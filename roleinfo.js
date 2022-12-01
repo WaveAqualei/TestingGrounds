@@ -18,7 +18,7 @@ var hilitecolor = '#A78A52';
 var towngoal = 'Lynch every criminal and evildoer.';
 var mafiagoal = 'Kill anyone that will not submit to the Mafia.';
 var covengoal = 'Kill all who would oppose the Coven.';
-var vampgoal = 'Convert or kill all who would oppose you.';
+var vampgoal = 'Kill anybody that would reject the Vampires.';
 var floraegoal = 'Exterminate anyone that would harm your tribe.';
 var electricgoal = 'Kill all who will not submit to technology.';
 
@@ -665,34 +665,21 @@ var roles = [
 		custom: true,
 	},
 	{
-		rolename: 'harbringer',
+		rolename: 'spy nerf',
 		alignment: 'town investigative',
-		abilities: ['You may read someone\'s consciense at night.'],
+		abilities: ['You may bug two player\'s houses each night, learning what happens to them.'],
 		attributes: [
-			'You will know if your target is Guilty, In Doubt, or Clear.',
-			'You will be notified if a God is 1 level away from Enlightenment.',
+			'You will not learn what happens to which player.',
+			'You will know if the Mafia and Coven visited your targets.',
+			'You will know if the Mafia and Coven visited any players that visited your targets.',
 		],
-		targeting: ['living other'],
+		targeting: ['living other', 'living other'],
 		goal: towngoal,
 		color: towncolor,
 		custom: true,
 	},
 	
 	// TOWN KILLING CUSTOM
-	{
-		rolename: 'engineer',
-		alignment: 'town killing',
-		abilities: ['You may shoot someone at night or upgrade your gun for a stronger attack.'],
-		attributes: [
-			'Shooting your gun resets your attack level.',
-			'Attempting to upgrade your gun after it is Powerful will reset your attack level.',
-			'If you kill another Townmember you will put away your tools and are unable to shoot.',
-		],
-		targeting: ['living other'],
-		goal: towngoal,
-		color: towncolor,
-		custom: true,
-	},
 	{
 		rolename: 'firebrand',
 		alignment: 'town killing',
@@ -766,21 +753,6 @@ var roles = [
 		color: towncolor,
 		custom: true,
 	},
-	{
-		rolename: 'duelist',
-		alignment: 'town protective',
-		attack: 'Powerful',
-		abilities: ['Duel two people at night, or protect one person.'],
-		attributes: [
-			'Dueled players are added to the Duel list.',
-			'When protecting a player, you can only kill an attacker if they are on your Duel list.',
-			'Evils are informed if they have been dueled by a Duelist.',
-		],
-		targeting: ['living other', 'living other'],
-		goal: towngoal,
-		color: towncolor,
-		custom: true,
-	},
 	
 	// TOWN SUPPORT CUSTOM:
 	{
@@ -795,23 +767,6 @@ var roles = [
 			'Objecting reveals your name to all Evils. Town will not learn your identity.',
 		],
 		targeting: ['living other'],
-		goal: towngoal,
-		color: towncolor,
-		custom: true,
-	},
-	{
-		rolename: 'rain dancer',
-		alignment: 'town support',
-		abilities: ['Decide if you want to make it rain next night.'],
-		attributes: [
-			'It only rains during the night.',
-			'Only scum will be noticed, about a rain.',
-			'Everyone that goes outside during a rain will be drenched the next morning.',
-			'At the beginning of the day a list of drenched people will be show to you.',
-			'You can execute only 2 rain dances.',
-			'It cannot rain 2 days in a row.',
-		],
-		targeting: ['self'],
 		goal: towngoal,
 		color: towncolor,
 		custom: true,
@@ -968,6 +923,22 @@ var roles = [
 
 	// COVEN CUSTOM
 	{
+		rolename: 'coven leader nerf',
+		alignment: 'coven evil',
+		attack: 'Basic',
+		defense: 'Basic',
+		abilities: ['You may Control someone each night, learning a clue to their role.'],
+		attributes: [
+			'You may not Control the same player twice in a row.',
+			'With the Necronomicon, your victim is dealt a Basic Attack and you gain Basic Defense.',
+			'You will inherit the Necronomicon first.',
+		],
+		targeting: ['living noncoven', 'living'],
+		goal: covengoal,
+		color: covencolor,
+		custom: true,
+	},
+	{
 		rolename: 'poisoner overhaul',
 		alignment: 'coven evil',
 		attack: 'Basic',
@@ -1073,6 +1044,23 @@ var roles = [
 		color: '#CFD4B4',
 		custom: true,
 	},
+	{
+		rolename: 'guardian angel rework',
+		alignment: 'neutral benign',
+		abilities: ['You may choose a player to make your charge during the day or at night.',
+			    'Once a charge is chosen, you may protect them at night, Healing and Purging them and granting them Lynch Immunity.'],
+		attributes: [
+			'If the target is voted on trial, they will be pardoned regardless of the verdict.',
+			'You may only protect twice. You may protect from the dead.',
+			'If your target dies at night, you will die with them.',
+		],
+		day_targeting: ['living other'],
+		targeting: ['living other'],
+		dead_targeting: ['living other'],
+		goal: 'Select a charge and see them survive to the end of the game.',
+		color: '#FFFFFF',
+		custom: true,
+	},
 
 	// NEUTRAL EVIL CUSTOM
 	{
@@ -1090,13 +1078,14 @@ var roles = [
 	{
 		rolename: 'dignitary',
 		alignment: 'neutral evil',
-		abilities: ['You may call upon 1 of 4 favors at night.'],
-		attributes: ['Protection: All Town Protectives will visit you.',
-			     'Masquerade: All Town Investigatives will not receive any information.',
-			     'Silent Night: All Town Killings will be unable to attack.',
-			     'Barricade: All Town Supports will not be able to use their abilities the next night.',
-			     'You may only use each favor once.'],
-		targeting: ['living other'],
+		abilities: ['You may use a favor on two players at night.'],
+		attributes: ['The favor you have choose will affect your targets if possible.',
+			     'Revolt: Protective roles will fail to use their ability on others.',
+			     'Masquerade: Investigative roles will fail to acquire any information on their targets.',
+			     'Silent Night: Killing roles are unable to attack.',
+			     'Barricade: Support roles are unable to use their abilities the next night.',
+			     'You may not use the same favor twice in a row.'],
+		targeting: ['living other', 'living other'],
 		goal: 'Survive to see the Town lose the game.',
 		color: '#e51c87',
 		custom: true,
@@ -1109,6 +1098,18 @@ var roles = [
 		day_targeting: ['living other'],
 		goal: 'Survive to see the Town lose the game.',
 		color: '#FF69B4',
+		custom: true,
+	},
+	{
+		rolename: 'witch rework',
+		alignment: 'neutral evil',
+		abilities: ['You may Control someone each night, learning a clue to their role.',
+			    'During the day, you may choose a faction other than the Town to win with while dead.'],
+		attributes: ['You have a mystical barrier that grants you Basic defense until you are attacked.',
+			     'You may not Control the same player twice in a row.'],
+		targeting: ['living other', 'living'],
+		goal: 'Survive to see the Town lose the game.',
+		color: 'covencolor',
 		custom: true,
 	},
 
