@@ -421,7 +421,7 @@ var server = http.createServer(function (req, res) {
 		case '/Cascades.mp3':
 		case '/Cauldron.mp3':
 		case '/Chaos.mp3':
-		case '/CosmicCove.mp3':
+		case '/Cosmic_Cove.mp3':
 		case '/DarkAlley.mp3':
 		case '/DarkHolidays.mp3':
 		case '/Deceitful.mp3':
@@ -447,6 +447,8 @@ var server = http.createServer(function (req, res) {
 		case '/Skyworld.mp3':
 		case '/StarlitSky.mp3':
 		case '/Suspicion.mp3':
+		case '/TorchlitTerror.mp3':
+		case '/Touch_of_Tranquility.mp3':
 		case '/Touchstone.mp3':
 		case '/ToyPuzzle.mp3':
 		case '/Truth.mp3':
