@@ -13,7 +13,7 @@ var themes = {
 		className: 'lighttheme',
 		mpregame: 'StarlitSky.mp3',
 		whoami: 'ToyPuzzle.mp3',
-		mmodtime: '6ball.m4a',
+		mmodtime: '6ball.mp3',
 		mdaytime: 'AutumnMountain.mp3',
 		mvoting: 'Deceitful.mp3',
 		mtrial: 'Truth.mp3',
