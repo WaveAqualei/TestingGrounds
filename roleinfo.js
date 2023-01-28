@@ -665,7 +665,7 @@ var roles = [
 		custom: true,
 	},
 	{
-		rolename: 'psychic overhaul',
+		rolename: 'psychic rework',
 		alignment: 'town investigative',
 		abilities: ['Each night following a lynch, select either "guilty", "innocent", or "abstain" to learn how many suspicious players voted that way.'],
 		attributes: [
