@@ -10,7 +10,7 @@ var themes = {
 		mnight: 'TorchlitTerror.mp3',
 	},
 	'Dark (Bayonetta)': {
-		classname: 'darkbayotheme',
+		classname: '',
 		mpregame: 'Alfheim.mp3',
 		whoami: 'Valkyrie.mp3',
 		mmodtime: 'ShibuyaSewers.mp3',
@@ -30,7 +30,7 @@ var themes = {
 		mnight: 'Cosmic_Cove.mp3',
 	},
 	'Light (Mario)': {
-		className: 'lightmariotheme',
+		className: 'lighttheme',
 		mpregame: 'StarlitSky.mp3',
 		whoami: 'PeaceAndTranquility.mp3',
 		mmodtime: 'AutumnMountain.mp3',
