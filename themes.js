@@ -1,7 +1,7 @@
 var themes = {
-	'Dark (Default)': {
+	'Dark (Wave\'s Version)': {
 		classname: '',
-		mpregame: 'Alfheim.mp3',
+		mpregame: 'Aquabatics.mp3',
 		whoami: 'Agari.mp3',
 		mmodtime: 'Touch_of_Tranquility.mp3',
 		mdaytime: 'Piglets.mp3',
@@ -9,12 +9,32 @@ var themes = {
 		mtrial: 'Truth.mp3',
 		mnight: 'TorchlitTerror.mp3',
 	},
-	'Light': {
+	'Dark (Bayonetta)': {
+		classname: 'darkbayotheme',
+		mpregame: 'Alfheim.mp3',
+		whoami: 'Valkyrie.mp3',
+		mmodtime: 'ShibuyaSewers.mp3',
+		mdaytime: 'Cascades.mp3',
+		mvoting: 'Deceitful.mp3',
+		mtrial: 'Truth.mp3',
+		mnight: 'Chaos.mp3',
+	},
+	'Light (Wave\'s Version)': {
 		className: 'lighttheme',
 		mpregame: 'StarlitSky.mp3',
-		whoami: 'ToyPuzzle.mp3',
-		mmodtime: '6ball.mp3',
-		mdaytime: 'AutumnMountain.mp3',
+		whoami: 'Spinwheel.m4a',
+		mmodtime: 'AutumnMountain.mp3',
+		mdaytime: 'Skyworld.mp3',
+		mvoting: 'Deceitful.mp3',
+		mtrial: 'Truth.mp3',
+		mnight: 'Cosmic_Cove.mp3',
+	},
+	'Light (Mario)': {
+		className: 'lightmariotheme',
+		mpregame: 'StarlitSky.mp3',
+		whoami: 'PeaceAndTranquility.mp3',
+		mmodtime: 'AutumnMountain.mp3',
+		mdaytime: 'Skyworld.mp3',
 		mvoting: 'Deceitful.mp3',
 		mtrial: 'Truth.mp3',
 		mnight: 'Cosmic_Cove.mp3',
