@@ -436,6 +436,7 @@ var server = http.createServer(function (req, res) {
 		case '/LittleItaly.mp3':
 		case '/LonghornStartup.mp3':
 		case '/Magmic.mp3':
+		case '/Mii-in-a-Row.mp3':
 		case '/MilkyWay.mp3':
 		case '/MountHylia.mp3':
 		case '/PeaceAndTranquility.mp3':
@@ -444,6 +445,7 @@ var server = http.createServer(function (req, res) {
 		case '/Riverside.mp3':
 		case '/Searching.mp3':
 		case '/ShockAndAwe.mp3':
+		case '/ShibuyaSewers.mp3':
 		case '/Skyworld.mp3':
 		case '/StarlitSky.mp3':
 		case '/Suspicion.mp3':
