@@ -218,7 +218,7 @@ function processMessage(msg, type)
 					var str = 'You have changed your mind.';
 				}
 			}
-			return '<li><span class="mod">'+str+'</span></li>';
+			return '<li><span class="targeting">'+str+'</span></li>';
 		break;
 		case 'prenot':
 			return '<li class="'+msg.styling+'">'+msg.msg+'</li>';
