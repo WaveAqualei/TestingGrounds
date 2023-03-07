@@ -1848,6 +1848,10 @@ neut
 {
 	color:#ff80c7;
 }
+.targeting
+{
+	color:limegreen;
+}
 .dying
 {
 	background:#db0d0d;
@@ -2189,7 +2193,11 @@ neut
 }
 .lighttheme .mod
 {
-	color:#3d0029;
+	color:darkviolet;
+}
+.lighttheme .targeting
+{
+	color:darkgreen;
 }
 .lighttheme .mafia
 {
@@ -2399,6 +2407,10 @@ neut
 .tostheme .mod
 {
 	color:#ffcd00;
+}
+.tostheme .targeting
+{
+	color:lime;
 }
 .tostheme .playernum
 {
