@@ -1078,7 +1078,7 @@ var roles = [
 		attributes: [
 			'You will know how many players are drenched but not which.',
 			'Players are notified of being drenched.',
-			'Players are no longer drenched after you summon a hurricane, or two nights pass after they were drenched.
+			'Players are no longer drenched after you summon a hurricane, or two nights pass after they were drenched.',
 			'With the Necronomicon, you will attack your target when summoning a rainstorm.',
 		],
 		targeting: ['living noncoven'],
