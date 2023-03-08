@@ -2147,10 +2147,17 @@ neut
 .lighttheme .goal
 {
 	display:block;
-	color:black;
+	color:white;
 	position:absolute;
 	left:auto;
 	bottom:15px;
+}
+.lighttheme .actiontable tr td
+{
+	width:30%;
+	height:22px;
+	line-height:22px;
+	color:black;
 }
 .lighttheme .name
 {
@@ -2159,6 +2166,21 @@ neut
 .lighttheme .num
 {
 	color:#A78A52;
+}
+.lighttheme .playernum
+{
+	display:inline-block;
+	width:1.25em;
+	text-align:center;
+	background:#7FFF00;
+	color:black;
+	border:1px solid #1f1f1f;
+	border-radius:1em;
+}
+.playernum.modnum
+{
+	background:rgba(255, 128, 199, 0.87);
+	color:black;
 }
 .lighttheme .dev
 {
@@ -2180,12 +2202,12 @@ neut
 }
 .lighttheme .phasechange
 {
-	background:#7A7A7A;
-	color:black;
+	background:black;
+	color:white;
 }
 .lighttheme .msgsystem
 {
-	color:#A78A52;
+	color:#bd00bd;
 }
 .lighttheme .modchat
 {
@@ -2240,7 +2262,7 @@ neut
 }
 .lighttheme .spectate
 {
-	color:darkturquoise;
+	color:darkcyan;
 }
 .lighttheme .deadplayer
 {
@@ -2419,7 +2441,7 @@ neut
 	text-align:center;
 	font-weight:bold;
 	background:#c99f3c;
-	color:#ffff00;
+	color:#7fff00;
 	border:1px solid #1f1f1f;
 	border-radius:1em;
 }
