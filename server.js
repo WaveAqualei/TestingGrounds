@@ -3234,6 +3234,10 @@ function Player(socket, name, ip) {
 								case 'sui':
 									sendPublicMessage(Type.HIGHLIGHT, "They apparently committed suicide.", 'suicide');
 									break;
+								case 'lynch':
+								case 'lynching':
+									sendPublicMessage(Type.HIGHLIGHT, "They were lynched.", 'suicide');
+									break;
 								case 'heart':
 								case 'broken heart':
 									sendPublicMessage(Type.HIGHLIGHT, "They died of a broken heart.", 'heart');
@@ -3315,9 +3319,6 @@ function Player(socket, name, ip) {
 								case 'mystic':
 									sendPublicMessage(Type.HIGHLIGHT, "They were cursed by the Mystic.", 'covenkill');
 									break;
-								case 'familiar':
-									sendPublicMessage(Type.HIGHLIGHT, "They were clawed by a Familiar.", 'covenkill');
-									break;
 								case 'sk':
 								case 'serial killer':
 									sendPublicMessage(Type.HIGHLIGHT, "They were stabbed by a Serial Killer.", 'skkill');
@@ -3358,10 +3359,6 @@ function Player(socket, name, ip) {
 									break;
 								case 'patient':
 									sendPublicMessage(Type.HIGHLIGHT, "They were devoured by the Patient.", 'patientkill');
-									break;
-								case 'nai':
-								case 'naiad':
-									sendPublicMessage(Type.HIGHLIGHT, "They were drowned by a Naiad.", 'naiadkill');
 									break;
 								case 'az':
 								case 'aza':
