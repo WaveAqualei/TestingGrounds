@@ -21,7 +21,7 @@ var themes = {
 	},
 	'Light (Wave\'s Version)': {
 		className: 'lighttheme',
-		mpregame: 'StarlitSky.mp3',
+		mpregame: 'Mii-in-a-Row.mp3',
 		whoami: 'Spinwheel.m4a',
 		mmodtime: 'AutumnMountain.mp3',
 		mdaytime: 'Skyworld.mp3',
@@ -39,15 +39,25 @@ var themes = {
 		mtrial: 'Truth.mp3',
 		mnight: 'Cosmic_Cove.mp3',
 	},
-	'Salem': {
+	'Rustic (Salem)': {
 		className: 'tostheme',
 		mpregame: 'CalmBeforeTheStorm.mp3',
 		whoami: 'WhoAmI.mp3',
-		mmodtime: 'Bewitching.mp3',
+		mmodtime: 'GreenMeadows.mp3',
 		mdaytime: 'Heated.mp3',
 		mvoting: 'Suspicion.mp3',
 		mtrial: 'Innocence.mp3',
 		mnight: 'WLITN.mp3',
+	},
+	'Rustic (Zelda)': {
+		className: 'tostheme',
+		mpregame: 'Riverside.mp3',
+		whoami: 'KakarikoSaved.mp3',
+		mmodtime: 'Bewitching.mp3',
+		mdaytime: 'ToyPuzzle.mp3',
+		mvoting: 'Magmic.mp3',
+		mtrial: 'MountHylia.mp3',
+		mnight: 'KakarikoNight.mp3',
 	},
 };
 
