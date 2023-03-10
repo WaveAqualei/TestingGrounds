@@ -703,6 +703,7 @@ var roles = [
 	// TOWN KILLING CUSTOM
 	{
 		rolename: 'firebrand',
+		attack: 'Powerful',
 		alignment: 'town killing',
 		abilities: ['You may douse one player in gasoline during the day.',
 			    'Ignite all doused players at night.'],
@@ -720,6 +721,7 @@ var roles = [
 	},
 	{
 		rolename: 'seeker',
+		attack: 'Powerful',
 		alignment: 'town killing',
 		abilities: ['You may mark a player during the day.',
 			    'You may watch two players\' houses at night.'],
@@ -1393,7 +1395,7 @@ var roles = [
 	{
 		rolename: 'devil',
 		alignment: 'neutral killing',
-		attack: 'Unstoppable',
+		attack: 'Powerful',
 		defense: 'Basic',
 		abilities: ['Make an offer to a player during the day, or exterminate all players who have sold you their soul at night.'],
 		attributes: [
